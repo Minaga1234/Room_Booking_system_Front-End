@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Intelligent Spatial Management System</title>
+  <!-- Linking shared CSS files -->
+  <link rel="stylesheet" href="../shared/css/sidebar.css">
+  <link rel="stylesheet" href="../shared/css/header.css">
+  <!-- Additional Page-specific CSS -->
+  <link rel="stylesheet" href="./css/user-dashboard.css">
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- Header Section -->
+    <header class="header">
+      <div id="header-container"></div>
+    </header>
+
+    <!-- Sidebar Section -->
+    <aside class="sidebar">
+      <div id="sidebar-container"></div>
+    </aside>
+
+    <!-- Main Content Section -->
+    <main class="main-content">
+      <!-- Row 1: Overview Cards -->
+      <section class="row row-1">
+        <div class="widget card">Total number of bookings up to now</div>
+        <div class="widget card">Feedback Analysis</div>
+        
+        
+      </section>
+
+      <!-- Row 2: Full-width Widget -->
+      <section class="row row-2">
+        <div class="widget card full-width">Full-Width Usage Trends</div>
+      </section>
+
+      <!-- Row 3: Detailed Widgets -->
+      <section class="row row-3">
+        <div class="widget small">Upcoming Bookings</div>
+        <div class="widget small">Most Popular Rooms</div>
+        
+      </section>
+    </main>
+
+    <!-- Footer Section -->
+    
+  </div>
+
+  <!-- Scripts to dynamically load shared components -->
+  <script src="../shared/js/sidebar.js"></script>
+  <script>
+    // Dynamically load the header
+    fetch("../shared/header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header-container").innerHTML = data;
+      })
+      .catch(error => console.error("Error loading header:", error));
+
+    // Dynamically load the sidebar
+    fetch("../shared/sidebar.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("sidebar-container").innerHTML = data;
+      })
+      .catch(error => console.error("Error loading sidebar:", error));
+  </script>
+</body>
+
+</html>
