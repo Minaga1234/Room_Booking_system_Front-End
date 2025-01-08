@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/branding.css">
+    <title>Branding Management</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Branding Management</h1>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" data-target="theme-selection">Theme Selection</button>
+            <button class="tab-button" data-target="custom-theme">Custom Theme Builder</button>
+            <button class="tab-button" data-target="branding-assets">Branding Assets</button>
+            <button class="tab-button" data-target="degree-management">Degree Management</button>
+        </div>
+
+        <!-- Error and Loading Messages -->
+        <div id="messages">
+            <div id="loading" style="display: none;">Loading...</div>
+            <div id="error" style="display: none; color: red;"></div>
+        </div>
+
+        <!-- Theme Selection -->
+        <div id="theme-selection" class="tab-content active">
+            <h2>Select a Theme</h2>
+            <div class="theme-grid" id="theme-grid">
+                <!-- Dynamically loaded theme cards -->
+            </div>
+        </div>
+
+        <!-- Custom Theme Builder -->
+        <div id="custom-theme" class="tab-content">
+            <h2>Build Your Custom Theme</h2>
+            <form id="custom-theme-builder" class="custom-theme-builder">
+                <label for="primary-color">Primary Color:</label>
+                <input type="color" id="primary-color" name="primary_color" value="#007BFF" aria-label="Select primary color">
+
+                <label for="secondary-color">Secondary Color:</label>
+                <input type="color" id="secondary-color" name="secondary_color" value="#6C757D" aria-label="Select secondary color">
+
+                <label for="tertiary-color">Tertiary Color:</label>
+                <input type="color" id="tertiary-color" name="tertiary_color" value="#F8F9FA" aria-label="Select tertiary color">
+
+                <label for="text-color">Text Color:</label>
+                <input type="color" id="text-color" name="text_color" value="#292E4A" aria-label="Select text color">
+
+                <label for="highlight-color">Highlight Color:</label>
+                <input type="color" id="highlight-color" name="highlight_color" value="#FF6600" aria-label="Select highlight color">
+
+                <button type="submit" class="save-button">Save Theme</button>
+            </form>
+        </div>
+
+        <!-- Branding Assets -->
+        <div id="branding-assets" class="tab-content">
+            <h2>Manage Branding Assets</h2>
+            <form id="branding-assets-form">
+                <label for="icon-upload">Upload Logo/Icon:</label>
+                <input type="file" id="icon-upload" accept="image/*" aria-label="Upload logo or icon">
+
+                <label for="bg-image-upload">Upload Background Image:</label>
+                <input type="file" id="bg-image-upload" accept="image/*" aria-label="Upload background image">
+
+                <button type="submit" class="save-button">Save Assets</button>
+            </form>
+        </div>
+
+        <!-- Degree Management -->
+        <div id="degree-management" class="tab-content">
+            <h2>Manage Degrees</h2>
+            <form id="degree-form">
+              <label for="degree-name">Add Degree:</label>
+              <input type="text" id="degree-name" placeholder="Enter degree name">
+              <button type="submit" class="save-button">Add Degree</button>
+            </form>
+            <div id="degree-list">
+                <!-- Dynamically loaded degrees -->
+            </div>          
+            <div id="degree-list">
+                <!-- Dynamically loaded degrees -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/branding.js"></script>
+</body>
+</html>

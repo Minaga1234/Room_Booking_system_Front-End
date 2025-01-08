@@ -1,0 +1,281 @@
+/* Define CSS Variables */
+:root {
+  --primary-color: #FFFFFF;
+  --secondary-color: #6C757D;
+  --tertiary-color: #F8F9FA;
+  --accent-success: #28A745;
+  --accent-warning: #FFC107;
+  --accent-error: #DC3545;
+  --header-font: 'Arial', sans-serif;
+  --body-font: 'Roboto', sans-serif;
+  --background-color: #0E1924;
+  --card-background: #FFFFFF;
+  --text-color: #292E4A;
+  --highlight-color: #FF6600;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --shadow-hover-color: rgba(0, 0, 0, 0.25);
+}
+
+/* General Styling */
+body {
+  margin: 0;
+  font-family: var(--body-font);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: 110px 20px 20px 300px; /* Matches website spacing */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Header */
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Theme Grid */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+/* Theme Card */
+.theme-card {
+  background-color: var(--card-background);
+  border: 1px solid var(--secondary-color);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 3px 5px var(--shadow-color);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 10px var(--shadow-hover-color);
+}
+
+.theme-card h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+/* Dynamic Theme Preview */
+.theme-preview {
+  border: 1px solid var(--secondary-color);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.preview-header {
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.preview-body {
+  padding: 15px;
+  background-color: var(--tertiary-color);
+  color: var(--text-color);
+}
+
+.preview-body button {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--highlight-color);
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.preview-body button:hover {
+  background-color: var(--accent-success);
+}
+
+/* Form Styling */
+.custom-theme-builder {
+  background-color: var(--card-background);
+  padding: 30px;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 8px 15px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Add spacing between form elements */
+  border: 3px solid var(--secondary-color); /* Slightly thicker border for more prominence */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  animation: fadeIn 0.5s ease-in-out; /* Smooth entry animation */
+}
+
+.custom-theme-builder:hover {
+  box-shadow: 0 10px 18px var(--shadow-hover-color);
+  transform: translateY(-3px);
+}
+
+/* Labels */
+.custom-theme-builder label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--text-color);
+  display: block;
+  margin-bottom: 10px;
+  text-transform: uppercase; /* Add emphasis with uppercase styling */
+  letter-spacing: 0.6px; /* Slight spacing for a modern look */
+  transition: color 0.3s ease;
+}
+
+.custom-theme-builder label:hover {
+  color: var(--highlight-color); /* Change label color on hover */
+}
+
+/* Input Fields */
+.custom-theme-builder input[type="text"],
+.custom-theme-builder input[type="color"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid var(--secondary-color);
+  border-radius: 8px; /* Softer, modern look */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1rem;
+  background-color: var(--tertiary-color);
+  color: var(--text-color);
+  box-shadow: inset 0 1px 3px var(--shadow-color);
+}
+
+/* Input Focus Effects */
+.custom-theme-builder input[type="text"]:focus,
+.custom-theme-builder input[type="color"]:focus {
+  border-color: var(--highlight-color);
+  box-shadow: 0 0 8px var(--highlight-color), inset 0 1px 3px var(--highlight-color);
+  outline: none;
+  background-color: var(--card-background); /* Lighten background on focus */
+}
+
+/* Placeholder Text */
+.custom-theme-builder input::placeholder {
+  font-style: italic;
+  color: var(--secondary-color);
+  opacity: 0.8;
+}
+
+
+/* Save Button */
+.save-button {
+  margin-top: 15px;
+  padding: 15px 30px;
+  background-color: var(--highlight-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 10px var(--shadow-color);
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Save Button Hover */
+.save-button:hover {
+  background-color: var(--accent-success);
+  transform: scale(1.1);
+  box-shadow: 0 8px 15px var(--shadow-hover-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+      padding-left: 20px;
+      padding-top: 90px;
+  }
+
+  .theme-grid {
+      grid-template-columns: repeat(2, 1fr); /* Two cards per row */
+  }
+
+  .theme-card {
+      padding: 10px;
+  }
+
+  .save-button {
+      font-size: 0.9rem;
+      padding: 8px 15px;
+  }
+
+  .custom-theme-builder {
+      padding: 20px;
+      gap: 20px;
+  }
+
+  .custom-theme-builder label {
+      font-size: 0.9rem;
+  }
+
+  .custom-theme-builder input[type="text"],
+  .custom-theme-builder input[type="color"] {
+      font-size: 0.9rem;
+      padding: 10px;
+  }
+
+  .save-button {
+      font-size: 1rem;
+      padding: 12px 20px;
+  }
+
+  #branding-assets, #degree-management {
+      margin-top: 20px;
+  }
+  
+  #branding-assets input[type="file"],
+  #degree-form input[type="text"] {
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid var(--secondary-color);
+      border-radius: 8px;
+      background-color: var(--tertiary-color);
+      color: var(--text-color);
+  }
+  
+  #degree-list {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid var(--secondary-color);
+      border-radius: 8px;
+      background-color: var(--card-background);
+  }
+  
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
