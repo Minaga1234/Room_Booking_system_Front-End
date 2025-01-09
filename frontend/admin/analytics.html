@@ -11,6 +11,15 @@
 </head>
 <body>
     <div class="content">
+        <!-- Header Section -->
+    <header class="header">
+        <div id="header-container"></div>
+        </header>
+    
+        <!-- Sidebar Section -->
+        <aside class="sidebar">
+            <div id="sidebar-container"></div>
+        </aside>
         <h1>Current Traffic In The System</h1>
         <header class="header">
             <div id="header-container"></div>
@@ -52,5 +61,22 @@
 
     <!-- Scripts -->
     <script src="./js/analytics.js"></script>
+    <script>
+        // Dynamically load the header
+        fetch("../shared/header.html")
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById("header-container").innerHTML = data;
+          })
+          .catch(error => console.error("Error loading header:", error));
+    
+        // Dynamically load the sidebar
+        fetch("../shared/sidebar.html")
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById("sidebar-container").innerHTML = data;
+          })
+          .catch(error => console.error("Error loading sidebar:", error));
+      </script>
 </body>
 </html>
