@@ -1,21 +1,100 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Initialize the Traffic Chart
-    const initializeTrafficChart = (trafficData, labels) => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const API_BASE_URL = "http://127.0.0.1:8000/analytics/";
+    const ROOMS_API_URL = "http://127.0.0.1:8000/api/rooms/";
+
+    // Fetch Room Data
+    const fetchRoomData = async () => {
+        try {
+            const response = await fetch(ROOMS_API_URL);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch room data: ${response.status}`);
+            }
+            const rooms = await response.json();
+            const roomMapping = {};
+            rooms.forEach((room) => {
+                roomMapping[room.id] = room.name;
+            });
+            return roomMapping;
+        } catch (error) {
+            console.error("Error fetching room data:", error);
+            return {};
+        }
+    };
+
+    // Fetch Analytics Data
+    const fetchAnalyticsData = async () => {
+        try {
+            const response = await fetch(API_BASE_URL);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch analytics data: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error("Error fetching analytics data:", error);
+            return [];
+        }
+    };
+
+    // Update Most Popular Rooms
+    const updatePopularRooms = async (roomMapping) => {
+        const analyticsData = await fetchAnalyticsData();
+
+        if (!analyticsData || analyticsData.length === 0) {
+            console.warn("No analytics data available.");
+            document.getElementById("popular-rooms-list").innerHTML = "<p>No popular rooms available.</p>";
+            return;
+        }
+
+        // Sort rooms by total bookings in descending order
+        const sortedRooms = analyticsData
+            .filter((entry) => entry.total_bookings) // Ensure total_bookings exists
+            .sort((a, b) => b.total_bookings - a.total_bookings);
+
+        if (sortedRooms.length === 0) {
+            document.getElementById("popular-rooms-list").innerHTML = "<p>No popular rooms available.</p>";
+            return;
+        }
+
+        // Create HTML content for the sorted rooms using roomMapping
+        const popularRoomsHTML = sortedRooms
+            .map((room) => `
+                <div class="room-item">
+                    <p><strong>Room:</strong> ${roomMapping[room.room] || "Unknown Room"}</p>
+                    <p><strong>Bookings:</strong> ${room.total_bookings || 0}</p>
+                </div>
+            `)
+            .join("");
+
+        // Update the widget with sorted rooms
+        document.getElementById("popular-rooms-list").innerHTML = popularRoomsHTML;
+    };
+
+    // Initialize the Chart
+    const initializeChart = () => {
         const ctx = document.getElementById("traffic-chart").getContext("2d");
 
         return new Chart(ctx, {
             type: "line",
             data: {
-                labels: labels || ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr"], // Fallback example labels
+                labels: [], // Dynamic labels
                 datasets: [
                     {
-                        label: "Traffic",
-                        data: trafficData || [4000, 6000, 12000, 8000, 15000, 10000, 18000, 20000], // Fallback example data
+                        label: "Bookings Traffic",
+                        data: [], // Dynamic data
                         backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
                         borderColor: "#FF6600", // Orange line
                         borderWidth: 2,
-                        tension: 0.4,
                         fill: true,
+                        tension: 0.4,
+                    },
+                    {
+                        label: "Check-ins Traffic",
+                        data: [], // Dynamic data
+                        backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
+                        borderColor: "#5DA4DC", // Blue line
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
                     },
                 ],
             },
@@ -26,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     legend: {
                         display: true,
                         labels: {
-                            color: "#FFFFFF", // White labels
+                            color: "#000000",
                         },
                     },
                 },
@@ -34,22 +113,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     y: {
                         title: {
                             display: true,
-                            text: "Traffic (in thousands)",
-                            color: "#FFFFFF", // White labels
+                            text: "Values",
+                            color: "#000000",
                         },
                         ticks: {
-                            color: "#FFFFFF", // White ticks
+                            color: "#000000",
                         },
                         beginAtZero: true,
                     },
                     x: {
                         title: {
                             display: true,
-                            text: "Months",
-                            color: "#FFFFFF", // White labels
+                            text: "Rooms",
+                            color: "#111111",
                         },
                         ticks: {
-                            color: "#FFFFFF", // White ticks
+                            color: "#000000",
                         },
                     },
                 },
@@ -57,78 +136,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Fetch Data for Widgets and Chart
-    const fetchDashboardData = async () => {
-        try {
-            const response = await fetch("http://127.0.0.1:8000/api/dashboard-stats/"); // Replace with your actual API endpoint
-            if (!response.ok) {
-                throw new Error(`Failed to fetch dashboard data: ${response.status}`);
-            }
-            return await response.json();
-        } catch (error) {
-            console.error("Error fetching dashboard data:", error);
-            return null;
-        }
-    };
-
-    // Update Widgets
-    const updateWidgets = (data) => {
-        if (!data) {
-            console.warn("No data available to update widgets.");
+    // Update the Chart
+    const updateChart = async (chart, roomMapping) => {
+        const analyticsData = await fetchAnalyticsData();
+        if (!analyticsData || analyticsData.length === 0) {
+            console.warn("No analytics data available.");
             return;
         }
 
-        // Update total bookings widget
-        const totalBookingsElement = document.querySelector(".widget.bookings-card");
-        totalBookingsElement.innerHTML = `
-            <h3>Want to get a successful meeting?</h3>
-            <p>${data.totalBookingsDescription || "Just try to experience the green room with more comfort and accessibility"}</p>
-            <button class="primary-button">Book Now</button>
-        `;
+        const rooms = analyticsData.map((entry) => roomMapping[entry.room] || `Room ${entry.room}`);
+        const bookings = analyticsData.map((entry) => entry.total_bookings);
+        const utilizationRates = analyticsData.map((entry) => entry.utilization_rate || 0);
 
-        // Update feedback analysis widget
-        const feedbackAnalysisElement = document.querySelector(".widget.feedback-card");
-        feedbackAnalysisElement.innerHTML = `
-            <h3>Feedback Analysis</h3>
-            <p>${data.feedbackDescription || "Share your thoughts on the overall experience with this system."}</p>
-            <button class="primary-button">Feedback</button>
-        `;
-
-        // Update most popular rooms widget
-        const mostPopularRoomsElement = document.querySelector(".widget.popular-rooms");
-        mostPopularRoomsElement.innerHTML = `
-            <h3>Most Popular Rooms</h3>
-            <div class="rooms-list">
-                ${data.mostPopularRooms
-                    .map(
-                        (room) => `
-                    <div class="room-item">
-                        <img src="${room.image || "../assets/images/default-room.jpg"}" alt="${room.name}" />
-                        <button class="primary-button">Check Availability</button>
-                    </div>
-                `
-                    )
-                    .join("")}
-            </div>
-        `;
+        chart.data.labels = rooms;
+        chart.data.datasets[0].data = bookings;
+        chart.data.datasets[1].data = utilizationRates;
+        chart.update();
     };
 
-    // Initialize and Update Dashboard
-    const updateDashboard = async () => {
-        const data = await fetchDashboardData();
+    // Initialize the Dashboard
+    const initializeDashboard = async () => {
+        const roomMapping = await fetchRoomData();
 
-        if (!data) {
-            console.error("Failed to fetch data for the dashboard.");
-            return;
-        }
+        // Update the Most Popular Rooms Widget
+        await updatePopularRooms(roomMapping);
 
-        // Initialize Traffic Chart with dynamic data
-        const trafficChart = initializeTrafficChart(data.trafficData, data.trafficLabels);
-
-        // Update Widgets with dynamic data
-        updateWidgets(data);
+        // Initialize and Update the Traffic Chart
+        const chart = initializeChart();
+        await updateChart(chart, roomMapping);
     };
 
-    // Run the dashboard update
-    updateDashboard();
+    // Run the Dashboard Initialization
+    initializeDashboard();
 });
