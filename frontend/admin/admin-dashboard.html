@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="./css/admin-dashboard.css">
+  <link rel="stylesheet" href="./css/admin-header.css">
+  <link rel="stylesheet" href="./css/admin-navbar.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <div id="header-container"></div>
+
+  <!-- Main Content -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Dashboard Widgets -->
+    <main class="dashboard-main">
+      <!-- Booking Schedule -->
+      <div class="widget booking-schedule">
+        <h2>Booking Schedule</h2>
+        <div class="booking-list">
+          <div class="booking-item">
+            <p><strong>Study Room G2</strong> - Booked</p>
+            <p>From 9:00 AM to 11:30 AM</p>
+            <p>By Sanuka Wasala (Student) - 1065XXXX</p>
+            <button class="view-booking-btn">View Booking Info</button>
+          </div>
+          <div class="booking-item">
+            <p><strong>Green Room</strong> - Booked</p>
+            <p>From 1:00 PM to 3:30 PM</p>
+            <p>By Joe Biden (Staff)</p>
+            <button class="view-booking-btn">View Booking Info</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Newly Added Rooms -->
+      <div class="widget newly-added-rooms">
+        <h2>Newly Added Rooms</h2>
+        <p><strong>Study Room G2</strong></p>
+        <p>Located on the Ground Floor</p>
+      </div>
+
+      <!-- Current Usage Trend -->
+      <div class="widget usage-trend">
+        <h2>Current Usage Trend</h2>
+        <div class="chart-container">
+          <canvas id="usage-trend-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Number of Penalties -->
+      <div class="widget penalties-today">
+        <h2>Number of Penalties Today</h2>
+        <p class="penalty-count">15</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/admin-dashboard.js"></script>
+  <script src="./js/admin-header.js" defer></script>
+  <script>
+    // Dynamically load header
+    fetch("./header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header-container").innerHTML = data;
+      })
+      .catch(error => console.error("Error loading header:", error));
+
+    // Dynamically load sidebar
+    fetch("./navbar.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("sidebar-container").innerHTML = data;
+      })
+      .catch(error => console.error("Error loading sidebar:", error));
+  </script>
+</body>
+
+</html>

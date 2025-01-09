@@ -1,0 +1,130 @@
+.sidebar {
+    background-color: #8c8bfc;
+    width: 220px;
+    height: calc(100vh - 130px);
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+  
+  .user-profile {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatar-container {
+    margin-bottom: 10px;
+  }
+  
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  
+  .username {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+  }
+  
+  .nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    color: #000000;
+    font-weight: bold;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .nav-links li.active {
+    background-color: white;
+    color: #000000;
+    border: 3px solid #ff5722;
+  }
+  
+  .nav-links li:hover {
+    background-color: #fbfbfb;
+    transform: scale(1.1);
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .nav-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .support {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .support-box {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .support-box p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .contact-btn {
+    background-color: #0f1a3d;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .contact-btn:hover {
+    background-color: #1f2c5a;
+  }
+  
+  .version {
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    margin-top: auto;
+    opacity: 0.8;
+  }
+  
