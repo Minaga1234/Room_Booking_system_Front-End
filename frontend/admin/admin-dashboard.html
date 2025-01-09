@@ -25,27 +25,17 @@
       <!-- Booking Schedule -->
       <div class="widget booking-schedule">
         <h2>Booking Schedule</h2>
-        <div class="booking-list">
-          <div class="booking-item">
-            <p><strong>Study Room G2</strong> - Booked</p>
-            <p>From 9:00 AM to 11:30 AM</p>
-            <p>By Sanuka Wasala (Student) - 1065XXXX</p>
-            <button class="view-booking-btn">View Booking Info</button>
-          </div>
-          <div class="booking-item">
-            <p><strong>Green Room</strong> - Booked</p>
-            <p>From 1:00 PM to 3:30 PM</p>
-            <p>By Joe Biden (Staff)</p>
-            <button class="view-booking-btn">View Booking Info</button>
-          </div>
+        <div class="booking-list" id="booking-list">
+          <!-- Dynamic content will be loaded here -->
         </div>
       </div>
 
       <!-- Newly Added Rooms -->
       <div class="widget newly-added-rooms">
         <h2>Newly Added Rooms</h2>
-        <p><strong>Study Room G2</strong></p>
-        <p>Located on the Ground Floor</p>
+        <div class="new-rooms-list" id="new-rooms-list">
+          <!-- Dynamic content will be loaded here -->
+        </div>
       </div>
 
       <!-- Current Usage Trend -->
@@ -59,7 +49,7 @@
       <!-- Number of Penalties -->
       <div class="widget penalties-today">
         <h2>Number of Penalties Today</h2>
-        <p class="penalty-count">15</p>
+        <p class="penalty-count" id="penalty-count">0</p>
       </div>
     </main>
   </div>
@@ -67,6 +57,7 @@
   <!-- Scripts -->
   <script src="./js/admin-dashboard.js"></script>
   <script src="./js/admin-header.js" defer></script>
+
   <script>
     // Dynamically load header
     fetch("./header.html")

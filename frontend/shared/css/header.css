@@ -1,17 +1,16 @@
 .header-section {
     display: flex;
-    justify-content: space-between; /* Ensure space between logo and actions */
+    justify-content: space-between; /* Space between logo and actions */
     align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px; /* Adjust the height if needed */
-    background-color: #01182a; /* Dark background for the header */
+    height: 70px;
+    background-color: #01182a; /* Dark background */
     z-index: 1000;
     padding: 0 20px;
-    padding-right: 30px; /* Add padding to prevent cutting off content */
-    box-sizing: border-box; /* Include padding in width calculations */
+    box-sizing: border-box;
 }
 
 

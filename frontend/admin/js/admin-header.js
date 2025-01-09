@@ -86,3 +86,39 @@ document.addEventListener("DOMContentLoaded", () => {
         setInterval(renderNotifications, 30000); // Update every 30 seconds
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const profileWrapper = document.querySelector(".profile-wrapper");
+    const profilePopup = profileWrapper?.querySelector(".profile-popup");
+    let hideTimeout; // Timeout reference to delay hiding
+
+    if (profileWrapper && profilePopup) {
+        // Show the popup when hovering over the profile wrapper
+        profileWrapper.addEventListener("mouseenter", () => {
+            clearTimeout(hideTimeout); // Clear any existing timeout
+            profilePopup.style.display = "block"; // Show the popup
+        });
+
+        // Hide the popup with a delay when leaving the profile wrapper
+        profileWrapper.addEventListener("mouseleave", () => {
+            hideTimeout = setTimeout(() => {
+                profilePopup.style.display = "none"; // Hide the popup
+            }, 1000); // 1 second delay
+        });
+
+        // Keep the popup visible when hovering over the popup itself
+        profilePopup.addEventListener("mouseenter", () => {
+            clearTimeout(hideTimeout); // Clear any existing timeout
+            profilePopup.style.display = "block"; // Keep the popup visible
+        });
+
+        // Hide the popup with a delay when leaving the popup
+        profilePopup.addEventListener("mouseleave", () => {
+            hideTimeout = setTimeout(() => {
+                profilePopup.style.display = "none"; // Hide the popup
+            }, 500); // 1 second delay
+        });
+    }
+});
+
+

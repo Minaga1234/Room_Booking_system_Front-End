@@ -20,12 +20,12 @@
 }
 
 .logo-wrapper img {
-    width: 50px;
+    width: 63px;
     height: auto;
 }
 
 .system-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: #ffffff;
     text-align: left;
@@ -38,15 +38,17 @@
 }
 
 .search-box {
-    width: 300px;
-    height: 35px;
-    padding: 5px 15px;
+    width: 971px; /* Width of the search box */
+    padding: 10px 15px; /* Padding inside the search box */
     border: none;
-    border-radius: 20px;
-    background-color: #2c3e50; /* Dark background for input */
-    color: #ffffff;
+    border-radius: 15px;
+    background-color: #2c3e50; /* Dark background */
+    color: #ffffff; /* White text */
     font-size: 14px;
     outline: none;
+    box-sizing: border-box;
+    margin-left: -10px; /* Adjust this value to move the search box left */
+
 }
 
 .search-box::placeholder {
@@ -77,35 +79,42 @@
     position: absolute;
     top: 50px;
     right: 0;
-    background-color: #ffffff;
+    background-color: #6a6afa;
     color: #000000;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+    border: 2px solid black; /* Black outline */
     width: 250px;
-    display: none; /* Initially hidden */
+    display: none; /* Hidden by default */
 }
 
 .notification-wrapper:hover .notification-popup {
     display: block;
 }
 
+
 /* Profile Popup */
+.profile-wrapper {
+    position: relative;
+}
+
 .profile-popup {
     position: absolute;
     top: 50px;
     right: 0;
-    background-color: #ffffff;
-    color: #000000;
-    border-radius: 10px;
+    background-color: #8c8bfc;
+    color: #fff;
+    border-radius: 20px;
     padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+    border: 2px solid black; /* Black outline */
     width: 200px;
-    display: none; /* Initially hidden */
+    display: none; /* Hidden by default */
 }
 
 .profile-wrapper:hover .profile-popup {
-    display: block;
+    display: block; /* Show on hover */
 }
 
 .profile-popup a {
@@ -120,11 +129,11 @@
     transition: background-color 0.3s ease;
 }
 
-.profile-popup a:hover {
-    background-color: #f1f1f1;
+.profile-popup a i {
+    margin-right: 10px; /* Space between the icon and text */
+    font-size: 18px; /* Icon size */
 }
 
-.profile-popup a i {
-    margin-right: 10px;
-    font-size: 18px;
+.profile-popup a:hover {
+    background-color: #6a6afa;
 }
