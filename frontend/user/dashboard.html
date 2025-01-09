@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | Intelligent Spatial Management System</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Linking shared CSS files -->
   <link rel="stylesheet" href="../shared/css/sidebar.css">
   <link rel="stylesheet" href="../shared/css/header.css">
@@ -28,31 +29,45 @@
     <main class="main-content">
       <!-- Row 1: Overview Cards -->
       <section class="row row-1">
-        <div class="widget card">Total number of bookings up to now</div>
-        <div class="widget card">Feedback Analysis</div>
-        
-        
+        <!-- Total Bookings Widget -->
+        <div class="widget card bookings-card">
+          <h2>Want to get a successful meeting?</h2>
+          <p>Just try to experience the green room with more comfort and accessibility</p>
+          <button class="book-now-btn">Book Now</button>
+        </div>
+          
+        <!-- Feedback Analysis Widget -->
+        <div class="widget card feedback-card">
+          <h2>Feedback Analysis</h2>
+          <p>Share your thoughts on the overall experience with this system</p>
+          <button class="feedback-btn">Feedback</button>
+        </div>
+          
+        <!-- Most Popular Rooms Widget -->
+        <div class="widget card popular-rooms">
+          <h2>Most popular rooms</h2>
+          <div class="rooms-list">
+            <!-- Content dynamically updated -->
+          </div>
+        </div>
       </section>
 
       <!-- Row 2: Full-width Widget -->
       <section class="row row-2">
-        <div class="widget card full-width">Full-Width Usage Trends</div>
-      </section>
-
-      <!-- Row 3: Detailed Widgets -->
-      <section class="row row-3">
-        <div class="widget small">Upcoming Bookings</div>
-        <div class="widget small">Most Popular Rooms</div>
-        
+        <div class="widget card full-width-analytics">
+          <h2>Current Traffic in the System</h2>
+          <div class="chart-container">
+            <canvas id="traffic-chart"></canvas>
+          </div>
+        </div>
       </section>
     </main>
-
-    <!-- Footer Section -->
-    
   </div>
 
   <!-- Scripts to dynamically load shared components -->
   <script src="../shared/js/sidebar.js"></script>
+  <script src="./js/user-dashboard.js"></script>
+
   <script>
     // Dynamically load the header
     fetch("../shared/header.html")
@@ -63,13 +78,14 @@
       .catch(error => console.error("Error loading header:", error));
 
     // Dynamically load the sidebar
-    fetch("../shared/sidebar.html")
+    fetch("../shared/navbar.html")
       .then(response => response.text())
       .then(data => {
         document.getElementById("sidebar-container").innerHTML = data;
       })
       .catch(error => console.error("Error loading sidebar:", error));
   </script>
+  
 </body>
 
 </html>
