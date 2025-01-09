@@ -21,16 +21,14 @@ body {
 }
 
 /* Main Content Section */
-/* Main Content Section */
 .main-content {
     grid-area: main;
     display: grid;
-    grid-template-rows: repeat(3, auto); /* Auto height for rows */
-    gap: 25px; /* Consistent spacing between rows */
+    grid-template-rows: auto auto; /* Two rows for main content */
+    gap: 20px; /* Spacing between rows */
     padding: 20px;
     padding-left: 50px;
     padding-right: 30px;
-    padding-top: 10px; /* Reduce top padding to move closer to the header */
     overflow: hidden; /* Prevent overflow within the main content */
     height: calc(100vh - 70px); /* Adjusted height to match the sidebar/header */
     box-sizing: border-box;
@@ -40,17 +38,17 @@ body {
 .row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Flexible columns */
-    gap: 25px;
+    gap: 40px; /* Reduced spacing between widgets */
     align-items: stretch; /* Ensure widgets stretch to fill available height */
     margin-top: 0; /* Remove any margin at the top */
 }
 
 /* Adjustments for Row 1 */
 .row-1 .card {
-    height: 100px; /* Decrease height for the first row cards */
+    height: 200px; /* Increased height for the first-row cards */
 }
 
-/* Full-width Widget (Row 2) */
+/* Full-width Widget (Move to Bottom) */
 .row-2 .full-width {
     grid-column: span 3;
     background-color: #ffffff;
@@ -58,7 +56,8 @@ body {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    height: 300px; /* Increase height for full-width usage trends widget */
+    height: 300px; /* Maintain height for the full-width widget */
+    align-self: end; /* Move the widget to the bottom */
 }
 
 /* Widgets */
@@ -75,33 +74,12 @@ body {
     height: 100%; /* Fill row height */
 }
 
-/* Adjusting Rows for Consistency */
-.row-2 {
-    margin-top: 0; /* Ensure second row is aligned closely below the first row */
-    padding-top: 0; /* Remove unnecessary padding */
-}
-
-.row-3 {
-    margin-top: 0; /* Ensure no extra spacing between rows */
-}
-
-/* Row-Specific Styling */
-.row-3 .large {
-    grid-column: span 4;
-    height: auto;
-}
-
-.row-3 .small {
-    height: auto;
-}
-
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .dashboard-container {
         grid-template-areas:
             "header"
-            "main"
-            "footer";
+            "main";
         grid-template-columns: 1fr;
     }
 
@@ -129,3 +107,176 @@ body {
         grid-template-columns: 1fr; /* Single column layout */
     }
 }
+
+/* Bookings Card Styles */
+.bookings-card {
+    background-color: #ffffff;
+    color: #01182a;
+    border-radius: 20px; /* Smooth rounded corners */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between text and button */
+    justify-content: center;
+    align-items: flex-start; /* Align content to the left */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+/* Headline Styling */
+.bookings-card h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    color: #01182a;
+}
+
+/* Description Text Styling */
+.bookings-card p {
+    font-size: 16px;
+    margin: 0;
+    color: #444444;
+}
+
+/* Button Styling */
+.book-now-btn {
+    background-color: #8c8bfc; /* Purple button background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 15px; /* Rounded button */
+    padding: 10px 20px; /* Button padding */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.book-now-btn:hover {
+    background-color: #6a6afa; /* Slightly darker shade on hover */
+}
+
+/* Feedback Card Styles */
+.feedback-card {
+    background-color: #ffffff;
+    color: #01182a;
+    border-radius: 20px; /* Smooth rounded corners */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between text and button */
+    justify-content: center;
+    align-items: flex-start; /* Align content to the left */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    text-align: left; /* Align text to the left */
+}
+
+/* Headline Styling */
+.feedback-card h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    color: #01182a;
+}
+
+/* Description Text Styling */
+.feedback-card p {
+    font-size: 16px;
+    margin: 0;
+    color: #444444;
+    line-height: 1.5; /* Improve readability with line height */
+}
+
+/* Button Styling */
+.feedback-btn {
+    background-color: #8c8bfc; /* Purple button background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 15px; /* Rounded button */
+    padding: 10px 20px; /* Button padding */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.feedback-btn:hover {
+    background-color: #6a6afa; /* Slightly darker shade on hover */
+}
+
+/* Most Popular Rooms Widget */
+.popular-rooms {
+    background-color: #ffffff;
+    color: #01182a;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+    height: 350px; /* Fixed height for the card */
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.popular-rooms h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.rooms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    height: 100%; /* Occupy remaining space inside the card */
+    padding-right: 10px; /* Space for the scrollbar */
+}
+
+.rooms-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.rooms-list::-webkit-scrollbar-thumb {
+    background-color: #8d8bfc91;
+    border-radius: 3px;
+}
+
+.rooms-list::-webkit-scrollbar-thumb:hover {
+    background-color: #6a6afa;
+}
+
+.room-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    outline-color: #6a6afa;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 9px rgba(0, 0, 0, 0.1);
+}
+
+.room-item img {
+    width: 90px;
+    height: 90px;
+    border-radius: 30px;
+    padding: 20px;
+    object-fit: cover;
+}
+
+.availability-btn {
+    background-color: #8c8bfc;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.availability-btn:hover {
+    background-color: #6a6afa;
+}
+

@@ -28,27 +28,43 @@
     <main class="main-content">
       <!-- Row 1: Overview Cards -->
       <section class="row row-1">
-        <div class="widget card">Total number of bookings up to now</div>
-        <div class="widget card">Feedback Analysis</div>
-        
-        
+        <div class="widget card bookings-card">
+            <h2>Want to get a successful meeting?</h2>
+            <p>Just try to experience the green room with more comfort and accessibility</p>
+            <button class="book-now-btn">Book Now</button>
+        </div>
+          
+        <div class="widget card feedback-card">
+            <h2>Feedback Analysis</h2>
+            <p>Share your thoughts on the overall experience with this system</p>
+            <button class="feedback-btn">Feedback</button>
+        </div>
+          
+        <div class="widget card popular-rooms">
+            <h2>Most popular rooms</h2>
+            <div class="rooms-list">
+              <div class="room-item">
+                <img src="../assets/images/room1.jpg" alt="Room 1">
+                <button class="availability-btn">Check Availability</button>
+              </div>
+              <div class="room-item">
+                <img src="../assets/images/room2.jpg" alt="Room 2">
+                <button class="availability-btn">Check Availability</button>
+              </div>
+              <div class="room-item">
+                <img src="../assets/images/room3.jpg" alt="Room 3">
+                <button class="availability-btn">Check Availability</button>
+              </div>
+            </div>
+        </div>
+          
       </section>
 
       <!-- Row 2: Full-width Widget -->
       <section class="row row-2">
         <div class="widget card full-width">Full-Width Usage Trends</div>
       </section>
-
-      <!-- Row 3: Detailed Widgets -->
-      <section class="row row-3">
-        <div class="widget small">Upcoming Bookings</div>
-        <div class="widget small">Most Popular Rooms</div>
-        
-      </section>
     </main>
-
-    <!-- Footer Section -->
-    
   </div>
 
   <!-- Scripts to dynamically load shared components -->
@@ -63,7 +79,7 @@
       .catch(error => console.error("Error loading header:", error));
 
     // Dynamically load the sidebar
-    fetch("../shared/sidebar.html")
+    fetch("../shared/navbar.html")
       .then(response => response.text())
       .then(data => {
         document.getElementById("sidebar-container").innerHTML = data;
