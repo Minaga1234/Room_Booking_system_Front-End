@@ -1,0 +1,131 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    background-color: #01182a;
+    color: #ffffff;
+    overflow: hidden; /* Remove scrollbars completely */
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+    grid-template-columns: 250px 1fr; /* Sidebar width and main content */
+    grid-template-rows: 70px auto 50px; /* Header, main content, footer */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent overflow in the container */
+}
+
+/* Main Content Section */
+/* Main Content Section */
+.main-content {
+    grid-area: main;
+    display: grid;
+    grid-template-rows: repeat(3, auto); /* Auto height for rows */
+    gap: 25px; /* Consistent spacing between rows */
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 30px;
+    padding-top: 10px; /* Reduce top padding to move closer to the header */
+    overflow: hidden; /* Prevent overflow within the main content */
+    height: calc(100vh - 70px); /* Adjusted height to match the sidebar/header */
+    box-sizing: border-box;
+}
+
+/* Row Layouts */
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Flexible columns */
+    gap: 25px;
+    align-items: stretch; /* Ensure widgets stretch to fill available height */
+    margin-top: 0; /* Remove any margin at the top */
+}
+
+/* Adjustments for Row 1 */
+.row-1 .card {
+    height: 100px; /* Decrease height for the first row cards */
+}
+
+/* Full-width Widget (Row 2) */
+.row-2 .full-width {
+    grid-column: span 3;
+    background-color: #ffffff;
+    color: #01182a;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    height: 300px; /* Increase height for full-width usage trends widget */
+}
+
+/* Widgets */
+.widget {
+    background-color: #ffffff;
+    color: #01182a;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 100%; /* Fill row height */
+}
+
+/* Adjusting Rows for Consistency */
+.row-2 {
+    margin-top: 0; /* Ensure second row is aligned closely below the first row */
+    padding-top: 0; /* Remove unnecessary padding */
+}
+
+.row-3 {
+    margin-top: 0; /* Ensure no extra spacing between rows */
+}
+
+/* Row-Specific Styling */
+.row-3 .large {
+    grid-column: span 4;
+    height: auto;
+}
+
+.row-3 .small {
+    height: auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .dashboard-container {
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        grid-template-rows: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust rows dynamically */
+        padding: 10px;
+    }
+
+    .widget {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .widget {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .row {
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+}
