@@ -148,12 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("active-users").textContent = activeUsers;
   };
 
-  // Handle Export CSV
-  const exportCsvButton = document.querySelector(".export-button");
-  exportCsvButton.addEventListener("click", () => {
-      window.location.href = "http://127.0.0.1:8000/analytics/export_csv/";
-  });
-
   // Initialize and Update
   const chart = initializeChart();
   updateChart(chart);
