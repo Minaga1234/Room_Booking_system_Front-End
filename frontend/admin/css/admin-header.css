@@ -13,18 +13,14 @@
     box-sizing: border-box;
 }
 
-
-
-
 .logo-container {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex: 1; /* Allow space for the logo */
 }
 
 .logo-wrapper img {
-    width: 63px; /* Adjust logo size */
+    width: 63px;
     height: auto;
 }
 
@@ -38,7 +34,7 @@
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 60px; /* Add spacing between search, notification, and profile icon */
+    gap: 30px; /* Adjust spacing between actions */
 }
 
 .search-box {
@@ -52,65 +48,38 @@
     outline: none;
     box-sizing: border-box;
     margin-left: -10px; /* Adjust this value to move the search box left */
-}
 
-.search-box {
-    transform: translateX(-10px); /* Moves the search box 10px to the left */
 }
-
-.search-box {
-    margin-left: -10px !important; /* Forces this margin-left to take precedence */
-}
-
 
 .search-box::placeholder {
     color: #7f8c8d; /* Placeholder text color */
 }
 
+.notification-wrapper,
+.profile-wrapper {
+    position: relative;
+}
+
 .notification-icon,
 .user-avatar {
-    width: 40px; /* Ensure consistent size for icons */
+    width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #ffffff;
     cursor: pointer;
     transition: transform 0.3s ease;
-    object-fit: cover; /* Ensure image fits within the container */
 }
 
 .notification-icon:hover,
 .user-avatar:hover {
-    transform: scale(1.1); /* Slightly enlarge on hover */
-}
-
-.system-title {
-    font-size: 13px; /* Adjust main title font size */
-    font-weight: bold;
-    color: #ffffff; /* White text */
-    margin: 0;
-    line-height: 1.2; /* Adjust spacing between lines */
-    text-align: left;
-}
-
-.sub-title {
-    font-size: 13px; /* Slightly smaller font for subtitle */
-    font-weight: bold; /* Optional: Make subtitle weight normal */
-    color: #ffffff; /* Keep consistent white color */
-    display: block; /* Ensure it's treated as a block element */
-    margin-top: 2px; /* Add some space between the lines */
+    transform: scale(1.1); /* Enlarge on hover */
 }
 
 /* Notification Popup */
-/* Notification Popup */
-.notification-wrapper {
-    position: relative;
-}
-
 .notification-popup {
     position: absolute;
     top: 50px;
     right: 0;
-    background-color: #8c8bfc;
+    background-color: #6a6afa;
     color: #000000;
     border-radius: 20px;
     padding: 15px;
@@ -121,8 +90,9 @@
 }
 
 .notification-wrapper:hover .notification-popup {
-    display: block; /* Show on hover */
+    display: block;
 }
+
 
 /* Profile Popup */
 .profile-wrapper {

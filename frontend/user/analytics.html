@@ -5,25 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Dashboard</title>
     <link rel="stylesheet" href="./css/analytics.css">
+    <script src="../shared/js/component-caching.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="content">
-        <!-- Metrics Section -->
-        <div class="metrics">
-            <div class="card">
-                <h2>Total Bookings</h2>
-                <p id="total-bookings">Loading...</p>
-            </div>
-            <div class="card">
-                <h2>Most Booked Room</h2>
-                <p id="most-booked-room">Room 2</p>
-            </div>
-            <div class="card">
-                <h2>Active Users</h2>
-                <p id="active-users">0</p>
-            </div>
-        </div>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div id="header-container"></div>
+        </header>
+
+        <!-- Sidebar Section -->
+        <aside class="sidebar">
+            <div id="sidebar-container"></div>
+        </aside>
+
+        <!-- Main Content Section -->
+        <main class="main-content">
+            <div class="content">
+                <!-- Metrics Section -->
+                <div class="metrics">
+                    <div class="card">
+                        <h2>Total Bookings</h2>
+                        <p id="total-bookings">Loading...</p>
+                    </div>
+                    <div class="card">
+                        <h2>Most Booked Room</h2>
+                        <p id="most-booked-room">Loading...</p>
+                    </div>
+                    <div class="card">
+                        <h2>Active Users</h2>
+                        <p id="active-users">Loading...</p>
+                    </div>
+                </div>
 
         <!-- Chart Section -->
         <div class="chart-card">
