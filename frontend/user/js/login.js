@@ -23,7 +23,7 @@ document.getElementById("login-form").addEventListener("submit", function (e) {
 
     // Redirect based on user role
     if (isAdmin) {
-        window.location.href = "../admin/dashboard.html";
+        window.location.href = "../admin/admin-dashboard.html";
     } else {
         window.location.href = "../user/dashboard.html";
     }

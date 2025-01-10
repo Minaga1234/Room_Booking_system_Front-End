@@ -353,6 +353,7 @@ body {
     grid-template-rows: auto auto; /* Two rows for main content */
     gap: 20px; /* Spacing between rows */
     padding: 20px 30px;
+    padding-left: 4%;
     overflow: hidden; /* Prevent overflow within the main content */
     box-sizing: border-box;
 }
