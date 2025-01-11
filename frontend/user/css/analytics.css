@@ -22,11 +22,20 @@ body {
   font-family: var(--body-font);
   background-color: var(--background-color);
   color: var(--text-color);
-  padding: 72px 20px 20px 300px; /* Padding to adjust layout */
+  padding: 110px 20px 20px 300px; /* Padding to adjust layout */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+}
+
+/* Header Section */
+.content h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 /* Metrics Section */
@@ -34,7 +43,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
   gap: 20px; /* Space between cards */
-  margin-top: 0px;
+  margin-top: 20px;
 }
 
 .card {
@@ -43,7 +52,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--card-background);
-  border-radius: 20px; /* Adjusted border radius */
+  border-radius: 12px; /* Adjusted border radius */
   padding: 20px; /* Increased padding for a more prominent look */
   box-shadow: 0 4px 6px var(--shadow-color); /* Slightly larger shadow */
   text-align: center;
@@ -74,7 +83,7 @@ body {
 .chart-card {
   margin-top: 30px; /* Space above the chart */
   background-color: var(--card-background);
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 6px var(--shadow-color);
   text-align: center;
