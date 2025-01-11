@@ -1,0 +1,241 @@
+/* Define CSS Variables */
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #800080;
+  --tertiary-color: #f8f9fa;
+  --accent-success: #800080;
+  --accent-warning: #ffa500;
+  --accent-error: #dc3545;
+  --header-font: "Arial", sans-serif;
+  --body-font: "Roboto", sans-serif;
+  --background-color: #f0f0f5;
+  --card-background: #ffffff;
+  --text-color: #333333;
+  --highlight-color: #800080;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --shadow-hover-color: rgba(0, 0, 0, 0.25);
+}
+
+/* General Styling */
+body {
+  margin: 0;
+  font-family: var(--body-font);
+  background-color: #0f1a3d;
+  color: var(--text-color);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 75%;
+  max-height: 90vh;
+  background-color: var(--card-background);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  overflow-y: auto;
+  margin: auto;
+}
+
+/* Header */
+h1 {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 3px;
+  background-color: #000;
+  border-radius: 2px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 12px 20px;
+  background-color: #ffffff;
+  color: #000;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.tab-button.active,
+.tab-button:hover {
+  background-color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-hover-color);
+  color: #fff;
+}
+
+/* Tab Content */
+.tab-content {
+  display: none;
+  padding: 20px;
+  background-color: var(--card-background);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Theme Grid */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Theme Card */
+.theme-card {
+  background-color: var(--card-background);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  transition: all 0.3s ease;
+  position: relative;
+  text-align: center;
+}
+
+.theme-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px var(--shadow-hover-color);
+}
+
+.theme-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+/* Theme Preview */
+.theme-card .theme-preview {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: var(--tertiary-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.theme-card .theme-preview .preview-header {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border-radius: 4px;
+}
+
+.theme-card .theme-preview .preview-body {
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border-radius: 4px;
+}
+
+.theme-card button {
+  padding: 10px 20px;
+  background-color: #031759;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.theme-card button:hover {
+  background-color: #5866b294;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-hover-color);
+}
+
+/* Branding Box */
+.branding-box {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Upload Box */
+.upload-box {
+  flex: 1;
+  border: 2px dashed var(--highlight-color);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.upload-box p.placeholder {
+  font-size: 1rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.upload-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.upload-box input {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .tab-button {
+    flex: 1 1 calc(50% - 10px);
+    text-align: center;
+  }
+
+  .theme-grid {
+    grid-template-columns: 1fr;
+  }
+}

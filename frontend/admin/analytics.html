@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <link rel="stylesheet" href="./css/analytics.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="content">
+        <!-- Metrics Section -->
+        <div class="metrics">
+            <div class="card">
+                <h2>Total Bookings</h2>
+                <p id="total-bookings">Loading...</p>
+            </div>
+            <div class="card">
+                <h2>Most Booked Room</h2>
+                <p id="most-booked-room">Loading...</p>
+            </div>
+            <div class="card">
+                <h2>Active Users</h2>
+                <p id="active-users">Loading...</p>
+            </div>
+            <!-- Export Button Styled as a Card -->
+            <div class="export-button">
+                <h2>Export Data</h2>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="chart-card">
+            <h2>Weekly Booking Trends</h2>
+            <div class="chart-container">
+                <canvas id="weekly-trends-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/analytics.js"></script>
+</body>
+</html>

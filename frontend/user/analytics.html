@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics Dashboard | Intelligent Spatial Management System</title>
-    <link rel="stylesheet" href="../shared/css/sidebar.css">
-    <link rel="stylesheet" href="../shared/css/header.css">
+    <title>Analytics Dashboard</title>
     <link rel="stylesheet" href="./css/analytics.css">
     <script src="../shared/js/component-caching.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
     <div class="dashboard-container">
         <!-- Header Section -->
@@ -43,39 +39,16 @@
                     </div>
                 </div>
 
-                <!-- Chart Section -->
-                <div class="chart-card">
-                    <h2>Weekly Booking Trends</h2>
-                    <div class="chart-container">
-                        <canvas id="weekly-trends-chart"></canvas>
-                    </div>
-                </div>
+        <!-- Chart Section -->
+        <div class="chart-card">
+            <h2>Weekly Booking Trends</h2>
+            <div class="chart-container">
+                <canvas id="weekly-trends-chart"></canvas>
             </div>
-        </main>
+        </div>
     </div>
 
-    <!-- Scripts to dynamically load shared components -->
-    <script src="../shared/js/sidebar.js"></script>
-    <script>
-        // Dynamically load the header
-        fetch("../shared/header.html")
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("header-container").innerHTML = data;
-            })
-            .catch(error => console.error("Error loading header:", error));
-
-        // Dynamically load the sidebar
-        fetch("../shared/navbar.html")
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("sidebar-container").innerHTML = data;
-            })
-            .catch(error => console.error("Error loading sidebar:", error));
-    </script>
-
-    <!-- Analytics JavaScript -->
+    <!-- Scripts -->
     <script src="./js/analytics.js"></script>
 </body>
-
 </html>

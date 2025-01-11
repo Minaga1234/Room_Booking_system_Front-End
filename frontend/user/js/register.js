@@ -1,5 +1,41 @@
-// Event listener for form submission
-document.getElementById("register-form").addEventListener("submit", function (e) {
+const REGISTER_URL = "http://127.0.0.1:8000/api/users/register/";
+
+// Function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(`${name}=`)) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Function to validate email
+function validateEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@our\.ecu\.edu\.au$/;
+    return emailRegex.test(email);
+}
+
+// Function to display alerts
+function showAlert(message, success) {
+    const notification = document.getElementById("error-notification");
+    notification.textContent = message;
+    notification.style.backgroundColor = success ? "#4CAF50" : "#f44336";
+    notification.style.opacity = "1";
+
+    setTimeout(() => {
+        notification.style.opacity = "0";
+    }, 5000);
+}
+
+// Handle registration form submission
+document.getElementById("register-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
@@ -8,14 +44,13 @@ document.getElementById("register-form").addEventListener("submit", function (e)
     const confirmPassword = document.getElementById("confirm-password").value.trim();
     const role = document.getElementById("role").value;
 
-    // Validation checks
     if (!email || !fullName || !password || !confirmPassword || !role) {
         showAlert("All fields are required!", false);
         return;
     }
 
     if (!validateEmail(email)) {
-        showAlert("Invalid email format! Please use 'user@our.ecu.edu.au'", false);
+        showAlert("Invalid email format!", false);
         return;
     }
 
@@ -24,46 +59,39 @@ document.getElementById("register-form").addEventListener("submit", function (e)
         return;
     }
 
-    // Show success message
-    showAlert("Registration successful!", true);
+    const csrfToken = getCookie("csrftoken");
 
-    // Log registration details (for demonstration purposes)
-    console.log({
-        email,
-        fullName,
-        password,
-        role
-    });
+    try {
+        const response = await fetch(REGISTER_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,
+            },
+            body: JSON.stringify({
+                username: fullName,
+                email: email,
+                password: password,
+                role: role,
+            }),
+        });
 
-    // Optionally, proceed with form submission or API call
+        if (response.ok) {
+            showAlert("Registration successful! Redirecting to login page.", true);
+            setTimeout(() => {
+                window.location.href = "/login.html";
+            }, 2000);
+        } else {
+            const errorData = await response.json();
+            showAlert(`Registration failed: ${errorData.email || errorData.non_field_errors || "Unknown error"}`, false);
+        }
+    } catch (error) {
+        console.error("Error during registration:", error);
+        showAlert("An unexpected error occurred. Please try again.", false);
+    }
 });
 
-// Email validation function for specific domain
-function validateEmail(email) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@our\.ecu\.edu\.au$/;
-    return emailRegex.test(email);
-}
-
-// Function to display alert messages
-function showAlert(message, success) {
-    const notification = document.getElementById("error-notification");
-    notification.textContent = message;
-    notification.style.backgroundColor = success ? "#4CAF50" : "#f44336"; // Green for success, red for error
-    notification.style.opacity = "1";
-    notification.style.transform = "translateX(-50%) translateY(0)";
-    notification.style.display = "block";
-
-    // Keep the alert visible for 5 seconds and then fade out
-    setTimeout(() => {
-        notification.style.opacity = "0";
-        notification.style.transform = "translateX(-50%) translateY(-10px)";
-        setTimeout(() => {
-            notification.style.display = "none";
-        }, 500); // Match fade-out duration
-    }, 5000);
-}
-
-// Dropdown logic for role selection
+// Role dropdown logic
 document.addEventListener("DOMContentLoaded", () => {
     const select = document.querySelector(".select");
     const selected = select.querySelector(".selected");
@@ -71,22 +99,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const optionsList = optionsContainer.querySelectorAll(".option");
     const hiddenInput = document.getElementById("role");
 
-    // Toggle dropdown on click
     selected.addEventListener("click", () => {
         select.classList.toggle("active");
     });
 
-    // Select an option and update the hidden input
     optionsList.forEach((option) => {
         option.addEventListener("click", () => {
             const value = option.getAttribute("data-value");
             selected.querySelector("span").textContent = value;
             hiddenInput.value = value;
-            select.classList.remove("active"); // Close the dropdown
+            select.classList.remove("active");
         });
     });
 
-    // Close dropdown if clicked outside
     document.addEventListener("click", (e) => {
         if (!select.contains(e.target)) {
             select.classList.remove("active");
