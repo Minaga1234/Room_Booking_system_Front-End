@@ -1,0 +1,166 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #001f3f;
+    /* Navy blue background */
+    display: flex;
+    justify-content: flex-end;
+    /* Align the main container to the right */
+    align-items: center;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Main container styling */
+.main-container {
+    background-color: #ffffff;
+    /* White container background */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 70%;
+    /* Decreased main content width */
+    max-width: 1000px;
+    /* Reduced maximum width */
+    overflow: auto;
+    height: 90vh;
+    margin-right: 20px;
+    /* Add some space between the container and the edge */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* No rooms message styling */
+.no-rooms {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4a4e69;
+    /* Dark purple text */
+    background-color: #e0e7ff;
+    /* Subtle purple background */
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Room container styling */
+.room-container {
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* Adjust grid for smaller cards */
+    width: 100%;
+}
+
+/* Room card styling */
+.room-card {
+    background-color: #e0e7ff;
+    /* Subtle purple background */
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s;
+    padding: 15px;
+    border: 1px solid #d6d9ff;
+    /* Light border for card edges */
+    max-width: 240px;
+    /* Reduced card width */
+}
+
+/* Remove margin from cards */
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.room-image {
+    width: 100%;
+    height: 140px;
+    /* Adjusted height for smaller cards */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Room details styling */
+.room-details {
+    width: 100%;
+    padding: 10px;
+}
+
+.room-title {
+    font-size: 16px;
+    /* Adjusted title font size */
+    font-weight: bold;
+    color: #333333;
+    margin: 5px 0;
+}
+
+.room-subtitle {
+    font-size: 14px;
+    /* Adjusted subtitle font size */
+    color: #555555;
+    margin: 5px 0;
+}
+
+.room-description {
+    font-size: 13px;
+    /* Adjusted description font size */
+    color: #666666;
+    margin: 10px 0;
+}
+
+/* Button styling */
+.check-btn {
+    background-color: #000000;
+    /* Black button background */
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    /* Adjusted button padding */
+    font-size: 13px;
+    /* Adjusted button font size */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.check-btn:hover {
+    background-color: #333333;
+    /* Darker hover effect */
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .main-container {
+        width: 90%;
+        /* Adjusted width for smaller screens */
+    }
+
+    .room-container {
+        grid-template-columns: repeat(2, 1fr);
+        /* Two columns for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        width: 95%;
+        /* Adjusted width for extra small screens */
+    }
+
+    .room-container {
+        grid-template-columns: 1fr;
+        /* Single column for extra small screens */
+    }
+}
