@@ -18,6 +18,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
     }
 
     try {
+        // Send login request
         const response = await fetch("http://127.0.0.1:8000/api/users/login/", {
             method: "POST",
             headers: {
@@ -26,23 +27,27 @@ document.getElementById("login-form").addEventListener("submit", async function 
             body: JSON.stringify({ email, password }),
         });
 
+        // Handle non-OK response
         if (!response.ok) {
             const errorData = await response.json();
             showAlert(`Login failed: ${errorData.message || "Invalid credentials"}`, false);
             return;
         }
 
+        // Parse successful response
         const data = await response.json();
         localStorage.setItem("accessToken", data.access); // Store access token
-        localStorage.setItem("userRole", isAdmin ? "admin" : "student"); // Store user role
+        localStorage.setItem("userRole", data.role); // Store user role based on backend response
 
         showAlert("Login successful!", true);
 
         // Redirect based on user role
-        if (isAdmin) {
-            window.location.href = "../admin/dashboard.html";
+        if (data.role === "admin") {
+            window.location.href = "../admin/admin-dashboard.html";
+        } else if (data.role === "student") {
+            window.location.href = "../user/user-dashboard.html";
         } else {
-            window.location.href = "../user/dashboard.html";
+            showAlert("Unknown user role. Please contact support.", false);
         }
     } catch (error) {
         console.error("Login error:", error);
@@ -61,6 +66,13 @@ function showAlert(message, success = false) {
     const alert = document.createElement("div");
     alert.className = "alert-popup";
     alert.style.backgroundColor = success ? "#4CAF50" : "#ff4d4d";
+    alert.style.color = "#ffffff";
+    alert.style.padding = "10px 20px";
+    alert.style.position = "fixed";
+    alert.style.top = "20px";
+    alert.style.right = "20px";
+    alert.style.borderRadius = "5px";
+    alert.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.3)";
     alert.textContent = message;
 
     document.body.appendChild(alert);

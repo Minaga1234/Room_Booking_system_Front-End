@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const BRANDING_ASSETS_API_URL = "http://127.0.0.1:8000/api/branding/assets/";
   const DEGREES_API_URL = "http://127.0.0.1:8000/api/branding/degrees/";
   const token = localStorage.getItem("accessToken");
+  const csrfToken = getCsrfToken();
 
   if (!token) {
     alert("Unauthorized! Please log in as an admin.");
@@ -11,21 +12,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const themeGrid = document.getElementById("theme-grid");
-  const customThemeForm = document.getElementById("custom-theme-builder");
   const brandingAssetsForm = document.getElementById("branding-assets-form");
   const degreeForm = document.getElementById("degree-form");
   const degreeList = document.getElementById("degree-list");
 
-  // Dummy Data
-  const dummyThemes = [
-    { id: 1, name: "Default Theme", primary_color: "#007BFF", background_color: "#F8F9FA", highlight_color: "#FF6600", text_color: "#292E4A", card_background: "#FFFFFF" },
-    { id: 2, name: "Dark Theme", primary_color: "#343A40", background_color: "#212529", highlight_color: "#FFC107", text_color: "#FFFFFF", card_background: "#343A40" },
-  ];
-
-  const dummyDegrees = [
-    { id: 1, name: "Bachelor of Computer Science" },
-    { id: 2, name: "Master of Software Engineering" },
-  ];
+  // Function to Get CSRF Token from Cookies
+  function getCsrfToken() {
+    const name = "csrftoken=";
+    const cookies = document.cookie.split(";");
+    for (let cookie of cookies) {
+      while (cookie.charAt(0) === " ") {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) === 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
 
   // Fetch Themes
   const fetchThemes = async () => {
@@ -43,8 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const themes = await response.json();
       renderThemes(themes);
     } catch (error) {
-      console.warn("Backend not reachable. Loading dummy themes for designing.");
-      renderThemes(dummyThemes); // Load dummy data
+      console.error("Error fetching themes:", error);
+      alert("Unable to load themes. Please try again.");
     }
   };
 
@@ -54,43 +58,47 @@ document.addEventListener("DOMContentLoaded", () => {
     themes.forEach((theme) => {
       const themeCard = document.createElement("div");
       themeCard.classList.add("theme-card");
-      themeCard.style.backgroundColor = theme.card_background || "var(--card-background)";
-      themeCard.style.color = theme.text_color || "var(--text-color)";
       themeCard.innerHTML = `
         <h3>${theme.name}</h3>
-        <div class="preview-container">
+        <div class="theme-preview">
           <div class="preview-header" style="background-color: ${theme.primary_color}; color: ${theme.text_color};">
             Header
           </div>
           <div class="preview-body" style="background-color: ${theme.background_color}; color: ${theme.text_color};">
-            <p>Body content with text styles</p>
-            <button style="background-color: ${theme.highlight_color}; color: ${theme.primary_color};">Sample Button</button>
+            Content
           </div>
         </div>
-        <button class="save-button" onclick="applyTheme(${theme.id})">Apply Theme</button>
+        <button class="apply-theme-button" data-id="${theme.id}">Apply Theme</button>
       `;
+
+      themeCard.querySelector(".apply-theme-button").addEventListener("click", () => {
+        applyTheme(theme.id);
+      });
+
       themeGrid.appendChild(themeCard);
     });
   };
 
   // Apply Theme
-  window.applyTheme = (themeId) => {
-    const theme = dummyThemes.find((t) => t.id === themeId);
-    if (theme) {
-      updateCSSVariables(theme);
-      alert(`Dummy theme "${theme.name}" applied successfully!`);
-    } else {
-      alert("Theme not found.");
-    }
-  };
+  const applyTheme = async (themeId) => {
+    try {
+      const response = await fetch(`${THEME_API_URL}${themeId}/apply/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
+        },
+      });
 
-  // Update CSS Variables
-  const updateCSSVariables = (theme) => {
-    document.documentElement.style.setProperty("--primary-color", theme.primary_color);
-    document.documentElement.style.setProperty("--background-color", theme.background_color);
-    document.documentElement.style.setProperty("--highlight-color", theme.highlight_color);
-    document.documentElement.style.setProperty("--text-color", theme.text_color);
-    document.documentElement.style.setProperty("--card-background", theme.card_background || "#112233");
+      if (!response.ok) throw new Error(`Failed to apply theme. Status: ${response.status}`);
+
+      const theme = await response.json();
+      alert(`Theme "${theme.name}" applied successfully!`);
+    } catch (error) {
+      console.error("Error applying theme:", error);
+      alert("Unable to apply theme. Please try again.");
+    }
   };
 
   // Fetch Degrees
@@ -109,48 +117,79 @@ document.addEventListener("DOMContentLoaded", () => {
       const degrees = await response.json();
       renderDegrees(degrees);
     } catch (error) {
-      console.warn("Backend not reachable. Loading dummy degrees for designing.");
-      renderDegrees(dummyDegrees); // Load dummy data
+      console.error("Error fetching degrees:", error);
+      alert("Unable to load degrees. Please try again.");
     }
   };
 
   // Render Degrees
   const renderDegrees = (degrees) => {
-    degreeList.innerHTML = "";
-    degrees.forEach((degree) => {
-      const degreeItem = document.createElement("div");
-      degreeItem.classList.add("degree-item");
-      degreeItem.innerHTML = `
-        <span>${degree.name}</span>
-        <button class="delete-button" onclick="deleteDegree(${degree.id})">Delete</button>
-      `;
-      degreeList.appendChild(degreeItem);
-    });
+    degreeList.innerHTML = degrees
+      .map(
+        (degree) => `
+      <div class="degree-item">
+        <p>${degree.name}</p>
+        <button class="delete-degree-button" onclick="deleteDegree(${degree.id})">Delete</button>
+      </div>
+    `
+      )
+      .join("");
   };
 
   // Delete Degree
-  window.deleteDegree = (degreeId) => {
-    alert(`Dummy degree with ID ${degreeId} deleted.`);
-    const updatedDegrees = dummyDegrees.filter((degree) => degree.id !== degreeId);
-    renderDegrees(updatedDegrees);
+  const deleteDegree = async (degreeId) => {
+    if (!confirm("Are you sure you want to delete this degree?")) return;
+
+    try {
+      const response = await fetch(`${DEGREES_API_URL}${degreeId}/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
+        },
+      });
+
+      if (!response.ok) throw new Error(`Failed to delete degree. Status: ${response.status}`);
+
+      alert("Degree deleted successfully!");
+      fetchDegrees();
+    } catch (error) {
+      console.error("Error deleting degree:", error);
+      alert("Unable to delete degree. Please try again.");
+    }
   };
 
-  // Degree Submission
-  degreeForm.addEventListener("submit", (e) => {
+  // Add Degree
+  degreeForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const degreeName = document.getElementById("degree-name").value.trim();
-
     if (!degreeName) {
       alert("Degree name cannot be empty.");
       return;
     }
 
-    const newDegree = { id: dummyDegrees.length + 1, name: degreeName };
-    dummyDegrees.push(newDegree);
-    alert("Dummy degree added successfully!");
-    document.getElementById("degree-name").value = "";
-    renderDegrees(dummyDegrees);
+    try {
+      const response = await fetch(DEGREES_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
+        },
+        body: JSON.stringify({ name: degreeName }),
+      });
+
+      if (!response.ok) throw new Error(`Failed to add degree. Status: ${response.status}`);
+
+      alert("Degree added successfully!");
+      document.getElementById("degree-name").value = "";
+      fetchDegrees();
+    } catch (error) {
+      console.error("Error adding degree:", error);
+      alert("Unable to add degree. Please try again.");
+    }
   });
 
   // Initialize

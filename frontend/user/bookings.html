@@ -110,18 +110,40 @@
     
 
     <!-- Main Content -->
-    <div class="main-content">
-        <div class="header">
-            
+<div class="main-content">
+    <div class="header">
         <div class="white-background">
             <div class="content">
                 <div class="booking-section">
                     <div class="weather">
-                        <h3>24°C</h3>
-                        <p>Study Room G2 - Booked<br>From 9:00 AM to 11:30 AM<br><button>Cancel Booking</button></p>
-                        <p>Study Room G1 - Booked<br>From 12:30 PM to 2:30 PM<br><button>Cancel Booking</button></p>
-                        <p>Green Room - Booked<br>From 3:30 PM to 4:30 PM<br><button>Cancel Booking</button></p>
+                        <div class="weather-header">
+                            <img src="../assets/images/weather.png" alt="Weather Icon" class="weather-icon" style="width: 120px; height: 120px;">
+                            <h3 class="temperature">24°C</h3>
+                        </div>
+                        <p class="weather-description" style="margin: 10px 0; font-size: 14px; text-align: center;">Clear Sky</p>
+                        <div class="temperature-line"></div> <!-- Black line under the temperature -->
+                        <div class="bookings-list">
+                            <p>
+                                Study Room G2 - Booked<br>
+                                From 9:00 AM to 11:30 AM<br>
+                                <button class="cancel-btn">Cancel Booking</button>
+                            </p>
+                            <p>
+                                Study Room G1 - Booked<br>
+                                From 12:30 PM to 2:30 PM<br>
+                                <button class="cancel-btn">Cancel Booking</button>
+                            </p>
+                            <p>
+                                Green Room - Booked<br>
+                                From 3:30 PM to 4:30 PM<br>
+                                <button class="cancel-btn">Cancel Booking</button>
+                            </p>
+                        </div>
                     </div>
+                    
+                    
+                    
+
                     <div class="calendar">
                         <h2>January 2025</h2>
                         <div id="calendar"></div>
@@ -206,4 +228,39 @@
         calendar.render();
     });
 </script>
+
+<!-- Weather API Script -->
+<script>
+    // Function to fetch and display weather data
+    async function fetchWeather() {
+        const apiKey = "db4aef39c826d3eeb2e0b440ba11cccb"; // Replace with your OpenWeatherMap API key
+        const city = "Colombo"; // Replace with your desired city
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const weatherData = await response.json();
+            const temperature = weatherData.main.temp; // Temperature in Celsius
+            const weatherIcon = weatherData.weather[0].icon; // Weather icon code
+            const weatherDescription = weatherData.weather[0].description; // Weather description
+
+            // Update the weather section in the DOM
+            document.querySelector(".temperature").textContent = `${temperature}°C`;
+            document.querySelector(".weather-icon").src = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
+            document.querySelector(".weather-description").textContent = weatherDescription;
+        } catch (error) {
+            console.error("Error fetching weather data:", error);
+            document.querySelector(".temperature").textContent = "N/A";
+            document.querySelector(".weather-description").textContent = "Weather unavailable";
+        }
+    }
+
+    // Call the fetchWeather function on page load
+    document.addEventListener("DOMContentLoaded", fetchWeather);
+</script>
+
 
