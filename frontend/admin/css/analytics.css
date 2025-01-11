@@ -1,0 +1,150 @@
+/* Define CSS Variables */
+:root {
+    --primary-color: #FFFFFF;
+    --secondary-color: #6C757D;
+    --tertiary-color: #F8F9FA;
+    --accent-success: #28A745;
+    --accent-warning: #FFC107;
+    --accent-error: #DC3545;
+    --header-font: 'Arial', sans-serif;
+    --body-font: 'Roboto', sans-serif;
+    --background-color: #0E1924;
+    --card-background: #FFFFFF;
+    --text-color: #292E4A;
+    --highlight-color: #FF6600;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --shadow-hover-color: rgba(0, 0, 0, 0.25);
+  }
+  
+  /* General Body Styling */
+  body {
+    margin: 0;
+    font-family: var(--body-font);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 110px 20px 20px 300px; /* Increased padding-top for more space from header */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  /* Header Section */
+  .content h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  
+  /* Metrics Section */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Adjusted to fit smaller cards in one row */
+    gap: 15px; /* Reduced gap between cards */
+    margin-top: 20px;
+  }
+  
+  .card,
+  .export-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-background);
+    border-radius: 10px; /* Slightly reduced border radius */
+    padding: 15px; /* Reduced padding for smaller size */
+    box-shadow: 0 3px 5px var(--shadow-color); /* Reduced shadow size */
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    color: var(--text-color);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .card:hover,
+  .export-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px var(--shadow-hover-color);
+  }
+  
+  .card h2,
+  .export-button h2 {
+    font-size: 0.9rem; /* Slightly smaller font for titles */
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  
+  .card p {
+    font-size: 1.2rem; /* Smaller font size for numbers */
+    color: var(--highlight-color);
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Chart Card */
+  .chart-card {
+    margin-top: 20px; /* Reduced margin above chart */
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    text-align: center;
+    width: 100%; /* Take full width */
+    max-width: none; /* Remove max-width limit */
+    height: 500px; /* Increase height for larger chart */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .chart-container {
+    background-color: var(--background-color);
+    border-radius: 10px;
+    width: 100%; /* Take full width */
+    height: 400px; /* Increased height for larger chart */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    body {
+        padding-left: 20px;
+        padding-top: 90px;
+    }
+  
+    .metrics {
+        grid-template-columns: repeat(2, 1fr); /* Two cards per row on smaller screens */
+    }
+  
+    .card,
+    .export-button {
+        width: 100%;
+        padding: 10px;
+    }
+  
+    .chart-card {
+        height: 350px; /* Adjusted for smaller screens */
+    }
+  
+    .chart-container {
+        height: 300px;
+    }
+  
+    canvas {
+        height: auto;
+    }
+  }
