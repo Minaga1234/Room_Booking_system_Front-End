@@ -3,7 +3,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #01182a; /* Dark Background */
+    background-color: #01182a;
+    /* Dark Background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,8 +19,10 @@ body {
     align-items: center;
     border: 2px solid #ff5722;
     border-radius: 20px;
-    width: 990px; /* Fixed width */
-    height: 637px; /* Fixed height */
+    width: 990px;
+    /* Fixed width */
+    height: 637px;
+    /* Fixed height */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     background-color: #01182a;
     overflow: hidden;
@@ -44,8 +47,10 @@ body {
 .login-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image fills the space */
-    border-radius: 10px 0 0 10px; /* Rounded corners on the left */
+    object-fit: cover;
+    /* Ensures the image fills the space */
+    border-radius: 10px 0 0 10px;
+    /* Rounded corners on the left */
 }
 
 /* Right Section */
@@ -53,7 +58,8 @@ body {
     flex: 1;
     background: #01182a;
     padding: 2.5rem;
-    border-radius: 0 10px 10px 0; /* Rounded corners on the right */
+    border-radius: 0 10px 10px 0;
+    /* Rounded corners on the right */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -65,11 +71,15 @@ body {
     background-color: #8584e2;
     border-radius: 20px;
     padding: 2rem;
-    width: 90%; /* Adjust the width of the form box */
-    max-width: 400px; /* Limit the form width */
+    width: 90%;
+    /* Adjust the width of the form box */
+    max-width: 400px;
+    /* Limit the form width */
     text-align: center;
-    box-shadow: 0 0px 16px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for the form box */
-    color: #01182a; /* Dark text for the form box */
+    box-shadow: 0 0px 16px rgba(0, 0, 0, 0.2);
+    /* Add a subtle shadow for the form box */
+    color: #01182a;
+    /* Dark text for the form box */
 }
 
 h2 {
@@ -85,11 +95,13 @@ h2 {
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center inputs */
+    align-items: center;
+    /* Center inputs */
 }
 
 input {
-    width: 70%; /* Reduce input width */
+    width: 70%;
+    /* Reduce input width */
     padding: 1rem;
     border: none;
     border-radius: 30px;
@@ -97,7 +109,8 @@ input {
     font-size: 1rem;
     color: #333;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Add subtle shadow */
     transition: all 0.3s ease;
 }
 
@@ -105,7 +118,8 @@ input {
 input:focus {
     outline: none;
     border: 2px solid #ff5722;
-    box-shadow: 0 0 8px rgba(255, 87, 34, 0.5); /* Highlight effect */
+    box-shadow: 0 0 8px rgba(255, 87, 34, 0.5);
+    /* Highlight effect */
 }
 
 label {
@@ -120,7 +134,8 @@ label {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem; /* Space between label and checkbox */
+    gap: 0.5rem;
+    /* Space between label and checkbox */
     margin-bottom: 1.5rem;
     font-size: 1rem;
     color: #01182a;
@@ -128,10 +143,12 @@ label {
 }
 
 #admin-toggle {
-    accent-color: #ff5722; /* Style the toggle switch */
+    accent-color: #ff5722;
+    /* Style the toggle switch */
     width: 18px;
     height: 18px;
-    border-radius: 3px; /* Slightly rounded edges */
+    border-radius: 3px;
+    /* Slightly rounded edges */
     border: 2px solid #01182a;
     outline: none;
     transition: all 0.3s ease;
@@ -139,7 +156,8 @@ label {
 
 /* Login Button */
 .btn-login {
-    width: 50%; /* Reduce the width to match the inputs */
+    width: 50%;
+    /* Reduce the width to match the inputs */
     padding: 1rem;
     border: none;
     border-radius: 30px;
@@ -149,14 +167,17 @@ label {
     font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
-    margin: 0 auto; /* Center the button horizontally */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Add subtle shadow */
+    margin: 0 auto;
+    /* Center the button horizontally */
 }
 
 
 .btn-login:hover {
     background-color: #ff5722;
-    box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5); /* Add hover effect */
+    box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5);
+    /* Add hover effect */
 }
 
 /* Sign Up Text */
@@ -196,9 +217,9 @@ input:focus,
 .checkbox-wrapper-51 input[type="checkbox"] {
     visibility: hidden;
     display: none;
-  }
-  
-  .checkbox-wrapper-51 .toggle {
+}
+
+.checkbox-wrapper-51 .toggle {
     position: relative;
     display: block;
     width: 42px;
@@ -206,9 +227,9 @@ input:focus,
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     transform: translate3d(0, 0, 0);
-  }
-  
-  .checkbox-wrapper-51 .toggle:before {
+}
+
+.checkbox-wrapper-51 .toggle:before {
     content: "";
     position: relative;
     top: 1px;
@@ -219,9 +240,9 @@ input:focus,
     background: #c8ccd4;
     border-radius: 12px;
     transition: background 0.2s ease;
-  }
-  
-  .checkbox-wrapper-51 .toggle span {
+}
+
+.checkbox-wrapper-51 .toggle span {
     position: absolute;
     top: 0;
     left: 0;
@@ -232,14 +253,14 @@ input:focus,
     border-radius: 50%;
     box-shadow: 0 2px 6px rgba(154, 153, 153, 0.75);
     transition: all 0.2s ease;
-  }
-  
-  .checkbox-wrapper-51 .toggle span svg {
+}
+
+.checkbox-wrapper-51 .toggle span svg {
     margin: 7px;
     fill: none;
-  }
-  
-  .checkbox-wrapper-51 .toggle span svg path {
+}
+
+.checkbox-wrapper-51 .toggle span svg path {
     stroke: #c8ccd4;
     stroke-width: 2;
     stroke-linecap: round;
@@ -247,35 +268,38 @@ input:focus,
     stroke-dasharray: 24;
     stroke-dashoffset: 0;
     transition: all 0.5s linear;
-  }
-  
-  .checkbox-wrapper-51 input[type="checkbox"]:checked + .toggle:before {
+}
+
+.checkbox-wrapper-51 input[type="checkbox"]:checked+.toggle:before {
     background: #d75315;
-  }
-  
-  .checkbox-wrapper-51 input[type="checkbox"]:checked + .toggle span {
+}
+
+.checkbox-wrapper-51 input[type="checkbox"]:checked+.toggle span {
     transform: translateX(18px);
-  }
-  
-  .checkbox-wrapper-51 input[type="checkbox"]:checked + .toggle span path {
+}
+
+.checkbox-wrapper-51 input[type="checkbox"]:checked+.toggle span path {
     stroke: #000000;
     stroke-dasharray: 25;
     stroke-dashoffset: 25;
-  }
-  
-  /* Notification Container */
+}
+
+/* Notification Container */
 #error-notification {
     position: absolute;
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #f44336; /* Red background for error */
-    color: #fff; /* White text */
+    background-color: #f44336;
+    /* Red background for error */
+    color: #fff;
+    /* White text */
     padding: 10px 20px;
     border-radius: 5px;
     font-size: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    display: none; /* Hidden by default */
+    display: none;
+    /* Hidden by default */
     z-index: 1000;
     animation: fadeout 0.5s ease-in-out forwards;
 }
@@ -290,6 +314,7 @@ input:focus,
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
@@ -301,20 +326,26 @@ input:focus,
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #f44336; /* Red background for error */
-    color: #fff; /* White text */
+    background-color: #f44336;
+    /* Red background for error */
+    color: #fff;
+    /* White text */
     padding: 10px 20px;
     border-radius: 5px;
     font-size: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    opacity: 0; /* Start hidden */
-    display: none; /* Ensure it's not displayed initially */
-    transition: opacity 0.5s ease; /* Smooth fade-in/out effect */
+    opacity: 0;
+    /* Start hidden */
+    display: none;
+    /* Ensure it's not displayed initially */
+    transition: opacity 0.5s ease;
+    /* Smooth fade-in/out effect */
 }
 
 #error-notification.show {
-    opacity: 1; /* Fully visible */
+    opacity: 1;
+    /* Fully visible */
     display: block;
 }
 
@@ -338,16 +369,112 @@ input:focus,
         opacity: 0;
         transform: translateX(-50%) translateY(-10px);
     }
+
     10% {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
     }
+
     90% {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
     }
+
     100% {
         opacity: 0;
         transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+@media (max-width: 1200px) {
+    .login-container {
+        width: 90%;
+        max-width: 900px;
+    }
+}
+
+@media (max-width: 992px) {
+    .login-container {
+        width: 95%;
+        height: auto;
+        min-height: 600px;
+    }
+
+    .form-box {
+        padding: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        height: auto;
+        min-height: 500px;
+    }
+
+    .login-image {
+        display: none;
+    }
+
+    .login-form {
+        padding: 2rem;
+        border-radius: 20px;
+    }
+
+    .form-box {
+        width: 100%;
+    }
+
+    input {
+        width: 80%;
+    }
+
+    .btn-login {
+        width: 60%;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        width: 100%;
+        border-radius: 0;
+        border: none;
+        min-height: 100vh;
+    }
+
+    .login-form {
+        padding: 1.5rem;
+    }
+
+    .form-box {
+        padding: 1rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+
+    input {
+        width: 90%;
+        padding: 0.8rem;
+    }
+
+    .btn-login {
+        width: 80%;
+        padding: 0.8rem;
+        font-size: 1.1rem;
+    }
+
+    .toggle-container {
+        font-size: 0.9rem;
+    }
+
+    p {
+        font-size: 0.9rem;
     }
 }

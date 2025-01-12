@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const THEME_API_URL = "http://127.0.0.1:8000/api/branding/themes/";
   const BRANDING_ASSETS_API_URL = "http://127.0.0.1:8000/api/branding/assets/";
   const DEGREES_API_URL = "http://127.0.0.1:8000/api/branding/degrees/";
-  const token = localStorage.getItem("accessToken");
-  const csrfToken = getCsrfToken();
+  // const token = localStorage.getItem("accessToken");
 
+  // Temporarily disable authentication for UI editing
   if (!token) {
     alert("Unauthorized! Please log in as an admin.");
     window.location.href = "admin_login.html";
@@ -12,24 +12,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const themeGrid = document.getElementById("theme-grid");
+  const customThemeForm = document.getElementById("custom-theme-builder");
   const brandingAssetsForm = document.getElementById("branding-assets-form");
   const degreeForm = document.getElementById("degree-form");
   const degreeList = document.getElementById("degree-list");
+  const logoUpload = document.getElementById("icon-upload");
+  const bgImageUpload = document.getElementById("bg-image-upload");
+  const logoBox = document.getElementById("logo-box");
+  const bgBox = document.getElementById("background-box");
 
-  // Function to Get CSRF Token from Cookies
-  function getCsrfToken() {
-    const name = "csrftoken=";
-    const cookies = document.cookie.split(";");
-    for (let cookie of cookies) {
-      while (cookie.charAt(0) === " ") {
-        cookie = cookie.substring(1);
-      }
-      if (cookie.indexOf(name) === 0) {
-        return cookie.substring(name.length, cookie.length);
-      }
-    }
-    return "";
-  }
+  // Dummy Data
+  const dummyThemes = [
+    {
+      id: 1,
+      name: "Default Theme",
+      primary_color: "#007BFF",
+      background_color: "#F8F9FA",
+      highlight_color: "#FF6600",
+      text_color: "#292E4A",
+      card_background: "#FFFFFF",
+    },
+    {
+      id: 2,
+      name: "Dark Theme",
+      primary_color: "#343A40",
+      background_color: "#212529",
+      highlight_color: "#FFC107",
+      text_color: "#FFFFFF",
+      card_background: "#343A40",
+    },
+  ];
+
+  const dummyDegrees = [
+    { id: 1, name: "Bachelor of Computer Science" },
+    { id: 2, name: "Master of Software Engineering" },
+  ];
 
   // Fetch Themes
   const fetchThemes = async () => {
@@ -38,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
       });
 
@@ -47,15 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const themes = await response.json();
       renderThemes(themes);
     } catch (error) {
-      console.error("Error fetching themes:", error);
-      alert("Unable to load themes. Please try again.");
+      console.warn("Backend not reachable. Loading dummy themes for designing.");
+      renderThemes(dummyThemes); // Load dummy data
     }
   };
 
   // Render Themes
   const renderThemes = (themes) => {
     themeGrid.innerHTML = "";
-    themes.forEach((theme) => {
+    themes.forEach((theme, index) => {
       const themeCard = document.createElement("div");
       themeCard.classList.add("theme-card");
       themeCard.innerHTML = `
@@ -72,127 +89,81 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
 
       themeCard.querySelector(".apply-theme-button").addEventListener("click", () => {
-        applyTheme(theme.id);
+        alert(`Applied Theme: ${theme.name}`);
       });
 
       themeGrid.appendChild(themeCard);
     });
   };
 
-  // Apply Theme
-  const applyTheme = async (themeId) => {
-    try {
-      const response = await fetch(`${THEME_API_URL}${themeId}/apply/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      });
+  // Upload and Preview Logic for Branding Assets
+  const setupUploadBox = (inputElement, uploadBox, placeholderText) => {
+    const placeholder = document.createElement("p");
+    placeholder.classList.add("placeholder");
+    placeholder.textContent = placeholderText;
+    uploadBox.appendChild(placeholder);
 
-      if (!response.ok) throw new Error(`Failed to apply theme. Status: ${response.status}`);
+    // Trigger file upload dialog when the box is clicked
+    uploadBox.addEventListener("click", () => inputElement.click());
 
-      const theme = await response.json();
-      alert(`Theme "${theme.name}" applied successfully!`);
-    } catch (error) {
-      console.error("Error applying theme:", error);
-      alert("Unable to apply theme. Please try again.");
-    }
+    inputElement.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          placeholder.style.display = "none";
+          uploadBox.style.backgroundImage = `url(${e.target.result})`;
+          uploadBox.style.backgroundSize = "cover";
+          uploadBox.style.backgroundPosition = "center";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   };
 
-  // Fetch Degrees
-  const fetchDegrees = async () => {
-    try {
-      const response = await fetch(DEGREES_API_URL, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  setupUploadBox(logoUpload, logoBox, "Upload Logo Here");
+  setupUploadBox(bgImageUpload, bgBox, "Upload Background Image Here");
 
-      if (!response.ok) throw new Error(`Failed to fetch degrees. Status: ${response.status}`);
+  // Tab Switching Logic
+  const tabButtons = document.querySelectorAll(".tab-button");
+  const tabContents = document.querySelectorAll(".tab-content");
 
-      const degrees = await response.json();
-      renderDegrees(degrees);
-    } catch (error) {
-      console.error("Error fetching degrees:", error);
-      alert("Unable to load degrees. Please try again.");
-    }
-  };
+  tabButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      tabButtons.forEach((btn) => btn.classList.remove("active"));
+      tabContents.forEach((content) => content.classList.remove("active"));
 
-  // Render Degrees
+      button.classList.add("active");
+      const target = document.getElementById(button.getAttribute("data-target"));
+      target.classList.add("active");
+    });
+  });
+
+  // Degree Management Logic
   const renderDegrees = (degrees) => {
     degreeList.innerHTML = degrees
       .map(
         (degree) => `
       <div class="degree-item">
         <p>${degree.name}</p>
-        <button class="delete-degree-button" onclick="deleteDegree(${degree.id})">Delete</button>
       </div>
     `
       )
       .join("");
   };
 
-  // Delete Degree
-  const deleteDegree = async (degreeId) => {
-    if (!confirm("Are you sure you want to delete this degree?")) return;
+  renderDegrees(dummyDegrees);
 
-    try {
-      const response = await fetch(`${DEGREES_API_URL}${degreeId}/`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      });
-
-      if (!response.ok) throw new Error(`Failed to delete degree. Status: ${response.status}`);
-
-      alert("Degree deleted successfully!");
-      fetchDegrees();
-    } catch (error) {
-      console.error("Error deleting degree:", error);
-      alert("Unable to delete degree. Please try again.");
-    }
-  };
-
-  // Add Degree
-  degreeForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
+  degreeForm.addEventListener("submit", (event) => {
+    event.preventDefault();
     const degreeName = document.getElementById("degree-name").value.trim();
-    if (!degreeName) {
-      alert("Degree name cannot be empty.");
-      return;
-    }
-
-    try {
-      const response = await fetch(DEGREES_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-        body: JSON.stringify({ name: degreeName }),
-      });
-
-      if (!response.ok) throw new Error(`Failed to add degree. Status: ${response.status}`);
-
-      alert("Degree added successfully!");
-      document.getElementById("degree-name").value = "";
-      fetchDegrees();
-    } catch (error) {
-      console.error("Error adding degree:", error);
-      alert("Unable to add degree. Please try again.");
+    if (degreeName) {
+      dummyDegrees.push({ id: dummyDegrees.length + 1, name: degreeName });
+      renderDegrees(dummyDegrees);
+      degreeForm.reset();
     }
   });
 
   // Initialize
   fetchThemes();
-  fetchDegrees();
 });

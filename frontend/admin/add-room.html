@@ -6,17 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Room</title>
     <link rel="stylesheet" href="./css/add-room.css">
-
 </head>
 
 <body>
     <div class="container">
-
-
         <!-- Main Content -->
         <div class="main-content">
             <div class="add-room-container">
-                <h2 class="title">Room Management</h2>
+                <div class="header">
+                    <button class="back-button" onclick="history.back()">
+                        <img src="../assets/images/back-button-svgrepo-com.svg" alt="Back" class="back-icon">
+                    </button>
+                    <h2 class="title">Room Management</h2>
+                </div>
                 <p class="subtitle">Fill out the details below to add a new room</p>
                 <form id="add-room-form">
                     <div class="form-layout">
@@ -32,7 +34,6 @@
                             </button>
                             <input type="file" id="room-image" accept="image/*" hidden>
                         </div>
-
 
                         <!-- Form Fields Section -->
                         <div class="form-fields">
@@ -84,7 +85,6 @@
     </div>
 
     <script src="./js/add-room.js"></script>
-
 </body>
 
 </html>

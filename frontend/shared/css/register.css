@@ -3,7 +3,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #01182a; /* Dark Background */
+    background-color: #01182a;
+    /* Dark Background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,8 +19,10 @@ body {
     align-items: center;
     border: 2px solid #ff5722;
     border-radius: 20px;
-    width: 990px; /* Match login container width */
-    height: 637px; /* Match login container height */
+    width: 990px;
+    /* Match login container width */
+    height: 637px;
+    /* Match login container height */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     background-color: #01182a;
     overflow: hidden;
@@ -44,8 +47,10 @@ body {
 .login-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image fills the space */
-    border-radius: 10px 0 0 10px; /* Rounded corners on the left */
+    object-fit: cover;
+    /* Ensures the image fills the space */
+    border-radius: 10px 0 0 10px;
+    /* Rounded corners on the left */
 }
 
 /* Right Section */
@@ -53,7 +58,8 @@ body {
     flex: 1;
     background: #01182a;
     padding: 2.5rem;
-    border-radius: 0 10px 10px 0; /* Rounded corners on the right */
+    border-radius: 0 10px 10px 0;
+    /* Rounded corners on the right */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,48 +70,63 @@ body {
 .form-box {
     background-color: #8584e2;
     border-radius: 20px;
-    padding: 1.5rem; /* Reduced padding to decrease height */
-    width: 90%; /* Adjust the width of the form box */
-    max-width: 400px; /* Limit the form width */
+    padding: 1.5rem;
+    /* Reduced padding to decrease height */
+    width: 90%;
+    /* Adjust the width of the form box */
+    max-width: 400px;
+    /* Limit the form width */
     text-align: center;
-    box-shadow: 0 0px 16px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for the form box */
-    color: #01182a; /* Dark text for the form box */
+    box-shadow: 0 0px 16px rgba(0, 0, 0, 0.2);
+    /* Add a subtle shadow for the form box */
+    color: #01182a;
+    /* Dark text for the form box */
 }
 
 /* Adjust Header */
 h2 {
-    margin-bottom: 1rem; /* Reduced margin */
-    font-size: 1.6rem; /* Reduced size */
+    margin-bottom: 1rem;
+    /* Reduced margin */
+    font-size: 1.6rem;
+    /* Reduced size */
     font-weight: bold;
 }
 
 /* Form Elements */
 .form-group {
     width: 100%;
-    margin-bottom: 1.2rem; /* Reduced spacing between inputs */
+    margin-bottom: 1.2rem;
+    /* Reduced spacing between inputs */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center inputs */
+    align-items: center;
+    /* Center inputs */
 }
 
-input, select {
+input,
+select {
     width: 60%;
-    height: 10%; /* Reduce input and select width */
-    padding: 0.9rem; /* Reduced padding */
+    height: 10%;
+    /* Reduce input and select width */
+    padding: 0.9rem;
+    /* Reduced padding */
     border: none;
     border-radius: 30px;
     background-color: #f2f2f2;
     font-size: 1rem;
     color: #333;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Add subtle shadow */
     transition: all 0.3s ease;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border: 2px solid #ff5722;
-    box-shadow: 0 0 8px rgba(255, 87, 34, 0.5); /* Highlight effect */
+    box-shadow: 0 0 8px rgba(255, 87, 34, 0.5);
+    /* Highlight effect */
 }
 
 label {
@@ -117,7 +138,8 @@ label {
 
 /* Register Button */
 .btn-login {
-    width: 50%; /* Reduce the width to match the inputs */
+    width: 50%;
+    /* Reduce the width to match the inputs */
     padding: 1rem;
     border: none;
     border-radius: 30px;
@@ -127,19 +149,24 @@ label {
     font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
-    margin: 0 auto; /* Center the button horizontally */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Add subtle shadow */
+    margin: 0 auto;
+    /* Center the button horizontally */
 }
 
 .btn-login:hover {
     background-color: #ff5722;
-    box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5); /* Add hover effect */
+    box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5);
+    /* Add hover effect */
 }
 
 /* Sign In Text */
 p {
-    margin-top: 0.8rem; /* Reduced spacing */
-    font-size: 0.9rem; /* Reduced text size */
+    margin-top: 0.8rem;
+    /* Reduced spacing */
+    font-size: 0.9rem;
+    /* Reduced text size */
 }
 
 a {
@@ -154,12 +181,15 @@ a:hover {
 
 /* Notification Container */
 #error-notification {
-    position: fixed; /* Ensure it's fixed for consistent location */
+    position: fixed;
+    /* Ensure it's fixed for consistent location */
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #f44336; /* Red background for error */
-    color: #fff; /* White text */
+    background-color: #f44336;
+    /* Red background for error */
+    color: #fff;
+    /* White text */
     padding: 15px 20px;
     border-radius: 5px;
     font-size: 1rem;
@@ -167,9 +197,12 @@ a:hover {
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    opacity: 0; /* Start hidden */
-    display: none; /* Ensure it's not displayed initially */
-    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth fade-in/out effect */
+    opacity: 0;
+    /* Start hidden */
+    display: none;
+    /* Ensure it's not displayed initially */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    /* Smooth fade-in/out effect */
 }
 
 /* Show Notification */
@@ -185,6 +218,7 @@ a:hover {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
     }
+
     100% {
         opacity: 0;
         transform: translateX(-50%) translateY(-10px);
@@ -277,4 +311,89 @@ a:hover {
 /* Hidden Input */
 input[type="hidden"] {
     display: none;
+}
+
+@media (max-width: 768px) {
+    .login-image {
+        display: none;
+        /* Hide the image when the screen width is less than 768px */
+    }
+
+    .login-form {
+        border-radius: 20px;
+        /* Apply full rounded corners to the form section */
+    }
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .login-container {
+        width: 90%;
+        max-width: 900px;
+        height: auto;
+        min-height: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        width: 95%;
+        height: auto;
+    }
+
+    .login-image {
+        display: none;
+    }
+
+    .login-form {
+        flex: 1;
+        padding: 2rem;
+        border-radius: 20px;
+    }
+
+    .form-box {
+        width: 100%;
+    }
+
+    input,
+    select {
+        width: 80%;
+    }
+
+    .select {
+        width: 60%;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        border-radius: 15px;
+        padding: 1rem;
+    }
+
+    .login-form {
+        padding: 1rem;
+    }
+
+    .form-box {
+        padding: 1rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    input,
+    select {
+        width: 90%;
+        padding: 0.8rem;
+    }
+
+    .btn-login {
+        width: 70%;
+    }
+
+    .select {
+        width: 80%;
+    }
 }

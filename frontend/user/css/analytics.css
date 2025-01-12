@@ -22,16 +22,19 @@ body {
   font-family: var(--body-font);
   background-color: var(--background-color);
   color: var(--text-color);
-  padding: 110px 20px 20px 300px; /* Padding to adjust layout */
+  padding: 110px 20px 20px 300px;
+  /* Maintaining original padding for desktop */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  min-height: 100vh;
 }
 
 /* Header Section */
 .content h1 {
   font-size: 2rem;
+  /* Keeping original size for desktop */
   font-weight: bold;
   color: var(--primary-color);
   margin-bottom: 1.5rem;
@@ -41,9 +44,11 @@ body {
 /* Metrics Section */
 .metrics {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-  gap: 20px; /* Space between cards */
+  grid-template-columns: repeat(3, 1fr);
+  /* Default 3 columns for desktop */
+  gap: 20px;
   margin-top: 20px;
+  width: 100%;
 }
 
 .card {
@@ -52,28 +57,29 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--card-background);
-  border-radius: 12px; /* Adjusted border radius */
-  padding: 20px; /* Increased padding for a more prominent look */
-  box-shadow: 0 4px 6px var(--shadow-color); /* Slightly larger shadow */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px var(--shadow-color);
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
   color: var(--text-color);
+  min-height: 150px;
 }
 
 .card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 12px var(--shadow-hover-color); /* Enhanced shadow on hover */
+  box-shadow: 0 8px 12px var(--shadow-hover-color);
 }
 
 .card h2 {
-  font-size: 1rem; /* Adjusted font size for titles */
+  font-size: 1rem;
   color: var(--secondary-color);
   margin-bottom: 10px;
   text-transform: uppercase;
 }
 
 .card p {
-  font-size: 1.4rem; /* Larger font size for numbers */
+  font-size: 1.4rem;
   color: var(--highlight-color);
   font-weight: bold;
   margin: 0;
@@ -81,15 +87,14 @@ body {
 
 /* Chart Card */
 .chart-card {
-  margin-top: 30px; /* Space above the chart */
+  margin-top: 30px;
   background-color: var(--card-background);
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 6px var(--shadow-color);
   text-align: center;
-  width: 100%; /* Full width for chart */
-  max-width: none; /* No max-width restriction */
-  height: 500px; /* Increased height for the chart */
+  width: 100%;
+  height: 500px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -100,8 +105,8 @@ body {
 .chart-container {
   background-color: var(--background-color);
   border-radius: 10px;
-  width: 100%; /* Full width for container */
-  height: 400px; /* Increased height for the chart */
+  width: 100%;
+  height: calc(100% - 40px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -109,37 +114,93 @@ body {
 }
 
 canvas {
-  width: 100%; /* Ensure it stretches to the container width */
-  height: 100%; /* Match container height */
+  width: 100%;
+  height: 100%;
   border-radius: 8px;
+  object-fit: contain;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Large Desktop Screens - Maintaining original layout */
+@media (min-width: 1441px) {
   body {
-      padding-left: 20px; /* Adjusted padding for smaller screens */
-      padding-top: 90px;
+    padding: 110px 20px 20px 300px;
+    /* Keeping consistent with original */
   }
 
   .metrics {
-      grid-template-columns: repeat(1, 1fr); /* Single column layout for small screens */
-      gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
+    /* Maintaining 3 columns */
+  }
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  body {
+    padding: 100px 25px 25px 25px;
+    /* Remove left padding for tablets */
   }
 
-  .card {
-      width: 100%; /* Full width on small screens */
-      padding: 15px; /* Reduced padding */
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .card h2 {
+    font-size: clamp(0.875rem, 2vw, 1rem);
+  }
+
+  .card p {
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 767px) {
+  body {
+    padding: 90px 20px 20px 20px;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
   }
 
   .chart-card {
-      height: 350px; /* Adjusted for smaller screens */
+    height: 350px;
   }
 
-  .chart-container {
-      height: 300px; /* Adjusted chart height */
+  .card {
+    padding: 15px;
+  }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 375px) {
+  body {
+    padding: 80px 15px 15px 15px;
   }
 
-  canvas {
-      height: auto; /* Fit canvas to container */
+  .card {
+    min-height: 120px;
+  }
+
+  .chart-card {
+    height: 300px;
+  }
+}
+
+/* Print Media Query */
+@media print {
+  body {
+    padding: 20px;
+    background-color: white;
+  }
+
+  .card,
+  .chart-card {
+    break-inside: avoid;
+    box-shadow: none;
   }
 }
