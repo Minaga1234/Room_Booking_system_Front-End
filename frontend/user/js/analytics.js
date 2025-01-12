@@ -1,5 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialize the Chart
+    // === Load Sidebar ===
+    const loadSidebar = async () => {
+        try {
+            const sidebarContainer = document.getElementById("sidebar-container");
+            const response = await fetch("../shared/navbar.html"); // Path to sidebar HTML
+            if (!response.ok) {
+                throw new Error(`Failed to load sidebar: ${response.status}`);
+            }
+            const sidebarHTML = await response.text();
+            sidebarContainer.innerHTML = sidebarHTML;
+
+            // Highlight Active Sidebar Link
+            const currentPage = window.location.pathname.split("/").pop(); // Get current page name
+            const navLinks = document.querySelectorAll(".nav-links a");
+
+            navLinks.forEach((link) => {
+                const linkHref = link.getAttribute("href");
+                const parentLi = link.parentElement;
+
+                // Add 'active' class if the link matches the current page
+                if (currentPage === linkHref) {
+                    parentLi.classList.add("active");
+                } else {
+                    parentLi.classList.remove("active");
+                }
+            });
+        } catch (error) {
+            console.error("Error loading sidebar:", error);
+        }
+    };
+
+    // === Load Header ===
+    const loadHeader = async () => {
+        try {
+            const headerContainer = document.getElementById("header-container");
+            const response = await fetch("../shared/header.html"); // Path to header HTML
+            if (!response.ok) {
+                throw new Error(`Failed to load header: ${response.status}`);
+            }
+            const headerHTML = await response.text();
+            headerContainer.innerHTML = headerHTML;
+
+            // Example: Add dynamic event listeners to header elements
+            const searchBox = document.querySelector(".search-box");
+            if (searchBox) {
+                searchBox.addEventListener("input", (event) => {
+                    console.log(`Searching for: ${event.target.value}`);
+                });
+            }
+        } catch (error) {
+            console.error("Error loading header:", error);
+        }
+    };
+
+    // === Load Sidebar and Header ===
+    loadSidebar();
+    loadHeader();
+
+    // === Initialize the Chart ===
     const initializeChart = () => {
         const ctx = document.getElementById("weekly-trends-chart").getContext("2d");
 
@@ -56,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Fetch Room Data
+    // === Fetch Room Data ===
     const fetchRoomData = async () => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api/rooms/");
@@ -75,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Fetch Analytics Data
+    // === Fetch Analytics Data ===
     const fetchAnalyticsData = async () => {
         try {
             const response = await fetch("http://127.0.0.1:8000/analytics/");
@@ -89,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Update Chart
+    // === Update Chart ===
     const updateChart = async (chart) => {
         const [analyticsData, roomMapping] = await Promise.all([
             fetchAnalyticsData(),
@@ -118,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
         chart.update();
     };
 
-    // Update Metrics
+    // === Update Metrics ===
     const updateMetrics = async () => {
         const [analyticsData, roomMapping] = await Promise.all([
             fetchAnalyticsData(),
@@ -137,8 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         const activeUsers = analyticsData.filter(
-            (entry) =>
-                entry.total_checkins > 0 && entry.utilization_rate > 0
+            (entry) => entry.total_checkins > 0 && entry.utilization_rate > 0
         ).length;
 
         const mostBookedRoomName = roomMapping[mostBookedRoom.room] || `Room ${mostBookedRoom.room}`;
@@ -148,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("active-users").textContent = activeUsers;
     };
 
-    // Initialize and Update
+    // === Initialize and Update ===
     const chart = initializeChart();
     updateChart(chart);
     updateMetrics();

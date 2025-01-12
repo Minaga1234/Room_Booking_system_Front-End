@@ -351,78 +351,162 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 20px; /* Add some padding inside the content */
 }
 
-.top-section .search {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
+/* Booking Section */
 .booking-section {
     display: flex;
     gap: 20px;
+    justify-content: space-between; /* Spread the weather and calendar sections */
+    align-items: flex-start; /* Align the items at the top */
+}
+/* Weather Section */
+.weather-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; /* Reduced gap between the icon and temperature */
 }
 
-.weather {
-    background-color: #8584E2;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    flex: 1;
+/* Weather Icon */
+.weather-icon {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
 }
+
+/* Temperature Styling */
+.temperature {
+    font-size: 32px; /* Larger font for the temperature */
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Black Line Under Temperature */
+.temperature-line {
+    width: 100%;
+    max-width: 320px; /* Adjust the width of the line */
+    height: 2px; /* Thickness of the line */
+    background-color: rgba(91, 86, 86, 0.367); /* Black line */
+    margin-top: 5px; /* Adjust spacing between the temperature and the line */
+}
+
+/* Bookings List */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adjusted gap between room boxes */
+    width: 100%;
+}
+
+.bookings-list p {
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: rgba(255, 255, 255, 0.2); /* Subtle overlay */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.cancel-btn {
+    margin-top: 10px;
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #3642b2; /* Darker color on hover */
+}
+
 
 /* Calendar Container */
 #calendar {
     max-width: 100%;
     margin: 0 auto;
     background: white; /* Calendar background */
-    border-radius: 10px; /* Rounded corners */
+    border-radius: 20px; /* Rounded corners */
     padding: 20px; /* Add space inside the calendar */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    font-family: Arial, sans-serif; /* Ensure consistent font */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    font-family: 'Poppins', sans-serif; /* Consistent font */
     font-size: 14px; /* Adjust font size for readability */
     color: #333; /* Font color for calendar text */
 }
 
 /* FullCalendar Styles Override */
 .fc {
-    font-family: Arial, sans-serif !important; /* Use the same font as the app */
-    color: black !important; /* Ensure the text color is visible */
+    font-family: 'Poppins', sans-serif !important; /* Use consistent font */
+    color: black !important; /* Ensure text color is visible */
 }
 
-.fc-toolbar h2 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #000000; /* Toolbar title color */
+/* FullCalendar Toolbar */
+.fc-toolbar {
+    font-family: 'Poppins', sans-serif; /* Use Poppins font for the toolbar */
+    font-size: 12px;
+    font-weight: 500; /* Slightly bold for better readability */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none; /* Remove any toolbar background */
+    border: none; /* Remove borders */
+    margin-bottom: 10px; /* Add spacing below the toolbar */
 }
 
+/* Calendar Title Styling */
+.fc-toolbar-title {
+    font-size: 16px; /* Adjust title font size */
+    font-weight: 500; /* Slightly bold */
+    color: #333; /* Keep it visually consistent with your design */
+    text-align: center; /* Ensure proper alignment */
+    margin: 0; /* Remove extra spacing */
+}
+
+/* Calendar Buttons */
 .fc-button {
-    background-color: #6a6afa; /* Button background color */
-    border: none; /* Remove border */
-    color: white; /* Button text color */
-    padding: 8px 15px; /* Button padding */
-    border-radius: 5px; /* Rounded buttons */
-    transition: background-color 0.3s ease; /* Smooth hover effect */
+    background: transparent; /* Make the button background transparent */
+    border: none; /* Remove borders */
+    color: #6a6afa; /* Minimal color for buttons */
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px; /* Adjust button font size */
+    font-weight: 500; /* Slightly bold text */
+    padding: 5px 10px; /* Add some spacing */
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
 }
 
+/* Hover Effect for Buttons */
 .fc-button:hover {
-    background-color: #4a4ed6; /* Darker background on hover */
+    color: #4a4ed6; /* Slightly darker color on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
+/* Active Button Style */
+.fc-button.fc-button-active {
+    color: #4a4ed6; /* Active button color */
+    font-weight: 600; /* Make active button text bolder */
+}
+
+/* Primary Buttons (e.g., Today Button) */
 .fc-button-primary {
-    background-color: #6a6afa !important; /* Primary button background */
+    background-color: transparent !important; /* Transparent background */
+    color: #6a6afa !important; /* Match button colors */
+    border: none; /* Remove borders */
 }
 
+/* Calendar Days */
 .fc-daygrid-day {
     font-size: 14px;
     color: #333; /* Ensure day text color is visible */
 }
 
+/* Day Numbers */
 .fc-daygrid-day-number {
     font-weight: bold; /* Highlight day numbers */
+    font-size: 12px; /* Smaller font for day numbers */
 }
 
 /* Tooltip/Event Hover Effect */
@@ -447,11 +531,7 @@ body {
     margin-bottom: 10px;
 }
 
-/* Calendar Today Button */
-.fc-button-primary.fc-today-button {
-    background-color: #ff5722 !important; /* Distinct color for the "Today" button */
-    color: white !important; /* Text color */
-}
+
 
 
 
@@ -468,7 +548,74 @@ body {
     font-size: 16px; /* Adjust the font size if needed */
     text-align: center; /* Center-align the text */
 }
+/* Weather Section */
+.weather {
+    background-color: #8584E2;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
+.weather-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.temperature {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 15px 0;
+}
+
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.booking-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.booking-item p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.booking-item span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cancel-btn {
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.cancel-btn:hover {
+    background-color: #3642b2;
+}
 .note-section button {
     padding: 10px 20px;
     background-color: #0f1e3d;
@@ -491,5 +638,6 @@ body {
     flex-direction: column;
     gap: 20px;
 }
+
 
 
