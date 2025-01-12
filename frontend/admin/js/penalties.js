@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   const API_BASE = 'http://127.0.0.1:8000/penalties/';
-  const AUTH_TOKEN = '03ab28a2c76066500ef6b931ada35a38f14557cb';
+  const AUTH_TOKEN = '19f8eb05c52c9e98834d2d1c2dfe8dfa4c386a02';
   let currentPage = 1;
   const PAGE_SIZE = 4; // Ensure this matches your backend page size
 
   const applyFilters = () => {
       const status = document.getElementById('status-filter').value; // Get selected status
+      console.log('Selected Status:', status); // Debug log
       const startDate = document.getElementById('start-date-filter').value || '';
       const endDate = document.getElementById('end-date-filter').value || '';
 
@@ -170,48 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Failed to load penalties overview:', error);
       }
     };
-  
-    document.getElementById('apply-filters').addEventListener('click', async () => {
-        const status = document.getElementById('status-filter').value;
-        const startDate = document.getElementById('start-date-filter').value;
-        const endDate = document.getElementById('end-date-filter').value;
-    
-        console.log('Applying filters:', { status, startDate, endDate }); // Debug: Filter parameters
-    
-        try {
-            const queryParams = new URLSearchParams();
-    
-            if (status && status !== 'all') {
-                queryParams.append('status', status);
-            }
-            if (startDate) {
-                queryParams.append('start_date', startDate);
-            }
-            if (endDate) {
-                queryParams.append('end_date', endDate);
-            }
-    
-            console.log('Generated Query Params:', queryParams.toString()); // Debug: Generated query string
-    
-            const response = await fetch(`${API_BASE}?${queryParams.toString()}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${AUTH_TOKEN}`,
-                },
-            });
-    
-            if (!response.ok) throw new Error('Failed to apply filters');
-            const penalties = await response.json();
-    
-            console.log('Filtered Penalties Response:', penalties); // Debug: Response from the server
-    
-            renderPenalties(penalties.results);
-            updatePaginationControls(penalties.count, penalties.results.length);
-        } catch (error) {
-            console.error('Failed to apply filters:', error);
-            alert('Failed to apply filters. Check console for details.');
-        }
-    });
     
     document.getElementById('download-report').addEventListener('click', async () => {
         try {
