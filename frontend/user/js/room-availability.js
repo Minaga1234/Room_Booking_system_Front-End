@@ -98,28 +98,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initialize();
 });
-
-document.addEventListener('DOMContentLoaded', () => {
-    const highlightActiveSidebarLink = () => {
-        const currentPage = window.location.pathname.split('/').pop(); // Get the current page filename
-        const navLinks = document.querySelectorAll('.nav-links a');
-
-        navLinks.forEach((link) => {
-            const linkHref = link.getAttribute('href'); // Get the href of the link
-            const parentLi = link.parentElement; // Get the parent <li> element
-
-            // Normalize the href and currentPage for comparison
-            const normalizedHref = new URL(linkHref, window.location.origin).pathname;
-            const normalizedCurrentPage = new URL(currentPage, window.location.origin).pathname;
-
-            if (normalizedHref === normalizedCurrentPage) {
-                parentLi.classList.add('active'); // Add the 'active' class to the matching link
-            } else {
-                parentLi.classList.remove('active'); // Remove 'active' from others
-            }
-        });
-    };
-
-    // Call the function to highlight the active link
-    highlightActiveSidebarLink();
-});

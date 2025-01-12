@@ -1,84 +1,50 @@
-// Dynamically set user data (optional)
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
+    // Dynamic user data setup
     const userAvatar = document.querySelector(".user-avatar");
     const notificationIcon = document.querySelector(".notification-icon");
-  
-    // Example: Update user avatar or notification dynamically
-    userAvatar.src = "../assets/images/user-avatar.png"; // Set user avatar dynamically
-    notificationIcon.src = "../assets/icons/notification-icon.png"; // Set notification icon
-  });
+    userAvatar.src = "../assets/images/user-avatar.png";
+    notificationIcon.src = "../assets/images/notification-icon.png";
 
-  // Handle search input
-document.querySelector('.search-box').addEventListener('input', function (e) {
-    const query = e.target.value.trim();
-    console.log('Search query:', query);
-    // Add your search functionality here
-    if (query) {
-        // For example, filter results or redirect to a search page
-        console.log(`Performing search for: ${query}`);
-    }
-});
+    // Mobile search functionality
+    const searchIcon = document.querySelector('.search-icon');
+    const mobileSearchOverlay = document.querySelector('.mobile-search-overlay');
+    const mobileSearchBox = document.querySelector('.mobile-search-box');
+    let isSearchVisible = false;
 
-// Handle notifications click
-document.querySelector('.notification-icon').addEventListener('click', function () {
-    // Simulate opening a notifications dropdown or page
-    alert('Opening Notifications...');
-    console.log('Notifications clicked');
-    // Redirect to a notifications page if needed
-    // window.location.href = './notifications.html';
-});
-
-// Handle profile icon click
-document.querySelector('.user-avatar').addEventListener('click', function () {
-    // Simulate opening a profile dropdown or page
-    alert('Opening Profile...');
-    console.log('Profile clicked');
-    // Redirect to a profile page if needed
-    // window.location.href = './profile.html';
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const notificationWrapper = document.querySelector(".notification-wrapper");
-    const profileWrapper = document.querySelector(".profile-wrapper");
-
-    // Ensure notification popup stays open when hovered
-    const notificationPopup = notificationWrapper.querySelector(".notification-popup");
-    notificationWrapper.addEventListener("mouseenter", () => {
-        notificationPopup.style.display = "block";
-    });
-    notificationWrapper.addEventListener("mouseleave", () => {
-        notificationPopup.style.display = "none";
+    searchIcon.addEventListener('click', function () {
+        isSearchVisible = !isSearchVisible;
+        mobileSearchOverlay.style.display = isSearchVisible ? 'block' : 'none';
+        if (isSearchVisible) {
+            mobileSearchBox.focus();
+        }
     });
 
-    notificationPopup.addEventListener("mouseenter", () => {
-        notificationPopup.style.display = "block"; // Keep it visible
-    });
-    notificationPopup.addEventListener("mouseleave", () => {
-        notificationPopup.style.display = "none";
-    });
-
-    // Ensure profile popup stays open when hovered
-    const profilePopup = profileWrapper.querySelector(".profile-popup");
-    profileWrapper.addEventListener("mouseenter", () => {
-        profilePopup.style.display = "block";
-    });
-    profileWrapper.addEventListener("mouseleave", () => {
-        profilePopup.style.display = "none";
+    // Close mobile search when clicking outside
+    document.addEventListener('click', function (event) {
+        if (isSearchVisible &&
+            !mobileSearchOverlay.contains(event.target) &&
+            !searchIcon.contains(event.target)) {
+            isSearchVisible = false;
+            mobileSearchOverlay.style.display = 'none';
+        }
     });
 
-    profilePopup.addEventListener("mouseenter", () => {
-        profilePopup.style.display = "block"; // Keep it visible
+    // Search functionality
+    const searchBoxes = document.querySelectorAll('.search-box, .mobile-search-box');
+    searchBoxes.forEach(searchBox => {
+        searchBox.addEventListener('input', function (e) {
+            const query = e.target.value.trim();
+            if (query) {
+                console.log(`Performing search for: ${query}`);
+                // Add your search functionality here
+            }
+        });
     });
-    profilePopup.addEventListener("mouseleave", () => {
-        profilePopup.style.display = "none";
-    });
-});
 
-document.addEventListener("DOMContentLoaded", () => {
+    // Notification functionality
     const notificationWrapper = document.querySelector(".notification-wrapper");
     const notificationPopup = notificationWrapper.querySelector(".notification-popup");
 
-    // Mock function to simulate fetching notifications
     function fetchNotifications() {
         return [
             { title: "Room Booking", message: "Green Room Booking has been confirmed", link: "./bookings.html" },
@@ -87,11 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
     }
 
-    // Function to render notifications dynamically
     function renderNotifications() {
         const notifications = fetchNotifications();
         if (notifications.length > 0) {
-            notificationPopup.innerHTML = ""; // Clear previous notifications
+            notificationPopup.innerHTML = "";
             notifications.forEach((notification) => {
                 const notificationItem = document.createElement("div");
                 notificationItem.classList.add("notification-item");
@@ -103,42 +68,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 notificationPopup.appendChild(notificationItem);
             });
         } else {
-            notificationPopup.innerHTML = "<p>No new notifications</p>";
+            notificationPopup.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-bell-slash"></i>
+                    <p>No new notifications</p>
+                </div>
+            `;
         }
     }
 
-    // Ensure notification popup stays open when hovered
+    // Notification popup handlers
     notificationWrapper.addEventListener("mouseenter", () => {
         notificationPopup.style.display = "block";
-        renderNotifications(); // Render notifications when popup is opened
+        renderNotifications();
     });
 
     notificationWrapper.addEventListener("mouseleave", () => {
         notificationPopup.style.display = "none";
     });
 
-    notificationPopup.addEventListener("mouseenter", () => {
-        notificationPopup.style.display = "block"; // Keep it visible
+    // Profile popup handlers
+    const profileWrapper = document.querySelector('.profile-wrapper');
+    const profilePopup = profileWrapper.querySelector('.profile-popup');
+
+    profileWrapper.addEventListener("mouseenter", () => {
+        profilePopup.style.display = "block";
     });
 
-    notificationPopup.addEventListener("mouseleave", () => {
-        notificationPopup.style.display = "none";
+    profileWrapper.addEventListener("mouseleave", () => {
+        profilePopup.style.display = "none";
     });
 
-    // Simulate periodic updates to notifications (e.g., polling an API)
-    setInterval(renderNotifications, 30000); // Update every 30 seconds
+    // Update notifications periodically
+    setInterval(renderNotifications, 30000);
 });
-
-const notifications = []; // Example: Array of notifications
-const notificationContent = document.querySelector('.notification-content');
-
-if (notifications.length > 0) {
-    notificationContent.innerHTML = notifications
-        .map(notification => `<p>${notification}</p>`)
-        .join('');
-} else {
-    notificationContent.innerHTML = `
-        <i class="fas fa-bell-slash"></i>
-        <p>No new notifications</p>
-    `;
-}
