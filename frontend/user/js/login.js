@@ -26,7 +26,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
             },
             body: JSON.stringify({ email, password }),
         });
-
+ 
         // Handle non-OK response
         if (!response.ok) {
             const errorData = await response.json();
@@ -45,7 +45,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
         if (data.role === "admin") {
             window.location.href = "../admin/admin-dashboard.html";
         } else if (data.role === "student") {
-            window.location.href = "../user/user-dashboard.html";
+            window.location.href = "../user/dashboard.html";
         } else {
             showAlert("Unknown user role. Please contact support.", false);
         }
