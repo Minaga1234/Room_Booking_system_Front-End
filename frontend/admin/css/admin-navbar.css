@@ -1,32 +1,19 @@
-/* Base Sidebar Styles */
 .sidebar {
   background-color: #6a6afa;
-  width: 250px;
-  height: 100vh;
+  width: 220px;
+  height: calc(100vh - 130px);
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   position: fixed;
-  top: 0;
-  left: -250px;
-  /* Hidden off-screen */
-  z-index: 1000;
+  top: 70px;
+  left: 0;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  transition: transform 0.3s ease-in-out;
-  overflow-y: auto;
 }
 
-/* Sidebar Active State */
-.sidebar.active {
-  transform: translateX(250px);
-  /* Slide into view */
-  left: 0;
-}
-
-/* User Profile Section */
 .user-profile {
   text-align: center;
   margin-bottom: 20px;
@@ -50,7 +37,6 @@
   margin-top: 10px;
 }
 
-/* Navigation Links */
 .nav-links {
   list-style: none;
   padding: 0;
@@ -99,7 +85,6 @@
   height: 20px;
 }
 
-/* Support Section */
 .support {
   text-align: center;
   margin-top: 20px;
@@ -141,64 +126,4 @@
   text-align: center;
   margin-top: auto;
   opacity: 0.8;
-}
-
-/* Hamburger Menu Styles */
-.hamburger-menu {
-  display: block;
-  cursor: pointer;
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1001;
-  /* Above the sidebar */
-  background: #6a6afa;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.bar {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  margin: 5px 0;
-  transition: 0.4s;
-}
-
-/* Overlay Styles */
-.overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  /* Below the sidebar */
-}
-
-/* Overlay Active State */
-.overlay.active {
-  display: block;
-}
-
-/* Responsive Sidebar */
-@media screen and (max-width: 768px) {
-  .sidebar {
-    width: 80%;
-    left: -80%;
-  }
-
-  .sidebar.active {
-    transform: translateX(80%);
-  }
-
-  .hamburger-menu {
-    display: block;
-  }
-
-  .nav-links li:hover {
-    transform: scale(1.05);
-  }
 }
