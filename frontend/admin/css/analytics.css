@@ -1,0 +1,243 @@
+/* Define CSS Variables */
+:root {
+    --primary-color: #FFFFFF;
+    --secondary-color: #6C757D;
+    --tertiary-color: #F8F9FA;
+    --accent-success: #28A745;
+    --accent-warning: #FFC107;
+    --accent-error: #DC3545;
+    --header-font: 'Arial', sans-serif;
+    --body-font: 'Roboto', sans-serif;
+    --background-color: #0E1924;
+    --card-background: #FFFFFF;
+    --text-color: #292E4A;
+    --highlight-color: #FF6600;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --shadow-hover-color: rgba(0, 0, 0, 0.25);
+}
+
+/* General Body Styling */
+body {
+    margin: 0;
+    font-family: var(--body-font);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 110px 20px 20px 300px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 100vh;
+}
+
+/* Header Section */
+.content h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+/* Metrics Section */
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card,
+.export-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 3px 5px var(--shadow-color);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    color: var(--text-color);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.card:hover,
+.export-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px var(--shadow-hover-color);
+}
+
+.card h2,
+.export-button h2 {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.card p {
+    font-size: 1.2rem;
+    color: var(--highlight-color);
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Chart Card */
+.chart-card {
+    margin-top: 20px;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    text-align: center;
+    width: 100%;
+    max-width: none;
+    height: 500px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container {
+    background-color: var(--background-color);
+    border-radius: 10px;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+/* Medium Screens (tablets and smaller laptops) */
+@media (max-width: 1024px) {
+    body {
+        padding: 90px 20px 20px 20px;
+    }
+
+    .content h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .metrics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .card,
+    .export-button {
+        padding: 12px;
+    }
+
+    .chart-card {
+        height: 400px;
+    }
+
+    .chart-container {
+        height: 320px;
+    }
+}
+
+/* Small Screens (tablets) */
+@media (max-width: 768px) {
+    body {
+        padding: 80px 15px 15px 15px;
+    }
+
+    .content h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .metrics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .card,
+    .export-button {
+        padding: 10px;
+    }
+
+    .card h2,
+    .export-button h2 {
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+    }
+
+    .card p {
+        font-size: 1.1rem;
+    }
+
+    .chart-card {
+        height: 350px;
+        padding: 15px;
+    }
+
+    .chart-container {
+        height: 280px;
+    }
+}
+
+/* Extra Small Screens (phones) */
+@media (max-width: 480px) {
+    body {
+        padding: 70px 10px 10px 10px;
+    }
+
+    .content h1 {
+        font-size: 1.4rem;
+    }
+
+    .metrics {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .card,
+    .export-button {
+        padding: 12px;
+        min-height: 80px;
+    }
+
+    .chart-card {
+        height: 300px;
+        padding: 12px;
+    }
+
+    .chart-container {
+        height: 240px;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        padding: 20px;
+        background-color: white;
+    }
+
+    .card,
+    .export-button,
+    .chart-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid var(--secondary-color);
+    }
+
+    .chart-container {
+        border: 1px solid var(--secondary-color);
+    }
+}
