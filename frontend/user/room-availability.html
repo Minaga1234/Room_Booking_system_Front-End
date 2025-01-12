@@ -4,18 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/room-availability.css">
     <title>Room Availability</title>
+    <link rel="stylesheet" href="./css/room-availability.css">
+    <link rel="stylesheet" href="../shared/css/header.css">
+    <link rel="stylesheet" href="../shared/css/sidebar.css">
+    <script src="../shared/js/sidebar.js" defer></script>
+    <script src="../shared/js/header.js" defer></script>
 </head>
 
 <body>
-    <div class="main-container">
-        <p class="no-rooms" style="display: none;">No rooms to show</p>
-        <div class="room-container">
-            <!-- Room cards will be dynamically generated here -->
-        </div>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header>
+            <div id="header-container"></div> <!-- Placeholder for the dynamic header -->
+        </header>
+
+        <!-- Sidebar Section -->
+        <aside>
+            <div id="sidebar-container"></div> <!-- Placeholder for the dynamic sidebar -->
+        </aside>
+
+        <!-- Main Content Section -->
+        <main class="main-content">
+            <div class="main-container">
+                <p class="no-rooms" style="display: none;">No rooms to show</p>
+                <div class="room-container">
+                    <!-- Room cards will be dynamically generated here -->
+                </div>
+            </div>
+        </main>
     </div>
-    <script src="./js/room-availability.js"></script>
+
+    <script src="./js/room-availability.js" defer></script>
 </body>
 
 </html>
