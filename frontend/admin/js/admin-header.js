@@ -120,5 +120,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
-
