@@ -1,0 +1,26 @@
+# Ignore system directories and files
+Application Data/
+Cookies/
+Local Settings/
+My Documents/
+NetHood/
+PrintHood/
+Recent/
+SendTo/
+Start Menu/
+Templates/
+Desktop.ini
+Thumbs.db
+NTUSER.DAT*
+*.lnk
+*.zip
+
+# Ignore parent directories (../../*)
+../../.*
+
+# Ignore virtual environments and IDE-specific files
+.idea/
+.vscode/
+VirtualBox VMs/
+anaconda3/
+__pycache__/
