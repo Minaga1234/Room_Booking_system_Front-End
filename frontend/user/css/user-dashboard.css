@@ -215,25 +215,31 @@ body {
     flex-direction: column;
     gap: 15px;
     text-align: left;
-    height: 350px; /* Fixed height for the card */
+    height: 400px; /* Adjusted height for better layout */
     overflow: hidden; /* Prevent content overflow */
 }
 
 .popular-rooms h2 {
-    font-size: 20px;
+    font-size: 22px; /* Slightly larger font size for better emphasis */
     font-weight: bold;
     margin: 0;
+    text-align: center; /* Center the title */
 }
 
+/* Rooms List Styling */
 .rooms-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
     overflow-y: auto; /* Enable vertical scrolling */
-    height: 100%; /* Occupy remaining space inside the card */
+    height: calc(100% - 40px); /* Adjust height to fit within the card, excluding padding */
     padding-right: 10px; /* Space for the scrollbar */
+    scrollbar-width: thin; /* For Firefox: thin scrollbar */
+    scrollbar-color: #8d8bfc91 transparent; /* For Firefox: styled scrollbar */
+    margin-right: -10px; /* Prevent scrollbar from overlapping content */
 }
 
+/* Scrollbar for Webkit (e.g., Chrome, Edge, Safari) */
 .rooms-list::-webkit-scrollbar {
     width: 8px;
 }
@@ -247,15 +253,60 @@ body {
     background-color: #6a6afa;
 }
 
+/* Individual Room Item Styling */
 .room-item {
+    display: flex;
+    flex-direction: column; /* Changed to column layout */
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #f9f9f9; /* Subtle background color for contrast */
+    padding: 20px; /* Adjusted padding for better readability */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0 auto; /* Center the card horizontally */
+}
+
+/* Hover Effects */
+.room-item:hover {
+    transform: translateY(-3px); /* Slight elevation effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Room and Booking Details (First Row) */
+.room-item .details {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    outline-color: #6a6afa;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 4px 4px 9px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    font-size: 16px; /* Adjusted font size for readability */
+    font-weight: 500;
+    color: #01182a;
+}
+
+/* Room Name and Booking Count (Second Row) */
+.room-item .values {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 18px; /* Slightly larger font size for visibility */
+    font-weight: bold;
+    color: #6a6afa; /* Purple color for emphasis */
+}
+
+/* Room Item Text Styling */
+.room-item p {
+    margin: 0;
+    font-size: 16px; /* Adjusted font size for readability */
+    font-weight: 500;
+    color: #01182a;
+}
+
+/* Make Room and Booking Details Stand Out */
+.room-item p strong {
+    font-weight: 700; /* Bold labels for emphasis */
+    color: #6a6afa; /* Highlight color */
 }
 
 .room-item img {
@@ -353,6 +404,7 @@ body {
     grid-template-rows: auto auto; /* Two rows for main content */
     gap: 20px; /* Spacing between rows */
     padding: 20px 30px;
+    padding-left: 4%;
     overflow: hidden; /* Prevent overflow within the main content */
     box-sizing: border-box;
 }

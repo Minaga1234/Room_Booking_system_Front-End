@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Management</title>
+    <link rel="stylesheet" href="./css/manage-rooms.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- White Background Section -->
+        <div class="room-management-section">
+            <!-- Room Management Header -->
+            <div class="room-management-header">
+                <h1>Room Management</h1>
+                <div class="room-navigation">
+                    <button id="prev-room" class="room-nav-button">&larr;</button>
+                    <span id="room-name-display">Green Room</span>
+                    <button id="next-room" class="room-nav-button">&rarr;</button>
+                </div>
+            </div>
+
+            <!-- Room Details Section -->
+            <div class="room-details">
+                <!-- Room Image Section -->
+                <div class="room-image-section">
+                    <div class="image-box">
+                        <img id="room-image" src="" alt="Room Image" class="room-image">
+                        <button id="edit-image-button" class="edit-button">
+                            <span class="edit-button-content">Edit Image</span></button>
+                    </div>
+                </div>
+
+                <!-- Room Info Section -->
+                <div class="room-info-section">
+                    <div class="field-row">
+                        <div class="field-group">
+                            <label for="room-name">Room Name</label>
+                            <input type="text" id="room-name" class="styled-input" placeholder="Green Room" disabled>
+                        </div>
+                        <div class="field-group">
+                            <label for="room-location">Location</label>
+                            <input type="text" id="room-location" class="styled-input" placeholder="4th Floor">
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label for="seating-capacity">Seating Capacity</label>
+                        <input type="number" id="seating-capacity" class="styled-input" placeholder="4">
+                    </div>
+                    <div class="field-group">
+                        <label for="admin-approval">Require Admin Approval</label>
+                        <label class="switch">
+                            <input type="checkbox" id="admin-approval" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="field-group">
+                        <label for="room-introduction">Room Introduction and Amenities</label>
+                        <textarea id="room-introduction" class="styled-textarea"
+                            placeholder="Green Room Introduction"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Management Footer -->
+            <div class="room-management-footer">
+                <a href="./add-room.html">
+                    <button id="add-room-button" class="styled-button">
+                        <span class="styled-button-content">+ Add New Room</span>
+                    </button>
+                </a>
+                <button id="update-room-button" class="styled-button">
+                    <span class="styled-button-content">Update</span></button>
+            </div>
+        </div>
+
+        <!-- Hidden File Input for Image Upload -->
+        <input type="file" id="room-image-input" accept="image/*" hidden>
+    </div>
+
+    <script src="./js/manage-rooms.js"></script>
+</body>
+
+</html>
