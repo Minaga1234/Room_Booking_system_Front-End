@@ -31,11 +31,21 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h3 class="room-title">${room.name}</h3>
                             <p class="room-subtitle">${room.description}</p>
                             <p class="room-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-                            <button class="check-btn">Check Availability</button>
+                            <button class="check-btn" data-room-id="${room.id}">Check Availability</button>
                         </div>
                     `;
 
                     roomContainer.appendChild(card);
+                });
+
+                // Add event listeners to "Check Availability" buttons
+                const checkButtons = document.querySelectorAll('.check-btn');
+                checkButtons.forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const roomId = event.target.getAttribute('data-room-id');
+                        // Redirect to room-checkout.html with the room ID as a query parameter
+                        window.location.href = `../room-checkout.html?roomId=${roomId}`;
+                    });
                 });
             }
         })
