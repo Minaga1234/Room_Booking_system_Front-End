@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | ECU</title>
+    <link rel="stylesheet" href="../shared/css/register.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Left Side with Image -->
+            <div class="login-image">
+                <img src="../assets/images/login-image.png" alt="Room Booking Image">
+            </div>
+            <!-- Right Side with Form -->
+            <div class="login-form">
+                <div class="form-box">
+                    <!-- Notification Container -->
+                    <div id="error-notification" class="hidden"></div>
+                    <h2>Register</h2>
+                    <form id="register-form" novalidate>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Enter your ECU mail" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="full-name" placeholder="Enter Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password" placeholder="Enter Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="select">
+                                <div class="selected">
+                                    <span>Choose Role</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="options">
+                                    <div class="option" data-value="student">Student</div>
+                                    <div class="option" data-value="lecturer">Lecturer</div>
+                                </div>
+                                <!-- Hidden Input to Store Selected Value -->
+                                <input type="hidden" id="role" name="role">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-login">Register</button>
+                    </form>
+                    <p>Already have an account? <a href="login.html">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../user/js/register.js"></script>
+</body>
+</html>

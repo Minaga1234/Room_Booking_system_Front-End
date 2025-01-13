@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Checkout</title>
+  <link rel="stylesheet" href="./css/room-checkout.css" />
+</head>
+
+<body>
+  <div class="container">
+    <!-- Main Content -->
+    <div class="content">
+      <!-- First Row -->
+      <div class="header-container">
+        <div class="header-left">
+          <a href="./room-availability.html">
+            <img src="../assets/images/back-button-svgrepo-com.svg" alt="Back" class="back-icon" />
+          </a>
+          <h1>Check Availability</h1>
+        </div>
+        <div class="header-right">
+          <h1 class="room-name" id="room-name">Room Name</h1>
+        </div>
+      </div>
+
+      <!-- Second Row -->
+      <div class="second-row">
+        <div class="room-image-container">
+          <img src="../assets/placeholder-room.png" alt="Room" class="room-image" id="room-image" />
+        </div>
+        <div class="room-description">
+          <h2>About This Room</h2>
+          <p id="room-description"></p>
+          <ul class="description-list" id="room-amenities">
+            <!-- Amenities will be dynamically added -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Third Row -->
+      <div class="third-row">
+        <!-- Today's Bookings Section -->
+        <div class="amenities">
+          <h2 id="amenities-heading">
+            Today - <span id="current-date"></span>
+          </h2>
+          <div id="bookings-list" class="bookings-list">
+            <!-- Booking items will be dynamically added here -->
+          </div>
+        </div>
+
+        <!-- Booking Form Section -->
+        <div class="booking-section">
+          <h2>Select a Time Slot</h2>
+          <form id="booking-form">
+            <div class="form-group">
+              <label for="booking-date">Date:</label>
+              <input type="date" id="booking-date" name="booking-date" required />
+            </div>
+
+            <div class="form-group">
+              <label for="from-time">From:</label>
+              <select id="from-time" name="from-time" required>
+                <option value="">Select Time</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="to-time">To:</label>
+              <select id="to-time" name="to-time" required>
+                <option value="">Select Time</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="purpose">Purpose:</label>
+              <input type="text" id="purpose" name="purpose" placeholder="Enter purpose of booking" required />
+            </div>
+
+            <p id="error-message" class="error-message"></p>
+
+            <button type="submit" class="btn">Book Room</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./js/room-checkout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #0f1a3d;
+    color: white;
+}
+
+.container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Main Content Styles */
+.main-content {
+    width: 65%;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 95vh;
+}
+
+.add-room-container {
+    width: 100%;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #0f1a3d;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-size: 16px;
+    font-weight: normal;
+    color: #666666;
+    margin-bottom: 30px;
+}
+
+/* Form Layout */
+.form-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+
+/* Room Image Section */
+.room-image {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 250px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.image-placeholder:hover {
+    border: 2px dashed #0f1a3d;
+}
+
+.placeholder-text {
+    font-size: 16px;
+    color: #999999;
+}
+
+.add-picture-btn {
+    position: relative;
+    overflow: hidden;
+    height: 3rem;
+    padding: 0 2rem;
+    border-radius: 1.5rem;
+    background: #3d3a4e;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.475s ease;
+}
+
+.add-picture-btn:hover {
+    background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
+}
+
+/* Form Fields Section */
+.form-fields {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #0f1a3d;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border: 1px solid #0f1a3d;
+    box-shadow: 0 0 5px rgba(15, 26, 61, 0.5);
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 25px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #f97c2f;
+}
+
+input:checked+.slider:before {
+    transform: translateX(25px);
+}
+
+/* Add Button */
+.add-btn {
+    position: relative;
+    overflow: hidden;
+    height: 3rem;
+    padding: 0 2rem;
+    border-radius: 1.5rem;
+    background: #3d3a4e;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.475s ease;
+}
+
+.add-btn:hover {
+    background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
+}
+
+.add-btn .front {
+    position: relative;
+    z-index: 1;
+}
+
+.add-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
+    border-radius: inherit;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.475s ease;
+    z-index: 0;
+}
+
+.add-btn:hover::before {
+    transform: scaleX(1);
+}

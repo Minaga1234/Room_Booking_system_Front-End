@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Room</title>
+    <link rel="stylesheet" href="./css/add-room.css">
+
+</head>
+
+<body>
+    <div class="container">
+
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="add-room-container">
+                <h2 class="title">Room Management</h2>
+                <p class="subtitle">Fill out the details below to add a new room</p>
+                <form id="add-room-form">
+                    <div class="form-layout">
+                        <!-- Room Image Section -->
+                        <div class="room-image">
+                            <div class="image-placeholder" id="image-preview">
+                                <span class="placeholder-text">Room Image</span>
+                            </div>
+                            <button type="button" class="add-picture-btn" id="upload-btn">
+                                <span class="shadow"></span>
+                                <span class="edge"></span>
+                                <div class="front">Add Picture</div>
+                            </button>
+                            <input type="file" id="room-image" accept="image/*" hidden>
+                        </div>
+
+
+                        <!-- Form Fields Section -->
+                        <div class="form-fields">
+                            <div class="form-group">
+                                <label for="room-name">Room Name:</label>
+                                <div class="input-group">
+                                    <input type="text" id="room-name" name="room_name" placeholder="Enter Room Name"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="location">Location:</label>
+                                <div class="input-group">
+                                    <input type="text" id="location" name="floor_number" placeholder="Enter Floor"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="capacity">Seating Capacity:</label>
+                                <div class="input-group">
+                                    <input type="number" id="capacity" name="capacity" placeholder="Enter Capacity"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="is-active">Require Admin Approval:</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="is-active" name="is_active">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="room-introduction">Room Introduction and Amenities:</label>
+                                <div class="input-group">
+                                    <textarea id="room-introduction" name="room_introduction"
+                                        placeholder="Enter Room Details" required></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="add-btn">
+                                <span class="shadow"></span>
+                                <span class="edge"></span>
+                                <div class="front">Add Room</div>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/add-room.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,280 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #01182a; /* Dark Background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #ffffff;
+}
+
+/* Container for Register */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ff5722;
+    border-radius: 20px;
+    width: 990px; /* Match login container width */
+    height: 637px; /* Match login container height */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    background-color: #01182a;
+    overflow: hidden;
+}
+
+/* Register Card */
+.login-card {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Left Section */
+.login-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.login-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the space */
+    border-radius: 10px 0 0 10px; /* Rounded corners on the left */
+}
+
+/* Right Section */
+.login-form {
+    flex: 1;
+    background: #01182a;
+    padding: 2.5rem;
+    border-radius: 0 10px 10px 0; /* Rounded corners on the right */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Form Box */
+.form-box {
+    background-color: #8584e2;
+    border-radius: 20px;
+    padding: 1.5rem; /* Reduced padding to decrease height */
+    width: 90%; /* Adjust the width of the form box */
+    max-width: 400px; /* Limit the form width */
+    text-align: center;
+    box-shadow: 0 0px 16px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for the form box */
+    color: #01182a; /* Dark text for the form box */
+}
+
+/* Adjust Header */
+h2 {
+    margin-bottom: 1rem; /* Reduced margin */
+    font-size: 1.6rem; /* Reduced size */
+    font-weight: bold;
+}
+
+/* Form Elements */
+.form-group {
+    width: 100%;
+    margin-bottom: 1.2rem; /* Reduced spacing between inputs */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center inputs */
+}
+
+input, select {
+    width: 60%;
+    height: 10%; /* Reduce input and select width */
+    padding: 0.9rem; /* Reduced padding */
+    border: none;
+    border-radius: 30px;
+    background-color: #f2f2f2;
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border: 2px solid #ff5722;
+    box-shadow: 0 0 8px rgba(255, 87, 34, 0.5); /* Highlight effect */
+}
+
+label {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #01182a;
+}
+
+/* Register Button */
+.btn-login {
+    width: 50%; /* Reduce the width to match the inputs */
+    padding: 1rem;
+    border: none;
+    border-radius: 30px;
+    background-color: #01182a;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    margin: 0 auto; /* Center the button horizontally */
+}
+
+.btn-login:hover {
+    background-color: #ff5722;
+    box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5); /* Add hover effect */
+}
+
+/* Sign In Text */
+p {
+    margin-top: 0.8rem; /* Reduced spacing */
+    font-size: 0.9rem; /* Reduced text size */
+}
+
+a {
+    color: #ff5722;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Notification Container */
+#error-notification {
+    position: fixed; /* Ensure it's fixed for consistent location */
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f44336; /* Red background for error */
+    color: #fff; /* White text */
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0; /* Start hidden */
+    display: none; /* Ensure it's not displayed initially */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth fade-in/out effect */
+}
+
+/* Show Notification */
+#error-notification.show {
+    opacity: 1;
+    display: block;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Fade-out Animation */
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+/* Dropdown Container */
+.select {
+    position: relative;
+    width: 40%;
+    margin: 0 auto;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+
+/* Selected Item */
+.selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid #f2f2f2;
+    border-radius: 30px;
+    background-color: #ffffff;
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Down Arrow Icon */
+.arrow-icon {
+    width: 18px;
+    height: 18px;
+    color: #333;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when dropdown is active */
+.select.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Options Container */
+.options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 2px solid #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+}
+
+/* Show options on active */
+.select.active .options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Option Items */
+.option {
+    padding: 1rem;
+    text-align: center;
+    color: #333;
+    font-size: 1rem;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.option:hover {
+    background-color: #f0f0f0;
+}
+
+.option:active {
+    background-color: #d75315;
+    color: #ffffff;
+}
+
+/* Hidden Input */
+input[type="hidden"] {
+    display: none;
+}

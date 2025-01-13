@@ -1,0 +1,643 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #01182a;
+    color: white;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between; /* Ensure space between logo and actions */
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* Adjust the height if needed */
+    background-color: #01182a; /* Dark background for the header */
+    z-index: 1000;
+    padding: 0 20px;
+    padding-right: 30px; /* Add padding to prevent cutting off content */
+    box-sizing: border-box; /* Include padding in width calculations */
+}
+
+
+
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1; /* Allow space for the logo */
+}
+
+.logo-wrapper img {
+    width: 63px; /* Adjust logo size */
+    height: auto;
+}
+
+.system-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: left;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 60px; /* Add spacing between search, notification, and profile icon */
+}
+
+.search-box {
+    width: 971px; /* Width of the search box */
+    padding: 10px 15px; /* Padding inside the search box */
+    border: none;
+    border-radius: 15px;
+    background-color: #2c3e50; /* Dark background */
+    color: #ffffff; /* White text */
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    margin-left: -10px; /* Adjust this value to move the search box left */
+}
+
+.search-box {
+    transform: translateX(-10px); /* Moves the search box 10px to the left */
+}
+
+.search-box {
+    margin-left: -10px !important; /* Forces this margin-left to take precedence */
+}
+
+
+.search-box::placeholder {
+    color: #7f8c8d; /* Placeholder text color */
+}
+
+.notification-icon,
+.user-avatar {
+    width: 40px; /* Ensure consistent size for icons */
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    object-fit: cover; /* Ensure image fits within the container */
+}
+
+.notification-icon:hover,
+.user-avatar:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.system-title {
+    font-size: 13px; /* Adjust main title font size */
+    font-weight: bold;
+    color: #ffffff; /* White text */
+    margin: 0;
+    line-height: 1.2; /* Adjust spacing between lines */
+    text-align: left;
+}
+
+.sub-title {
+    font-size: 13px; /* Slightly smaller font for subtitle */
+    font-weight: bold; /* Optional: Make subtitle weight normal */
+    color: #ffffff; /* Keep consistent white color */
+    display: block; /* Ensure it's treated as a block element */
+    margin-top: 2px; /* Add some space between the lines */
+}
+
+/* Notification Popup */
+/* Notification Popup */
+.notification-wrapper {
+    position: relative;
+}
+
+.notification-popup {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #8c8bfc;
+    color: #000000;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+    border: 2px solid black; /* Black outline */
+    width: 250px;
+    display: none; /* Hidden by default */
+}
+
+.notification-wrapper:hover .notification-popup {
+    display: block; /* Show on hover */
+}
+
+/* Profile Popup */
+.profile-wrapper {
+    position: relative;
+}
+
+.profile-popup {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #8c8bfc;
+    color: #fff;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+    border: 2px solid black; /* Black outline */
+    width: 200px;
+    display: none; /* Hidden by default */
+}
+
+.profile-wrapper:hover .profile-popup {
+    display: block; /* Show on hover */
+}
+
+.profile-popup a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #000000;
+    font-size: 14px;
+    margin: 10px 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-popup a i {
+    margin-right: 10px; /* Space between the icon and text */
+    font-size: 18px; /* Icon size */
+}
+
+.profile-popup a:hover {
+    background-color: #6a6afa;
+}
+
+
+
+/* Main Container */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    background-color: #8c8bfc; /* Sidebar background */
+    width: 220px; /* Reduced sidebar width */
+    height: calc(100vh - 130px); /* Full height minus header and footer space */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    position: fixed; /* Fixed position */
+    top: 70px; /* Leave space for the header */
+    left: 0; /* Align to the left */
+    border-top-right-radius: 15px; /* Round top-right corner */
+    border-bottom-right-radius: 15px; /* Round bottom-right corner */
+    border-top-left-radius: 0; /* No rounding for top-left */
+    border-bottom-left-radius: 0; /* No rounding for bottom-left */
+    margin-bottom: 80px; /* Leave space for the footer */
+}
+
+.user-profile {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 1px;
+    margin-bottom: 10px; /* Add top margin to move it down */
+}
+
+.avatar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.username {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    word-wrap: break-word; /* Prevent overflow for long names */
+    text-align: center;
+}
+
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%; /* Full width of the sidebar */
+}
+
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    color: #000000;
+    font-weight: bold;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-links li.active {
+    background-color: white;
+    color: #000000;
+    font-weight: bold;
+    border: 3px solid #ff5722; /* Outline for the active page */
+}
+
+.nav-links li:hover {
+    background-color: #fbfbfb;
+    transform: scale(1.1);
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.nav-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.support {
+    text-align: center;
+    margin-top: 20px; /* Add spacing above the support section */
+}
+
+.support-box {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.support-box p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.contact-btn {
+    background-color: #0f1a3d; /* Button background color */
+    color: rgb(254, 254, 254); /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold; /* Make the text bold */
+    font-size: 14px; /* Adjust font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.contact-btn:hover {
+    background-color: #1f2c5a;
+}
+
+.version {
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    margin-top: auto; /* Push to the bottom */
+    padding-top: 10px; /* Add spacing above the text */
+    opacity: 0.8; /* Subtle text visibility */
+}
+
+
+
+/* White Background Content */
+.white-background {
+    flex: 1;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Increase padding for more content space */
+    margin: 50px 200px; /* Increase top and bottom margins */
+    overflow-y: auto;
+}
+
+
+/* Content Sections */
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px; /* Add some padding inside the content */
+}
+
+/* Booking Section */
+.booking-section {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between; /* Spread the weather and calendar sections */
+    align-items: flex-start; /* Align the items at the top */
+}
+/* Weather Section */
+.weather-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; /* Reduced gap between the icon and temperature */
+}
+
+/* Weather Icon */
+.weather-icon {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+/* Temperature Styling */
+.temperature {
+    font-size: 32px; /* Larger font for the temperature */
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Black Line Under Temperature */
+.temperature-line {
+    width: 100%;
+    max-width: 320px; /* Adjust the width of the line */
+    height: 2px; /* Thickness of the line */
+    background-color: rgba(91, 86, 86, 0.367); /* Black line */
+    margin-top: 5px; /* Adjust spacing between the temperature and the line */
+}
+
+/* Bookings List */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adjusted gap between room boxes */
+    width: 100%;
+}
+
+.bookings-list p {
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: rgba(255, 255, 255, 0.2); /* Subtle overlay */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.cancel-btn {
+    margin-top: 10px;
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #3642b2; /* Darker color on hover */
+}
+
+
+/* Calendar Container */
+#calendar {
+    max-width: 100%;
+    margin: 0 auto;
+    background: white; /* Calendar background */
+    border-radius: 20px; /* Rounded corners */
+    padding: 20px; /* Add space inside the calendar */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    font-family: 'Poppins', sans-serif; /* Consistent font */
+    font-size: 14px; /* Adjust font size for readability */
+    color: #333; /* Font color for calendar text */
+}
+
+/* FullCalendar Styles Override */
+.fc {
+    font-family: 'Poppins', sans-serif !important; /* Use consistent font */
+    color: black !important; /* Ensure text color is visible */
+}
+
+/* FullCalendar Toolbar */
+.fc-toolbar {
+    font-family: 'Poppins', sans-serif; /* Use Poppins font for the toolbar */
+    font-size: 12px;
+    font-weight: 500; /* Slightly bold for better readability */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none; /* Remove any toolbar background */
+    border: none; /* Remove borders */
+    margin-bottom: 10px; /* Add spacing below the toolbar */
+}
+
+/* Calendar Title Styling */
+.fc-toolbar-title {
+    font-size: 16px; /* Adjust title font size */
+    font-weight: 500; /* Slightly bold */
+    color: #333; /* Keep it visually consistent with your design */
+    text-align: center; /* Ensure proper alignment */
+    margin: 0; /* Remove extra spacing */
+}
+
+/* Calendar Buttons */
+.fc-button {
+    background: transparent; /* Make the button background transparent */
+    border: none; /* Remove borders */
+    color: #6a6afa; /* Minimal color for buttons */
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px; /* Adjust button font size */
+    font-weight: 500; /* Slightly bold text */
+    padding: 5px 10px; /* Add some spacing */
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+}
+
+/* Hover Effect for Buttons */
+.fc-button:hover {
+    color: #4a4ed6; /* Slightly darker color on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Active Button Style */
+.fc-button.fc-button-active {
+    color: #4a4ed6; /* Active button color */
+    font-weight: 600; /* Make active button text bolder */
+}
+
+/* Primary Buttons (e.g., Today Button) */
+.fc-button-primary {
+    background-color: transparent !important; /* Transparent background */
+    color: #6a6afa !important; /* Match button colors */
+    border: none; /* Remove borders */
+}
+
+/* Calendar Days */
+.fc-daygrid-day {
+    font-size: 14px;
+    color: #333; /* Ensure day text color is visible */
+}
+
+/* Day Numbers */
+.fc-daygrid-day-number {
+    font-weight: bold; /* Highlight day numbers */
+    font-size: 12px; /* Smaller font for day numbers */
+}
+
+/* Tooltip/Event Hover Effect */
+.fc-event {
+    background-color: #6a6afa !important; /* Event background */
+    color: white !important; /* Event text color */
+    font-size: 14px; /* Adjust event font size */
+    border-radius: 5px; /* Rounded event styles */
+    padding: 2px 5px; /* Add some padding to the event text */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Event shadow */
+}
+
+.fc-event:hover {
+    background-color: #4a4ed6 !important; /* Darker color on hover */
+}
+
+/* Calendar Header */
+.fc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+.note-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.note-section p {
+    color: black; /* Set the font color to black */
+    font-size: 16px; /* Adjust the font size if needed */
+    text-align: center; /* Center-align the text */
+}
+/* Weather Section */
+.weather {
+    background-color: #8584E2;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.weather-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.temperature {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 15px 0;
+}
+
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.booking-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.booking-item p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.booking-item span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cancel-btn {
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.cancel-btn:hover {
+    background-color: #3642b2;
+}
+.note-section button {
+    padding: 10px 20px;
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.note-section button:hover {
+    background-color: #3642b2;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 130px; /* Aligns with sidebar width */
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+

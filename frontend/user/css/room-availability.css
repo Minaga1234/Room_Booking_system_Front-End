@@ -1,0 +1,158 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #01182a; /* Navy blue background */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main container styling */
+.main-container {
+    background-color: #ffffff; /* White container background */
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-left: 320px; /* Space for the sidebar */
+    margin-right: 20px;
+    margin-top: 70px; /* Space for the header */
+    height: calc(100vh - 90px); /* Adjust height to fit below header and above footer */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Add space below the container */
+}
+
+/* No rooms message styling */
+.no-rooms {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4a4e69; /* Dark purple text */
+    background-color: #e0e7ff; /* Subtle purple background */
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Room container styling */
+.room-container {
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    width: 100%;
+    box-sizing: border-box;
+    flex-grow: 1; /* Allow this section to take up remaining space */
+    overflow-y: auto; /* Add scroll for the room container only */
+}
+
+/* Room card styling */
+.room-card {
+    background-color: #e0e7ff; /* Subtle purple background */
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s;
+    padding: 15px;
+    border: 1px solid #d6d9ff; /* Light border for card edges */
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.room-image {
+    width: 100%;
+    height: 140px; /* Adjusted height for smaller cards */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Room details styling */
+.room-details {
+    width: 100%;
+    padding: 10px;
+}
+
+.room-title {
+    font-size: 16px; /* Adjusted title font size */
+    font-weight: bold;
+    color: #333333;
+    margin: 5px 0;
+}
+
+.room-subtitle {
+    font-size: 14px; /* Adjusted subtitle font size */
+    color: #555555;
+    margin: 5px 0;
+}
+
+.room-description {
+    font-size: 13px; /* Adjusted description font size */
+    color: #666666;
+    margin: 10px 0;
+}
+
+/* Button styling */
+.check-btn {
+    background-color: #000000; /* Black button background */
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px; /* Adjusted button padding */
+    font-size: 13px; /* Adjusted button font size */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.check-btn:hover {
+    background-color: #333333; /* Darker hover effect */
+}
+
+/* Responsive styling */
+@media (max-width: 1024px) {
+    .main-container {
+        margin-left: 200px; /* Adjust sidebar margin for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        margin-left: 0; /* Remove space for sidebar */
+        width: 90%; /* Adjust width for smaller screens */
+    }
+
+    .room-container {
+        grid-template-columns: repeat(2, 1fr); /* Two columns for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        margin-left: 0; /* Remove sidebar margin */
+        width: 95%; /* Adjust width for extra small screens */
+    }
+
+    .room-container {
+        grid-template-columns: 1fr; /* Single column for extra small screens */
+    }
+
+    .room-card {
+        padding: 10px; /* Reduce padding for smaller screens */
+    }
+
+    .check-btn {
+        font-size: 12px; /* Smaller button text */
+        padding: 6px 12px; /* Smaller button size */
+    }
+}
