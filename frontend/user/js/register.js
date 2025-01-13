@@ -90,7 +90,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
             showAlert("Registration successful! Redirecting to login page.", true);
             setTimeout(() => {
                 // Correct login redirection path
-                window.location.href = "http://127.0.0.1:5500/frontend/user/login.html";
+                window.location.href = "http://127.0.0.1:5501/frontend/user/login.html";
             }, 2000);
         } else {
             const errorMessage = responseData.error || "Unknown error occurred.";
@@ -117,8 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
     optionsList.forEach((option) => {
         option.addEventListener("click", () => {
             const value = option.getAttribute("data-value");
+            const mappedValue = value === "lecturer" ? "staff" : value; // Map "lecturer" to "staff"
             selected.querySelector("span").textContent = value;
-            hiddenInput.value = value;
+            hiddenInput.value = mappedValue; // Send the correct backend value
             select.classList.remove("active");
         });
     });
@@ -129,3 +130,4 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('header-container').innerHTML = headerHTML;
 
             // Load sidebar dynamically
-            const sidebarResponse = await fetch('../shared/sidebar.html'); // Adjusted to correct path
+            const sidebarResponse = await fetch('../shared/sidebar.html');
             if (!sidebarResponse.ok) {
                 throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
             }
@@ -100,9 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="room-subtitle">${room.location || 'Location not specified'}</p>
                     <p class="room-description">${roomDescription}</p>
                     <p class="room-capacity">${roomCapacity}</p>
-                    <button class="check-btn">Check Availability</button>
+                    <button class="check-btn" data-room-id="${room.id}">Check Availability</button>
                 </div>
             `;
+
+            // Add click event to redirect dynamically to the booking page
+            card.querySelector('.check-btn').addEventListener('click', () => {
+                window.location.href = `room-checkout.html?room_id=${room.id}`;
+            });
 
             roomContainer.appendChild(card);
         });
@@ -115,4 +120,28 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     initialize();
+});
+
+
+document.querySelectorAll('.room-card').forEach(card => {
+    const scrollable = card.querySelector('.room-card-scrollable');
+    const scrollbar = card.querySelector('.room-card-scrollbar');
+    const thumb = card.querySelector('.room-card-scrollbar-thumb');
+
+    const updateScrollThumb = () => {
+        const scrollHeight = scrollable.scrollHeight;
+        const clientHeight = scrollable.clientHeight;
+        const scrollTop = scrollable.scrollTop;
+
+        const thumbHeight = (clientHeight / scrollHeight) * clientHeight;
+        const thumbPosition = (scrollTop / scrollHeight) * clientHeight;
+
+        thumb.style.height = `${thumbHeight}px`;
+        thumb.style.transform = `translateY(${thumbPosition}px)`;
+    };
+
+    scrollable.addEventListener('scroll', updateScrollThumb);
+
+    // Update the scroll bar thumb on load
+    updateScrollThumb();
 });
