@@ -6,9 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Management</title>
     <link rel="stylesheet" href="./css/manage-rooms.css">
+    <link rel="stylesheet" href="./css/admin-header.css">
+    <link rel="stylesheet" href="./css/admin-navbar.css">
+    <script src="../js/admin-header.js" defer></script>
+    <script src="../js/admin-navbar.js" defer></script>
 </head>
 
 <body>
+    <!-- Admin Header -->
+    <header>
+        <div id="admin-header-container"></div> <!-- Placeholder for admin header -->
+    </header>
+
+    <!-- Admin Navbar -->
+    <aside>
+        <div id="admin-navbar-container"></div> <!-- Placeholder for admin navbar -->
+    </aside>
+
+    <!-- Main Content -->
     <div class="container">
         <!-- White Background Section -->
         <div class="room-management-section">
@@ -80,7 +95,7 @@
         <input type="file" id="room-image-input" accept="image/*" hidden>
     </div>
 
-    <script src="./js/manage-rooms.js"></script>
+    <script src="./js/manage-rooms.js" defer></script>
 </body>
 
 </html>

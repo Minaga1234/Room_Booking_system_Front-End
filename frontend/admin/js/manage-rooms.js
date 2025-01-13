@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   console.log("Room management script loaded.");
 
   const prevRoomButton = document.getElementById("prev-room");
@@ -17,14 +17,55 @@ document.addEventListener("DOMContentLoaded", function () {
   const ROOM_API_URL = "http://127.0.0.1:8000/api/rooms/";
   const token = localStorage.getItem("accessToken");
 
-  // Commenting out the user authentication block for development/testing
+  // Load Header and Sidebar
+  async function loadHeaderAndSidebar() {
+    try {
+      // Load header
+      const headerResponse = await fetch("../admin/header.html");
+      if (!headerResponse.ok) {
+        throw new Error(`Failed to load header: ${headerResponse.statusText}`);
+      }
+      const headerHTML = await headerResponse.text();
+      document.getElementById("admin-header-container").innerHTML = headerHTML;
 
+      // Load sidebar
+      const sidebarResponse = await fetch("../admin/navbar.html");
+      if (!sidebarResponse.ok) {
+        throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
+      }
+      const sidebarHTML = await sidebarResponse.text();
+      document.getElementById("admin-navbar-container").innerHTML = sidebarHTML;
+
+      // Highlight the active link in the sidebar
+      highlightActiveSidebarLink();
+    } catch (error) {
+      console.error("Error loading header or sidebar:", error);
+    }
+  }
+
+  // Highlight Active Sidebar Link
+  function highlightActiveSidebarLink() {
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page name
+    const navLinks = document.querySelectorAll(".nav-links a");
+
+    navLinks.forEach((link) => {
+      const linkHref = link.getAttribute("href");
+      const parentLi = link.parentElement;
+
+      if (currentPage === linkHref) {
+        parentLi.classList.add("active"); // Add the active class to the current link
+      } else {
+        parentLi.classList.remove("active"); // Remove the active class from other links
+      }
+    });
+  }
+
+  // Authenticate user
   if (!token) {
     alert("Unauthorized! Please log in.");
     window.location.href = "/login.html";
     return;
   }
-
 
   let rooms = [];
   let currentRoomIndex = 0;
@@ -141,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateRoomButton.addEventListener("click", updateRoom);
 
-  // Initial fetch
+  // Initial function calls
+  await loadHeaderAndSidebar();
   fetchRooms();
 });

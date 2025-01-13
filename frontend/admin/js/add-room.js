@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Room management script loaded.");
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("Add room script loaded.");
 
   const form = document.getElementById("add-room-form");
   const uploadButton = document.getElementById("upload-btn");
@@ -9,7 +9,50 @@ document.addEventListener("DOMContentLoaded", () => {
   const ROOM_API_URL = "http://127.0.0.1:8000/api/rooms/";
   const token = localStorage.getItem("accessToken");
 
-  // Commented out admin login authentication check
+  // Load Header and Sidebar
+  const loadHeaderAndSidebar = async () => {
+    try {
+      // Load header dynamically
+      const headerResponse = await fetch("../admin/header.html");
+      if (!headerResponse.ok) {
+        throw new Error(`Failed to load header: ${headerResponse.statusText}`);
+      }
+      const headerHTML = await headerResponse.text();
+      document.getElementById("header-container").innerHTML = headerHTML;
+
+      // Load sidebar dynamically
+      const sidebarResponse = await fetch("../admin/navbar.html");
+      if (!sidebarResponse.ok) {
+        throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
+      }
+      const sidebarHTML = await sidebarResponse.text();
+      document.getElementById("sidebar-container").innerHTML = sidebarHTML;
+
+      // Highlight the active sidebar link
+      highlightActiveSidebarLink();
+    } catch (error) {
+      console.error("Error loading header or sidebar:", error);
+    }
+  };
+
+  // Highlight Active Sidebar Link
+  const highlightActiveSidebarLink = () => {
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page name
+    const navLinks = document.querySelectorAll(".nav-links a");
+
+    navLinks.forEach((link) => {
+      const linkHref = link.getAttribute("href");
+      const parentLi = link.parentElement;
+
+      if (currentPage === linkHref) {
+        parentLi.classList.add("active"); // Highlight the active link
+      } else {
+        parentLi.classList.remove("active"); // Remove highlight from other links
+      }
+    });
+  };
+
+  // Check for authentication token
   if (!token) {
     alert("Unauthorized! Please log in.");
     window.location.href = "/login.html"; // Redirect to login page
@@ -69,4 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("An unexpected error occurred. Please try again.");
     }
   });
+
+  // Load header and sidebar on page load
+  await loadHeaderAndSidebar();
 });

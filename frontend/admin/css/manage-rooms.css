@@ -7,28 +7,31 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #0f1a3d;
+    background-color: #01182a;
     min-height: 100vh;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 1rem;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 /* Container Styles */
 .container {
+    width: calc(100% - 320px); /* Account for sidebar width */
+    margin-left: 100px; /* Leave space for sidebar */
+    margin-top: 40px; /* Leave space for the header */
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    min-height: 90vh;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 1rem;
+    min-height: calc(100vh - 80px); /* Full height minus header */
+    box-sizing: border-box;
 }
 
+/* Room Management Section */
 .room-management-section {
-    width: 60%;
+    width: 70%;
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -233,12 +236,6 @@ input:checked+.slider:before {
 }
 
 /* Responsive Design */
-@media screen and (max-width: 1400px) {
-    .room-management-section {
-        width: 70%;
-    }
-}
-
 @media screen and (max-width: 1200px) {
     .room-management-section {
         width: 80%;
