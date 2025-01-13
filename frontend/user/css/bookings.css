@@ -2,365 +2,99 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #01182a;
+    background-color: #01182a; /* Navy blue background */
     color: white;
-}
-
-.header-section {
+    height: 100vh;
     display: flex;
-    justify-content: space-between; /* Ensure space between logo and actions */
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70px; /* Adjust the height if needed */
-    background-color: #01182a; /* Dark background for the header */
-    z-index: 1000;
-    padding: 0 20px;
-    padding-right: 30px; /* Add padding to prevent cutting off content */
-    box-sizing: border-box; /* Include padding in width calculations */
+    flex-direction: column; /* Ensure header stays at the top */
+    overflow: hidden; /* Prevent body scrolling */
 }
 
-
-
-
-.logo-container {
+/* Dashboard Container */
+.dashboard-container {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    flex: 1; /* Allow space for the logo */
+    height: 100%;
 }
 
-.logo-wrapper img {
-    width: 63px; /* Adjust logo size */
-    height: auto;
-}
-
-.system-title {
-    font-size: 15px;
-    font-weight: bold;
-    color: #ffffff;
-    text-align: left;
-}
-
-.header-actions {
+/* Main Content */
+.main-content {
+    margin-top: 20px; /* Space for header */
+    margin-left: 200px;
+    margin-bottom: 20px; /* Space for sidebar */
+    width: calc(5px - 100px); /* Adjust width for sidebar */
+    height: calc(100vh - 70px); /* Adjust height for header */
     display: flex;
-    align-items: center;
-    gap: 60px; /* Add spacing between search, notification, and profile icon */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    overflow: hidden; /* Prevent container scrolling */
 }
-
-.search-box {
-    width: 971px; /* Width of the search box */
-    padding: 10px 15px; /* Padding inside the search box */
-    border: none;
-    border-radius: 15px;
-    background-color: #2c3e50; /* Dark background */
-    color: #ffffff; /* White text */
-    font-size: 14px;
-    outline: none;
-    box-sizing: border-box;
-    margin-left: -10px; /* Adjust this value to move the search box left */
-}
-
-.search-box {
-    transform: translateX(-10px); /* Moves the search box 10px to the left */
-}
-
-.search-box {
-    margin-left: -10px !important; /* Forces this margin-left to take precedence */
-}
-
-
-.search-box::placeholder {
-    color: #7f8c8d; /* Placeholder text color */
-}
-
-.notification-icon,
-.user-avatar {
-    width: 40px; /* Ensure consistent size for icons */
-    height: 40px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    object-fit: cover; /* Ensure image fits within the container */
-}
-
-.notification-icon:hover,
-.user-avatar:hover {
-    transform: scale(1.1); /* Slightly enlarge on hover */
-}
-
-.system-title {
-    font-size: 13px; /* Adjust main title font size */
-    font-weight: bold;
-    color: #ffffff; /* White text */
-    margin: 0;
-    line-height: 1.2; /* Adjust spacing between lines */
-    text-align: left;
-}
-
-.sub-title {
-    font-size: 13px; /* Slightly smaller font for subtitle */
-    font-weight: bold; /* Optional: Make subtitle weight normal */
-    color: #ffffff; /* Keep consistent white color */
-    display: block; /* Ensure it's treated as a block element */
-    margin-top: 2px; /* Add some space between the lines */
-}
-
-/* Notification Popup */
-/* Notification Popup */
-.notification-wrapper {
-    position: relative;
-}
-
-.notification-popup {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #8c8bfc;
-    color: #000000;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
-    border: 2px solid black; /* Black outline */
-    width: 250px;
-    display: none; /* Hidden by default */
-}
-
-.notification-wrapper:hover .notification-popup {
-    display: block; /* Show on hover */
-}
-
-/* Profile Popup */
-.profile-wrapper {
-    position: relative;
-}
-
-.profile-popup {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #8c8bfc;
-    color: #fff;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
-    border: 2px solid black; /* Black outline */
-    width: 200px;
-    display: none; /* Hidden by default */
-}
-
-.profile-wrapper:hover .profile-popup {
-    display: block; /* Show on hover */
-}
-
-.profile-popup a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #000000;
-    font-size: 14px;
-    margin: 10px 0;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.profile-popup a i {
-    margin-right: 10px; /* Space between the icon and text */
-    font-size: 18px; /* Icon size */
-}
-
-.profile-popup a:hover {
-    background-color: #6a6afa;
-}
-
-
 
 /* Main Container */
 .container {
-    display: flex;
-    height: 100vh;
-}
-
-.sidebar {
-    background-color: #8c8bfc; /* Sidebar background */
-    width: 220px; /* Reduced sidebar width */
-    height: calc(100vh - 130px); /* Full height minus header and footer space */
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    justify-content: center; /* Center content vertically */
-    position: fixed; /* Fixed position */
-    top: 70px; /* Leave space for the header */
-    left: 0; /* Align to the left */
-    border-top-right-radius: 15px; /* Round top-right corner */
-    border-bottom-right-radius: 15px; /* Round bottom-right corner */
-    border-top-left-radius: 0; /* No rounding for top-left */
-    border-bottom-left-radius: 0; /* No rounding for bottom-left */
-    margin-bottom: 80px; /* Leave space for the footer */
-}
-
-.user-profile {
-    text-align: center;
-    margin-bottom: 30px;
-    margin-top: 1px;
-    margin-bottom: 10px; /* Add top margin to move it down */
-}
-
-.avatar-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-}
-
-.username {
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    margin-top: 10px;
-    margin-bottom: 30px;
-    word-wrap: break-word; /* Prevent overflow for long names */
-    text-align: center;
-}
-
-
-.nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%; /* Full width of the sidebar */
-}
-
-
-.nav-links li {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    color: #000000;
-    font-weight: bold;
-    background-color: #ffffff;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.nav-links li.active {
-    background-color: white;
-    color: #000000;
-    font-weight: bold;
-    border: 3px solid #ff5722; /* Outline for the active page */
-}
-
-.nav-links li:hover {
-    background-color: #fbfbfb;
-    transform: scale(1.1);
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-}
-
-.nav-icon {
-    width: 20px;
-    height: 20px;
-}
-
-.support {
-    text-align: center;
-    margin-top: 20px; /* Add spacing above the support section */
-}
-
-.support-box {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.support-box p {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.contact-btn {
-    background-color: #0f1a3d; /* Button background color */
-    color: rgb(254, 254, 254); /* Text color */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold; /* Make the text bold */
-    font-size: 14px; /* Adjust font size */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-.contact-btn:hover {
-    background-color: #1f2c5a;
-}
-
-.version {
-    font-size: 12px;
-    color: white;
-    text-align: center;
-    margin-top: auto; /* Push to the bottom */
-    padding-top: 10px; /* Add spacing above the text */
-    opacity: 0.8; /* Subtle text visibility */
-}
-
-
-
-/* White Background Content */
-.white-background {
-    flex: 1;
-    background-color: white;
+    background-color: #ffffff; /* White background */
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px; /* Increase padding for more content space */
-    margin: 50px 200px; /* Increase top and bottom margins */
-    overflow-y: auto;
+    width: 80%;
+    height: 1000%; /* Fit container to viewport */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    overflow: hidden; /* Prevent scrolling for the main container */
 }
 
+/* Scrollable Content */
+.scrollable-content {
+    flex: 1;
+    overflow-y: auto; /* Enable vertical scrolling inside */
+    padding-right: 10px; /* Space for custom scrollbar */
+    box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+.scrollable-content::-webkit-scrollbar {
+    width: 6px; /* Thin scrollbar */
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background: #6a6afa; /* Thumb color */
+    border-radius: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+    background: #4a4ed6; /* Darker color on hover */
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2); /* Lighter track */
+    border-radius: 4px;
+}
 
 /* Content Sections */
 .content {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 20px; /* Add some padding inside the content */
+}
+
+/* Main Content Section */
+.main-content {
+    margin-left: 200px; /* Align with sidebar width */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow: hidden; /* Prevent main content from scrolling */
 }
 
 /* Booking Section */
 .booking-section {
     display: flex;
     gap: 20px;
-    justify-content: space-between; /* Spread the weather and calendar sections */
-    align-items: flex-start; /* Align the items at the top */
+    justify-content: space-between;
+    align-items: flex-start;
 }
+
 /* Weather Section */
 .weather-header {
     display: flex;
@@ -631,7 +365,7 @@ body {
 
 /* Main Content */
 .main-content {
-    margin-left: 130px; /* Aligns with sidebar width */
+    margin-left: 140px; /* Aligns with sidebar width */
     flex: 1;
     padding: 50px;
     display: flex;
