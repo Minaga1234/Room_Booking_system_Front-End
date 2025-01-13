@@ -1,82 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const roomId = new URLSearchParams(window.location.search).get("roomId");
-  const roomNameElement = document.getElementById("room-name");
-  const roomImageElement = document.getElementById("room-image");
-  const roomDescriptionElement = document.getElementById("room-description");
-  const roomAmenitiesElement = document.getElementById("room-amenities");
-  const bookingsList = document.getElementById("bookings-list");
-  const bookingForm = document.getElementById("booking-form");
+  const backIcon = document.querySelector(".back-icon");
+  backIcon.addEventListener("click", () => {
+    window.history.back();
+  });
+
+  const fromTimeSelect = document.getElementById("from-time");
+  const toTimeSelect = document.getElementById("to-time");
   const errorMessage = document.getElementById("error-message");
+  const bookingForm = document.getElementById("booking-form");
 
-  // Dummy room data
-  const dummyRoomData = {
-    id: roomId,
-    name: "Conference Room A",
-    description: "A spacious conference room for team meetings and discussions.",
-    image: "https://via.placeholder.com/300x150.png?text=Room+A",
-    amenities: [
-      "Projector",
-      "Whiteboard",
-      "High-speed Wi-Fi",
-      "Air Conditioning",
-      "Comfortable Seating",
-    ],
-  };
-
-  // Dummy bookings data
-  const dummyBookingsData = [
-    {
-      roomId: roomId,
-      bookedBy: "John Doe",
-      userRole: "Student",
-      startTime: "9:00 AM",
-      endTime: "10:30 AM",
-    },
-    {
-      roomId: roomId,
-      bookedBy: "Jane Smith",
-      userRole: "Staff",
-      startTime: "11:00 AM",
-      endTime: "12:30 PM",
-    },
-  ];
-
-  // Display today's date
-  const currentDateElement = document.getElementById("current-date");
-  const currentDate = new Date().toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-  currentDateElement.textContent = currentDate;
-
-  // Populate room details
-  roomNameElement.textContent = dummyRoomData.name;
-  roomImageElement.src = dummyRoomData.image;
-  roomDescriptionElement.textContent = dummyRoomData.description;
-  dummyRoomData.amenities.forEach((amenity) => {
-    const li = document.createElement("li");
-    li.textContent = amenity;
-    roomAmenitiesElement.appendChild(li);
-  });
-
-  // Populate today's bookings
-  if (dummyBookingsData.length === 0) {
-    bookingsList.innerHTML = "<p>No bookings for today.</p>";
-  } else {
-    dummyBookingsData.forEach((booking) => {
-      const bookingItem = document.createElement("div");
-      bookingItem.className = "booking-item";
-      bookingItem.innerHTML = `
-        <strong>${booking.bookedBy} (${booking.userRole})</strong>
-        <br />
-        From ${booking.startTime} to ${booking.endTime}
-      `;
-      bookingsList.appendChild(bookingItem);
-    });
-  }
-
-  // Populate time slots
+  // Generate time slots
   const timeSlots = [
     "8:30 AM",
     "9:00 AM",
@@ -96,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "4:00 PM",
     "4:30 PM",
     "5:00 PM",
+    "5:30 PM",
+    "6:00 PM",
   ];
-  const fromTimeSelect = document.getElementById("from-time");
-  const toTimeSelect = document.getElementById("to-time");
 
   timeSlots.forEach((time) => {
     const fromOption = document.createElement("option");
@@ -112,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     toTimeSelect.appendChild(toOption);
   });
 
-  // Handle booking form submission
   bookingForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -121,30 +53,61 @@ document.addEventListener("DOMContentLoaded", () => {
     const toTime = toTimeSelect.value;
     const purpose = document.getElementById("purpose").value;
 
-    // Simulate saving the booking
-    const newBooking = {
-      roomId: roomId,
-      bookedBy: "You",
-      userRole: "User",
-      startTime: fromTime,
-      endTime: toTime,
-    };
-
-    if (
-      dummyBookingsData.some(
-        (booking) =>
-          booking.startTime === fromTime && booking.endTime === toTime
-      )
-    ) {
+    if (fromTime === "9:00 AM" && toTime === "10:00 AM") {
       errorMessage.textContent =
-        "The selected time slot is already booked. Please choose another.";
+        "Already allocated for the selected time slot!";
+      errorMessage.style.color = "red";
     } else {
       errorMessage.textContent = "";
-      dummyBookingsData.push(newBooking);
       alert(
         `Room booked successfully on ${bookingDate} from ${fromTime} to ${toTime} for ${purpose}`
       );
-      window.location.reload();
     }
+  });
+
+  // Display today's date
+  const currentDateElement = document.getElementById("current-date");
+  const currentDate = new Date().toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  currentDateElement.textContent = currentDate;
+
+  // Dummy data for today's bookings
+  const bookings = [
+    {
+      room: "Green Room",
+      bookedBy: "Student",
+      time: "9:00 AM to 11:30 AM",
+    },
+    {
+      room: "Green Room",
+      bookedBy: "Student",
+      time: "12:40 PM to 1:30 PM",
+    },
+    {
+      room: "Green Room",
+      bookedBy: "Staff",
+      time: "1:40 PM to 2:00 PM",
+    },
+    {
+      room: "Green Room",
+      bookedBy: "Staff",
+      time: "2:40 PM to 3:30 PM",
+    },
+  ];
+
+  // Populate the bookings list
+  const bookingsList = document.getElementById("bookings-list");
+  bookings.forEach((booking) => {
+    const bookingItem = document.createElement("div");
+    bookingItem.className = "booking-item";
+    bookingItem.innerHTML = `
+        <strong>${booking.room} - Booked by ${booking.bookedBy}</strong>
+        <br />
+        From ${booking.time}
+      `;
+    bookingsList.appendChild(bookingItem);
   });
 });
