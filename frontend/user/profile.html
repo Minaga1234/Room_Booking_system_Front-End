@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="branding">
+      <h2>ECU</h2>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Bookings</a></li>
+        <li class="active"><a href="#">Manage Rooms</a></li>
+        <li><a href="#">Analytics</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header>
+      <div class="branding">
+        <h1>Intelligent Spatial Management System</h1>
+      </div>
+      <div class="header-controls">
+        <input type="text" placeholder="Search" class="search-bar">
+        <div class="header-icons">
+          <span class="notification-icon">🔔</span>
+          <span class="user-icon">👤</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Penalties Section -->
+      <section class="penalties-section">
+        <h2>My Penalties</h2>
+        <div id="loading-indicator" style="display:none;">Loading penalties...</div>
+        <div id="error-message" style="color: red; display: none;"></div>
+        <div class="penalty-card">
+          <p>Active Penalties</p>
+          <h2 id="active-penalties-count">0</h2>
+          <div class="penalty-info">
+            <p><strong>Booking Restrictions:</strong> None</p>
+            <p><strong>Penalty Expiration:</strong> N/A</p>
+            <button class="request-review-btn">Request Review for Active Penalty</button>
+            </div>            
+        <h3 id="penalty-history-heading">Penalty History</h3>
+        <div role="region" aria-labelledby="penalty-history-heading" class="details-table">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Type</th>
+                <th scope="col">Status</th>
+                <th scope="col">Details</th>
+              </tr>
+            </thead>
+            <tbody id="user-penalty-history">
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination-controls"></div>
+      </section>
+    </main>
+  </div>
+  <script src="js/penalties.js"></script>
+</body>
+</html>
