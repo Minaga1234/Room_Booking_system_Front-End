@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Configure Booking Date Based on Role
   const configureBookingDate = (role) => {
     const today = new Date();
-    const tomorrow = new Date();
+    const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
 
     const formatDate = (date) => date.toISOString().split("T")[0]; // Format as YYYY-MM-DD
