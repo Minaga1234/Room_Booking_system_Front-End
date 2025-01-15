@@ -59,21 +59,57 @@
   <script src="./js/admin-header.js" defer></script>
 
   <script>
-    // Dynamically load header
-    fetch("./header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header-container").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading header:", error));
+    /**
+     * Dynamically load the header and sidebar
+     */
+    const loadHeaderAndSidebar = async () => {
+      try {
+        // Load header
+        const headerResponse = await fetch("./header.html");
+        if (!headerResponse.ok) {
+          throw new Error(`Failed to load header: ${headerResponse.statusText}`);
+        }
+        const headerHTML = await headerResponse.text();
+        document.getElementById("header-container").innerHTML = headerHTML;
 
-    // Dynamically load sidebar
-    fetch("./navbar.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("sidebar-container").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading sidebar:", error));
+        // Load sidebar
+        const sidebarResponse = await fetch("./navbar.html");
+        if (!sidebarResponse.ok) {
+          throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
+        }
+        const sidebarHTML = await sidebarResponse.text();
+        document.getElementById("sidebar-container").innerHTML = sidebarHTML;
+
+        // Highlight the active nav link
+        highlightActiveNavLink();
+      } catch (error) {
+        console.error("Error loading header or sidebar:", error);
+      }
+    };
+
+    /**
+     * Highlight the active nav link based on the current URL
+     */
+    const highlightActiveNavLink = () => {
+      const currentPage = window.location.pathname.split("/").pop(); // Get the current page
+      const navLinks = document.querySelectorAll(".nav-links a");
+
+      navLinks.forEach((link) => {
+        const linkHref = link.getAttribute("href");
+        const parentLi = link.parentElement;
+
+        if (currentPage === linkHref) {
+          parentLi.classList.add("active"); // Add 'active' class to the matching link
+        } else {
+          parentLi.classList.remove("active"); // Remove 'active' class from non-matching links
+        }
+      });
+    };
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+      loadHeaderAndSidebar();
+    });
   </script>
 </body>
 
