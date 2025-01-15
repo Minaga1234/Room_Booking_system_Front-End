@@ -1,66 +1,39 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Set user avatar and notification icon
-    const userAvatar = document.querySelector(".user-avatar");
-    const notificationIcon = document.querySelector(".notification-icon");
-    if (userAvatar) userAvatar.src = "../assets/images/user-avatar.png";
-    if (notificationIcon) notificationIcon.src = "../assets/images/notification-icon.png";
-
-    // Search functionality
-    const searchBoxes = document.querySelectorAll('.search-box');
-    searchBoxes.forEach(searchBox => {
-        searchBox.addEventListener('input', function (e) {
-            const query = e.target.value.trim();
-            if (query) {
-                console.log(`Performing search for: ${query}`);
-                // Add your search functionality here
-            }
-        });
-    });
-
-    // Notification functionality
+document.addEventListener("DOMContentLoaded", () => {
+    // Notification and Profile Wrappers
     const notificationWrapper = document.querySelector(".notification-wrapper");
     const notificationPopup = notificationWrapper?.querySelector(".notification-popup");
+    const profileWrapper = document.querySelector(".profile-wrapper");
+    const profilePopup = profileWrapper?.querySelector(".profile-popup");
 
-    function fetchNotifications() {
-        // Simulated notifications data
-        return [
-            { title: "Room Booking", message: "Green Room Booking has been confirmed", link: "./bookings.html" },
-            { title: "System Update", message: "New features added to the room booking system", link: "./updates.html" },
-            { title: "Reminder", message: "Your Study Room G1 booking starts in 30 minutes", link: "./reminders.html" }
-        ];
-    }
+    // Mock function to fetch notifications
+    const fetchNotifications = () => [
+        { title: "Room Booking", message: "Green Room Booking confirmed.", link: "./bookings.html" },
+        { title: "Reminder", message: "Your booking starts in 30 minutes.", link: "./reminders.html" },
+        { title: "Update", message: "New features added to the system.", link: "./updates.html" }
+    ];
 
-    function renderNotifications() {
+    // Render notifications
+    const renderNotifications = () => {
         if (!notificationPopup) return;
-
         const notifications = fetchNotifications();
-        notificationPopup.innerHTML = "";
+        notificationPopup.innerHTML = notifications.length
+            ? notifications.map(notif => `
+                <div class="notification-item">
+                    <h4>${notif.title}</h4>
+                    <p>${notif.message}</p>
+                    <button onclick="location.href='${notif.link}'">View</button>
+                </div>`).join("")
+            : `<div class="notification-content">
+                <i class="fas fa-bell-slash"></i>
+                <p>No new notifications</p>
+            </div>`;
+    };
 
-        if (notifications.length > 0) {
-            notifications.forEach((notification) => {
-                const notificationItem = document.createElement("div");
-                notificationItem.classList.add("notification-item");
-                notificationItem.innerHTML = `
-                    <h4>${notification.title}</h4>
-                    <p>${notification.message}</p>
-                    <button onclick="location.href='${notification.link}'">View</button>
-                `;
-                notificationPopup.appendChild(notificationItem);
-            });
-        } else {
-            notificationPopup.innerHTML = `
-                <div class="notification-content">
-                    <i class="fas fa-bell-slash"></i>
-                    <p>No new notifications</p>
-                </div>
-            `;
-        }
-    }
-
+    // Notification Popup Events
     if (notificationWrapper && notificationPopup) {
         notificationWrapper.addEventListener("mouseenter", () => {
-            notificationPopup.style.display = "block";
             renderNotifications();
+            notificationPopup.style.display = "block";
         });
 
         notificationWrapper.addEventListener("mouseleave", () => {
@@ -68,24 +41,39 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Profile popup functionality
-    const profileWrapper = document.querySelector('.profile-wrapper');
-    const profilePopup = profileWrapper?.querySelector('.profile-popup');
-
+    // Profile Popup Events
     if (profileWrapper && profilePopup) {
+        let hideTimeout;
         profileWrapper.addEventListener("mouseenter", () => {
+            clearTimeout(hideTimeout);
             profilePopup.style.display = "block";
         });
 
         profileWrapper.addEventListener("mouseleave", () => {
-            profilePopup.style.display = "none";
+            hideTimeout = setTimeout(() => {
+                profilePopup.style.display = "none";
+            }, 300); // Add delay for smoother hover-out
         });
     }
 
-    // Periodic notification updates
+    // Search Functionality
+    const searchBox = document.querySelector(".search-box");
+    if (searchBox) {
+        searchBox.addEventListener("input", (event) => {
+            const query = event.target.value.trim();
+            if (query) {
+                console.log(`User searching for: ${query}`);
+                // Implement actual search functionality here
+            }
+        });
+    }
+
+    // Simulate periodic notification updates
     if (notificationPopup) {
         setInterval(() => {
             renderNotifications();
         }, 30000); // Update every 30 seconds
     }
+
+    console.log("User header initialized successfully.");
 });
