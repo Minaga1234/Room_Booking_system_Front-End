@@ -16,324 +16,106 @@ body {
     height: 100%;
 }
 
+/* Sidebar Section */
+#sidebar-container {
+    width: 250px; /* Increased width for sidebar */
+    height: 100vh; /* Full height for the sidebar */
+    background-color: #01182a;
+    position: fixed; /* Ensure it stays in place */
+    left: 0;
+    top: 0;
+}
+
 /* Main Content */
 .main-content {
-    margin-top: 20px; /* Space for header */
-    margin-left: 200px;
-    margin-bottom: 20px; /* Space for sidebar */
-    width: calc(5px - 100px); /* Adjust width for sidebar */
-    height: calc(100vh - 70px); /* Adjust height for header */
-    display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    overflow: hidden; /* Prevent container scrolling */
-}
-
-/* Main Container */
-.container {
-    background-color: #ffffff; /* White background */
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    height: 1000%; /* Fit container to viewport */
+    margin-left: 280px; /* Space for the sidebar */
+    margin-top: 54px; /* Space for the header */
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    overflow: hidden; /* Prevent scrolling for the main container */
-}
-
-/* Scrollable Content */
-.scrollable-content {
-    flex: 1;
-    overflow-y: auto; /* Enable vertical scrolling inside */
-    padding-right: 10px; /* Space for custom scrollbar */
+    height: calc(100vh - 70px); /* Adjust height to account for header */
     box-sizing: border-box;
+    overflow: hidden;
 }
 
-/* Custom Scrollbar */
-.scrollable-content::-webkit-scrollbar {
-    width: 6px; /* Thin scrollbar */
-}
-
-.scrollable-content::-webkit-scrollbar-thumb {
-    background: #6a6afa; /* Thumb color */
-    border-radius: 4px;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb:hover {
-    background: #4a4ed6; /* Darker color on hover */
-}
-
-.scrollable-content::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.2); /* Lighter track */
-    border-radius: 4px;
-}
-
-/* Content Sections */
-.content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Main Content Section */
-.main-content {
-    margin-left: 200px; /* Align with sidebar width */
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    overflow: hidden; /* Prevent main content from scrolling */
-}
-
-/* Booking Section */
-.booking-section {
+/* Row Layout */
+.row {
     display: flex;
     gap: 20px;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex: 1; /* Adjusts dynamically to fit the viewport */
+    height: calc(78% - 10px); /* Use 50% of the available height with gap consideration */
 }
 
-/* Weather Section */
-.weather-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px; /* Reduced gap between the icon and temperature */
-}
-
-/* Weather Icon */
-.weather-icon {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-}
-
-/* Temperature Styling */
-.temperature {
-    font-size: 32px; /* Larger font for the temperature */
-    font-weight: bold;
-    margin: 0;
-}
-
-/* Black Line Under Temperature */
-.temperature-line {
-    width: 100%;
-    max-width: 320px; /* Adjust the width of the line */
-    height: 2px; /* Thickness of the line */
-    background-color: rgba(91, 86, 86, 0.367); /* Black line */
-    margin-top: 5px; /* Adjust spacing between the temperature and the line */
-}
-
-/* Bookings List */
-.bookings-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Adjusted gap between room boxes */
-    width: 100%;
-}
-
-.bookings-list p {
-    font-size: 14px;
-    line-height: 1.5;
-    background-color: rgba(255, 255, 255, 0.2); /* Subtle overlay */
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.cancel-btn {
-    margin-top: 10px;
-    background-color: #0f1e3d;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    padding: 8px 12px;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.cancel-btn:hover {
-    background-color: #3642b2; /* Darker color on hover */
-}
-
-
-/* Calendar Container */
-#calendar {
-    max-width: 100%;
-    margin: 0 auto;
-    background: white; /* Calendar background */
-    border-radius: 20px; /* Rounded corners */
-    padding: 20px; /* Add space inside the calendar */
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    font-family: 'Poppins', sans-serif; /* Consistent font */
-    font-size: 14px; /* Adjust font size for readability */
-    color: #333; /* Font color for calendar text */
-}
-
-/* FullCalendar Styles Override */
-.fc {
-    font-family: 'Poppins', sans-serif !important; /* Use consistent font */
-    color: black !important; /* Ensure text color is visible */
-}
-
-/* FullCalendar Toolbar */
-.fc-toolbar {
-    font-family: 'Poppins', sans-serif; /* Use Poppins font for the toolbar */
-    font-size: 12px;
-    font-weight: 500; /* Slightly bold for better readability */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: none; /* Remove any toolbar background */
-    border: none; /* Remove borders */
-    margin-bottom: 10px; /* Add spacing below the toolbar */
-}
-
-/* Calendar Title Styling */
-.fc-toolbar-title {
-    font-size: 16px; /* Adjust title font size */
-    font-weight: 500; /* Slightly bold */
-    color: #333; /* Keep it visually consistent with your design */
-    text-align: center; /* Ensure proper alignment */
-    margin: 0; /* Remove extra spacing */
-}
-
-/* Calendar Buttons */
-.fc-button {
-    background: transparent; /* Make the button background transparent */
-    border: none; /* Remove borders */
-    color: #6a6afa; /* Minimal color for buttons */
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px; /* Adjust button font size */
-    font-weight: 500; /* Slightly bold text */
-    padding: 5px 10px; /* Add some spacing */
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
-}
-
-/* Hover Effect for Buttons */
-.fc-button:hover {
-    color: #4a4ed6; /* Slightly darker color on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-/* Active Button Style */
-.fc-button.fc-button-active {
-    color: #4a4ed6; /* Active button color */
-    font-weight: 600; /* Make active button text bolder */
-}
-
-/* Primary Buttons (e.g., Today Button) */
-.fc-button-primary {
-    background-color: transparent !important; /* Transparent background */
-    color: #6a6afa !important; /* Match button colors */
-    border: none; /* Remove borders */
-}
-
-/* Calendar Days */
-.fc-daygrid-day {
-    font-size: 14px;
-    color: #333; /* Ensure day text color is visible */
-}
-
-/* Day Numbers */
-.fc-daygrid-day-number {
-    font-weight: bold; /* Highlight day numbers */
-    font-size: 12px; /* Smaller font for day numbers */
-}
-
-/* Tooltip/Event Hover Effect */
-.fc-event {
-    background-color: #6a6afa !important; /* Event background */
-    color: white !important; /* Event text color */
-    font-size: 14px; /* Adjust event font size */
-    border-radius: 5px; /* Rounded event styles */
-    padding: 2px 5px; /* Add some padding to the event text */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Event shadow */
-}
-
-.fc-event:hover {
-    background-color: #4a4ed6 !important; /* Darker color on hover */
-}
-
-/* Calendar Header */
-.fc-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-
-
-
-
-.note-section {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.note-section p {
-    color: black; /* Set the font color to black */
-    font-size: 16px; /* Adjust the font size if needed */
-    text-align: center; /* Center-align the text */
-}
-/* Weather Section */
 .weather {
     background-color: #8584E2;
     color: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 10px; /* Reduced padding */
+    border-radius: 20px;
+    border: 3px solid #ff5722;
     flex: 1;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Reduced gap between elements */
+    overflow: hidden;
+}
+
+.weather-icon {
+    width: 100px; /* Increased size */
+    height: 100px;
 }
 
 .weather-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    justify-content: center;
-}
-
-.weather-icon {
-    width: 50px;
-    height: 50px;
+    gap: 6px; /* Slightly increased gap to accommodate the larger image */
 }
 
 .temperature {
-    font-size: 28px;
+    font-size: 22px; /* Slightly larger font for balance */
     font-weight: bold;
+}
+
+.weather-description {
+    font-size: 14px; /* Adjusted for readability with the larger image */
+    margin: 6px 0; /* Adjusted margin for better spacing */
+    text-align: center;
 }
 
 .divider {
     border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    margin: 15px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.5); /* Divider styling */
+    margin: 6px 0; /* Minimized margin for compactness */
 }
 
 .bookings-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 8px; /* Reduced gap between bookings */
+    overflow-y: auto; /* Enable scrolling */
+    flex: 2; /* Allocate more space for the list */
 }
 
 .booking-item {
     background-color: rgba(255, 255, 255, 0.1);
-    padding: 10px 15px;
+    padding: 12px; /* Slightly increased padding for clarity */
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Compact gap inside each booking item */
 }
 
 .booking-item p {
     margin: 0;
+    font-size: 12px; /* Compact text size */
     font-weight: bold;
 }
 
 .booking-item span {
-    font-size: 12px;
+    font-size: 11px; /* Smaller font for time details */
     color: rgba(255, 255, 255, 0.8);
 }
 
@@ -342,14 +124,67 @@ body {
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 8px 15px;
+    padding: 6px 10px; /* Smaller button size */
     cursor: pointer;
     font-size: 12px;
+    align-self: flex-start;
 }
 
 .cancel-btn:hover {
     background-color: #3642b2;
 }
+
+
+/* Calendar Section */
+.calendar {
+    background-color: #ffffff;
+    color: #333;
+    padding: 20px;
+    border-radius: 20px;
+    flex: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: hidden;
+}
+
+.calendar h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+}
+
+#calendar {
+    flex: 1;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Note Section */
+.note-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 130px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.note-section p {
+    color: black;
+    font-size: 16px;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
 .note-section button {
     padding: 10px 20px;
     background-color: #0f1e3d;
@@ -363,15 +198,49 @@ body {
     background-color: #3642b2;
 }
 
-/* Main Content */
-.main-content {
-    margin-left: 140px; /* Aligns with sidebar width */
+/* Scrollable Content */
+.scrollable-content {
     flex: 1;
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    overflow-y: auto;
+    padding-right: 10px; /* Space for scrollbar */
+    box-sizing: border-box;
 }
 
+/* Custom Scrollbar */
+.scrollable-content::-webkit-scrollbar {
+    width: 6px;
+}
 
+.scrollable-content::-webkit-scrollbar-thumb {
+    background: #6a6afa;
+    border-radius: 4px;
+}
 
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+    background: #4a4ed6;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        height: auto; /* Allow rows to adjust height dynamically */
+    }
+
+    .weather,
+    .calendar,
+    .note-section {
+        width: 100%;
+        flex: none;
+        height: auto; /* Adjust sections to fit content */
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+}

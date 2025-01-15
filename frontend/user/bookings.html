@@ -10,40 +10,52 @@
     <link rel="stylesheet" href="../shared/css/header.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="../shared/js/header.js" defer></script>
+    <script src="../shared/js/sidebar.js" defer></script>
 </head>
 
 <body>
-    <div id="header-container"></div> <!-- Placeholder for the header -->
+    <!-- Dynamic Header Placeholder -->
+    <div id="header-container"></div>
+
     <div class="dashboard-container">
-        <div id="sidebar-container"></div> <!-- Placeholder for the sidebar -->
+        <!-- Dynamic Sidebar Placeholder -->
+        <div id="sidebar-container"></div>
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="container">
-                <div class="white-background">
-                    <div class="scrollable-content">
-                        <div class="booking-section">
-                            <div class="weather">
-                                <div class="weather-header">
-                                    <img src="../assets/images/weather.png" alt="Weather Icon" class="weather-icon" style="width: 120px; height: 120px;">
-                                    <h3 class="temperature">Loading...</h3>
-                                </div>
-                                <p class="weather-description" style="margin: 10px 0; font-size: 14px; text-align: center;">Loading...</p>
-                                <div class="temperature-line"></div> <!-- Black line under the temperature -->
-                                <div class="bookings-list">
-                                    <p>Loading bookings...</p>
-                                </div>
-                            </div>
-                            <div class="calendar">
-                                <h2>January 2025</h2>
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                        <div class="note-section">
-                            <p>To avoid penalties, ensure that you do not spend excessive time in the room beyond your designated booking period...</p>
-                            <button onclick="location.href='../user/profile.html';">Penalties</button> <!-- Redirect to profile.html -->
-                        </div>
+            <!-- First Row -->
+            <div class="row">
+                <!-- Weather Section -->
+                <div class="weather">
+                    <div class="weather-header">
+                        <img src="../assets/images/weather.png" alt="Weather Icon" class="weather-icon">
+                        <p class="weather-description" style="margin: 10px 0; font-size: 14px; text-align: center;">Loading weather...</p>
+                        <h3 class="temperature">Loading...</h3>
                     </div>
+                    <div class="divider"></div>
+                    <div class="bookings-list">
+                        <p>Loading bookings...</p>
+                    </div>
+                </div>
+                
+                <!-- Calendar Section -->
+                <div class="calendar">
+                    <h2>January 2025</h2>
+                    <div id="calendar"></div>
+                </div>
+            </div>
+
+            <!-- Second Row -->
+            <div class="row">
+                <!-- Note Section -->
+                <div class="note-section">
+                    <p>
+                        To avoid penalties, ensure that you do not spend excessive time in the room beyond your designated
+                        booking period, as adhering to the allocated schedule helps maintain fairness and availability for other
+                        users.
+                    </p>
+                    <button onclick="location.href='../user/profile.html';">View Penalties</button>
                 </div>
             </div>
         </main>
@@ -51,139 +63,144 @@
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <script>
-        // Load the header dynamically
-        document.addEventListener('DOMContentLoaded', () => {
-            const headerContainer = document.getElementById('header-container');
-            const sidebarContainer = document.getElementById('sidebar-container');
+        document.addEventListener("DOMContentLoaded", () => {
+            // Load Header and Sidebar
+            const loadHeaderAndSidebar = async () => {
+                try {
+                    const headerResponse = await fetch("../shared/header.html");
+                    if (!headerResponse.ok) throw new Error("Failed to load header.");
+                    const headerHTML = await headerResponse.text();
+                    document.getElementById("header-container").innerHTML = headerHTML;
 
-            // Fetch header
-            fetch('../shared/header.html')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to load header.');
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    headerContainer.innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
+                    const sidebarResponse = await fetch("../shared/navbar.html");
+                    if (!sidebarResponse.ok) throw new Error("Failed to load sidebar.");
+                    const sidebarHTML = await sidebarResponse.text();
+                    document.getElementById("sidebar-container").innerHTML = sidebarHTML;
 
-            // Fetch sidebar
-            fetch('../shared/navbar.html')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to load sidebar.');
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    sidebarContainer.innerHTML = html;
-
-                    // Highlight active link for Bookings
-                    const currentPage = window.location.pathname.split('/').pop();
-                    const navLinks = sidebarContainer.querySelectorAll('.nav-links a');
+                    // Highlight active sidebar link
+                    const currentPage = window.location.pathname.split("/").pop();
+                    const navLinks = document.querySelectorAll("#sidebar-container .nav-links a");
                     navLinks.forEach(link => {
-                        if (link.getAttribute('href') === currentPage) {
-                            link.parentElement.classList.add('active');
+                        const linkHref = link.getAttribute("href");
+                        const parentLi = link.parentElement;
+                        if (currentPage === linkHref) {
+                            parentLi.classList.add("active");
                         } else {
-                            link.parentElement.classList.remove('active');
+                            parentLi.classList.remove("active");
                         }
                     });
-                })
-                .catch(error => {
-                    console.error('Error loading sidebar:', error);
-                });
-        });
 
-        // Initialize the calendar and fetch events dynamically
-        document.addEventListener('DOMContentLoaded', () => {
-            const calendarEl = document.getElementById('calendar');
+                    console.log("Header and Sidebar loaded successfully.");
+                } catch (error) {
+                    console.error("Error loading header or sidebar:", error);
+                }
+            };
 
-            if (!calendarEl) {
-                console.error('Calendar element not found.');
-                return;
-            }
+            // Fetch Weather Details
+            const fetchWeather = async () => {
+                const apiKey = "db4aef39c826d3eeb2e0b440ba11cccb"; // Replace with your OpenWeatherMap API key
+                const city = "Colombo"; // Replace with your desired city
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
 
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                events: [],
-                eventClick: function (info) {
-                    if (confirm(`Do you want to cancel the booking for "${info.event.title}"?`)) {
-                        fetch(`/api/bookings/${info.event.id}/`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json'
+                try {
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) throw new Error(`Failed to fetch weather data: ${response.statusText}`);
+                    const data = await response.json();
+
+                    document.querySelector(".temperature").textContent = `${data.main.temp}°C`;
+                    document.querySelector(".weather-description").textContent = data.weather[0].description;
+                    document.querySelector(".weather-icon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+                } catch (error) {
+                    console.error("Error fetching weather:", error);
+                    document.querySelector(".weather-description").textContent = "Weather unavailable.";
+                    document.querySelector(".temperature").textContent = "N/A";
+                }
+            };
+
+            // Fetch and Populate Bookings
+            const fetchBookings = async () => {
+                const bookingsList = document.querySelector(".bookings-list");
+                bookingsList.innerHTML = "<p>Loading bookings...</p>";
+
+                try {
+                    const response = await fetch("http://127.0.0.1:8000/api/bookings/"); // Adjust your API endpoint
+                    if (!response.ok) throw new Error("Failed to fetch bookings.");
+                    const data = await response.json();
+
+                    bookingsList.innerHTML = "";
+                    if (data.length === 0) {
+                        bookingsList.innerHTML = "<p>No bookings available.</p>";
+                        return;
+                    }
+
+                    data.forEach(booking => {
+                        const bookingItem = document.createElement("div");
+                        bookingItem.className = "booking-item";
+                        bookingItem.innerHTML = `
+                            <p><strong>${booking.user.name}</strong> - ${booking.room.name}</p>
+                            <span>From ${new Date(booking.start_time).toLocaleString()} to ${new Date(booking.end_time).toLocaleString()}</span>
+                            <button class="cancel-btn" data-id="${booking.id}">Cancel</button>
+                        `;
+                        bookingsList.appendChild(bookingItem);
+                    });
+
+                    // Add event listener to Cancel buttons
+                    document.querySelectorAll(".cancel-btn").forEach(button => {
+                        button.addEventListener("click", async (e) => {
+                            const bookingId = e.target.dataset.id;
+                            try {
+                                await cancelBooking(bookingId);
+                                alert("Booking cancelled successfully.");
+                                fetchBookings(); // Refresh the bookings list
+                            } catch (error) {
+                                console.error("Error cancelling booking:", error);
+                                alert("Failed to cancel booking. Please try again.");
                             }
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Failed to cancel booking.');
-                            }
-                            info.event.remove();
-                            alert('Booking cancelled.');
-                        })
-                        .catch(error => {
-                            console.error('Error cancelling booking:', error);
-                            alert('Failed to cancel booking. Please try again.');
                         });
-                    }
+                    });
+                } catch (error) {
+                    console.error("Error fetching bookings:", error);
+                    bookingsList.innerHTML = "<p>Error loading bookings. Please try again later.</p>";
                 }
-            });
+            };
 
-            // Fetch bookings from API
-            fetch('/api/bookings/')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to load bookings.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (Array.isArray(data)) {
-                        calendar.addEventSource(data);
-                    } else {
-                        console.warn('Unexpected data format received from API.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching bookings:', error);
+            // Cancel a Booking
+            const cancelBooking = async (bookingId) => {
+                try {
+                    const response = await fetch(`http://127.0.0.1:8000/api/bookings/${bookingId}/cancel/`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+                    if (!response.ok) throw new Error("Failed to cancel booking.");
+                } catch (error) {
+                    console.error("Error cancelling booking:", error);
+                    throw error;
+                }
+            };
+
+            // Initialize FullCalendar
+            const initializeCalendar = () => {
+                const calendarEl = document.getElementById("calendar");
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: "dayGridMonth",
+                    headerToolbar: {
+                        left: "prev,next today",
+                        center: "title",
+                        right: "dayGridMonth,timeGridWeek,timeGridDay",
+                    },
+                    events: [] // Load events dynamically if needed
                 });
+                calendar.render();
+            };
 
-            calendar.render();
+            // Execute initialization
+            loadHeaderAndSidebar();
+            fetchWeather();
+            initializeCalendar();
+            fetchBookings();
         });
-
-        // Weather API
-        async function fetchWeather() {
-            const apiKey = 'db4aef39c826d3eeb2e0b440ba11cccb'; // Replace with your OpenWeatherMap API key
-            const city = 'Colombo'; // Replace with your city
-            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error: ${response.status}`);
-                }
-
-                const data = await response.json();
-                document.querySelector('.temperature').textContent = `${data.main.temp}°C`;
-                document.querySelector('.weather-icon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-                document.querySelector('.weather-description').textContent = data.weather[0].description;
-            } catch (error) {
-                console.error('Error fetching weather data:', error);
-                document.querySelector('.temperature').textContent = 'N/A';
-                document.querySelector('.weather-description').textContent = 'Weather unavailable';
-            }
-        }
-
-        fetchWeather();
     </script>
 </body>
 
