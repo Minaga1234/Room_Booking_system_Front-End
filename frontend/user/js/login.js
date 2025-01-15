@@ -4,7 +4,6 @@ document.getElementById("login-form").addEventListener("submit", async function 
     // Fetch input values
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
-    const isAdmin = document.getElementById("cbx-51").checked;
 
     // Custom validation
     if (!email || !password) {
@@ -26,17 +25,18 @@ document.getElementById("login-form").addEventListener("submit", async function 
             },
             body: JSON.stringify({ email, password }),
         });
- 
+
         // Handle non-OK response
         if (!response.ok) {
             const errorData = await response.json();
-            showAlert(`Login failed: ${errorData.message || "Invalid credentials"}`, false);
+            showAlert(`Login failed: ${errorData.error || "Invalid credentials"}`, false);
             return;
         }
 
         // Parse successful response
         const data = await response.json();
         localStorage.setItem("accessToken", data.access); // Store access token
+        localStorage.setItem("refreshToken", data.refresh); // Store refresh token
         localStorage.setItem("userRole", data.role); // Store user role based on backend response
 
         showAlert("Login successful!", true);
