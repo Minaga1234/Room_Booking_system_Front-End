@@ -18,8 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const sidebarHTML = await sidebarResponse.text();
       document.getElementById("sidebar-container").innerHTML = sidebarHTML;
 
-      // Highlight the active sidebar link
-      highlightActiveSidebarLink();
+      console.log("Header and Sidebar loaded successfully");
     } catch (error) {
       console.error("Error loading header or sidebar:", error);
     }
@@ -49,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!roomId) {
     alert("Room ID not provided!");
     window.location.href = "room-availability.html";
+    return;
   }
 
   // Fetch room details using the room ID
@@ -59,9 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(`Failed to fetch room details: ${response.statusText}`);
       }
       const roomDetails = await response.json();
+      console.log("Room Details:", roomDetails); // Log room details for debugging
       renderRoomDetails(roomDetails);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching room details:", error);
       alert("Failed to load room details!");
       window.location.href = "room-availability.html";
     }
@@ -69,8 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Render room details dynamically
   const renderRoomDetails = (room) => {
-    document.querySelector(".room-name").textContent = room.name;
-    document.querySelector(".room-description p").textContent =
+    document.querySelector(".room-name").textContent = room.name || "Room Name Not Available";
+    document.querySelector(".room-description-text").textContent =
       room.description || "No description available.";
     document.querySelector(".room-image").src =
       room.image || "../assets/default-room.jpg";
@@ -89,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       bookingItem.innerHTML = `
         <strong>${booking.bookedBy || "Unknown"} - ${booking.purpose || "No purpose provided"}</strong>
         <br />
-        From ${booking.startTime} to ${booking.endTime}
+        From ${booking.startTime || "N/A"} to ${booking.endTime || "N/A"}
       `;
       bookingsList.appendChild(bookingItem);
     });

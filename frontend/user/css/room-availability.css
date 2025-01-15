@@ -61,6 +61,7 @@ body {
     text-align: center;
     transition: transform 0.2s;
     padding: 15px;
+    padding-bottom: 30px;
     border: 1px solid #d6d9ff; /* Light border for card edges */
     height: 300px; /* Fixed height for consistent layout */
     overflow-y: hidden; /* Hide native scroll bar */
