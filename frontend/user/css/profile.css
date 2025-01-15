@@ -2,75 +2,18 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  background-color: #F8F8FC; /* Light background */
-  color: #1F1F1F; /* Neutral dark text */
-}
-
-/* Sidebar Styles */
-.sidebar {
-  width: 15%;
-  height: 100vh;
-  background-color: #6B6CCF; /* Purple sidebar */
-  padding: 20px;
-  color: white;
-  position: fixed;
-}
-
-.sidebar .branding {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.sidebar h2 {
-  font-size: 1.5rem;
-}
-
-.sidebar nav ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar nav ul li {
-  margin: 15px 0;
-}
-
-.sidebar nav ul li.active a {
-  color: orange;
+  background-color: #F8F8FC;
+  /* Light background */
+  color: #1F1F1F;
+  /* Neutral dark text */
 }
 
 /* Main Content Styles */
 .main-content {
   margin-left: 20%;
   padding: 20px;
-}
-
-/* Header Styles */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-header .branding h1 {
-  font-size: 1.5rem;
-  color: #3F3D56; /* Dark gray */
-}
-
-.search-bar {
-  padding: 5px 10px;
-  border: 1px solid #DDD;
-  border-radius: 5px;
-}
-
-.header-controls {
-  display: flex;
-  align-items: center;
-}
-
-.header-controls .header-icons span {
-  margin-left: 15px;
-  font-size: 1.2rem;
+  padding-top: 80px;
+  /* Adjusted to prevent overlap with the header */
 }
 
 /* Penalties Section */
@@ -78,7 +21,8 @@ header .branding h1 {
   padding: 30px;
   background-color: #FFF;
   border-radius: 15px;
-  border: 2px solid #E9D8FD; /* Light purple border */
+  border: 2px solid #E9D8FD;
+  /* Light purple border */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
@@ -100,13 +44,15 @@ header .branding h1 {
 .penalty-card h2 {
   font-size: 3rem;
   margin: 10px 0;
-  color: #FF4D4D; /* Bright red for emphasis */
+  color: #FF4D4D;
+  /* Bright red for emphasis */
 }
 
 .request-review-btn {
   display: block;
   margin: 20px auto 0;
-  background-color: #1F2937; /* Neutral black/dark gray */
+  background-color: #1F2937;
+  /* Neutral black/dark gray */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -134,14 +80,16 @@ header .branding h1 {
   border-collapse: collapse;
 }
 
-.details-table th, .details-table td {
+.details-table th,
+.details-table td {
   text-align: center;
   padding: 10px;
   border-bottom: 1px solid #E5E7EB;
 }
 
 button {
-  background-color: #007bff; /* Bootstrap-like primary button color */
+  background-color: #007bff;
+  /* Bootstrap-like primary button color */
   color: white;
   border: none;
   border-radius: 5px;
@@ -152,16 +100,20 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #0056b3;
+  /* Darker shade on hover */
 }
 
 button:active {
-  background-color: #004085; /* Even darker on click */
+  background-color: #004085;
+  /* Even darker on click */
 }
 
 button.request-review-btn {
-  margin-top: 15px; /* Adjust positioning */
-  display: inline-block; /* Prevent it from expanding as block element */
+  margin-top: 15px;
+  /* Adjust positioning */
+  display: inline-block;
+  /* Prevent it from expanding as block element */
 }
 
 .pagination-controls {
@@ -177,7 +129,7 @@ button.request-review-btn {
   font-size: 1rem;
   border: 1px solid #DDD;
   border-radius: 5px;
-  background-color: #A78BFA;;
+  background-color: #A78BFA;
   cursor: pointer;
 }
 
@@ -189,4 +141,101 @@ button.request-review-btn {
 .pagination-controls span {
   font-size: 1rem;
   font-weight: bold;
+}
+
+/* Tablet Screens */
+@media screen and (max-width: 1024px) {
+  .main-content {
+    margin-left: 0;
+    padding: 15px;
+    padding-top: 70px;
+  }
+
+  .details-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .details-table table {
+    min-width: 600px;
+  }
+
+  .penalty-card h2 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Mobile Landscape */
+@media screen and (max-width: 768px) {
+  .main-content {
+    padding: 10px;
+    padding-top: 60px;
+  }
+
+  .penalties-section {
+    padding: 20px;
+  }
+
+  .penalty-card {
+    padding: 15px;
+  }
+
+  .penalty-card h2 {
+    font-size: 2rem;
+  }
+
+  .pagination-controls {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile Portrait */
+@media screen and (max-width: 480px) {
+  .main-content {
+    padding: 10px;
+    padding-top: 50px;
+  }
+
+  .penalties-section {
+    padding: 15px;
+  }
+
+  .penalty-card {
+    padding: 10px;
+  }
+
+  .penalty-card h2 {
+    font-size: 1.75rem;
+  }
+
+  .request-review-btn {
+    width: 100%;
+    margin: 15px 0 0;
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .pagination-controls button {
+    width: 100%;
+  }
+}
+
+/* Small Mobile Devices */
+@media screen and (max-width: 320px) {
+  .penalties-section {
+    padding: 10px;
+  }
+
+  .penalty-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .details-table th,
+  .details-table td {
+    padding: 8px 5px;
+    font-size: 0.875rem;
+  }
 }
