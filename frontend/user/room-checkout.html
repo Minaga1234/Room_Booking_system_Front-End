@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Room Checkout</title>
@@ -10,115 +10,125 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="../shared/js/header.js" defer></script>
     <script src="../shared/js/sidebar.js" defer></script>
-  </head>
-  <body>
+</head>
+<body>
     <div class="dashboard-container">
-      <!-- Header Section -->
-      <header>
-        <div id="header-container"></div> <!-- Placeholder for the dynamic header -->
-      </header>
+        <!-- Header Section -->
+        <header>
+            <div id="header-container"></div> <!-- Placeholder for the dynamic header -->
+        </header>
 
-      <!-- Sidebar Section -->
-      <aside>
-        <div id="sidebar-container"></div> <!-- Placeholder for the dynamic sidebar -->
-      </aside>
+        <!-- Sidebar Section -->
+        <aside>
+            <div id="sidebar-container"></div> <!-- Placeholder for the dynamic sidebar -->
+        </aside>
 
-      <!-- Main Content Section -->
-      <main class="main-content">
-        <div class="container">
-          <!-- Main Content -->
-          <div class="content">
-            <!-- First Row -->
-            <div class="header-container">
-              <div class="header-left">
-                <a href="./room-availability.html" class="back-link">
-                  <i class="fas fa-arrow-left back-icon"></i>
-                </a>
-                <h1>Check Availability</h1>
-              </div>
-              <div class="header-right">
-                <h1 class="room-name">Loading...</h1>
-              </div>
-            </div>
+        <!-- Main Content Section -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Main Content -->
+                <div class="content">
+                    <!-- First Row -->
+                    <div class="header-container">
+                        <div class="header-left">
+                            <a href="./room-availability.html" class="back-link">
+                                <i class="fas fa-arrow-left back-icon"></i>
+                            </a>
+                            <h1>Check Availability</h1>
+                        </div>
+                        <div class="header-right">
+                            <h1 class="room-name">Loading...</h1>
+                        </div>
+                    </div>
 
-            <!-- Second Row -->
-            <div class="second-row">
-              <div class="room-image-container">
-                <img
-                  src="../assets/default-room.jpg"
-                  alt="Room Image"
-                  class="room-image"
-                />
-              </div>
-              <div class="room-description">
-                <h2>About This Room</h2>
-                <p class="room-description-text">Loading room description...</p>
-                <ul class="description-list" id="features-list">
-                  <li>Loading features...</li>
-                </ul>
-              </div>
-            </div>
+                    <!-- Second Row -->
+                    <div class="second-row">
+                        <div class="room-image-container">
+                            <img
+                                src="../assets/default-room.jpg"
+                                alt="Room Image"
+                                class="room-image"
+                            />
+                        </div>
+                        <div class="room-description">
+                            <h2>About This Room</h2>
+                            <p class="room-description-text">Loading room description...</p>
+                            <ul class="description-list" id="features-list">
+                                <li>Loading features...</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <!-- Third Row -->
-            <div class="third-row">
-              <!-- Updated Section -->
-              <div class="amenities">
-                <h2 id="amenities-heading">
-                  Today - <span id="current-date"></span>
-                </h2>
-                <div id="bookings-list" class="bookings-list">
-                  <!-- Booking items will be dynamically added here -->
+                    <!-- Third Row -->
+                    <div class="third-row">
+                        <div class="amenities">
+                            <h2 id="amenities-heading">
+                                Today - <span id="current-date"></span>
+                            </h2>
+                            <div id="bookings-list" class="bookings-list">
+                                <!-- Booking items will be dynamically added here -->
+                            </div>
+                        </div>
+
+                        <div class="booking-section">
+                            <h2>Book Room</h2>
+                            <form id="booking-form">
+                                <div class="form-grid">
+                                    <!-- Left Column -->
+                                    <div class="form-column">
+                                        <label for="purpose">Purpose (Detailed Explanation)</label>
+                                        <textarea id="purpose" name="purpose" placeholder="Enter your purpose"></textarea>
+                                        
+                                        <label for="participants">Participants</label>
+                                        <div class="participants-range">
+                                            <input type="range" id="participants" name="participants" min="0" max="6" />
+                                            <span>0-6</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right Column -->
+                                    <div class="form-column">
+                                        <label for="degree">Degree Major</label>
+                                        <select id="degree" name="degree">
+                                            <option value="Software Engineering">Software Engineering</option>
+                                            <option value="Data Science">Data Science</option>
+                                        </select>
+                                        
+                                        <label for="booking-date">Booking Date</label>
+                                        <input
+                                            type="date"
+                                            id="booking-date"
+                                            name="booking-date"
+                                            disabled
+                                        />
+
+                                        <label for="time-slot">Start Time & End Time</label>
+                                        <select id="from-time" name="from-time">
+                                            <option value="">Select Start Time</option>
+                                        </select>
+                                        <select id="to-time" name="to-time">
+                                            <option value="">Select End Time</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Terms and Conditions -->
+                                <div class="terms">
+                                    <input type="checkbox" id="terms" name="terms" required />
+                                    <label for="terms">
+                                        Agree to the <a href="terms-and-conditions.html" target="_blank">terms and conditions</a>
+                                    </label>
+                                </div>
+
+                                <p id="error-message" class="error-message"></p>
+                                <button type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-              </div>
-
-              <div class="booking-section">
-                <h2>Select a Time Slot</h2>
-                <form id="booking-form">
-                  <div class="form-group">
-                    <label for="booking-date">Date:</label>
-                    <input
-                      type="date"
-                      id="booking-date"
-                      name="booking-date"
-                      required
-                    />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="from-time">From:</label>
-                    <select id="from-time" name="from-time" required>
-                      <option value="">Select Time</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="to-time">To:</label>
-                    <select id="to-time" name="to-time" required>
-                      <option value="">Select Time</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="purpose">Purpose:</label>
-                    <input
-                      type="text"
-                      id="purpose"
-                      name="purpose"
-                      placeholder="Enter purpose of booking"
-                      required
-                    />
-                  </div>
-
-                  <p id="error-message" class="error-message"></p>
-
-                  <button type="submit" class="btn">Book Room</button>
-                </form>
-              </div>
             </div>
-          </div>
-        </div>
-      </main>
+        </main>
     </div>
     <script src="./js/room-checkout.js" defer></script>
-  </body>
+</body>
 </html>

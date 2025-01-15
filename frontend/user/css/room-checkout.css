@@ -5,36 +5,40 @@ body {
   padding: 0;
   background-color: #01182a;
   height: 100vh;
-  overflow: hidden; /* Prevent body from scrolling */
   display: flex;
   flex-direction: column;
+  color: #000;
 }
 
 /* Main Container */
 .container {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 340px); /* Adjust width to account for sidebar */
+  width: calc(100% - 340px); /* Account for sidebar */
   margin-left: 300px; /* Space for sidebar */
   margin-top: 70px; /* Space for header */
-  height: calc(100vh - 90px); /* Full height minus header height */
-  background-color: #ffffff;
+  height: calc(100vh - 90px); /* Adjust for header height */
+  background-color: #f9f6fc;
   border-radius: 15px;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
-  overflow: hidden; /* Prevent content from overflowing */
-}
-
-/* Scrollable Content */
-.content {
-  width: 100%;
-  box-sizing: border-box;
-  overflow-y: auto; /* Enable scrolling inside the container */
+  overflow: hidden; /* Prevent content overflow */
   padding: 20px;
-  height: 100%; /* Ensure content takes full height */
 }
 
-/* Header Container */
+/* Content */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto; /* Enable scrolling */
+  padding: 10px;
+}
+
+/* Header Section */
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -67,144 +71,273 @@ body {
   color: #000;
   margin: 0;
   font-weight: bold;
+  font-size: 1.5rem;
 }
 
-/* Second Row */
+/* Room Image and Description */
 .second-row {
   display: flex;
-  justify-content: space-between;
   gap: 20px;
-  margin-bottom: 20px;
+  justify-content: space-between;
   height: 300px;
 }
 
 .room-image-container {
-  flex: 0.8;
+  flex: 0.6;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .room-image {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
 }
 
 .room-description {
-  flex: 0.6;
+  flex: 0.4;
   padding: 15px;
-  border-radius: 10px;
-  background-color: #f9f6fc;
+  background-color: #ffffff;
+  border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
 }
 
 .room-description h2 {
   font-size: 1.2rem;
-  color: #5a3e94;
+  color: #333;
   margin-bottom: 10px;
   text-decoration: underline;
 }
 
-.room-description p,
-.description-list {
+.room-description ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.room-description li {
   font-size: 0.9rem;
-  color: #333;
-  line-height: 1.4;
-}
-
-.description-list li {
+  line-height: 1.5;
   margin-bottom: 5px;
-  list-style: disc;
-  margin-left: 20px;
 }
 
-/* Third Row */
+/* Third Row - Bookings and Form */
 .third-row {
   display: flex;
-  justify-content: space-between;
   gap: 20px;
-  height: auto;
+  justify-content: space-between;
+  height: calc(100% - 320px); /* Adjust to fit remaining height */
 }
 
 .amenities,
 .booking-section {
-  flex: 0.7;
+  flex: 0.5;
   padding: 15px;
-  border-radius: 10px;
-  background-color: #f9f6fc;
+  background-color: #ffffff;
+  border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  border: 1px solid #e0e0e0;
 }
 
-.amenities h2,
-.booking-section h2 {
-  font-size: 1.2rem;
+.amenities h2 {
+  font-size: 1rem;
   color: #5a3e94;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .bookings-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 10px; /* Space between booking items */
+  height: 300px; /* Fixed height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 10px; /* Inner padding for content spacing */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  background-color: #f9f6fc; /* Match background color */
+  border: 1px solid #e0e0e0; /* Border for visual separation */
 }
 
+/* Custom Scrollbar Styling */
+.bookings-list::-webkit-scrollbar {
+  width: 6px; /* Adjust scrollbar width */
+}
+
+.bookings-list::-webkit-scrollbar-thumb {
+  background: #5a3e94; /* Thumb color */
+  border-radius: 4px; /* Rounded corners for the scrollbar */
+}
+
+.bookings-list::-webkit-scrollbar-thumb:hover {
+  background: #3f2a7d; /* Darker color on hover */
+}
+
+.bookings-list::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color inside the container */
+  border-radius: 4px;
+}
+
+/* Booking Item Inner Padding */
 .booking-item {
-  padding: 10px;
+  padding: 15px; /* Inner padding for booking items */
   background-color: #e6eaf1;
-  border-radius: 8px;
+  border-radius: 8px; /* Rounded corners for booking items */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 0.9rem;
   color: #333;
   border-left: 5px solid #5a3e94;
 }
 
+
+/* Text within booking item */
 .booking-item strong {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px; /* Space below bold text */
+}
+
+.booking-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5; /* Improve text readability */
+}
+
+/* Buttons in booking item */
+.booking-item button {
+  margin-top: 10px;
+  padding: 8px 15px; /* Add inner padding to the button */
+  background-color: #5a3e94;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease;
+}
+
+.booking-item button:hover {
+  background-color: #3f2a7d;
+  transform: translateY(-2px); /* Add a hover animation */
+}
+
+.booking-item button:active {
+  background-color: #2e1f5c;
+  transform: translateY(0);
 }
 
 /* Form Section */
-.booking-section label {
-  display: block;
-  font-size: 0.9rem;
-  color: #5a3e94;
-  margin-bottom: 8px;
+.booking-section {
+  padding: 20px;
+  background-color: #f9f6fc;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
 }
 
+.booking-section h2 {
+  font-size: 1.2rem;
+  color: #5a3e94;
+  margin-bottom: 15px;
+}
+
+/* Form Grid Layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+  gap: 20px; /* Spacing between columns */
+}
+
+/* Columns */
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spacing between input elements */
+}
+
+.booking-section label {
+  font-size: 0.9rem;
+  color: #5a3e94;
+  display: block;
+}
+
+.booking-section textarea,
 .booking-section input,
 .booking-section select {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #d3c9e7;
+  max-width: 100%;
+  padding: 10px;
   border-radius: 8px;
+  border: 1px solid #d3c9e7;
   font-size: 0.9rem;
+  box-sizing: border-box;
   transition: border-color 0.2s ease-in-out;
 }
 
+.booking-section textarea {
+  height: 80px;
+  resize: none;
+}
+
 .booking-section input:focus,
-.booking-section select:focus {
+.booking-section select:focus,
+.booking-section textarea:focus {
   border-color: #5a3e94;
   outline: none;
 }
 
+/* Participants Range */
+.participants-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.participants-range input[type="range"] {
+  flex: 1;
+  margin: 0;
+}
+
+.participants-range span {
+  font-size: 0.9rem;
+  color: #5a3e94;
+}
+
+/* Terms and Conditions */
+.booking-section .terms {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.booking-section .terms input {
+  margin-right: 10px;
+}
+
+.booking-section .terms a {
+  color: #5a3e94;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.booking-section .terms a:hover {
+  color: #3f2a7d;
+}
+
+/* Submit Button */
 .booking-section button {
-  width: 100%;
   padding: 10px;
   background-color: #8561c5;
-  color: #fff;
+  color: #ffffff;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 0.9rem;
-  margin-top: 10px;
+  font-size: 1rem;
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -212,21 +345,100 @@ body {
   background-color: #5a3e94;
 }
 
-/* Error Message */
-.error-message {
-  color: red;
-  font-size: 0.9rem;
-  margin-bottom: 10px;
+/* Terms and Conditions */
+.booking-section .terms {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start; /* Align items to the top for better readability */
+  gap: 10px; /* Add spacing between the checkbox and the text */
+  font-size: 0.9rem; /* Slightly larger font size for better visibility */
+  color: #5a3e94; /* Maintain consistency with the design color scheme */
+  line-height: 1.5; /* Increase line height for better readability */
 }
 
-/* Scrollbar Styles */
+.booking-section .terms input[type="checkbox"] {
+  margin-top: 2px; /* Align the checkbox vertically with the text */
+  flex-shrink: 0; /* Ensure the checkbox doesn't shrink when the screen size changes */
+  width: 16px; /* Set a consistent size for the checkbox */
+  height: 16px;
+  border: 2px solid #5a3e94; /* Add a border for better visibility */
+  border-radius: 3px; /* Slightly rounded corners for a modern look */
+  cursor: pointer; /* Show pointer cursor on hover */
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Add smooth transitions */
+}
+
+.booking-section .terms input[type="checkbox"]:checked {
+  background-color: #5a3e94; /* Background color when checked */
+  border-color: #3f2a7d; /* Border color when checked */
+}
+
+.booking-section .terms a {
+  color: #5a3e94;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.3s ease, text-shadow 0.3s ease; /* Add shadow effect */
+}
+
+.booking-section .terms a:hover {
+  color: #3f2a7d; /* Change color on hover */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+}
+
+.booking-section .terms label {
+  cursor: pointer; /* Make the label clickable */
+  display: inline-block; /* Ensure proper spacing */
+  line-height: 1.4; /* Consistent line height for multi-line text */
+  margin-bottom: 0;
+}
+
+.booking-section .terms span {
+  display: block; /* Separate line for extra descriptive text */
+  font-size: 0.8rem;
+  color: #7f7f7f; /* Muted color for less emphasis */
+  margin-top: 5px; /* Add spacing between main text and extra info */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .booking-section .terms {
+    flex-direction: column; /* Stack checkbox and text vertically */
+    align-items: flex-start; /* Align to the start for a natural layout */
+  }
+
+  .booking-section .terms input[type="checkbox"] {
+    margin-bottom: 10px; /* Add spacing below the checkbox */
+  }
+}
+
+/* Participants Range */
+.participants-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.participants-range input[type="range"] {
+  flex: 1;
+  margin: 0;
+}
+
+.participants-range span {
+  font-size: 0.9rem;
+  color: #5a3e94;
+}
+
+/* Prevent Horizontal Scrolling */
+.booking-section {
+  overflow-x: hidden; /* Disable horizontal scrolling */
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -239,39 +451,56 @@ body {
 }
 
 /* Responsive Adjustments */
+@media (max-width: 768px) {
+  .booking-section {
+    grid-template-columns: 1fr; /* Single column layout for smaller screens */
+    row-gap: 10px;
+  }
+
+  .booking-section button {
+    max-width: none;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .booking-section textarea,
+  .booking-section select,
+  .booking-section input,
+  .booking-section button {
+    width: 100%; /* Full width on smaller screens */
+    max-width: none;
+  }
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) {
-  .container {
-    margin-left: 200px; /* Adjust sidebar margin for tablets */
+  .second-row {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .third-row {
+    flex-direction: column;
+    height: auto;
   }
 }
 
 @media (max-width: 768px) {
   .container {
-    margin-left: 0; /* Remove sidebar margin for smaller screens */
-    width: 95%;
-  }
-
-  .second-row {
-    flex-direction: column; /* Stack rows vertically */
-    height: auto;
+    margin-left: 0;
+    width: 100%;
   }
 
   .room-description,
-  .room-image-container {
+  .room-image-container,
+  .amenities,
+  .booking-section {
     flex: 1;
-  }
-
-  .third-row {
-    flex-direction: column;
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-    width: 100%;
-    padding: 10px;
-  }
-
   .booking-section button {
     font-size: 0.8rem;
     padding: 8px;
