@@ -1,118 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Penalties</title>
   <link rel="stylesheet" href="css/penalties.css">
+  <link rel="stylesheet" href="./css/admin-header.css">
+  <link rel="stylesheet" href="./css/admin-navbar.css">
 </head>
+
 <body>
-  <div class="sidebar">
-    <!-- Sidebar elements -->
-    <h2>ECU</h2>
-    <nav>
-      <ul>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Bookings</a></li>
-        <li class="active"><a href="#">Manage Rooms</a></li>
-        <li><a href="#">Analytics</a></li>
-      </ul>
-    </nav>
+  <!-- Header -->
+  <div id="header-container"></div>
+
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+      <main>
+        <section class="penalties-overview">
+          <h2>Penalties Overview</h2>
+          <div class="penalty-cards">
+            <div class="card red">
+              <p>Active Penalties</p>
+              <h2 class="active-penalties">0</h2>
+            </div>
+            <div class="card purple">
+              <p>New Penalties</p>
+              <h2 class="new-penalties">0</h2>
+            </div>
+            <div class="card green">
+              <p>Penalties Resolved</p>
+              <h2 class="resolved-penalties">0</h2>
+            </div>
+            <div class="card blue">
+              <p>Repeat Offenders</p>
+              <h2 class="repeat-offenders">0</h2>
+            </div>
+          </div>
+        </section>
+
+        <section class="penalty-details">
+          <h2>Penalty Details</h2>
+
+          <!-- Filter Controls -->
+          <div class="filter-controls">
+            <label for="status-filter">Status:</label>
+            <select id="status-filter">
+              <option value="all">All</option>
+              <option value="unpaid">Unpaid</option>
+              <option value="paid">Paid</option>
+            </select>
+            <label for="start-date-filter">Start Date:</label>
+            <input type="date" id="start-date-filter">
+            <label for="end-date-filter">End Date:</label>
+            <input type="date" id="end-date-filter">
+            <button id="apply-filters" class="filter-btn">Apply</button>
+          </div>
+
+          <div class="details-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Penalty ID</th>
+                  <th>User Name</th>
+                  <th>Booking ID</th>
+                  <th>Penalty Type</th>
+                  <th>Penalty Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="penalty-table-body">
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button id="prev-page" disabled>Previous</button>
+            <span id="current-page">1</span> / <span id="total-pages">1</span>
+            <button id="next-page" disabled>Next</button>
+          </div>
+          <button id="download-report" class="download-btn">
+            <span class="icon">⬇</span>
+            Download Report
+          </button>
+        </section>
+      </main>
+    </div>
   </div>
 
-  <div class="main-content">
-    <header>
-      <div class="branding">
-        <h1>Intelligent Spatial Management System</h1>
-      </div>
-      <div class="header-controls">
-        <input type="text" placeholder="Search" class="search-bar">
-        <div class="header-icons">
-          <span class="notification-icon">🔔</span>
-          <span class="user-icon">👤</span>
-        </div>
-      </div>
-    </header>
+  <script>
+    // Dynamically load header
+    fetch("./header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header-container").innerHTML = data;
+      })
+      .catch(error => console.error("Error loading header:", error));
 
-    <main>
-      <section class="penalties-overview">
-        <h2>Penalties Overview</h2>
-        <div class="penalty-cards">
-          <div class="card red">
-            <p>Active Penalties</p>
-            <h2 class="active-penalties">0</h2>
-          </div>
-          <div class="card purple">
-            <p>New Penalties</p>
-            <h2 class="new-penalties">0</h2>
-          </div>
-          <div class="card green">
-            <p>Penalties Resolved</p>
-            <h2 class="resolved-penalties">0</h2>
-          </div>
-          <div class="card blue">
-            <p>Repeat Offenders</p>
-            <h2 class="repeat-offenders">0</h2>
-          </div>
-        </div>
-      </section>
+    // Dynamically load sidebar
+    fetch("./navbar.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("sidebar-container").innerHTML = data;
+      })
+      .catch(error => console.error("Error loading sidebar:", error));
+  </script>
 
-      <select id="status-filter">
-        <option value="all">All</option>
-        <option value="review_requested">Review Requested</option>
-        <option value="unpaid">Unpaid</option>
-        <option value="Active">Active</option>
-        <option value="resolved">Resolved</option>
-    </select>
-    
-
-      <section class="penalty-details">
-        <h2>Penalty Details</h2>
-
-        <!-- Filter Controls -->
-        <div class="filter-controls">
-          <label for="status-filter">Status:</label>
-          <select id="status-filter">
-            <option value="all">All</option>
-            <option value="unpaid">Unpaid</option>
-            <option value="paid">Paid</option>
-          </select>
-          <label for="start-date-filter">Start Date:</label>
-          <input type="date" id="start-date-filter">
-          <label for="end-date-filter">End Date:</label>
-          <input type="date" id="end-date-filter">
-          <button id="apply-filters" class="filter-btn">Apply</button>
-        </div>
-
-        <div class="details-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Penalty ID</th>
-                <th>User Name</th>
-                <th>Booking ID</th>
-                <th>Penalty Type</th>
-                <th>Penalty Date</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="penalty-table-body">
-            </tbody>
-          </table>
-        </div>
-        <div class="pagination">
-          <button id="prev-page" disabled>Previous</button>
-          <span id="current-page">1</span> / <span id="total-pages">1</span>
-          <button id="next-page" disabled>Next</button>
-        </div>        
-        <button id="download-report" class="download-btn">
-          <span class="icon">⬇</span>
-          Download Report
-        </button>                      
-      </section>
-    </main>
-  </div>
   <script src="js/penalties.js"></script>
 </body>
+
 </html>
