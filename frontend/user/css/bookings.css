@@ -2,40 +2,30 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #01182a; /* Navy blue background */
+    background-color: #01182a;
     color: white;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
-    flex-direction: column; /* Ensure header stays at the top */
-    overflow: hidden; /* Prevent body scrolling */
+    flex-direction: column;
+    overflow-x: hidden;
 }
 
 /* Dashboard Container */
 .dashboard-container {
     display: flex;
+    flex-wrap: wrap;
     height: 100%;
-}
-
-/* Sidebar Section */
-#sidebar-container {
-    width: 250px; /* Increased width for sidebar */
-    height: 100vh; /* Full height for the sidebar */
-    background-color: #01182a;
-    position: fixed; /* Ensure it stays in place */
-    left: 0;
-    top: 0;
 }
 
 /* Main Content */
 .main-content {
-    margin-left: 280px; /* Space for the sidebar */
-    margin-top: 54px; /* Space for the header */
+    margin-left: 280px;
+    margin-top: 54px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-    height: calc(100vh - 70px); /* Adjust height to account for header */
+    gap: 15px;
+    padding: 15px;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -43,79 +33,81 @@ body {
 /* Row Layout */
 .row {
     display: flex;
-    gap: 20px;
-    flex: 1; /* Adjusts dynamically to fit the viewport */
-    height: calc(78% - 10px); /* Use 50% of the available height with gap consideration */
+    flex-wrap: wrap;
+    gap: 15px;
+    flex: 1;
 }
 
 .weather {
     background-color: #8584E2;
     color: white;
-    padding: 10px; /* Reduced padding */
-    border-radius: 20px;
+    padding: 12px;
+    border-radius: 18px;
     border: 3px solid #ff5722;
     flex: 1;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    min-width: 260px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Reduced gap between elements */
+    gap: 10px;
     overflow: hidden;
 }
 
 .weather-icon {
-    width: 100px; /* Increased size */
-    height: 100px;
+    width: 90px;
+    height: 90px;
+    align-self: center;
 }
 
 .weather-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px; /* Slightly increased gap to accommodate the larger image */
+    gap: 6px;
 }
 
 .temperature {
-    font-size: 22px; /* Slightly larger font for balance */
+    font-size: 20px;
     font-weight: bold;
 }
 
 .weather-description {
-    font-size: 14px; /* Adjusted for readability with the larger image */
-    margin: 6px 0; /* Adjusted margin for better spacing */
+    font-size: 13px;
+    margin: 5px 0;
     text-align: center;
 }
 
 .divider {
     border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.5); /* Divider styling */
-    margin: 6px 0; /* Minimized margin for compactness */
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 8px 0;
 }
 
 .bookings-list {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Reduced gap between bookings */
-    overflow-y: auto; /* Enable scrolling */
-    flex: 2; /* Allocate more space for the list */
+    gap: 6px;
+    overflow-y: auto;
+    flex: 2;
 }
 
 .booking-item {
     background-color: rgba(255, 255, 255, 0.1);
-    padding: 12px; /* Slightly increased padding for clarity */
-    border-radius: 10px;
+    padding: 10px;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Compact gap inside each booking item */
+    gap: 4px;
 }
 
 .booking-item p {
     margin: 0;
-    font-size: 12px; /* Compact text size */
+    font-size: 11px;
     font-weight: bold;
 }
 
 .booking-item span {
-    font-size: 11px; /* Smaller font for time details */
+    font-size: 10px;
     color: rgba(255, 255, 255, 0.8);
 }
 
@@ -123,75 +115,75 @@ body {
     background-color: #0f1e3d;
     color: white;
     border: none;
-    border-radius: 20px;
-    padding: 6px 10px; /* Smaller button size */
+    border-radius: 18px;
+    padding: 5px 8px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 11px;
     align-self: flex-start;
+    transition: background-color 0.3s ease;
 }
 
 .cancel-btn:hover {
     background-color: #3642b2;
 }
 
-
 /* Calendar Section */
 .calendar {
     background-color: #ffffff;
     color: #333;
-    padding: 20px;
-    border-radius: 20px;
+    padding: 18px;
+    border-radius: 18px;
     flex: 1;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    min-width: 260px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     overflow: hidden;
 }
 
 .calendar h2 {
     margin: 0;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     text-align: center;
-    color: #333;
 }
 
 #calendar {
     flex: 1;
     background: white;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
 /* Note Section */
 .note-section {
     background-color: white;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    border-radius: 18px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin-bottom: 130px;
     flex: 1;
     overflow: hidden;
 }
 
 .note-section p {
     color: black;
-    font-size: 16px;
-    margin: 0 0 20px 0;
+    font-size: 15px;
+    margin: 0 0 18px 0;
     line-height: 1.5;
 }
 
 .note-section button {
-    padding: 10px 20px;
+    padding: 8px 18px;
     background-color: #0f1e3d;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .note-section button:hover {
@@ -202,18 +194,18 @@ body {
 .scrollable-content {
     flex: 1;
     overflow-y: auto;
-    padding-right: 10px; /* Space for scrollbar */
+    padding-right: 8px;
     box-sizing: border-box;
 }
 
 /* Custom Scrollbar */
 .scrollable-content::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
 }
 
 .scrollable-content::-webkit-scrollbar-thumb {
     background: #6a6afa;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 .scrollable-content::-webkit-scrollbar-thumb:hover {
@@ -222,14 +214,29 @@ body {
 
 .scrollable-content::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
-/* Responsive Design */
+/* Updated Responsive Design */
 @media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+    }
+
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .main-content {
+        margin-left: 0;
+        margin-top: 54px;
+        padding: 12px;
+        overflow-y: auto;
+    }
+
     .row {
         flex-direction: column;
-        height: auto; /* Allow rows to adjust height dynamically */
+        gap: 12px;
     }
 
     .weather,
@@ -237,10 +244,97 @@ body {
     .note-section {
         width: 100%;
         flex: none;
-        height: auto; /* Adjust sections to fit content */
+    }
+
+    .weather {
+        min-height: 270px;
+    }
+
+    .calendar {
+        min-height: 300px;
+    }
+
+    .note-section {
+        min-height: 180px;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .weather {
+        padding: 10px;
+        min-height: 250px;
+    }
+
+    .calendar {
+        padding: 10px;
+        min-height: 280px;
+    }
+
+    .note-section {
+        padding: 10px;
+        min-height: 160px;
+    }
+
+    .weather-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .temperature {
+        font-size: 16px;
+    }
+
+    .weather-description {
+        font-size: 11px;
+    }
+
+    .booking-item {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 400px) {
+    .main-content {
+        padding: 8px;
+    }
+
+    .weather,
+    .calendar,
+    .note-section {
+        padding: 8px;
+        min-height: auto;
+    }
+
+    .weather-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .note-section {
+        min-height: 140px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        color: black;
     }
 
     .main-content {
-        padding: 10px;
+        margin: 0;
+        padding: 18px;
+    }
+
+    .weather,
+    .calendar,
+    .note-section {
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 }
