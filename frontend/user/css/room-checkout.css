@@ -18,7 +18,7 @@ body {
   margin-left: 300px; /* Space for sidebar */
   margin-top: 70px; /* Space for header */
   height: calc(100vh - 90px); /* Adjust for header height */
-  background-color: #ffffff;
+  background-color: #f9f6fc;
   border-radius: 15px;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
@@ -103,6 +103,7 @@ body {
   padding: 15px;
   background-color: #ffffff;
   border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
 }
 
@@ -331,13 +332,13 @@ body {
 /* Submit Button */
 .booking-section button {
   padding: 10px;
-  background-color: #01182a;
+  background-color: #8561c5;
   color: #ffffff;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 1rem;
   transition: background-color 0.2s ease-in-out;
 }
 
