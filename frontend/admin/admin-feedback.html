@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/admin-feedback.css">
     <link rel="stylesheet" href="./css/admin-header.css">
     <link rel="stylesheet" href="./css/admin-navbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -21,7 +22,33 @@
 
         <!-- Feedback Cards Section -->
         <main class="main-content">
-            <h2>Admin Feedback Dashboard</h2>
+            <div class="dashboard-header">
+                <h2>Admin Feedback Dashboard</h2>
+                <div class="dashboard-actions">
+                    <button class="action-btn filter-btn">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <button class="action-btn refresh-btn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div class="feedback-stats">
+                <div class="stat-card">
+                    <h4>Total Feedback</h4>
+                    <p id="total-feedback">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Pending Review</h4>
+                    <p id="pending-review">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Reviewed</h4>
+                    <p id="reviewed">0</p>
+                </div>
+            </div>
+
             <div id="feedback-cards-container" class="feedback-cards-container"></div>
             <div id="feedback-error-message" class="error-message hidden">
                 Unable to fetch feedback data. Please try again later.
@@ -29,7 +56,38 @@
         </main>
     </div>
 
-    <!-- Scripts -->
+    <!-- Filter Modal -->
+    <div id="filter-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Filter Feedback</h3>
+            <form id="filter-form">
+                <label for="course-filter">Filter by Course:</label>
+                <select id="course-filter" name="course">
+                    <option value="">All</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Business">Business</option>
+                </select>
+
+                <label for="date-filter">Filter by Date:</label>
+                <input type="date" id="date-filter" name="date">
+
+                <label for="status-filter">Filter by Status:</label>
+                <select id="status-filter" name="status">
+                    <option value="">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="reviewed">Reviewed</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button type="submit" class="action-btn apply-btn">Apply</button>
+                    <button type="button" class="action-btn cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
     <script src="./js/admin-feedback.js" defer></script>
 </body>
 
