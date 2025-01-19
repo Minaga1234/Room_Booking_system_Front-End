@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const feedbackEndpoint = 'http://127.0.0.1:8000/feedback/feedback/';
     const statsEndpoint = 'http://127.0.0.1:8000/feedback/feedback/stats/';
-    const reportEndpoint = 'http://127.0.0.1:8000/feedback/report/';
+    const reportEndpoint = 'http://127.0.0.1:8000/feedback/feedback/report/';
 
     const fetchFeedbackData = async (filters = {}) => {
         try {
@@ -34,18 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderFeedbackCards = (data) => {
         const container = document.getElementById('feedback-cards-container');
         container.innerHTML = ''; // Clear existing content
-    
+
         if (!data || data.length === 0) {
             container.innerHTML = '<p>No feedback available.</p>';
             return;
         }
-    
+
         data.forEach((feedback) => {
             const card = document.createElement('div');
             card.classList.add('feedback-card');
             card.innerHTML = `
                 <div class="feedback-content">
-                    <p class="feedback-message">${feedback.content}</p>
+                    <p class="feedback-message"><strong>Feedback:</strong> ${feedback.content}</p>
                 </div>
                 <div class="feedback-details">
                     <p><strong>User:</strong> ${feedback.full_name || 'Anonymous User'}</p>
@@ -61,13 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             container.appendChild(card);
         });
-    
+
         // Add event listeners for the "Mark as Reviewed" buttons
         const reviewButtons = document.querySelectorAll('.review-btn');
         reviewButtons.forEach((button) =>
             button.addEventListener('click', () => markFeedbackAsReviewed(button.dataset.id))
         );
-    };    
+    };
 
     const updateStats = (stats) => {
         document.getElementById('total-feedback').textContent = stats.total_feedback || 0;
@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
 
+            // Create a link element to trigger download
             const a = document.createElement('a');
             a.href = url;
             a.download = 'feedback_report.csv';
