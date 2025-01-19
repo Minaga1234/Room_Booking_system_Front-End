@@ -1,41 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
   <link rel="stylesheet" href="css/profile.css">
+  <link rel="stylesheet" href="../shared/css/sidebar.css">
+  <link rel="stylesheet" href="../shared/css/header.css">
 </head>
+
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="branding">
-      <h2>ECU</h2>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Bookings</a></li>
-        <li class="active"><a href="#">Manage Rooms</a></li>
-        <li><a href="#">Analytics</a></li>
-      </ul>
-    </nav>
-  </div>
+  <!-- Sidebar Section -->
+  <aside class="sidebar">
+    <div id="sidebar-container"></div>
+  </aside>
 
   <!-- Main Content -->
   <div class="main-content">
-    <!-- Header -->
-    <header>
-      <div class="branding">
-        <h1>Intelligent Spatial Management System</h1>
-      </div>
-      <div class="header-controls">
-        <input type="text" placeholder="Search" class="search-bar">
-        <div class="header-icons">
-          <span class="notification-icon">🔔</span>
-          <span class="user-icon">👤</span>
-        </div>
-      </div>
+    <!-- Header Section -->
+    <header class="header">
+      <div id="header-container"></div>
     </header>
 
     <main>
@@ -51,7 +36,8 @@
             <p><strong>Booking Restrictions:</strong> None</p>
             <p><strong>Penalty Expiration:</strong> N/A</p>
             <button class="request-review-btn">Request Review for Active Penalty</button>
-            </div>            
+          </div>
+        </div>
         <h3 id="penalty-history-heading">Penalty History</h3>
         <div role="region" aria-labelledby="penalty-history-heading" class="details-table">
           <table>
@@ -71,6 +57,28 @@
       </section>
     </main>
   </div>
+
+  <!-- Scripts to dynamically load shared components -->
+  <script src="../shared/js/sidebar.js"></script>
+  <script src="../shared/js/header.js"></script>
+  <script>
+    // Dynamically load the header
+    fetch("../shared/header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header-container").innerHTML = data;
+      })
+      .catch(error => console.error("Error loading header:", error));
+
+    // Dynamically load the sidebar
+    fetch("../shared/navbar.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("sidebar-container").innerHTML = data;
+      })
+      .catch(error => console.error("Error loading sidebar:", error));
+  </script>
   <script src="js/penalties.js"></script>
 </body>
+
 </html>

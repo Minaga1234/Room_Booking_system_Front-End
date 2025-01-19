@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="./css/feedback.css">
+    <link rel="stylesheet" href="../shared/css/sidebar.css">
+    <link rel="stylesheet" href="../shared/css/header.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <div id="header-container"></div>
+        </header>
+
+        <aside>
+            <div id="sidebar-container"></div>
+        </aside>
+
+        <main class="main-content">
+            <div class="feedback-container">
+                <h2>Submit Your Feedback</h2>
+                <form id="feedback-form">
+                    <div class="form-group">
+                        <label for="field-of-study">Field of Study</label>
+                        <select id="field-of-study" name="fieldOfStudy" required>
+                            <option value="" disabled selected>Choose your field</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Business">Business</option>
+                            <option value="Arts">Arts</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="room">Room (if applicable)</label>
+                        <select id="room" name="room">
+                            <option value="" disabled selected>Loading rooms...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedback">Feedback</label>
+                        <textarea id="feedback" name="content" rows="5" placeholder="Write your feedback here..."
+                            required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <input type="number" id="rating" name="rating" min="1" max="5" required>
+                    </div>
+                    <button id="submit-feedback" class="styled-button">
+                        <span class="styled-button-content">Submit</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="note-container">
+                <h3>Note</h3>
+                <p>
+                    We value your feedback and strive to improve your experience with our room booking system. Please
+                    share your thoughts, suggestions, or concerns through this form. Your input will help us enhance the
+                    system and better serve your needs. Thank you for taking the time to provide your valuable feedback!
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script src="./js/feedback.js" defer></script>
+</body>
+
+</html>

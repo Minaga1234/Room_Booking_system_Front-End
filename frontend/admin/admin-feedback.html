@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Feedback Dashboard</title>
+    <link rel="stylesheet" href="./css/admin-feedback.css">
+    <link rel="stylesheet" href="./css/admin-header.css">
+    <link rel="stylesheet" href="./css/admin-navbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Feedback Cards Section -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h2>Admin Feedback Dashboard</h2>
+                <div class="dashboard-actions">
+                    <button class="action-btn refresh-btn" id="refresh-btn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="action-btn download-btn" id="download-report-btn">
+                        <i class="fas fa-download"></i> Download Report
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-container">
+                <form id="filter-form">
+                    <label for="room-filter">Room:</label>
+                    <input type="text" id="room-filter" placeholder="Enter room name">
+
+                    <label for="sentiment-filter">Sentiment:</label>
+                    <select id="sentiment-filter">
+                        <option value="">All</option>
+                        <option value="positive">Positive</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="negative">Negative</option>
+                    </select>
+
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date">
+
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date">
+
+                    <button type="submit" class="filter-btn">Apply Filters</button>
+                </form>
+            </div>
+
+            <div class="feedback-stats">
+                <div class="stat-card">
+                    <h4>Total Feedback</h4>
+                    <p id="total-feedback">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Pending Review</h4>
+                    <p id="pending-review">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Reviewed</h4>
+                    <p id="reviewed">0</p>
+                </div>
+            </div>
+
+            <div id="feedback-cards-container" class="feedback-cards-container"></div>
+            <div id="feedback-error-message" class="error-message hidden">
+                Unable to fetch feedback data. Please try again later.
+            </div>
+        </main>
+    </div>
+
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+    <script src="./js/admin-feedback.js" defer></script>
+</body>
+
+</html>

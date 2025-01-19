@@ -178,6 +178,20 @@
 .profile-popup a:hover {
     background-color: #6a6afa;
 }
+.notification-popup,
+.profile-popup {
+    display: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.notification-wrapper:hover .notification-popup,
+.profile-wrapper:hover .profile-popup {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
 
 /* Responsive Design */
 @media screen and (max-width: 1200px) {

@@ -1,0 +1,380 @@
+/* Global Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #01182a;
+    color: #2d3748;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Main Content Section */
+.main-content {
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(103, 58, 183, 0.1);
+    width: 70%;
+    max-width: 1000px;
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+    margin: 90px 30px 30px auto;
+    box-sizing: border-box;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.dashboard-header h2 {
+    color: #2d3748;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* Stats Section */
+.feedback-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(103, 58, 183, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h4 {
+    color: #4a5568;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.stat-card p {
+    color: #673ab7;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Feedback Card */
+.feedback-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(103, 58, 183, 0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.feedback-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(103, 58, 183, 0.12);
+}
+
+.feedback-content {
+    font-size: 18px;
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.8;
+}
+
+.feedback-message {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4a5568;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.feedback-details {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.feedback-details p {
+    margin: 5px 0;
+}
+
+.review-btn {
+    background-color: #673ab7;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.review-btn:hover {
+    background-color: #5e35b1;
+}
+
+.feedback-card h3 {
+    font-size: 18px;
+    color: #2d3748;
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.feedback-card strong {
+    color: #2d3748;
+}
+
+/* Buttons */
+.action-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn,
+.refresh-btn {
+    background-color: #f8f9fa;
+    color: #2d3748;
+}
+
+.filter-btn:hover,
+.refresh-btn:hover {
+    background-color: #e2e8f0;
+}
+
+.review-btn {
+    background-color: #673ab7;
+    color: white;
+}
+
+.review-btn:hover {
+    background-color: #5e35b1;
+}
+
+.delete-btn {
+    background-color: #2d3748;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #1a202c;
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(103, 58, 183, 0.2);
+}
+
+.modal h3 {
+    font-size: 20px;
+    color: #2d3748;
+    margin-bottom: 20px;
+}
+
+.modal label {
+    font-size: 14px;
+    color: #4a5568;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+.apply-btn {
+    background-color: #673ab7;
+    color: white;
+}
+
+.apply-btn:hover {
+    background-color: #5e35b1;
+}
+
+.cancel-btn {
+    background-color: #2d3748;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #1a202c;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 1024px) {
+    .main-content {
+        width: 85%;
+        margin: 90px auto 30px auto;
+        /* Maintained the same top margin */
+        padding: 25px;
+        height: calc(100vh - 140px);
+    }
+
+    .feedback-cards-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-content {
+        width: 90%;
+        margin: 90px auto 30px auto;
+        /* Maintained the same top margin */
+        padding: 20px;
+        height: calc(100vh - 140px);
+        /* Kept consistent height */
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .feedback-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .feedback-cards-container {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+
+    .card-actions {
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-content {
+        width: 95%;
+        margin: 90px auto 30px auto;
+        /* Maintained the same top margin */
+        padding: 15px;
+        height: calc(100vh - 140px);
+        /* Kept consistent height */
+    }
+
+    .dashboard-header h2 {
+        font-size: 20px;
+    }
+
+    .feedback-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card p {
+        font-size: 20px;
+    }
+
+    .feedback-card {
+        padding: 15px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
+}

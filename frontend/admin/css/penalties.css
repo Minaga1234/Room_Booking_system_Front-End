@@ -2,135 +2,120 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  background-color: #F8F8FC; /* Light background */
-}
-
-.sidebar {
-  width: 15%;
-  height: 100vh;
-  background-color: #6B6CCF; /* Purple sidebar */
-  padding: 20px;
-  color: white;
-  position: fixed;
-}
-
-.sidebar h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.sidebar nav ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar nav ul li {
-  margin: 15px 0;
-}
-
-.sidebar nav ul li.active a {
-  color: orange; /* Highlight active */
+  background-color: #F9FAFB;
+  /* Slightly lighter background for a softer look */
+  color: #333;
+  /* Standard text color */
 }
 
 .main-content {
   margin-left: 20%;
-  padding: 20px;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  margin-bottom: 20px;
-}
-
-.branding h1 {
-  font-size: 1.5rem;
-  color: #3F3D56; /* Dark gray */
-}
-
-.search-bar {
-  padding: 5px 10px;
-  border: 1px solid #DDD;
-  border-radius: 5px;
-}
-
-.header-controls {
-  display: flex;
-  align-items: center;
-}
-
-.header-controls .header-icons span {
-  margin-left: 15px;
-  font-size: 1.2rem;
+  margin-top: 50px;
+  /* Added more space from the top */
+  padding: 60px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 /* Penalties Overview Section */
 .penalties-overview {
-  padding: 20px;
-  background: white;
+  padding: 25px;
+  background: #FFFFFF;
   border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .penalty-cards {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin: 25px 0;
 }
 
 .card {
-  background-color: #E9D8FD; /* Light purple */
+  background-color: #F1F5FF;
+  /* Soft blue */
   border-radius: 15px;
-  padding: 15px;
+  padding: 20px;
   text-align: center;
-  width: 20%;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.card.red { border-top: 5px solid #FF4D4D; }
-.card.purple { border-top: 5px solid #A78BFA; }
-.card.green { border-top: 5px solid #34D399; }
-.card.blue { border-top: 5px solid #60A5FA; }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card.red {
+  border-top: 5px solid #FF6B6B;
+}
+
+.card.purple {
+  border-top: 5px solid #8E44AD;
+}
+
+.card.green {
+  border-top: 5px solid #27AE60;
+}
+
+.card.blue {
+  border-top: 5px solid #3498DB;
+}
 
 .card p {
-  font-size: 1rem;
-  color: #4A4A4A;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  color: #666;
 }
 
 .card h2 {
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 /* Penalty Details Section */
 .penalty-details {
-  background: white;
+  background: #FFFFFF;
   border-radius: 15px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border: 2px solid #E9D8FD;
+  padding: 25px;
+  margin-top: 25px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E7EB;
+  overflow-x: auto;
 }
 
 .details-table table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
+  min-width: 600px;
 }
 
-.details-table th, .details-table td {
+.details-table th,
+.details-table td {
   text-align: center;
-  padding: 10px;
+  padding: 12px;
   border-bottom: 1px solid #E5E7EB;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+}
+
+.details-table th {
+  background-color: #F8F9FA;
+  font-weight: bold;
 }
 
 .resolve-btn {
-  background: #FF4D4D;
+  background: #FF6B6B;
   color: white;
-  padding: 5px 15px;
+  padding: 8px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
 }
 
 .resolve-btn:hover {
@@ -139,78 +124,91 @@ header {
 
 /* Download Report Button */
 .download-btn {
-  background-color: #F9E4E4; /* Exact light pink color */
-  color: #3F3D56; /* Dark text */
+  background-color: #FEE2E2;
+  /* Light red */
+  color: #333;
   border: none;
-  padding: 10px 20px;
-  margin-top: 20px;
+  padding: 12px 25px;
+  margin-top: 25px;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: clamp(0.875rem, 1.5vw, 1.1rem);
   display: flex;
-  align-items: center; /* Center icon and text */
+  align-items: center;
   justify-content: center;
-  gap: 10px; /* Space between icon and text */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  gap: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  margin: 25px auto;
 }
 
 .download-btn:hover {
-  background-color: #FCD7D7; /* Slightly darker pink on hover */
+  background-color: #FFD6D6;
+  /* Darker light red */
 }
 
-/* Icon inside Download Button */
 .download-btn .icon {
   font-size: 1.2rem;
-  color: #FF4D4D; /* Bright red for icon */
+  color: #E64545;
 }
 
 .filter-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
 }
 
 .filter-controls label {
-  font-size: 1rem;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
   font-weight: bold;
-  margin-right: 5px;
 }
 
 .filter-controls select,
 .filter-controls input,
 .filter-controls button {
-  padding: 5px 10px;
-  font-size: 1rem;
+  padding: 8px 12px;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
   border: 1px solid #DDD;
   border-radius: 5px;
+  width: 100%;
+  max-width: 200px;
 }
 
 .filter-btn {
-  background-color: #4CAF50;
+  background-color: #2ECC71;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .filter-btn:hover {
-  background-color: #45A049;
+  background-color: #28A745;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  gap: 10px;
+  margin-top: 25px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .pagination button {
-  padding: 5px 10px;
-  font-size: 1rem;
+  padding: 8px 12px;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
   border: 1px solid #DDD;
   border-radius: 5px;
-  background-color: #F9E4E4;
+  background-color: #F8F9FA;
   cursor: pointer;
+  transition: all 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #E9ECEF;
 }
 
 .pagination button:disabled {
@@ -219,18 +217,125 @@ header {
 }
 
 .pagination span {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
 }
 
 button.approve-review-btn {
-  background-color: #28a745; /* Green */
+  background-color: #28A745;
+  /* Green */
 }
 
 button.reject-review-btn {
-  background-color: #dc3545; /* Red */
+  background-color: #E74C3C;
+  /* Red */
 }
 
 button:hover {
   opacity: 0.9;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 1200px) {
+  .main-content {
+    margin-left: 25%;
+    padding: 40px;
+  }
+
+  .penalty-cards {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .main-content {
+    margin-left: 30%;
+    padding: 30px;
+  }
+
+  .penalty-cards {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .card h2 {
+    font-size: clamp(1.25rem, 2.5vw, 2rem);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    margin-top: 60px;
+    padding: 20px;
+  }
+
+  .penalties-overview {
+    padding: 20px;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-controls select,
+  .filter-controls input,
+  .filter-controls button {
+    max-width: 100%;
+  }
+
+  .penalty-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .pagination {
+    gap: 8px;
+  }
+
+  .pagination button {
+    padding: 8px;
+  }
+
+  .download-btn {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-content {
+    padding: 15px;
+  }
+
+  .penalties-overview,
+  .penalty-details {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .details-table th,
+  .details-table td {
+    padding: 8px;
+    font-size: 0.875rem;
+  }
+
+  .pagination {
+    gap: 5px;
+  }
+
+  .pagination button {
+    padding: 6px;
+    font-size: 0.875rem;
+  }
+
+  .filter-controls {
+    gap: 8px;
+  }
+
+  .download-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
 }
