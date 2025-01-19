@@ -14,15 +14,20 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 340px); /* Account for sidebar */
-  margin-left: 300px; /* Space for sidebar */
-  margin-top: 70px; /* Space for header */
-  height: calc(100vh - 90px); /* Adjust for header height */
-  background-color: #f9f6fc;
+  width: calc(100% - 340px);
+  /* Account for sidebar */
+  margin-left: 300px;
+  /* Space for sidebar */
+  margin-top: 70px;
+  /* Space for header */
+  height: calc(100vh - 90px);
+  /* Adjust for header height */
+  background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
-  overflow: hidden; /* Prevent content overflow */
+  overflow: hidden;
+  /* Prevent content overflow */
   padding: 20px;
 }
 
@@ -34,7 +39,8 @@ body {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  overflow-y: auto; /* Enable scrolling */
+  overflow-y: auto;
+  /* Enable scrolling */
   padding: 10px;
 }
 
@@ -103,7 +109,6 @@ body {
   padding: 15px;
   background-color: #ffffff;
   border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
 }
 
@@ -130,7 +135,8 @@ body {
   display: flex;
   gap: 20px;
   justify-content: space-between;
-  height: calc(100% - 320px); /* Adjust to fit remaining height */
+  height: calc(100% - 320px);
+  /* Adjust to fit remaining height */
 }
 
 .amenities,
@@ -153,40 +159,55 @@ body {
 .bookings-list {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Space between booking items */
-  height: 300px; /* Fixed height for the container */
-  overflow-y: auto; /* Enable vertical scrolling */
-  padding: 10px; /* Inner padding for content spacing */
-  border-radius: 10px; /* Rounded corners for the container */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
-  background-color: #f9f6fc; /* Match background color */
-  border: 1px solid #e0e0e0; /* Border for visual separation */
+  gap: 10px;
+  /* Space between booking items */
+  height: 300px;
+  /* Fixed height for the container */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  padding: 10px;
+  /* Inner padding for content spacing */
+  border-radius: 10px;
+  /* Rounded corners for the container */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Optional shadow for depth */
+  background-color: #f9f6fc;
+  /* Match background color */
+  border: 1px solid #e0e0e0;
+  /* Border for visual separation */
 }
 
 /* Custom Scrollbar Styling */
 .bookings-list::-webkit-scrollbar {
-  width: 6px; /* Adjust scrollbar width */
+  width: 6px;
+  /* Adjust scrollbar width */
 }
 
 .bookings-list::-webkit-scrollbar-thumb {
-  background: #5a3e94; /* Thumb color */
-  border-radius: 4px; /* Rounded corners for the scrollbar */
+  background: #5a3e94;
+  /* Thumb color */
+  border-radius: 4px;
+  /* Rounded corners for the scrollbar */
 }
 
 .bookings-list::-webkit-scrollbar-thumb:hover {
-  background: #3f2a7d; /* Darker color on hover */
+  background: #3f2a7d;
+  /* Darker color on hover */
 }
 
 .bookings-list::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Track color inside the container */
+  background: #f1f1f1;
+  /* Track color inside the container */
   border-radius: 4px;
 }
 
 /* Booking Item Inner Padding */
 .booking-item {
-  padding: 15px; /* Inner padding for booking items */
+  padding: 15px;
+  /* Inner padding for booking items */
   background-color: #e6eaf1;
-  border-radius: 8px; /* Rounded corners for booking items */
+  border-radius: 8px;
+  /* Rounded corners for booking items */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 0.9rem;
   color: #333;
@@ -197,19 +218,22 @@ body {
 /* Text within booking item */
 .booking-item strong {
   display: block;
-  margin-bottom: 8px; /* Space below bold text */
+  margin-bottom: 8px;
+  /* Space below bold text */
 }
 
 .booking-item p {
   margin: 0;
   font-size: 0.9rem;
-  line-height: 1.5; /* Improve text readability */
+  line-height: 1.5;
+  /* Improve text readability */
 }
 
 /* Buttons in booking item */
 .booking-item button {
   margin-top: 10px;
-  padding: 8px 15px; /* Add inner padding to the button */
+  padding: 8px 15px;
+  /* Add inner padding to the button */
   background-color: #5a3e94;
   color: white;
   border: none;
@@ -221,7 +245,8 @@ body {
 
 .booking-item button:hover {
   background-color: #3f2a7d;
-  transform: translateY(-2px); /* Add a hover animation */
+  transform: translateY(-2px);
+  /* Add a hover animation */
 }
 
 .booking-item button:active {
@@ -247,15 +272,18 @@ body {
 /* Form Grid Layout */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
-  gap: 20px; /* Spacing between columns */
+  grid-template-columns: 1fr 1fr;
+  /* Two equal-width columns */
+  gap: 20px;
+  /* Spacing between columns */
 }
 
 /* Columns */
 .form-column {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Spacing between input elements */
+  gap: 15px;
+  /* Spacing between input elements */
 }
 
 .booking-section label {
@@ -332,13 +360,13 @@ body {
 /* Submit Button */
 .booking-section button {
   padding: 10px;
-  background-color: #8561c5;
+  background-color: #01182a;
   color: #ffffff;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.8rem;
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -350,64 +378,90 @@ body {
 .booking-section .terms {
   margin-top: 20px;
   display: flex;
-  align-items: flex-start; /* Align items to the top for better readability */
-  gap: 10px; /* Add spacing between the checkbox and the text */
-  font-size: 0.9rem; /* Slightly larger font size for better visibility */
-  color: #5a3e94; /* Maintain consistency with the design color scheme */
-  line-height: 1.5; /* Increase line height for better readability */
+  align-items: flex-start;
+  /* Align items to the top for better readability */
+  gap: 10px;
+  /* Add spacing between the checkbox and the text */
+  font-size: 0.9rem;
+  /* Slightly larger font size for better visibility */
+  color: #5a3e94;
+  /* Maintain consistency with the design color scheme */
+  line-height: 1.5;
+  /* Increase line height for better readability */
 }
 
 .booking-section .terms input[type="checkbox"] {
-  margin-top: 2px; /* Align the checkbox vertically with the text */
-  flex-shrink: 0; /* Ensure the checkbox doesn't shrink when the screen size changes */
-  width: 16px; /* Set a consistent size for the checkbox */
+  margin-top: 2px;
+  /* Align the checkbox vertically with the text */
+  flex-shrink: 0;
+  /* Ensure the checkbox doesn't shrink when the screen size changes */
+  width: 16px;
+  /* Set a consistent size for the checkbox */
   height: 16px;
-  border: 2px solid #5a3e94; /* Add a border for better visibility */
-  border-radius: 3px; /* Slightly rounded corners for a modern look */
-  cursor: pointer; /* Show pointer cursor on hover */
-  transition: background-color 0.3s ease, border-color 0.3s ease; /* Add smooth transitions */
+  border: 2px solid #5a3e94;
+  /* Add a border for better visibility */
+  border-radius: 3px;
+  /* Slightly rounded corners for a modern look */
+  cursor: pointer;
+  /* Show pointer cursor on hover */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  /* Add smooth transitions */
 }
 
 .booking-section .terms input[type="checkbox"]:checked {
-  background-color: #5a3e94; /* Background color when checked */
-  border-color: #3f2a7d; /* Border color when checked */
+  background-color: #5a3e94;
+  /* Background color when checked */
+  border-color: #3f2a7d;
+  /* Border color when checked */
 }
 
 .booking-section .terms a {
   color: #5a3e94;
   text-decoration: underline;
   font-weight: bold;
-  transition: color 0.3s ease, text-shadow 0.3s ease; /* Add shadow effect */
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  /* Add shadow effect */
 }
 
 .booking-section .terms a:hover {
-  color: #3f2a7d; /* Change color on hover */
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+  color: #3f2a7d;
+  /* Change color on hover */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  /* Subtle shadow effect */
 }
 
 .booking-section .terms label {
-  cursor: pointer; /* Make the label clickable */
-  display: inline-block; /* Ensure proper spacing */
-  line-height: 1.4; /* Consistent line height for multi-line text */
+  cursor: pointer;
+  /* Make the label clickable */
+  display: inline-block;
+  /* Ensure proper spacing */
+  line-height: 1.4;
+  /* Consistent line height for multi-line text */
   margin-bottom: 0;
 }
 
 .booking-section .terms span {
-  display: block; /* Separate line for extra descriptive text */
+  display: block;
+  /* Separate line for extra descriptive text */
   font-size: 0.8rem;
-  color: #7f7f7f; /* Muted color for less emphasis */
-  margin-top: 5px; /* Add spacing between main text and extra info */
+  color: #7f7f7f;
+  /* Muted color for less emphasis */
+  margin-top: 5px;
+  /* Add spacing between main text and extra info */
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .booking-section .terms {
-    flex-direction: column; /* Stack checkbox and text vertically */
-    align-items: flex-start; /* Align to the start for a natural layout */
+    flex-direction: column;
+    /* Stack checkbox and text vertically */
+    align-items: flex-start;
+    /* Align to the start for a natural layout */
   }
 
   .booking-section .terms input[type="checkbox"] {
-    margin-bottom: 10px; /* Add spacing below the checkbox */
+    margin-bottom: 10px;
+    /* Add spacing below the checkbox */
   }
 }
 
@@ -430,7 +484,8 @@ body {
 
 /* Prevent Horizontal Scrolling */
 .booking-section {
-  overflow-x: hidden; /* Disable horizontal scrolling */
+  overflow-x: hidden;
+  /* Disable horizontal scrolling */
 }
 
 /* Scrollbar */
@@ -454,7 +509,8 @@ body {
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .booking-section {
-    grid-template-columns: 1fr; /* Single column layout for smaller screens */
+    grid-template-columns: 1fr;
+    /* Single column layout for smaller screens */
     row-gap: 10px;
   }
 
@@ -465,11 +521,13 @@ body {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+
   .booking-section textarea,
   .booking-section select,
   .booking-section input,
   .booking-section button {
-    width: 100%; /* Full width on smaller screens */
+    width: 100%;
+    /* Full width on smaller screens */
     max-width: none;
   }
 }

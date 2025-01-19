@@ -81,14 +81,7 @@ body {
     margin: 0;
 }
 
-/* Feedback Cards */
-.feedback-cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    padding: 8px 0;
-}
-
+/* Feedback Card */
 .feedback-card {
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
@@ -102,8 +95,50 @@ body {
 }
 
 .feedback-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(103, 58, 183, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(103, 58, 183, 0.12);
+}
+
+.feedback-content {
+    font-size: 18px;
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.8;
+}
+
+.feedback-message {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4a5568;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.feedback-details {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.feedback-details p {
+    margin: 5px 0;
+}
+
+.review-btn {
+    background-color: #673ab7;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.review-btn:hover {
+    background-color: #5e35b1;
 }
 
 .feedback-card h3 {
@@ -112,13 +147,6 @@ body {
     margin: 0;
     padding-bottom: 8px;
     border-bottom: 1px solid #f0f0f0;
-}
-
-.feedback-card p {
-    font-size: 14px;
-    margin: 0;
-    color: #4a5568;
-    line-height: 1.5;
 }
 
 .feedback-card strong {

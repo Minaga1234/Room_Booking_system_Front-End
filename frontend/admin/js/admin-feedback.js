@@ -1,209 +1,141 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    await loadHeaderAndSidebar();
-    await fetchAndDisplayFeedback();
-    addFilterFunctionality();
-});
+document.addEventListener('DOMContentLoaded', () => {
+    const feedbackEndpoint = 'http://127.0.0.1:8000/feedback/feedback/';
+    const statsEndpoint = 'http://127.0.0.1:8000/feedback/feedback/stats/';
+    const reportEndpoint = 'http://127.0.0.1:8000/feedback/feedback/report/';
 
-const loadHeaderAndSidebar = async () => {
-    try {
-        const headerResponse = await fetch("./header.html");
-        const sidebarResponse = await fetch("./navbar.html");
+    const fetchFeedbackData = async (filters = {}) => {
+        try {
+            const params = new URLSearchParams(filters).toString();
+            const url = params ? `${feedbackEndpoint}?${params}` : feedbackEndpoint;
 
-        if (!headerResponse.ok || !sidebarResponse.ok) {
-            throw new Error("Failed to load header or sidebar.");
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+            const data = await response.json();
+            renderFeedbackCards(data);
+        } catch (error) {
+            console.error('Error fetching feedback data:', error);
+            displayErrorMessage();
+        }
+    };
+
+    const fetchStats = async () => {
+        try {
+            const response = await fetch(statsEndpoint);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+            const stats = await response.json();
+            updateStats(stats);
+        } catch (error) {
+            console.error('Error updating stats:', error);
+        }
+    };
+
+    const renderFeedbackCards = (data) => {
+        const container = document.getElementById('feedback-cards-container');
+        container.innerHTML = ''; // Clear existing content
+
+        if (!data || data.length === 0) {
+            container.innerHTML = '<p>No feedback available.</p>';
+            return;
         }
 
-        document.getElementById("header-container").innerHTML = await headerResponse.text();
-        document.getElementById("sidebar-container").innerHTML = await sidebarResponse.text();
-    } catch (error) {
-        console.error("Error loading header/sidebar:", error);
-        document.getElementById("feedback-error-message").classList.remove("hidden");
-    }
-};
-
-const fetchAndDisplayFeedback = async () => {
-    try {
-        // Simulated feedback data
-        const dummyFeedbacks = [
-            {
-                id: 1,
-                fullName: "John Doe",
-                fieldOfStudy: "Computer Science",
-                room: "Green Room",
-                studentId: "CS2023",
-                feedback: "The room booking system is very convenient.",
-                status: "pending",
-                date: "2025-01-15"
-            },
-            {
-                id: 2,
-                fullName: "Jane Smith",
-                fieldOfStudy: "Engineering",
-                room: "Blue Room",
-                studentId: "EN2045",
-                feedback: "Would like better availability of rooms in the afternoon.",
-                status: "reviewed",
-                date: "2025-01-12"
-            },
-            {
-                id: 3,
-                fullName: "Alice Johnson",
-                fieldOfStudy: "Business",
-                room: "Study Hall",
-                studentId: "BS1012",
-                feedback: "The booking process is easy, but the UI can be improved.",
-                status: "pending",
-                date: "2025-01-14"
-            },
-        ];
-
-        populateFeedbackCards(dummyFeedbacks);
-        updateStats(dummyFeedbacks);
-    } catch (error) {
-        console.error("Error fetching feedback data:", error);
-        document.getElementById("feedback-error-message").classList.remove("hidden");
-    }
-};
-
-const updateStats = (feedbacks) => {
-    const totalFeedback = feedbacks.length;
-    const pendingReview = feedbacks.filter(f => f.status === 'pending').length;
-    const reviewed = feedbacks.filter(f => f.status === 'reviewed').length;
-
-    document.getElementById('total-feedback').textContent = totalFeedback;
-    document.getElementById('pending-review').textContent = pendingReview;
-    document.getElementById('reviewed').textContent = reviewed;
-};
-
-const populateFeedbackCards = (feedbacks) => {
-    const cardsContainer = document.getElementById("feedback-cards-container");
-    cardsContainer.innerHTML = "";
-
-    feedbacks.forEach((feedback, index) => {
-        const card = document.createElement("div");
-        card.className = "feedback-card";
-
-        card.innerHTML = `
-            <h3>Feedback #${feedback.id || index + 1}</h3>
-            <p><strong>Full Name:</strong> ${feedback.fullName}</p>
-            <p><strong>Field of Study:</strong> ${feedback.fieldOfStudy}</p>
-            <p><strong>Room:</strong> ${feedback.room}</p>
-            <p><strong>Student ID:</strong> ${feedback.studentId}</p>
-            <p><strong>Date:</strong> ${feedback.date}</p>
-            <p><strong>Feedback:</strong> ${feedback.feedback}</p>
-            <div class="card-actions">
-                <button class="action-btn review-btn" data-id="${feedback.id}">
-                    <i class="fas fa-check"></i> Mark Reviewed
-                </button>
-                <button class="action-btn delete-btn" data-id="${feedback.id}">
-                    <i class="fas fa-trash"></i> Delete
-                </button>
-            </div>
-        `;
-
-        cardsContainer.appendChild(card);
-    });
-
-    addActionEventListeners();
-};
-
-const addActionEventListeners = () => {
-    document.querySelectorAll(".review-btn").forEach((button) => {
-        button.addEventListener("click", async (e) => {
-            const feedbackId = e.target.dataset.id;
-            alert(`Marking Feedback #${feedbackId} as reviewed.`);
-            // Update status logic here
+        data.forEach((feedback) => {
+            const card = document.createElement('div');
+            card.classList.add('feedback-card');
+            card.innerHTML = `
+                <div class="feedback-content">
+                    <p class="feedback-message"><strong>Feedback:</strong> ${feedback.content}</p>
+                </div>
+                <div class="feedback-details">
+                    <p><strong>User:</strong> ${feedback.full_name || 'Anonymous User'}</p>
+                    <p><strong>Room:</strong> ${feedback.room || 'N/A'}</p>
+                    <p><strong>Rating:</strong> ${feedback.rating}</p>
+                    <p><strong>Sentiment:</strong> ${feedback.sentiment || 'Not Analyzed'}</p>
+                    ${
+                        feedback.admin_response
+                            ? '<p><strong>Status:</strong> Reviewed</p>'
+                            : `<button class="review-btn" data-id="${feedback.id}">Mark as Reviewed</button>`
+                    }
+                </div>
+            `;
+            container.appendChild(card);
         });
-    });
 
-    document.querySelectorAll(".delete-btn").forEach((button) => {
-        button.addEventListener("click", async (e) => {
-            const feedbackId = e.target.dataset.id;
-            alert(`Deleting Feedback #${feedbackId}.`);
-            // Delete feedback logic here
-        });
-    });
+        // Add event listeners for the "Mark as Reviewed" buttons
+        const reviewButtons = document.querySelectorAll('.review-btn');
+        reviewButtons.forEach((button) =>
+            button.addEventListener('click', () => markFeedbackAsReviewed(button.dataset.id))
+        );
+    };
 
-    document.querySelector(".refresh-btn")?.addEventListener("click", () => {
-        fetchAndDisplayFeedback();
-    });
-};
+    const updateStats = (stats) => {
+        document.getElementById('total-feedback').textContent = stats.total_feedback || 0;
+        document.getElementById('pending-review').textContent = stats.pending_review || 0;
+        document.getElementById('reviewed').textContent = stats.reviewed || 0;
+    };
 
-const addFilterFunctionality = () => {
-    const filterModal = document.getElementById("filter-modal");
-    const filterBtn = document.querySelector(".filter-btn");
-    const cancelBtn = document.querySelector(".cancel-btn");
-    const filterForm = document.getElementById("filter-form");
+    const displayErrorMessage = () => {
+        const errorMessage = document.getElementById('feedback-error-message');
+        errorMessage.classList.remove('hidden');
+    };
 
-    filterBtn.addEventListener("click", () => {
-        filterModal.classList.remove("hidden");
-    });
+    const markFeedbackAsReviewed = async (id) => {
+        try {
+            const response = await fetch(`${feedbackEndpoint}${id}/mark_reviewed/`, { method: 'POST' });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-    cancelBtn.addEventListener("click", () => {
-        filterModal.classList.add("hidden");
-    });
+            fetchFeedbackData(); // Refresh the feedback list
+            fetchStats(); // Update stats
+        } catch (error) {
+            console.error('Error marking feedback as reviewed:', error);
+        }
+    };
 
-    filterForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+    const handleFilterSubmit = (event) => {
+        event.preventDefault();
 
-        const course = document.getElementById("course-filter").value;
-        const date = document.getElementById("date-filter").value;
-        const status = document.getElementById("status-filter").value;
+        // Gather filter values
+        const room = document.getElementById('room-filter').value;
+        const sentiment = document.getElementById('sentiment-filter').value;
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
 
-        // Filter feedbacks based on criteria
-        applyFilters(course, date, status);
-        filterModal.classList.add("hidden");
-    });
-};
+        const filters = {};
+        if (room) filters.room = room;
+        if (sentiment) filters.sentiment = sentiment;
+        if (startDate) filters.start_date = startDate;
+        if (endDate) filters.end_date = endDate;
 
-const applyFilters = (course, date, status) => {
-    const dummyFeedbacks = [
-        {
-            id: 1,
-            fullName: "John Doe",
-            fieldOfStudy: "Computer Science",
-            room: "Green Room",
-            studentId: "CS2023",
-            feedback: "The room booking system is very convenient.",
-            status: "pending",
-            date: "2025-01-15"
-        },
-        {
-            id: 2,
-            fullName: "Jane Smith",
-            fieldOfStudy: "Engineering",
-            room: "Blue Room",
-            studentId: "EN2045",
-            feedback: "Would like better availability of rooms in the afternoon.",
-            status: "reviewed",
-            date: "2025-01-12"
-        },
-        {
-            id: 3,
-            fullName: "Alice Johnson",
-            fieldOfStudy: "Business",
-            room: "Study Hall",
-            studentId: "BS1012",
-            feedback: "The booking process is easy, but the UI can be improved.",
-            status: "pending",
-            date: "2025-01-14"
-        },
-    ];
+        fetchFeedbackData(filters);
+    };
 
-    let filteredFeedbacks = dummyFeedbacks;
+    const handleDownloadReport = async () => {
+        try {
+            const response = await fetch(reportEndpoint);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-    if (course) {
-        filteredFeedbacks = filteredFeedbacks.filter(f => f.fieldOfStudy === course);
-    }
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
 
-    if (date) {
-        filteredFeedbacks = filteredFeedbacks.filter(f => f.date === date);
-    }
+            // Create a link element to trigger download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'feedback_report.csv';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } catch (error) {
+            console.error('Error downloading report:', error);
+        }
+    };
 
-    if (status) {
-        filteredFeedbacks = filteredFeedbacks.filter(f => f.status === status);
-    }
+    // Add event listeners
+    document.getElementById('filter-form').addEventListener('submit', handleFilterSubmit);
+    document.getElementById('refresh-btn').addEventListener('click', () => fetchFeedbackData());
+    document.getElementById('download-report-btn').addEventListener('click', handleDownloadReport);
 
-    populateFeedbackCards(filteredFeedbacks);
-    updateStats(filteredFeedbacks);
-};
+    // Fetch initial data
+    fetchFeedbackData();
+    fetchStats();
+});

@@ -51,26 +51,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 
-// Fetch username dynamically
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        // Fetch user data from an API (example endpoint)
-        const response = await fetch("https://api.example.com/user/profile");
+        // Retrieve the stored email from localStorage
+        const email = localStorage.getItem("userEmail");
+        if (!email) {
+            // Redirect to login if email is not available
+            console.error("No email found in localStorage. Redirecting to login...");
+            window.location.href = "../user/login.html";
+            return;
+        }
+
+        // Fetch user data from the API using the email
+        const response = await fetch(`http://127.0.0.1:8000/api/users/profile/?email=${encodeURIComponent(email)}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch username: ${response.statusText}`);
+        }
+
         const data = await response.json();
 
         // Set the username dynamically
         const usernameElement = document.getElementById("username");
-        usernameElement.textContent = data.username || "Guest User";
+        usernameElement.textContent = data.username || "Guest User"; // Fallback to "Guest User" if no username
     } catch (error) {
         console.error("Error fetching username:", error);
 
         // Fallback username
-        document.getElementById("username").textContent = "Guest User";
+        const usernameElement = document.getElementById("username");
+        usernameElement.textContent = "Guest User";
     }
 });
 
   
-  document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
     try {
         // Fetch user data from an API (example endpoint)
         const response = await fetch("https://api.example.com/user/profile");

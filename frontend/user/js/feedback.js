@@ -1,93 +1,62 @@
-// const loadHeaderAndSidebar = async () => {
-//     try {
-//         const headerResponse = await fetch("../shared/header.html");
-//         if (!headerResponse.ok) {
-//             throw new Error(`Failed to load header: ${headerResponse.statusText}`);
-//         }
-//         document.getElementById("header-container").innerHTML = await headerResponse.text();
-
-//         const sidebarResponse = await fetch("../shared/sidebar.html");
-//         if (!sidebarResponse.ok) {
-//             throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
-//         }
-//         document.getElementById("sidebar-container").innerHTML = await sidebarResponse.text();
-
-//         console.log("Header and Sidebar loaded successfully.");
-//     } catch (error) {
-//         console.error("Error loading header or sidebar:", error);
-//     }
-// };
-
-document.addEventListener("DOMContentLoaded", () => {
-    const roomDropdown = document.getElementById("room");
-    const form = document.getElementById("feedback-form");
-
-    // Dummy data for fallback
-    const dummyRooms = [
-        { id: "1", name: "Green Room" },
-        { id: "2", name: "Blue Room" },
-        { id: "3", name: "Study Hall" }
-    ];
-
-    // Fetch rooms from the backend
-    async function fetchRooms() {
+document.addEventListener('DOMContentLoaded', () => {
+    const populateRoomDropdown = async () => {
         try {
-            const response = await fetch("/api/rooms"); // Replace with your API endpoint
-            if (!response.ok) {
-                throw new Error("Failed to fetch rooms");
-            }
+            const roomDropdown = document.getElementById('room');
+            const response = await fetch('http://127.0.0.1:8000/api/rooms/');
+            if (!response.ok) throw new Error(`Error fetching rooms: ${response.statusText}`);
             const rooms = await response.json();
-            populateRooms(rooms);
+            roomDropdown.innerHTML = '<option value="" disabled selected>Select a room</option>';
+            rooms.forEach(room => {
+                const option = document.createElement('option');
+                option.value = room.id;
+                option.textContent = `${room.name} (${room.location || 'No location specified'})`;
+                roomDropdown.appendChild(option);
+            });
         } catch (error) {
-            console.error("Error fetching rooms:", error);
-            populateRooms(dummyRooms); // Fallback to dummy data
+            console.error('Error fetching room data:', error);
+            document.getElementById('room').innerHTML = '<option value="">No rooms available</option>';
         }
-    }
+    };
 
-    // Populate the room dropdown
-    function populateRooms(rooms) {
-        roomDropdown.innerHTML = `<option value="" disabled selected>Select a room</option>`;
-        rooms.forEach(room => {
-            const option = document.createElement("option");
-            option.value = room.id;
-            option.textContent = room.name;
-            roomDropdown.appendChild(option);
-        });
-    }
+    const submitFeedbackForm = async (event) => {
+        event.preventDefault();
+        const feedbackForm = document.getElementById('feedback-form');
+        const formData = new FormData(feedbackForm);
 
-    // Submit form data to the backend
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const formData = {
-            fullName: document.getElementById("full-name").value,
-            fieldOfStudy: document.getElementById("field-of-study").value,
-            room: document.getElementById("room").value,
-            studentId: document.getElementById("student-id").value,
-            feedback: document.getElementById("feedback").value,
+        const feedbackData = {
+            field_of_study: formData.get('fieldOfStudy'),
+            room: formData.get('room') || null,
+            content: formData.get('content'),
+            rating: parseInt(formData.get('rating'), 10),
         };
 
         try {
-            const response = await fetch("/api/submit-feedback", { // Replace with your API endpoint
-                method: "POST",
+            const response = await fetch('http://127.0.0.1:8000/feedback/feedback/', {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(feedbackData),
             });
 
-            if (response.ok) {
-                alert("Feedback submitted successfully!");
-                form.reset();
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Server Error:', errorData);
+                alert('Failed to submit feedback. Please try again.');
             } else {
-                alert("Failed to submit feedback. Please try again.");
+                alert('Feedback submitted successfully!');
+                feedbackForm.reset();
             }
         } catch (error) {
-            console.error("Error submitting feedback:", error);
-            alert("Error submitting feedback. Please try again later.");
+            console.error('Error submitting feedback:', error);
+            alert('Failed to submit feedback. Please try again later.');
         }
-    });
+    };
 
-    // Initialize fetching
-    fetchRooms();
+    const initialize = async () => {
+        await populateRoomDropdown();
+        document.getElementById('feedback-form').addEventListener('submit', submitFeedbackForm);
+    };
+
+    initialize();
 });
