@@ -25,70 +25,143 @@
             <div class="dashboard-header">
                 <h2>Admin Feedback Dashboard</h2>
                 <div class="dashboard-actions">
-                    <button class="action-btn filter-btn">
-                        <i class="fas fa-filter"></i> Filter
-                    </button>
-                    <button class="action-btn refresh-btn">
+                    <button class="action-btn refresh-btn" id="refresh-btn">
                         <i class="fas fa-sync-alt"></i> Refresh
                     </button>
+                    <button class="action-btn filter-toggle-btn" id="filter-toggle-btn">
+                        <i class="fas fa-filter"></i> Toggle Filters
+                    </button>
                 </div>
+            </div>
+
+            <div class="filter-container" id="filter-container">
+                <form id="filter-form" class="filter-form">
+                    <div class="filter-group">
+                        <label for="room-filter">Room:</label>
+                        <input type="text" id="room-filter" placeholder="Enter room name" class="filter-input">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="sentiment-filter">Sentiment:</label>
+                        <select id="sentiment-filter" class="filter-input">
+                            <option value="">All</option>
+                            <option value="positive">Positive</option>
+                            <option value="neutral">Neutral</option>
+                            <option value="negative">Negative</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" class="filter-input">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" class="filter-input">
+                    </div>
+
+                    <div class="filter-actions">
+                        <button type="submit" class="filter-btn">Apply Filters</button>
+                        <button type="reset" class="filter-reset-btn">Reset</button>
+                    </div>
+                </form>
             </div>
 
             <div class="feedback-stats">
                 <div class="stat-card">
                     <h4>Total Feedback</h4>
                     <p id="total-feedback">0</p>
+                    <div class="stat-loading"></div>
                 </div>
                 <div class="stat-card">
                     <h4>Pending Review</h4>
                     <p id="pending-review">0</p>
+                    <div class="stat-loading"></div>
                 </div>
                 <div class="stat-card">
                     <h4>Reviewed</h4>
                     <p id="reviewed">0</p>
+                    <div class="stat-loading"></div>
                 </div>
             </div>
 
+            <div id="loading-spinner" class="loading-spinner hidden">
+                <div class="spinner"></div>
+                <p>Loading feedback...</p>
+            </div>
+
             <div id="feedback-cards-container" class="feedback-cards-container"></div>
+
             <div id="feedback-error-message" class="error-message hidden">
-                Unable to fetch feedback data. Please try again later.
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Unable to fetch feedback data. Please try again later.</p>
+                <button class="retry-btn" id="retry-btn">Retry</button>
+            </div>
+
+            <div id="no-results-message" class="no-results hidden">
+                <i class="fas fa-search"></i>
+                <p>No feedback matches your search criteria.</p>
+                <button class="clear-filters-btn" id="clear-filters-btn">Clear Filters</button>
             </div>
         </main>
     </div>
 
-    <!-- Filter Modal -->
-    <div id="filter-modal" class="modal hidden">
-        <div class="modal-content">
-            <h3>Filter Feedback</h3>
-            <form id="filter-form">
-                <label for="course-filter">Filter by Course:</label>
-                <select id="course-filter" name="course">
-                    <option value="">All</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Business">Business</option>
-                </select>
-
-                <label for="date-filter">Filter by Date:</label>
-                <input type="date" id="date-filter" name="date">
-
-                <label for="status-filter">Filter by Status:</label>
-                <select id="status-filter" name="status">
-                    <option value="">All</option>
-                    <option value="pending">Pending</option>
-                    <option value="reviewed">Reviewed</option>
-                </select>
-
-                <div class="modal-actions">
-                    <button type="submit" class="action-btn apply-btn">Apply</button>
-                    <button type="button" class="action-btn cancel-btn">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
     <script src="./js/admin-feedback.js" defer></script>
+    <script src="./js/admin-header.js" defer></script>
+    <script src="./js/admin-navbar.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Load the admin header and navbar dynamically
+            const loadHeaderAndSidebar = async () => {
+                try {
+                    // Load the admin header
+                    const headerResponse = await fetch("./header.html");
+                    if (!headerResponse.ok) {
+                        throw new Error(`Failed to load header: ${headerResponse.statusText}`);
+                    }
+                    const headerHTML = await headerResponse.text();
+                    document.getElementById("header-container").innerHTML = headerHTML;
+
+                    // Load the admin navbar
+                    const sidebarResponse = await fetch("./navbar.html");
+                    if (!sidebarResponse.ok) {
+                        throw new Error(`Failed to load navbar: ${sidebarResponse.statusText}`);
+                    }
+                    const sidebarHTML = await sidebarResponse.text();
+                    document.getElementById("sidebar-container").innerHTML = sidebarHTML;
+
+                    // Highlight the active nav link
+                    highlightActiveLink();
+
+                    console.log("Admin header and sidebar loaded successfully.");
+                } catch (error) {
+                    console.error("Error loading header or sidebar:", error);
+                }
+            };
+
+            // Function to highlight the active nav link
+            const highlightActiveLink = () => {
+                const currentPage = window.location.pathname.split("/").pop(); // Get current page name
+                const navLinks = document.querySelectorAll(".nav-links a");
+
+                navLinks.forEach((link) => {
+                    const linkHref = link.getAttribute("href");
+                    const parentLi = link.parentElement;
+
+                    if (currentPage === linkHref) {
+                        parentLi.classList.add("active"); // Add 'active' class to the matching link
+                    } else {
+                        parentLi.classList.remove("active"); // Remove 'active' class from other links
+                    }
+                });
+            };
+
+            // Initialize the page
+            loadHeaderAndSidebar();
+        });
+    </script>
 </body>
 
 </html>
