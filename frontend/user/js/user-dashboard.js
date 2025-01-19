@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const API_BASE_URL = "http://127.0.0.1:8000/analytics/";
     const ROOMS_API_URL = "http://127.0.0.1:8000/api/rooms/";
+    const sidebarKey = "cachedSidebar"; // Key for caching sidebar content
+    const headerKey = "cachedHeader";  // Key for caching header content
 
     // Fetch Room Data
     const fetchRoomData = async () => {
@@ -166,42 +168,36 @@ document.addEventListener("DOMContentLoaded", async () => {
         await updateChart(chart, roomMapping);
     };
 
-    // Run the Dashboard Initialization
+    // Load Sidebar and Header with Cache
+    const loadHeaderAndSidebar = () => {
+        // Load Sidebar
+        if (localStorage.getItem(sidebarKey)) {
+            document.getElementById("sidebar-container").innerHTML = localStorage.getItem(sidebarKey);
+        } else {
+            fetch("../shared/navbar.html")
+                .then((response) => response.text())
+                .then((data) => {
+                    document.getElementById("sidebar-container").innerHTML = data;
+                    localStorage.setItem(sidebarKey, data); // Cache content
+                })
+                .catch((error) => console.error("Error loading sidebar:", error));
+        }
+
+        // Load Header
+        if (localStorage.getItem(headerKey)) {
+            document.getElementById("header-container").innerHTML = localStorage.getItem(headerKey);
+        } else {
+            fetch("../shared/header.html")
+                .then((response) => response.text())
+                .then((data) => {
+                    document.getElementById("header-container").innerHTML = data;
+                    localStorage.setItem(headerKey, data); // Cache content
+                })
+                .catch((error) => console.error("Error loading header:", error));
+        }
+    };
+
+    // Run Initialization
+    loadHeaderAndSidebar();
     initializeDashboard();
 });
-
-document.addEventListener("DOMContentLoaded", () => {
-    const sidebarKey = "cachedSidebar"; // Key for caching sidebar content
-    const headerKey = "cachedHeader";  // Key for caching header content
-
-    // Load Sidebar
-    if (localStorage.getItem(sidebarKey)) {
-        // Use cached sidebar content
-        document.getElementById("sidebar-container").innerHTML = localStorage.getItem(sidebarKey);
-    } else {
-        // Fetch sidebar content and cache it
-        fetch("../shared/navbar.html")
-            .then((response) => response.text())
-            .then((data) => {
-                document.getElementById("sidebar-container").innerHTML = data;
-                localStorage.setItem(sidebarKey, data); // Cache the sidebar content
-            })
-            .catch((error) => console.error("Error loading sidebar:", error));
-    }
-
-    // Load Header
-    if (localStorage.getItem(headerKey)) {
-        // Use cached header content
-        document.getElementById("header-container").innerHTML = localStorage.getItem(headerKey);
-    } else {
-        // Fetch header content and cache it
-        fetch("../shared/header.html")
-            .then((response) => response.text())
-            .then((data) => {
-                document.getElementById("header-container").innerHTML = data;
-                localStorage.setItem(headerKey, data); // Cache the header content
-            })
-            .catch((error) => console.error("Error loading header:", error));
-    }
-});
-
