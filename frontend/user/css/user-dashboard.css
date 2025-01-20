@@ -1,11 +1,11 @@
-/* General Styles */
 body {
     margin: 0;
     font-family: "Open Sans", sans-serif;
-    background-color: #01182a;
+    background-color: #01182a !important;
     color: #ffffff;
     overflow: hidden;
 }
+
 
 /* Dashboard Container */
 .dashboard-container {
