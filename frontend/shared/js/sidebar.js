@@ -1,22 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
     const sidebarContainer = document.getElementById("sidebar-container");
-  
-    fetch("../shared/navbar.html")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to load sidebar: ${response.statusText}`);
-        }
-        return response.text();
-      })
-      .then((html) => {
-        sidebarContainer.innerHTML = html;
-      })
-      .catch((error) => {
-        console.error("Error loading sidebar:", error);
-      });
-  });
 
-  document.addEventListener("DOMContentLoaded", () => {
+    fetch("../shared/navbar.html")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to load sidebar: ${response.statusText}`);
+            }
+            return response.text();
+        })
+        .then((html) => {
+            sidebarContainer.innerHTML = html;
+        })
+        .catch((error) => {
+            console.error("Error loading sidebar:", error);
+        });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
     const sidebarContainer = document.getElementById("sidebar-container");
 
     // Dynamically load the sidebar
@@ -55,12 +55,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         // Retrieve the stored email from localStorage
         const email = localStorage.getItem("userEmail");
+
+        /*
         if (!email) {
             // Redirect to login if email is not available
             console.error("No email found in localStorage. Redirecting to login...");
             window.location.href = "../user/login.html";
             return;
         }
+        */
 
         // Fetch user data from the API using the email
         const response = await fetch(`http://127.0.0.1:8000/api/users/profile/?email=${encodeURIComponent(email)}`);
@@ -82,7 +85,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-  
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         // Get the email from localStorage (stored during login)
