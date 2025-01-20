@@ -32,19 +32,25 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
         showAlert("Login successful!", true);
 
-        if (data.role === "admin") {
-            window.location.href = "../admin/admin-dashboard.html";
-        } else if (data.role === "student") {
-            window.location.href = "../user/dashboard.html";
-        } else {
-            showAlert("Unknown user role. Please contact support.", false);
+        // Redirect based on role
+        switch (data.role) {
+            case "admin":
+                window.location.href = "../admin/admin-dashboard.html";
+                break;
+            case "student":
+                window.location.href = "../user/dashboard.html";
+                break;
+            case "staff":
+                window.location.href = "../user/dashboard.html";
+                break;
+            default:
+                showAlert("Unknown user role. Please contact support.", false);
         }
     } catch (error) {
         console.error("Login error:", error);
         showAlert("An unexpected error occurred. Please try again.", false);
     }
 });
-
 
 // Function to validate email with specific format
 function validateEmail(email) {
