@@ -563,4 +563,9 @@ body {
     /* Improved touch targets for mobile */
     .review-btn,
     .filter-btn,
-    .refresh-btn,
+    .refresh-btn {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+}
