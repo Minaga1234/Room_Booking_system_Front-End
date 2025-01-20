@@ -1,60 +1,78 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize the Chart
-  const initializeChart = () => {
-      const ctx = document.getElementById("weekly-trends-chart").getContext("2d");
+    // Initialize the Chart
+    const initializeChart = () => {
+        const ctx = document.getElementById("weekly-trends-chart").getContext("2d");
 
-      return new Chart(ctx, {
-          type: "line",
-          data: {
-              labels: [], // Dynamic labels
-              datasets: [
-                  {
-                      label: "Bookings",
-                      data: [], // Dynamic data
-                      backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
-                      borderColor: "#FF6600", // Orange line
-                      borderWidth: 2,
-                      fill: true,
-                      tension: 0.4,
-                  },
-                  {
-                      label: "Utilization (%)",
-                      data: [], // Dynamic data
-                      backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
-                      borderColor: "#5DA4DC", // Blue line
-                      borderWidth: 2,
-                      fill: true,
-                      tension: 0.4,
-                  },
-              ],
-          },
-          options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                  legend: {
-                      display: true,
-                  },
-              },
-              scales: {
-                  y: {
-                      title: {
-                          display: true,
-                          text: "Values",
-                      },
-                      min: 0,
-                      max: 100,
-                  },
-                  x: {
-                      title: {
-                          display: true,
-                          text: "Rooms",
-                      },
-                  },
-              },
-          },
-      });
-  };
+        return new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [], // Dynamic labels
+                datasets: [
+                    {
+                        label: "Bookings",
+                        data: [], // Dynamic data
+                        backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
+                        borderColor: "#FF6600", // Orange line
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                    },
+                    {
+                        label: "Utilization (%)",
+                        data: [], // Dynamic data
+                        backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
+                        borderColor: "#5DA4DC", // Blue line
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: "#FFFFFF", // White font for the legend
+                        },
+                    },
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Values",
+                            color: "#FFFFFF", // White font for Y-axis title
+                        },
+                        ticks: {
+                            color: "#FFFFFF", // White font for Y-axis ticks
+                        },
+                        grid: {
+                            color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
+                        },
+                        min: 0,
+                        max: 100,
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Rooms",
+                            color: "#FFFFFF", // White font for X-axis title
+                        },
+                        ticks: {
+                            color: "#FFFFFF", // White font for X-axis ticks
+                        },
+                        grid: {
+                            color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
+                        },
+                    },
+                },
+            },
+        });
+    };
+
 
   // Fetch Room Data
   const fetchRoomData = async () => {

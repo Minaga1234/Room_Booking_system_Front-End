@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     legend: {
                         display: true,
                         labels: {
-                            color: "#000000",
+                            color: "#FFFFFF", // White font for the legend
                         },
                     },
                 },
@@ -116,10 +116,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                         title: {
                             display: true,
                             text: "Values",
-                            color: "#000000",
+                            color: "#FFFFFF", // White font for Y-axis title
                         },
                         ticks: {
-                            color: "#000000",
+                            color: "#FFFFFF", // White font for Y-axis ticks
+                        },
+                        grid: {
+                            color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
                         },
                         beginAtZero: true,
                     },
@@ -127,16 +130,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                         title: {
                             display: true,
                             text: "Rooms",
-                            color: "#111111",
+                            color: "#FFFFFF", // White font for X-axis title
                         },
                         ticks: {
-                            color: "#000000",
+                            color: "#FFFFFF", // White font for X-axis ticks
+                        },
+                        grid: {
+                            color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
                         },
                     },
                 },
             },
         });
     };
+
 
     // Update the Chart
     const updateChart = async (chart, roomMapping) => {
