@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch(BASE_URL, { headers: HEADERS });
             const data = await response.json();
-    
+
             if (response.ok) {
                 document.getElementById("profile-name").value = data.username;
                 document.getElementById("profile-email").value = data.email;
@@ -54,33 +54,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Add event listener for account settings form submission
-accountSettingsForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const payload = {
-        password: document.getElementById("settings-password").value,
-        notifications: document.getElementById("settings-notifications").checked,
-    };
+    accountSettingsForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const payload = {
+            password: document.getElementById("settings-password").value,
+            notifications: document.getElementById("settings-notifications").checked,
+        };
 
-    console.log("Payload being sent for account settings:", payload); // Debugging
+        console.log("Payload being sent for account settings:", payload); // Debugging
 
-    try {
-        const response = await fetch(BASE_URL, {
-            method: "PUT", // Assuming same endpoint handles account settings
-            headers: HEADERS,
-            body: JSON.stringify(payload),
-        });
+        try {
+            const response = await fetch(BASE_URL, {
+                method: "PUT", // Assuming same endpoint handles account settings
+                headers: HEADERS,
+                body: JSON.stringify(payload),
+            });
 
-        if (response.ok) {
-            alert("Account settings updated successfully!");
-        } else {
-            const data = await response.json();
-            alert(`Failed to update account settings: ${data.detail || "Unknown error"}`);
+            if (response.ok) {
+                alert("Account settings updated successfully!");
+            } else {
+                const data = await response.json();
+                alert(`Failed to update account settings: ${data.detail || "Unknown error"}`);
+            }
+        } catch (error) {
+            console.error("Error updating account settings:", error);
+            alert("An error occurred while updating account settings.");
         }
-    } catch (error) {
-        console.error("Error updating account settings:", error);
-        alert("An error occurred while updating account settings.");
-    }
-});
+    });
 
     // Update profile
     profileForm.addEventListener("submit", async (event) => {
@@ -88,7 +88,7 @@ accountSettingsForm.addEventListener("submit", async (event) => {
         const payload = {
             phone_number: document.getElementById("profile-phone").value
         };
-        
+
         console.log("Payload being sent:", payload); // Add this for debugging
         try {
             const response = await fetch(BASE_URL, {
@@ -116,7 +116,7 @@ accountSettingsForm.addEventListener("submit", async (event) => {
                     method: "POST",
                     headers: HEADERS,
                 });
-    
+
                 if (response.ok) {
                     alert("Your account has been deactivated. You will now be logged out.");
                     // Redirect user to the login page or home page
@@ -131,8 +131,8 @@ accountSettingsForm.addEventListener("submit", async (event) => {
             }
         }
     });
-    
-    
+
+
 
     // Initialize profile
     fetchProfile();
