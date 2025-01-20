@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatBot</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/css/chatbot.css">
+</head>
+<body>
+  <div class="chat-widget">
+    <button id="chat-toggle-button" class="chat-toggle" aria-label="Open Chatbot">💬</button>
+  </div>
+
+  <div class="chatbot-wrapper hidden" id="chat-wrapper">
+    <div id="chat-start-container">
+      <div class="chatbot-header">
+        <img src="../shared/assets/chat-icon.png" alt="ChatBot Logo" class="chatbot-logo">
+        <h2>How can we help you today? 👋</h2>
+      </div>
+      <div class="chatbot-card">
+        <div class="chatbot-info">
+          <img src="../shared/assets/chat-icon.png" alt="ChatBot" class="chatbot-info-icon">
+          <div>
+            <h3>ChatBot</h3>
+            <p>Let me know if you have any questions!</p>
+          </div>
+        </div>
+        <button id="chat-start" class="btn-primary">Chat With Us</button>
+      </div>
+      <div class="quick-actions">
+        <div class="quick-action">
+          <span>📚 Want to Study?</span>
+          <i class="arrow-icon fas fa-chevron-right"></i>
+        </div>
+        <div class="quick-action">
+          <span>🗓️ How About a Meeting?</span>
+          <i class="arrow-icon fas fa-chevron-right"></i>
+        </div>
+      </div>
+            <div class="navigation">
+        <a href="#" class="nav-item">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <div class="nav-divider"></div>
+        <a href="#" class="nav-item">
+          <i class="fas fa-comments"></i>
+          <span>Contact</span>
+        </a>
+      </div>
+      
+    </div>
+
+    <div id="chat-interface" style="display: none;">
+      <div id="chat-header">
+        <h2>ChatBot</h2>
+        <button id="chat-close-button" class="close-button" aria-label="Close Chat">✖</button>
+      </div>
+      <div id="chat-body"></div>
+      <div id="chat-input">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button id="send-button">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/js/chatbot.js"></script>
+</body>
+</html>
