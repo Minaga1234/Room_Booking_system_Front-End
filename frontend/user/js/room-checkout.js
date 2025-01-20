@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const bookingForm = document.getElementById("booking-form");
   const purposeInput = document.getElementById("purpose");
   const participantsInput = document.getElementById("participants");
-  const participantsDisplay = document.querySelector(".participants-range span");
   const degreeSelect = document.getElementById("degree");
   const fromTimeSelect = document.getElementById("from-time");
   const toTimeSelect = document.getElementById("to-time");
@@ -28,6 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("One or more form elements are missing.");
     return;
   }
+
+  // Add event listener for participants input validation
+  participantsInput.addEventListener('input', (e) => {
+    let value = parseInt(e.target.value);
+    if (value < 1) e.target.value = 1;
+    if (value > 6) e.target.value = 6;
+  });
+
 
   // Load Header and Sidebar
   const loadHeaderAndSidebar = async () => {
@@ -281,6 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     roomId = urlParams.get("room_id");
 
+    // Commenting out the room ID validation
     if (!roomId) {
       alert("Room ID not provided!");
       window.location.href = "room-availability.html";

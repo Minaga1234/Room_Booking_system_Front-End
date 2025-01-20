@@ -3,7 +3,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #01182a; /* Navy blue background */
+    background-color: #01182a;
+    /* Navy blue background */
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -11,31 +12,40 @@ body {
 
 /* Main container styling */
 .main-container {
-    background-color: #ffffff; /* White container background */
+    background-color: #ffffff;
+    /* White container background */
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    margin-left: 300px; /* Space for the sidebar */
+    margin-left: 300px;
+    /* Space for the sidebar */
     margin-right: 20px;
-    margin-top: 70px; /* Space for the header */
-    height: calc(100vh - 90px); /* Adjust height to fit below header and above footer */
+    margin-top: 70px;
+    /* Space for the header */
+    height: calc(100vh - 90px);
+    /* Adjust height to fit below header and above footer */
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
+    flex-direction: column;
+    /* Stack elements vertically */
     box-sizing: border-box;
-    margin-bottom: 20px; /* Add space below the container */
+    margin-bottom: 20px;
+    /* Add space below the container */
 }
 
 /* No rooms message styling */
 .no-rooms {
     font-size: 20px;
     font-weight: bold;
-    color: #4a4e69; /* Dark purple text */
-    background-color: #e0e7ff; /* Subtle purple background */
+    color: #4a4e69;
+    /* Dark purple text */
+    background-color: #e0e7ff;
+    /* Subtle purple background */
     padding: 15px 30px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0;
+    /* Prevent shrinking */
 }
 
 /* Room container styling */
@@ -43,16 +53,20 @@ body {
     display: grid;
     gap: 20px;
     padding: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 300px));
+    /* Fixed maximum width of 300px */
     width: 100%;
     box-sizing: border-box;
-    flex-grow: 1; /* Allow this section to take up remaining space */
-    overflow-y: auto; /* Add scroll for the room container only */
+    flex-grow: 1;
+    overflow-y: auto;
+    justify-content: center;
+    /* Center the cards in the container */
 }
 
-/* Add custom scroll styling */
+/* Room card styling */
 .room-card {
-    background-color: #e0e7ff; /* Subtle purple background */
+    background-color: #e0e7ff;
+    /* Subtle purple background */
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -62,10 +76,18 @@ body {
     transition: transform 0.2s;
     padding: 15px;
     padding-bottom: 30px;
-    border: 1px solid #d6d9ff; /* Light border for card edges */
-    height: 300px; /* Fixed height for consistent layout */
-    overflow-y: hidden; /* Hide native scroll bar */
-    position: relative; /* Required for positioning custom scroll bar */
+    border: 1px solid #d6d9ff;
+    /* Light border for card edges */
+    height: 300px;
+    /* Fixed height for consistent layout */
+    overflow-y: hidden;
+    /* Hide native scroll bar */
+    position: relative;
+    /* Required for positioning custom scroll bar */
+    max-width: 300px;
+    /* Maximum width for each card */
+    margin: 0 auto;
+    /* Center cards within their grid cells */
 }
 
 .room-card:hover {
@@ -75,15 +97,20 @@ body {
 
 /* Scrollable content wrapper */
 .room-card-scrollable {
-    flex-grow: 1; /* Allow this to take the available space */
-    overflow-y: scroll; /* Enable scrolling inside this wrapper */
-    padding-right: 15px; /* Space for the custom scroll bar */
-    margin-right: -15px; /* Prevent content shifting */
+    flex-grow: 1;
+    /* Allow this to take the available space */
+    overflow-y: scroll;
+    /* Enable scrolling inside this wrapper */
+    padding-right: 15px;
+    /* Space for the custom scroll bar */
+    margin-right: -15px;
+    /* Prevent content shifting */
 }
 
 /* Hide native scroll bar */
 .room-card-scrollable::-webkit-scrollbar {
-    display: none; /* Hide scroll bar for WebKit browsers */
+    display: none;
+    /* Hide scroll bar for WebKit browsers */
 }
 
 /* Custom scroll bar container */
@@ -91,31 +118,41 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    width: 8px; /* Scroll bar width */
-    height: 100%; /* Full height of the card */
-    background: #d6d9ff; /* Light background color for scroll bar container */
-    border-radius: 4px; /* Rounded edges */
+    width: 8px;
+    /* Scroll bar width */
+    height: 100%;
+    /* Full height of the card */
+    background: #d6d9ff;
+    /* Light background color for scroll bar container */
+    border-radius: 4px;
+    /* Rounded edges */
 }
 
 /* Custom scroll bar thumb */
 .room-card-scrollbar-thumb {
     position: absolute;
-    width: 100%; /* Full width of the scroll bar container */
-    background: #4a4e69; /* Dark purple scroll thumb */
-    border-radius: 4px; /* Rounded thumb edges */
-    height: 30px; /* Initial thumb height */
-    transition: background-color 0.3s ease; /* Smooth hover effect */
+    width: 100%;
+    /* Full width of the scroll bar container */
+    background: #4a4e69;
+    /* Dark purple scroll thumb */
+    border-radius: 4px;
+    /* Rounded thumb edges */
+    height: 30px;
+    /* Initial thumb height */
+    transition: background-color 0.3s ease;
+    /* Smooth hover effect */
 }
 
 .room-card-scrollbar-thumb:hover {
-    background: #333333; /* Darker purple on hover */
+    background: #333333;
+    /* Darker purple on hover */
 }
-
 
 /* Room image styling */
 .room-image {
     width: 100%;
-    height: 140px; /* Adjusted height for smaller cards */
+    height: 140px;
+    /* Adjusted height for smaller cards */
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 15px;
@@ -128,74 +165,87 @@ body {
 }
 
 .room-title {
-    font-size: 16px; /* Adjusted title font size */
+    font-size: 16px;
+    /* Adjusted title font size */
     font-weight: bold;
     color: #333333;
     margin: 5px 0;
 }
 
 .room-subtitle {
-    font-size: 14px; /* Adjusted subtitle font size */
+    font-size: 14px;
+    /* Adjusted subtitle font size */
     color: #555555;
     margin: 5px 0;
 }
 
 .room-description {
-    font-size: 13px; /* Adjusted description font size */
+    font-size: 13px;
+    /* Adjusted description font size */
     color: #666666;
     margin: 10px 0;
 }
 
 /* Button styling */
 .check-btn {
-    background-color: #000000; /* Black button background */
+    background-color: #000000;
+    /* Black button background */
     color: #ffffff;
     border: none;
-    padding: 8px 16px; /* Adjusted button padding */
-    font-size: 13px; /* Adjusted button font size */
+    padding: 8px 16px;
+    /* Adjusted button padding */
+    font-size: 13px;
+    /* Adjusted button font size */
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .check-btn:hover {
-    background-color: #333333; /* Darker hover effect */
+    background-color: #333333;
+    /* Darker hover effect */
 }
 
 /* Responsive styling */
 @media (max-width: 1024px) {
     .main-container {
-        margin-left: 200px; /* Adjust sidebar margin for tablets */
+        margin-left: 200px;
+        /* Adjust sidebar margin for tablets */
     }
 }
 
 @media (max-width: 768px) {
     .main-container {
-        margin-left: 0; /* Remove space for sidebar */
-        width: 90%; /* Adjust width for smaller screens */
+        margin-left: 0;
+        width: 90%;
     }
 
     .room-container {
-        grid-template-columns: repeat(2, 1fr); /* Two columns for smaller screens */
+        grid-template-columns: repeat(auto-fill, minmax(250px, 300px));
+        /* Maintain consistent card width */
+        justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
     .main-container {
-        margin-left: 0; /* Remove sidebar margin */
-        width: 95%; /* Adjust width for extra small screens */
+        margin-left: 0;
+        width: 95%;
     }
 
     .room-container {
-        grid-template-columns: 1fr; /* Single column for extra small screens */
+        grid-template-columns: 1fr;
+        /* Single column for mobile */
     }
 
     .room-card {
-        padding: 10px; /* Reduce padding for smaller screens */
+        max-width: 280px;
+        /* Slightly smaller cards for mobile */
+        padding: 10px;
     }
 
     .check-btn {
-        font-size: 12px; /* Smaller button text */
-        padding: 6px 12px; /* Smaller button size */
+        font-size: 12px;
+        padding: 6px 12px;
     }
 }

@@ -317,21 +317,34 @@ body {
   outline: none;
 }
 
-/* Participants Range */
-.participants-range {
+.participants-input {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.participants-range input[type="range"] {
-  flex: 1;
-  margin: 0;
-}
-
-.participants-range span {
+.participants-input input[type="number"] {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #d3c9e7;
+  border-radius: 8px;
   font-size: 0.9rem;
   color: #5a3e94;
+}
+
+.participants-input input[type="number"]:focus {
+  border-color: #5a3e94;
+  outline: none;
+}
+
+.participants-input .participant-limits {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Remove old range slider styles */
+.participants-range {
+  display: none;
 }
 
 /* Terms and Conditions */
