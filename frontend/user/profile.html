@@ -5,64 +5,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
-  <link rel="stylesheet" href="css/profile.css">
-  <link rel="stylesheet" href="../shared/css/sidebar.css">
-  <link rel="stylesheet" href="../shared/css/header.css">
+  <link rel="stylesheet" href="../shared/css/sidebar.css"> <!-- Shared Sidebar CSS -->
+  <link rel="stylesheet" href="../shared/css/header.css"> <!-- Shared Header CSS -->
+  <link rel="stylesheet" href="./css/profile.css"> <!-- Page-specific CSS -->
 </head>
 
 <body>
-  <!-- Sidebar Section -->
-  <aside class="sidebar">
-    <div id="sidebar-container"></div>
-  </aside>
-
-  <!-- Main Content -->
-  <div class="main-content">
+  <div class="dashboard-container">
     <!-- Header Section -->
     <header class="header">
       <div id="header-container"></div>
     </header>
 
-    <main>
-      <!-- Penalties Section -->
-      <section class="penalties-section">
-        <h2>My Penalties</h2>
-        <div id="loading-indicator" style="display:none;">Loading penalties...</div>
-        <div id="error-message" style="color: red; display: none;"></div>
-        <div class="penalty-card">
-          <p>Active Penalties</p>
-          <h2 id="active-penalties-count">0</h2>
-          <div class="penalty-info">
-            <p><strong>Booking Restrictions:</strong> None</p>
-            <p><strong>Penalty Expiration:</strong> N/A</p>
-            <button class="request-review-btn">Request Review for Active Penalty</button>
-          </div>
-        </div>
-        <h3 id="penalty-history-heading">Penalty History</h3>
-        <div role="region" aria-labelledby="penalty-history-heading" class="details-table">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Type</th>
-                <th scope="col">Status</th>
-                <th scope="col">Details</th>
-              </tr>
-            </thead>
-            <tbody id="user-penalty-history">
-            </tbody>
-          </table>
-        </div>
-        <div class="pagination-controls"></div>
+    <!-- Sidebar Section -->
+    <aside class="sidebar">
+      <div id="sidebar-container"></div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Profile Section -->
+      <section class="profile-section" id="personal-info">
+        <h1>Personal Info</h1>
+        <form id="profile-form">
+          <label for="profile-name">Name</label>
+          <input type="text" id="profile-name" name="name" disabled>
+
+          <label for="profile-email">Student Email</label>
+          <input type="email" id="profile-email" name="email" disabled>
+
+          <label for="profile-phone">Contact Number</label>
+          <input type="text" id="profile-phone" name="phone">
+
+          <button type="submit" id="update-profile-btn">Save Changes</button>
+        </form>
       </section>
     </main>
   </div>
 
-  <!-- Scripts to dynamically load shared components -->
+  <!-- Shared JavaScript -->
   <script src="../shared/js/sidebar.js"></script>
   <script src="../shared/js/header.js"></script>
+  <!-- Page-specific JavaScript -->
+  <script src="./js/profile.js"></script>
+
   <script>
-    // Dynamically load the header
+    // Dynamically load the shared header
     fetch("../shared/header.html")
       .then(response => response.text())
       .then(data => {
@@ -70,7 +58,7 @@
       })
       .catch(error => console.error("Error loading header:", error));
 
-    // Dynamically load the sidebar
+    // Dynamically load the shared sidebar
     fetch("../shared/navbar.html")
       .then(response => response.text())
       .then(data => {
@@ -78,7 +66,6 @@
       })
       .catch(error => console.error("Error loading sidebar:", error));
   </script>
-  <script src="js/penalties.js"></script>
 </body>
 
 </html>

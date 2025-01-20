@@ -1,241 +1,130 @@
-/* General Styles */
+/* General Body Styling */
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
-  background-color: #F8F8FC;
-  /* Light background */
-  color: #1F1F1F;
-  /* Neutral dark text */
+  padding: 0;
+  background-color: #01182a;
+  color: #2C3E50;
 }
 
-/* Main Content Styles */
-.main-content {
-  margin-left: 20%;
-  padding: 20px;
-  padding-top: 80px;
-  /* Adjusted to prevent overlap with the header */
-}
-
-/* Penalties Section */
-.penalties-section {
-  padding: 30px;
-  background-color: #FFF;
-  border-radius: 15px;
-  border: 2px solid #E9D8FD;
-  /* Light purple border */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.penalty-card {
-  background-color: #F8F8FC;
-  color: #1F1F1F;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.penalty-card p {
-  font-size: 1rem;
-  margin: 5px 0;
-}
-
-.penalty-card h2 {
-  font-size: 3rem;
-  margin: 10px 0;
-  color: #FF4D4D;
-  /* Bright red for emphasis */
-}
-
-.request-review-btn {
-  display: block;
-  margin: 20px auto 0;
-  background-color: #1F2937;
-  /* Neutral black/dark gray */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.request-review-btn:hover {
-  background-color: #333333;
-}
-
-/* Penalty Details Section */
-.penalty-details {
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border: 2px solid #E9D8FD;
-}
-
-.details-table table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.details-table th,
-.details-table td {
-  text-align: center;
-  padding: 10px;
-  border-bottom: 1px solid #E5E7EB;
-}
-
-button {
-  background-color: #007bff;
-  /* Bootstrap-like primary button color */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-}
-
-button:hover {
-  background-color: #0056b3;
-  /* Darker shade on hover */
-}
-
-button:active {
-  background-color: #004085;
-  /* Even darker on click */
-}
-
-button.request-review-btn {
-  margin-top: 15px;
-  /* Adjust positioning */
-  display: inline-block;
-  /* Prevent it from expanding as block element */
-}
-
-.pagination-controls {
+/* Layout for Dashboard Container */
+.dashboard-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  gap: 10px;
+  margin-left: 250px;
+  /* Reserve space for the sidebar */
+  padding-top: 70px;
+  /* Reserve space for the header */
+  box-sizing: border-box;
+  min-height: 120vh;
+  /* Ensure taller height */
+  height: 120vh;
+  /* Set explicit height */
+  background-color: #01182a;
+  /* Match the background color */
 }
 
-.pagination-controls button {
-  padding: 5px 10px;
-  font-size: 1rem;
-  border: 1px solid #DDD;
-  border-radius: 5px;
-  background-color: #A78BFA;
+/* Main Content */
+.content {
+  flex: 1;
+  padding: 20px 30px;
+  background-color: #01182a;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Section Styling */
+.profile-section {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* Left-align all elements */
+  gap: 15px;
+}
+
+.profile-section h1 {
+  font-size: 24px;
+  color: #2C3E50;
+  margin-bottom: 20px;
+  text-align: left;
+  /* Left-align header */
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  width: 100%;
+  /* Full width for alignment */
+}
+
+.profile-section label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+  text-align: left;
+  /* Left-align labels */
+}
+
+.profile-section input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
+  /* Consistent width for all input fields */
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 14px;
+  color: #333;
+}
+
+.profile-section input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+  outline: none;
+}
+
+/* Save Changes Button */
+.profile-section button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
   cursor: pointer;
-}
-
-.pagination-controls button:disabled {
-  background-color: #E9E9E9;
-  cursor: not-allowed;
-}
-
-.pagination-controls span {
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: flex-start;
+  /* Align buttons to the left */
+  margin-top: 20px;
+  /* Add more space above the button */
 }
 
-/* Tablet Screens */
-@media screen and (max-width: 1024px) {
-  .main-content {
+.profile-section button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-container {
     margin-left: 0;
-    padding: 15px;
     padding-top: 70px;
   }
 
-  .details-table {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .details-table table {
-    min-width: 600px;
-  }
-
-  .penalty-card h2 {
-    font-size: 2.5rem;
-  }
-}
-
-/* Mobile Landscape */
-@media screen and (max-width: 768px) {
-  .main-content {
-    padding: 10px;
-    padding-top: 60px;
-  }
-
-  .penalties-section {
-    padding: 20px;
-  }
-
-  .penalty-card {
+  .content {
     padding: 15px;
   }
 
-  .penalty-card h2 {
-    font-size: 2rem;
-  }
-
-  .pagination-controls {
-    flex-wrap: wrap;
-  }
-}
-
-/* Mobile Portrait */
-@media screen and (max-width: 480px) {
-  .main-content {
-    padding: 10px;
-    padding-top: 50px;
-  }
-
-  .penalties-section {
-    padding: 15px;
-  }
-
-  .penalty-card {
-    padding: 10px;
-  }
-
-  .penalty-card h2 {
-    font-size: 1.75rem;
-  }
-
-  .request-review-btn {
-    width: 100%;
-    margin: 15px 0 0;
-  }
-
-  .pagination-controls {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .pagination-controls button {
+  .profile-section form {
     width: 100%;
   }
-}
 
-/* Small Mobile Devices */
-@media screen and (max-width: 320px) {
-  .penalties-section {
-    padding: 10px;
-  }
-
-  .penalty-card h2 {
-    font-size: 1.5rem;
-  }
-
-  .details-table th,
-  .details-table td {
-    padding: 8px 5px;
-    font-size: 0.875rem;
+  .profile-section input {
+    width: 100%;
+    /* Full width on smaller screens */
   }
 }

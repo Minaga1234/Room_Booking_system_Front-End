@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - Admin</title>
+    <link rel="stylesheet" href="css/manage-users.css">
+</head>
+<body>
+    <div class="admin-dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">ECU Intelligent Spatial Management</div>
+            <nav class="nav">
+                <a href="#" class="nav-item">Dashboard</a>
+                <a href="#" class="nav-item active">Manage Users</a>
+                <a href="#" class="nav-item">Rooms</a>
+                <a href="#" class="nav-item">Analytics</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <input type="text" class="search-bar" placeholder="Search Users...">
+                <div class="profile-dropdown">
+                    <img src="profile-icon.png" alt="Profile" class="profile-icon">
+                </div>
+            </header>
+
+            <section class="manage-users">
+                <h1>Manage Users</h1>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <h3>Filter Users</h3>
+                    <div class="filter-group">
+                        <label for="role-filter">Role:</label>
+                        <select id="role-filter">
+                            <option value="">All</option>
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="status-filter">Status:</label>
+                        <select id="status-filter">
+                            <option value="">All</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <button id="apply-filters" class="filter-btn">Apply Filters</button>
+                </div>
+
+                <!-- User Table -->
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Placeholder for dynamic user rows -->
+                    </tbody>
+                </table>
+
+                <!-- Add User Button -->
+                <button id="add-user" class="add-btn">Add User</button>
+            </section>
+
+            <!-- Edit Modal -->
+            <div id="edit-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Edit User</h2>
+                    <form id="edit-user-form">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" disabled>
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+
+                        <label for="role">Role</label>
+                        <select id="role" name="role">
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                            <option value="student">Student</option>
+                        </select>
+
+                        <label for="phone">Phone</label>
+                        <input type="text" id="phone" name="phone">
+
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+
+                        <button type="submit" class="save-btn">Save Changes</button>
+                        <button type="button" class="close-modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add User Modal -->
+            <div id="add-user-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Add User</h2>
+                    <form id="add-user-form">
+                        <label for="new-username">Username</label>
+                        <input type="text" id="new-username" name="username">
+
+                        <label for="new-email">Email</label>
+                        <input type="email" id="new-email" name="email">
+
+                        <label for="new-role">Role</label>
+                        <select id="new-role" name="role">
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                            <option value="student">Student</option>
+                        </select>
+
+                        <label for="new-phone">Phone</label>
+                        <input type="text" id="new-phone" name="phone">
+
+                        <label for="new-password">Password</label>
+                        <input type="password" id="new-password" name="password">
+
+                        <button type="submit" class="add-btn">Add User</button>
+                        <button type="button" class="close-modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/manage-users.js"></script>
+</body>
+</html>

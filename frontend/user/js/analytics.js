@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadHeader();
     const initializeChart = () => {
         const ctx = document.getElementById("weekly-trends-chart").getContext("2d");
-    
+
         return new Chart(ctx, {
             type: "line",
             data: {
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
         });
     };
-    
+
 
     // === Fetch Room Data ===
     const fetchRoomData = async () => {
