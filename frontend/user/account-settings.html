@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Account Settings</title>
     <link rel="stylesheet" href="../shared/css/sidebar.css"> <!-- Shared Sidebar CSS -->
     <link rel="stylesheet" href="../shared/css/header.css">  <!-- Shared Header CSS -->
-    <link rel="stylesheet" href="./css/profile.css">         <!-- Page-specific CSS -->
+    <link rel="stylesheet" href="./css/account-settings.css"> <!-- Page-specific CSS -->
 </head>
 <body>
     <div class="dashboard-container">
@@ -22,20 +22,21 @@
 
         <!-- Main Content -->
         <main class="content">
-            <!-- Profile Section -->
-            <section class="profile-section" id="personal-info">
-                <h1>Personal Info</h1>
-                <form id="profile-form">
-                    <label for="profile-name">Name</label>
-                    <input type="text" id="profile-name" name="name" disabled>
+            <!-- Account Settings Section -->
+            <section class="account-settings-section" id="account-settings">
+                <h1>Account Settings</h1>
+                <form id="account-settings-form">
+                    <label for="settings-username">User Name</label>
+                    <input type="text" id="settings-username" name="username" disabled>
 
-                    <label for="profile-email">Student Email</label>
-                    <input type="email" id="profile-email" name="email" disabled>
+                    <label for="settings-password">Password</label>
+                    <input type="password" id="settings-password" name="password">
 
-                    <label for="profile-phone">Contact Number</label>
-                    <input type="text" id="profile-phone" name="phone">
+                    <label for="settings-notifications">Push Notifications</label>
+                    <input type="checkbox" id="settings-notifications" name="notifications">
 
-                    <button type="submit" id="update-profile-btn">Save Changes</button>
+                    <button type="submit" id="update-account-btn">Update</button>
+                    <button type="button" id="deactivate-account-btn" class="danger-btn">Deactivate Account</button>
                 </form>
             </section>
         </main>
@@ -45,7 +46,7 @@
     <script src="../shared/js/sidebar.js"></script>
     <script src="../shared/js/header.js"></script>
     <!-- Page-specific JavaScript -->
-    <script src="./js/profile.js"></script>
+    <script src="./js/account-settings.js"></script>
 
     <script>
         // Dynamically load the shared header
