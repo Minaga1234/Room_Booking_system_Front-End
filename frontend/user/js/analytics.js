@@ -56,11 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // === Load Sidebar and Header ===
     loadSidebar();
     loadHeader();
-
-    // === Initialize the Chart ===
     const initializeChart = () => {
         const ctx = document.getElementById("weekly-trends-chart").getContext("2d");
-
+    
         return new Chart(ctx, {
             type: "line",
             data: {
@@ -92,6 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 plugins: {
                     legend: {
                         display: true,
+                        labels: {
+                            color: "#FFFFFF", // White font for the legend
+                        },
                     },
                 },
                 scales: {
@@ -99,6 +100,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         title: {
                             display: true,
                             text: "Values",
+                            color: "#FFFFFF", // White font for Y-axis title
+                        },
+                        ticks: {
+                            color: "#FFFFFF", // White font for Y-axis ticks
+                        },
+                        grid: {
+                            color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
                         },
                         min: 0,
                         max: 100,
@@ -107,12 +115,20 @@ document.addEventListener("DOMContentLoaded", () => {
                         title: {
                             display: true,
                             text: "Rooms",
+                            color: "#FFFFFF", // White font for X-axis title
+                        },
+                        ticks: {
+                            color: "#FFFFFF", // White font for X-axis ticks
+                        },
+                        grid: {
+                            color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
                         },
                     },
                 },
             },
         });
     };
+    
 
     // === Fetch Room Data ===
     const fetchRoomData = async () => {
