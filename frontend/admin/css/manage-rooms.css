@@ -16,14 +16,20 @@ body {
 
 /* Container Styles */
 .container {
-    width: calc(100% - 320px); /* Account for sidebar width */
-    margin-left: 100px; /* Leave space for sidebar */
-    margin-top: 40px; /* Leave space for the header */
+    width: calc(100% - 320px);
+    /* Account for sidebar width */
+    margin-left: 100px;
+    /* Leave space for sidebar */
+    margin-top: 40px;
+    /* Leave space for the header */
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
     padding: 1rem;
-    min-height: calc(100vh - 80px); /* Full height minus header */
+    min-height: calc(100vh - 80px);
+    /* Full height minus header */
     box-sizing: border-box;
 }
 
@@ -233,6 +239,14 @@ input:checked+.slider:before {
 
 .styled-button:hover {
     background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
+}
+
+.delete-button {
+    background: #dc3545;
+}
+
+.delete-button:hover {
+    background: #c82333;
 }
 
 /* Responsive Design */

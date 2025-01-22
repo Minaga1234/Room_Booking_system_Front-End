@@ -93,9 +93,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const response = await fetch(ROOM_API_URL, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
         body: formData,
       });
 

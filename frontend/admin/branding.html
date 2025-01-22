@@ -5,10 +5,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/branding.css" />
+    <link rel="stylesheet" href="./css/admin-header.css">
+    <link rel="stylesheet" href="./css/admin-navbar.css">
     <title>Branding Management</title>
 </head>
 
 <body>
+
+    <header>
+        <div id="header-container"></div> <!-- Placeholder for the dynamic header -->
+    </header>
+
+    <!-- Sidebar -->
+    <aside>
+        <div id="sidebar-container"></div> <!-- Placeholder for the dynamic sidebar -->
+    </aside>
     <div class="container">
         <h1>Branding Management</h1>
 
@@ -114,6 +125,25 @@
 
     <!-- Scripts -->
     <script src="./js/branding.js"></script>
+    <script src="../admin/js/admin-header.js" defer></script>
+    <script src="../admin/js/admin-navbar.js" defer></script>
+    <script>
+        // Dynamically load header
+        fetch("./header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading header:", error));
+
+        // Dynamically load sidebar
+        fetch("./navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("sidebar-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading sidebar:", error));
+    </script>
 </body>
 
 </html>

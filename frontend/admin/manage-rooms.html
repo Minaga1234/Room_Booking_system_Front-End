@@ -32,7 +32,7 @@
                 <h1>Room Management</h1>
                 <div class="room-navigation">
                     <button id="prev-room" class="room-nav-button">&larr;</button>
-                    <span id="room-name-display">Green Room</span>
+                    <span id="room-name-display"></span>
                     <button id="next-room" class="room-nav-button">&rarr;</button>
                 </div>
             </div>
@@ -53,16 +53,16 @@
                     <div class="field-row">
                         <div class="field-group">
                             <label for="room-name">Room Name</label>
-                            <input type="text" id="room-name" class="styled-input" placeholder="Green Room" disabled>
+                            <input type="text" id="room-name" class="styled-input" placeholder="" disabled>
                         </div>
                         <div class="field-group">
                             <label for="room-location">Location</label>
-                            <input type="text" id="room-location" class="styled-input" placeholder="4th Floor">
+                            <input type="text" id="room-location" class="styled-input" placeholder="">
                         </div>
                     </div>
                     <div class="field-group">
                         <label for="seating-capacity">Seating Capacity</label>
-                        <input type="number" id="seating-capacity" class="styled-input" placeholder="4">
+                        <input type="number" id="seating-capacity" class="styled-input" placeholder="">
                     </div>
                     <div class="field-group">
                         <label for="admin-approval">Require Admin Approval</label>
@@ -86,16 +86,18 @@
                         <span class="styled-button-content">+ Add New Room</span>
                     </button>
                 </a>
+                <button id="delete-room-button" class="styled-button delete-button">
+                    <span class="styled-button-content">Delete Room</span>
+                </button>
                 <button id="update-room-button" class="styled-button">
                     <span class="styled-button-content">Update</span></button>
             </div>
+
+            <!-- Hidden File Input for Image Upload -->
+            <input type="file" id="room-image-input" accept="image/*" hidden>
         </div>
 
-        <!-- Hidden File Input for Image Upload -->
-        <input type="file" id="room-image-input" accept="image/*" hidden>
-    </div>
-
-    <script src="./js/manage-rooms.js" defer></script>
+        <script src="./js/manage-rooms.js" defer></script>
 </body>
 
 </html>

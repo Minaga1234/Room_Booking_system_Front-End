@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // const token = localStorage.getItem("accessToken");
 
   // Temporarily disable authentication for UI editing
-  if (!token) {
-    alert("Unauthorized! Please log in as an admin.");
-    window.location.href = "admin_login.html";
-    return;
-  }
+  // if (!token) {
+  //   alert("Unauthorized! Please log in as an admin.");
+  //   window.location.href = "admin_login.html";
+  //   return;
+  // }
 
   const themeGrid = document.getElementById("theme-grid");
   const customThemeForm = document.getElementById("custom-theme-builder");

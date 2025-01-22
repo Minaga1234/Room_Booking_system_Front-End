@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const roomImageInput = document.getElementById("room-image-input");
   const editImageButton = document.getElementById("edit-image-button");
   const updateRoomButton = document.getElementById("update-room-button");
+  const deleteRoomButton = document.getElementById("delete-room-button");
 
   const ROOM_API_URL = "http://127.0.0.1:8000/api/rooms/";
   const token = localStorage.getItem("accessToken");
@@ -146,6 +147,40 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
+  // Delete room
+  async function deleteRoom() {
+    if (confirm("Are you sure you want to delete this room?")) {
+      try {
+        const response = await fetch(`${ROOM_API_URL}${rooms[currentRoomIndex].id}/`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`, // Include token for authentication
+          },
+        });
+
+        if (response.ok) {
+          rooms.splice(currentRoomIndex, 1); // Remove room from local data
+          alert("Room deleted successfully!");
+
+          if (rooms.length === 0) {
+            roomNameDisplay.textContent = "No Rooms Added";
+          } else if (currentRoomIndex === rooms.length) {
+            currentRoomIndex--; // Adjust index if last room is deleted
+          }
+
+          loadRoom(currentRoomIndex); // Reload room details
+        } else {
+          const error = await response.json();
+          console.error("Failed to delete room:", error);
+          alert(`Failed to delete room: ${error.message || "Unknown error occurred"}`);
+        }
+      } catch (error) {
+        console.error("Error deleting room:", error);
+        alert("An unexpected error occurred. Please try again.");
+      }
+    }
+  }
+
   // Handle image upload
   editImageButton.addEventListener("click", () => {
     roomImageInput.click();
@@ -181,6 +216,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   updateRoomButton.addEventListener("click", updateRoom);
+  deleteRoomButton.addEventListener("click", deleteRoom);
 
   // Initial function calls
   await loadHeaderAndSidebar();

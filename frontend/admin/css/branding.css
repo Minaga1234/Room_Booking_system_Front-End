@@ -35,7 +35,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 10px 30px var(--shadow-color);
   overflow-y: auto;
-  margin: 0 0 0 auto;
+  margin: 80px 0 0 auto;
   /* Adjusted to align container to the right */
   max-height: 80vh;
   /* Reduced max-height to fit content */
