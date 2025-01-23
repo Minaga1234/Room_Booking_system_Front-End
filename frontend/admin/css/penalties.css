@@ -2,23 +2,17 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  background-color: #F9FAFB;
-  /* Slightly lighter background for a softer look */
-  color: #333;
-  /* Standard text color */
+  background-color: #01182a; /* Light background */
 }
 
+/* Main Content Layout */
 .main-content {
-  margin-left: 20%;
-  margin-top: 50px;
-  /* Added more space from the top */
-  padding: 60px;
-  background-color: #FFFFFF;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-  max-height: 90vh;
-  overflow-y: auto;
+  margin-left: 17%; /* Increased space for the dynamic sidebar */
+  padding-top: 120px; /* Increased space for the dynamic header */
+  padding: 80px;
+  box-sizing: border-box;
 }
+
 
 /* Penalties Overview Section */
 .penalties-overview {
@@ -50,19 +44,16 @@ body {
 }
 
 .card.red {
-  border-top: 5px solid #FF6B6B;
+  border-top: 5px solid #FF4D4D;
 }
-
 .card.purple {
-  border-top: 5px solid #8E44AD;
+  border-top: 5px solid #A78BFA;
 }
-
 .card.green {
-  border-top: 5px solid #27AE60;
+  border-top: 5px solid #34D399;
 }
-
 .card.blue {
-  border-top: 5px solid #3498DB;
+  border-top: 5px solid #60A5FA;
 }
 
 .card p {
@@ -99,11 +90,10 @@ body {
   text-align: center;
   padding: 12px;
   border-bottom: 1px solid #E5E7EB;
-  font-size: clamp(0.875rem, 1.5vw, 1rem);
 }
 
 .details-table th {
-  background-color: #F8F9FA;
+  background-color: #F3F3F3;
   font-weight: bold;
 }
 
@@ -124,9 +114,8 @@ body {
 
 /* Download Report Button */
 .download-btn {
-  background-color: #FEE2E2;
-  /* Light red */
-  color: #333;
+  background-color: #F9E4E4; /* Light pink color */
+  color: #3F3D56; /* Dark text */
   border: none;
   padding: 12px 25px;
   margin-top: 25px;
@@ -153,6 +142,7 @@ body {
   color: #E64545;
 }
 
+/* Filter Controls */
 .filter-controls {
   display: flex;
   align-items: center;
@@ -188,6 +178,7 @@ body {
   background-color: #28A745;
 }
 
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;

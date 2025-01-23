@@ -6,31 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Penalties</title>
   <link rel="stylesheet" href="css/penalties.css">
-  <link rel="stylesheet" href="./css/admin-header.css">
-  <link rel="stylesheet" href="./css/admin-navbar.css">
+  <link rel="stylesheet" href="../admin/css/admin-navbar.css">
+  <link rel="stylesheet" href="../admin/css/admin-header.css">
 </head>
 
 <body>
-  <!-- Header -->
-  <div id="header-container"></div>
-
-  <div class="dashboard-container">
-    <!-- Sidebar -->
-    <div id="sidebar-container"></div>
+  <!-- Include Navbar -->
+  <div id="admin-navbar"></div>
 
   <div class="main-content">
-    <header>
-      <div class="branding">
-        <h1>Intelligent Spatial Management System</h1>
-      </div>
-      <div class="header-controls">
-        <input type="text" placeholder="Search" class="search-bar">
-        <div class="header-icons">
-          <span class="notification-icon">🔔</span>
-          <span class="user-icon">👤</span>
-        </div>
-      </div>
-    </header>
+    <!-- Include Header -->
+    <div id="admin-header"></div>
 
     <main>
       <section class="penalties-overview">
@@ -74,54 +60,57 @@
           <button id="apply-filters" class="filter-btn">Apply</button>
         </div>
 
-          <div class="details-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Penalty ID</th>
-                  <th>User Name</th>
-                  <th>Booking ID</th>
-                  <th>Penalty Type</th>
-                  <th>Penalty Date</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="penalty-table-body">
-              </tbody>
-            </table>
-          </div>
-
-          <div class="pagination">
-            <button id="prev-page" disabled>Previous</button>
-            <span id="current-page">1</span> / <span id="total-pages">1</span>
-            <button id="next-page" disabled>Next</button>
-          </div>
-          <button id="download-report" class="download-btn">
-            <span class="icon">⬇</span>
-            Download Report
-          </button>
-        </section>
-      </main>
-    </div>
+        <div class="details-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Penalty ID</th>
+                <th>User Name</th>
+                <th>Booking ID</th>
+                <th>Penalty Type</th>
+                <th>Penalty Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="penalty-table-body">
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <button id="prev-page" disabled>Previous</button>
+          <span id="current-page">1</span> / <span id="total-pages">1</span>
+          <button id="next-page" disabled>Next</button>
+        </div>
+        <button id="download-report" class="download-btn">
+          <span class="icon">⬇</span>
+          Download Report
+        </button>
+      </section>
+    </main>
   </div>
 
+  <!-- Inline Scripts to Load Navbar and Header -->
   <script>
-    // Dynamically load header
-    fetch("./header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header-container").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading header:", error));
+    // Load the Navbar
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch('../admin/navbar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('admin-navbar').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading navbar:', error));
+    });
 
-    // Dynamically load sidebar
-    fetch("./navbar.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("sidebar-container").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading sidebar:", error));
+    // Load the Header
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch('../admin/header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('admin-header').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading header:', error));
+    });
   </script>
 
   <script src="js/penalties.js"></script>

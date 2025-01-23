@@ -267,3 +267,38 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.add('hidden');
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Select the Add User button
+    const addUserButton = document.getElementById("add-user");
+    const addUserModal = document.getElementById("add-user-modal");
+    const closeAddUserModalButton = addUserModal?.querySelector(".close-modal");
+
+    // Check if elements exist
+    if (addUserButton && addUserModal && closeAddUserModalButton) {
+        // Open Add User Modal
+        addUserButton.addEventListener("click", () => {
+            addUserModal.classList.remove("hidden");
+        });
+
+        // Close Add User Modal
+        closeAddUserModalButton.addEventListener("click", () => {
+            addUserModal.classList.add("hidden");
+        });
+    } else {
+        console.error("Add User button or modal not found in the DOM.");
+    }
+
+    // Handle the Edit Modal similarly
+    const editUserModal = document.getElementById("edit-modal");
+    const closeEditUserModalButton = editUserModal?.querySelector(".close-modal");
+
+    if (editUserModal && closeEditUserModalButton) {
+        closeEditUserModalButton.addEventListener("click", () => {
+            editUserModal.classList.add("hidden");
+        });
+    } else {
+        console.error("Edit modal or close button not found in the DOM.");
+    }
+});
+
