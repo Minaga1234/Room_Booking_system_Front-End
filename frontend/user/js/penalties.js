@@ -1,6 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const AUTH_TOKEN = '03ab28a2c76066500ef6b931ada35a38f14557cb'; // Replace with user's token
   const BASE_URL = 'http://127.0.0.1:8000/penalties/penalties/user/';
+
+  // Get token dynamically from localStorage
+  const getAuthHeaders = async () => {
+    let accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      alert('Your session has expired. Please log in again.');
+      window.location.href = '/frontend/user/login.html';
+      return null;
+    }
+    return {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    };
+  };
 
   let currentPage = 1;
 
@@ -29,114 +42,149 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   ];
 
-  const loadPenalties = (page = 1) => {
-    // Simulate API response with dummy data
-    const response = {
-      results: dummyPenalties,
-      previous: null,
-      next: null,
-    };
+  const loadPenalties = async (page = 1) => {
+    try {
+      const headers = await getAuthHeaders();
+      if (!headers) return;
 
-    const penaltyHistory = document.getElementById('user-penalty-history');
-    const paginationControls = document.querySelector('.pagination-controls');
+      const response = await fetch(`${BASE_URL}?page=${page}`, { headers });
+      if (!response.ok) throw new Error('Failed to fetch penalties');
+      const data = await response.json();
 
-    // Update Active Penalties Count
-    const activePenaltiesCount = response.results.filter(
-      (penalty) => penalty.status === 'Active' || penalty.status === 'Unpaid'
-    ).length;
-    document.querySelector('.penalty-card h2').textContent = activePenaltiesCount;
+      console.log('Fetched penalties data:', data); // Debugging response
 
-    // Clear existing rows and pagination
-    penaltyHistory.innerHTML = '';
-    paginationControls.innerHTML = '';
+      const penaltyHistory = document.getElementById('user-penalty-history');
+      const paginationControls = document.querySelector('.pagination-controls');
 
-    // Populate penalty history table
-    if (response.results && response.results.length > 0) {
-      response.results.forEach((penalty) => {
-        const row = `
-          <tr>
-            <td>${new Date(penalty.created_at).toLocaleDateString()}</td>
-            <td>${penalty.reason}</td>
-            <td>${penalty.status}</td>
-            <td>${penalty.booking || 'N/A'}</td>
-          </tr>
+      // Update Active Penalties Count
+      const activePenaltiesCount = data.results.filter(
+        (penalty) => penalty.status === 'Active' || penalty.status === 'unpaid'
+      ).length;
+      document.querySelector('.penalty-card h2').textContent = activePenaltiesCount;
+
+      // Clear existing rows and pagination
+      penaltyHistory.innerHTML = '';
+      paginationControls.innerHTML = '';
+
+      // Populate penalty history table
+      if (data.results && data.results.length > 0) {
+        data.results.forEach((penalty) => {
+          const row = `
+            <tr>
+              <td>${new Date(penalty.created_at).toLocaleDateString()}</td>
+              <td>${penalty.reason}</td>
+              <td>${penalty.status}</td>
+              <td>${penalty.booking || 'N/A'}</td>
+            </tr>
+          `;
+          penaltyHistory.insertAdjacentHTML('beforeend', row);
+        });
+      } else {
+        penaltyHistory.innerHTML = `<tr><td colspan="4">No penalties found.</td></tr>`;
+      }
+
+      // Handle pagination
+      if (data.previous || data.next) {
+        if (data.previous) {
+          const prevButton = document.createElement('button');
+          prevButton.textContent = 'Previous';
+          prevButton.addEventListener('click', () => {
+            currentPage--;
+            loadPenalties(currentPage);
+          });
+          paginationControls.appendChild(prevButton);
+        }
+
+        const pageIndicator = document.createElement('span');
+        pageIndicator.textContent = `Page ${currentPage}`;
+        paginationControls.appendChild(pageIndicator);
+
+        if (data.next) {
+          const nextButton = document.createElement('button');
+          nextButton.textContent = 'Next';
+          nextButton.addEventListener('click', () => {
+            currentPage++;
+            loadPenalties(currentPage);
+          });
+          paginationControls.appendChild(nextButton);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user penalties:', error);
+      alert('Failed to load penalties. Please try again later.');
+    }
+  };
+
+  const showReviewModal = async () => {
+    try {
+      const headers = await getAuthHeaders();
+      if (!headers) return;
+
+      const response = await fetch(BASE_URL, { headers });
+      if (!response.ok) throw new Error('Failed to fetch active penalties');
+
+      const data = await response.json();
+
+      // Filter active penalties
+      const activePenalties = data.results.filter(
+        (penalty) => penalty.status === 'Active' || penalty.status === 'unpaid'
+      );
+
+      if (activePenalties.length === 0) {
+        alert('No active penalties available for review.');
+        return;
+      }
+
+      // Populate the modal with active penalties
+      const modalContent = document.getElementById('review-modal-content');
+      modalContent.innerHTML = ''; // Clear previous entries
+      activePenalties.forEach((penalty) => {
+        const penaltyItem = `
+          <div class="penalty-item">
+            <p>Reason: ${penalty.reason}</p>
+            <p>Booking: ${penalty.booking || 'N/A'}</p>
+            <button class="submit-review-btn" data-id="${penalty.id}">Request Review</button>
+          </div>
         `;
-        penaltyHistory.insertAdjacentHTML('beforeend', row);
+        modalContent.insertAdjacentHTML('beforeend', penaltyItem);
       });
-    } else {
-      penaltyHistory.innerHTML = `<tr class="no-penalties"><td colspan="4">No penalties found.</td></tr>`;
-    }
 
-    // Handle pagination
-    if (response.previous || response.next) {
-      if (response.previous) {
-        const prevButton = document.createElement('button');
-        prevButton.textContent = 'Previous';
-        prevButton.addEventListener('click', () => {
-          currentPage--;
-          loadPenalties(currentPage);
+      // Show the modal
+      document.getElementById('review-modal').style.display = 'block';
+
+      // Attach event listeners to dynamically created buttons
+      document.querySelectorAll('.submit-review-btn').forEach((button) => {
+        button.addEventListener('click', (event) => {
+          const penaltyId = event.target.dataset.id;
+          requestReview(penaltyId);
         });
-        paginationControls.appendChild(prevButton);
-      }
-
-      const pageIndicator = document.createElement('span');
-      pageIndicator.textContent = `Page ${currentPage}`;
-      paginationControls.appendChild(pageIndicator);
-
-      if (response.next) {
-        const nextButton = document.createElement('button');
-        nextButton.textContent = 'Next';
-        nextButton.addEventListener('click', () => {
-          currentPage++;
-          loadPenalties(currentPage);
-        });
-        paginationControls.appendChild(nextButton);
-      }
+      });
+    } catch (error) {
+      console.error('Error fetching active penalties:', error);
+      alert('Failed to load active penalties. Please try again later.');
     }
   };
 
-  // Show Modal for Request Review
-  const showReviewModal = () => {
-    // Filter active penalties from dummy data
-    const activePenalties = dummyPenalties.filter(
-      (penalty) => penalty.status === 'Active' || penalty.status === 'Unpaid'
-    );
+  const requestReview = async (penaltyId) => {
+    try {
+      const headers = await getAuthHeaders();
+      if (!headers) return;
 
-    if (activePenalties.length === 0) {
-      alert('No active penalties available for review.');
-      return;
-    }
-
-    // Populate the modal with active penalties
-    const modalContent = document.getElementById('review-modal-content');
-    modalContent.innerHTML = ''; // Clear previous entries
-    activePenalties.forEach((penalty) => {
-      const penaltyItem = `
-        <div class="penalty-item">
-          <p>Reason: ${penalty.reason}</p>
-          <p>Booking: ${penalty.booking || 'N/A'}</p>
-          <button class="submit-review-btn" data-id="${penalty.id}">Request Review</button>
-        </div>
-      `;
-      modalContent.insertAdjacentHTML('beforeend', penaltyItem);
-    });
-
-    // Show the modal
-    document.getElementById('review-modal').style.display = 'block';
-
-    // Attach event listeners to dynamically created buttons
-    document.querySelectorAll('.submit-review-btn').forEach((button) => {
-      button.addEventListener('click', (event) => {
-        const penaltyId = event.target.dataset.id;
-        requestReview(penaltyId);
+      const response = await fetch(`${BASE_URL.split('/user/')[0]}/${penaltyId}/request-review/`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({}),
       });
-    });
-  };
 
-  const requestReview = (penaltyId) => {
-    // Simulate review request with dummy data
-    alert(`Review requested for penalty with ID: ${penaltyId}`);
-    document.getElementById('review-modal').style.display = 'none'; // Hide modal
+      if (!response.ok) throw new Error('Review request failed');
+      const data = await response.json();
+
+      alert(data.message || 'Review request submitted successfully!');
+      document.getElementById('review-modal').style.display = 'none';
+    } catch (error) {
+      console.error('Error requesting review:', error);
+      alert('Failed to request review. Please try again.');
+    }
   };
 
   // Attach event listener to show review modal

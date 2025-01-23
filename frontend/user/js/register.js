@@ -78,22 +78,20 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
             }),
         });
 
-        // Check if the response is JSON
         let responseData;
         try {
             responseData = await response.json();
-        } catch {
-            throw new Error("Non-JSON response from the server");
+        } catch (error) {
+            responseData = null; // Non-JSON response
         }
 
-        if (response.ok) {
+        if (response.ok && responseData) {
             showAlert("Registration successful! Redirecting to login page.", true);
             setTimeout(() => {
-                // Correct login redirection path
                 window.location.href = "http://127.0.0.1:5501/frontend/user/login.html";
             }, 2000);
         } else {
-            const errorMessage = responseData.error || "Unknown error occurred.";
+            const errorMessage = responseData?.error || "Unknown error occurred.";
             showAlert(`Registration failed: ${errorMessage}`, false);
         }
     } catch (error) {
@@ -130,4 +128,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-

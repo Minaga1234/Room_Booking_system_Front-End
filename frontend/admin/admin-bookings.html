@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Bookings</title>
+
+  <!-- Include Shared CSS -->
+  <link rel="stylesheet" href="../admin/css/admin-header.css">
+  <link rel="stylesheet" href="../admin/css/admin-navbar.css">
+
+  <!-- Page-Specific CSS -->
+  <link rel="stylesheet" href="css/admin-bookings.css">
+
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Include Navbar -->
+  <div class="sidebar" id="sidebar-container"></div>
+
+  <!-- Main Content Section -->
+  <div class="main-container">
+    <!-- Include Header -->
+    <div class="header" id="header-container"></div>
+
+    <!-- Filters Section -->
+    <section class="filters white-box">
+      <h2 class="section-title">Filters</h2>
+      <select id="status-filter">
+        <option value="">All</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="checked_in">Checked In</option>
+        <option value="canceled">Canceled</option>
+      </select>
+      <input type="text" id="user-filter" placeholder="Search by User">
+      <input type="text" id="room-filter" placeholder="Search by Room">
+      <button id="apply-filters">Apply Filters</button>
+      <button class="btn-add-booking">Add Booking</button>
+    </section>
+
+    <!-- Booking Table Section -->
+    <section class="white-box booking-table-section">
+      <h2 class="section-title">Bookings</h2>
+      <div>
+        <span id="approve-count">Remaining bookings to Approve: 0</span>
+      </div>
+      <table class="bookings-table">
+        <thead>
+          <tr>
+            <th>Room</th>
+            <th>User</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div id="pagination-controls">
+        <button id="prev-page">Previous</button>
+        <span id="page-info">Page 1</span>
+        <button id="next-page">Next</button>
+      </div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section class="white-box calendar-section">
+      <h2 class="section-title">Calendar</h2>
+      <div class="calendar-container">
+        <div id="calendar"></div>
+      </div>
+    </section>
+
+    <!-- Note Section -->
+    <section class="note-section">
+      <p>To avoid penalties, ensure that you do not spend excessive time in the room beyond your designated booking period...</p>
+      <button onclick="location.href='../admin/penalties.html';">Penalties</button>
+    </section>
+  </div>
+
+  <!-- Add Booking Modal -->
+  <div id="add-booking-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Add Booking</h2>
+      <form id="add-booking-form">
+        <div class="form-group">
+          <label for="user">User:</label>
+          <select id="user" name="user" required></select>
+        </div>
+        <div class="form-group">
+          <label for="room">Room:</label>
+          <select id="room" name="room" required></select>
+        </div>
+        <div class="form-group">
+          <label for="start-time">Start Date & Time:</label>
+          <input type="datetime-local" id="start-time" name="start-time" required>
+        </div>
+        <div class="form-group">
+          <label for="end-time">End Date & Time:</label>
+          <input type="datetime-local" id="end-time" name="end-time" required>
+        </div>
+        <div class="form-group">
+          <label for="status">Status:</label>
+          <select id="status" name="status">
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">Submit</button>
+          <button type="button" class="btn-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="../admin/js/admin-bookings.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Dynamically load header
+      fetch("../admin/header.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("header-container").innerHTML = data;
+        })
+        .catch(error => console.error("Error loading header:", error));
+
+      // Dynamically load sidebar
+      fetch("../admin/navbar.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("sidebar-container").innerHTML = data;
+        })
+        .catch(error => console.error("Error loading sidebar:", error));
+    });
+  </script>
+</body>
+</html>

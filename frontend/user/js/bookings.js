@@ -1,128 +1,219 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const calendarEl = document.getElementById("calendar");
-    const bookingsListEl = document.querySelector(".bookings-list");
+    const BASE_URL = "http://127.0.0.1:8000/api";
+    const BOOKINGS_URL = `${BASE_URL}/bookings/my_bookings/`;
+    const CANCEL_BOOKING_URL = (bookingId) => `${BASE_URL}/bookings/${bookingId}/cancel/`;
 
-    // Initialize the calendar
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
-        },
-        events: [],
-        eventClick: function (info) {
-            if (confirm(`Do you want to cancel the booking for "${info.event.title}"?`)) {
-                cancelBooking(info.event.id)
-                    .then(() => {
-                        info.event.remove(); // Remove the event from the calendar
-                        alert("Booking cancelled successfully.");
-                    })
-                    .catch((error) => {
-                        console.error("Error cancelling booking:", error);
-                        alert("Failed to cancel booking. Please try again.");
-                    });
-            }
-        },
-    });
+    // Dynamically get token from localStorage
+    const getAuthHeaders = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            alert("Your session has expired. Please log in again.");
+            window.location.href = "/frontend/user/login.html";
+            return null;
+        }
+        return {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        };
+    };
 
-    // Fetch bookings for the calendar
-    const fetchCalendarBookings = async () => {
+    // === Load Sidebar ===
+    const loadSidebar = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/bookings/calendar_events/", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+            const sidebarContainer = document.getElementById("sidebar-container");
+            const response = await fetch("../shared/navbar.html");
+            if (!response.ok) throw new Error(`Failed to load sidebar: ${response.status}`);
+            const sidebarHTML = await response.text();
+            sidebarContainer.innerHTML = sidebarHTML;
+            
+            // Highlight Active Sidebar Link
+            const currentPage = window.location.pathname.split("/").pop();
+            const navLinks = document.querySelectorAll(".nav-links a");
+            navLinks.forEach((link) => {
+                const linkHref = link.getAttribute("href");
+                const parentLi = link.parentElement;
+                if (currentPage === linkHref) {
+                    parentLi.classList.add("active");
+                } else {
+                    parentLi.classList.remove("active");
+                }
             });
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch calendar events: ${response.statusText}`);
-            }
-
-            const events = await response.json();
-            calendar.addEventSource(events);
-            calendar.render();
         } catch (error) {
-            console.error("Error fetching calendar bookings:", error);
+            console.error("Error loading sidebar:", error);
         }
     };
 
-    // Fetch bookings for the list (only current and future bookings for the owner)
-    const fetchBookingsList = async () => {
+    // === Load Header ===
+    const loadHeader = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/bookings/my_bookings/", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch user bookings: ${response.statusText}`);
-            }
-
-            const bookings = await response.json();
-            const currentAndFutureBookings = bookings.filter((booking) => {
-                const now = new Date();
-                return new Date(booking.end_time) > now; // Filter only current and future bookings
-            });
-
-            renderBookingsList(currentAndFutureBookings);
+            const headerContainer = document.getElementById("header-container");
+            const response = await fetch("../shared/header.html");
+            if (!response.ok) throw new Error(`Failed to load header: ${response.status}`);
+            const headerHTML = await response.text();
+            headerContainer.innerHTML = headerHTML;
         } catch (error) {
-            console.error("Error fetching user bookings:", error);
+            console.error("Error loading header:", error);
         }
     };
 
-    // Render bookings list
-    const renderBookingsList = (bookings) => {
-        bookingsListEl.innerHTML = ""; // Clear previous bookings
+    // === Fetch User Bookings ===
+    const fetchUserBookings = async () => {
+        try {
+            const headers = await getAuthHeaders();
+            if (!headers) return [];
 
-        if (!bookings.length) {
-            bookingsListEl.innerHTML = "<p>No current or future bookings found.</p>";
+            const response = await fetch(BOOKINGS_URL, { headers });
+            if (!response.ok) throw new Error(`Failed to fetch bookings: ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.error("Error fetching bookings:", error);
+            return [];
+        }
+    };
+
+    // === Render My Bookings Table ===
+    const renderBookingsTable = (bookings) => {
+        const bookingsTableBody = document.querySelector(".my-bookings-table tbody");
+        bookingsTableBody.innerHTML = "";
+
+        if (bookings.length === 0) {
+            bookingsTableBody.innerHTML = "<tr><td colspan='5'>No bookings found.</td></tr>";
             return;
         }
 
         bookings.forEach((booking) => {
-            const bookingItem = document.createElement("div");
-            bookingItem.className = "booking-item";
-            bookingItem.innerHTML = `
-                <strong>Room: ${booking.room}</strong>
-                <br />
-                From: ${new Date(booking.start_time).toLocaleString()} <br />
-                To: ${new Date(booking.end_time).toLocaleString()} <br />
-                Status: ${booking.status}
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${booking.room || "N/A"}</td>
+                <td>${new Date(booking.start_time).toLocaleString()}</td>
+                <td>${new Date(booking.end_time).toLocaleString()}</td>
+                <td>${booking.status}</td>
+                <td>
+                    <button class="cancel-btn" ${booking.status !== "pending" ? "disabled" : ""}>Cancel</button>
+                </td>
             `;
-            bookingsListEl.appendChild(bookingItem);
+            row.querySelector(".cancel-btn").addEventListener("click", () => cancelBooking(booking.id, row));
+            bookingsTableBody.appendChild(row);
         });
     };
 
-    // Cancel a booking
-    const cancelBooking = async (bookingId) => {
+    // === Cancel Booking ===
+    const cancelBooking = async (bookingId, rowElement) => {
+        if (!confirm("Are you sure you want to cancel this booking?")) return;
+
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/bookings/${bookingId}/cancel/`, {
+            const headers = await getAuthHeaders();
+            if (!headers) return;
+
+            const response = await fetch(CANCEL_BOOKING_URL(bookingId), {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers,
             });
 
-            if (!response.ok) {
-                throw new Error(`Failed to cancel booking: ${response.statusText}`);
-            }
+            if (!response.ok) throw new Error("Failed to cancel booking.");
 
-            return await response.json();
+            alert("Booking canceled successfully.");
+            if (rowElement) rowElement.remove();
+            loadCalendarEvents();
         } catch (error) {
             console.error("Error cancelling booking:", error);
-            throw error;
+            alert("Failed to cancel booking. Please try again.");
         }
     };
 
-    // Initialize the page by fetching bookings
-    const initialize = async () => {
-        await fetchCalendarBookings(); // Fetch all bookings for the calendar
-        await fetchBookingsList();    // Fetch only current and future bookings for the list
+    // === Load Calendar Events ===
+    const loadCalendarEvents = async () => {
+        const bookings = await fetchUserBookings();
+        const events = bookings.map((booking) => ({
+            id: booking.id,
+            title: booking.room || "N/A",
+            start: booking.start_time,
+            end: booking.end_time,
+            description: booking.status,
+        }));
+
+        const calendarEl = document.getElementById("calendar");
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: "dayGridMonth",
+            headerToolbar: {
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay",
+            },
+            events: events,
+            eventClick: function (info) {
+                if (info.event.extendedProps.description === "pending") {
+                    if (confirm(`Do you want to cancel the booking for \"${info.event.title}\"?`)) {
+                        cancelBooking(info.event.id, null);
+                        info.event.remove();
+                    }
+                }
+            },
+        });
+
+        calendar.render();
     };
 
-    initialize();
+    // === Initialize My Bookings ===
+    const initializeMyBookings = async () => {
+        const bookings = await fetchUserBookings();
+        console.log("Fetched bookings:", bookings); // Debugging API response
+        renderBookingsTable(bookings);
+        loadCalendarEvents();
+    };
+
+    // === Initialize the Chart ===
+    const initializeChart = () => {
+        const ctx = document.getElementById("weekly-trends-chart");
+        if (!ctx) {
+            console.warn("Chart element not found. Skipping chart initialization.");
+            return null;
+        }
+
+        return new Chart(ctx.getContext("2d"), {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: "Bookings",
+                        data: [],
+                        backgroundColor: "rgba(255, 102, 0, 0.2)",
+                        borderColor: "#FF6600",
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                    },
+                    {
+                        label: "Utilization (%)",
+                        data: [],
+                        backgroundColor: "rgba(93, 164, 220, 0.2)",
+                        borderColor: "#5DA4DC",
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true },
+                },
+                scales: {
+                    y: { title: { display: true, text: "Values" }, min: 0, max: 100 },
+                    x: { title: { display: true, text: "Rooms" } },
+                },
+            },
+        });
+    };
+
+    // === Initialize and Update ===
+    const chart = initializeChart();
+    initializeMyBookings();
+
+    // Load Sidebar and Header
+    loadSidebar();
+    loadHeader();
 });
