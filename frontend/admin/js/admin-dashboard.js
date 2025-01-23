@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const ADMIN_PENALTIES_URL = "/api/admin/penalties/";
   const NEW_ROOMS_LIMIT = 5; // Limit for newly added rooms to display
 
+  
   // Fetch Room Data
   const fetchRoomData = async () => {
     try {
