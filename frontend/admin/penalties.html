@@ -18,47 +18,61 @@
     <!-- Sidebar -->
     <div id="sidebar-container"></div>
 
-    <div class="main-content">
-      <main>
-        <section class="penalties-overview">
-          <h2>Penalties Overview</h2>
-          <div class="penalty-cards">
-            <div class="card red">
-              <p>Active Penalties</p>
-              <h2 class="active-penalties">0</h2>
-            </div>
-            <div class="card purple">
-              <p>New Penalties</p>
-              <h2 class="new-penalties">0</h2>
-            </div>
-            <div class="card green">
-              <p>Penalties Resolved</p>
-              <h2 class="resolved-penalties">0</h2>
-            </div>
-            <div class="card blue">
-              <p>Repeat Offenders</p>
-              <h2 class="repeat-offenders">0</h2>
-            </div>
+  <div class="main-content">
+    <header>
+      <div class="branding">
+        <h1>Intelligent Spatial Management System</h1>
+      </div>
+      <div class="header-controls">
+        <input type="text" placeholder="Search" class="search-bar">
+        <div class="header-icons">
+          <span class="notification-icon">🔔</span>
+          <span class="user-icon">👤</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="penalties-overview">
+        <h2>Penalties Overview</h2>
+        <div class="penalty-cards">
+          <div class="card red">
+            <p>Active Penalties</p>
+            <h2 class="active-penalties">0</h2>
           </div>
-        </section>
+          <div class="card purple">
+            <p>New Penalties</p>
+            <h2 class="new-penalties">0</h2>
+          </div>
+          <div class="card green">
+            <p>Penalties Resolved</p>
+            <h2 class="resolved-penalties">0</h2>
+          </div>
+          <div class="card blue">
+            <p>Repeat Offenders</p>
+            <h2 class="repeat-offenders">0</h2>
+          </div>
+        </div>
+      </section>
 
         <section class="penalty-details">
           <h2>Penalty Details</h2>
 
-          <!-- Filter Controls -->
-          <div class="filter-controls">
-            <label for="status-filter">Status:</label>
-            <select id="status-filter">
-              <option value="all">All</option>
-              <option value="unpaid">Unpaid</option>
-              <option value="paid">Paid</option>
-            </select>
-            <label for="start-date-filter">Start Date:</label>
-            <input type="date" id="start-date-filter">
-            <label for="end-date-filter">End Date:</label>
-            <input type="date" id="end-date-filter">
-            <button id="apply-filters" class="filter-btn">Apply</button>
-          </div>
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+          <label for="status-filter">Status:</label>
+          <select id="status-filter">
+            <option value="all">All</option>
+            <option value="unpaid">Unpaid</option>
+            <option value="paid">Paid</option>
+            <option value="review_requested">Review Requested</option>
+          </select>
+          <label for="start-date-filter">Start Date:</label>
+          <input type="date" id="start-date-filter">
+          <label for="end-date-filter">End Date:</label>
+          <input type="date" id="end-date-filter">
+          <button id="apply-filters" class="filter-btn">Apply</button>
+        </div>
 
           <div class="details-table">
             <table>

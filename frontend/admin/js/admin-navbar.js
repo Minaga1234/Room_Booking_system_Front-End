@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(overlay);
 
     // Load sidebar content
-    fetch("../shared/admin-navbar.html")
+    fetch("./navbar.html")
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`Failed to load admin sidebar: ${response.statusText}`);
@@ -17,10 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((html) => {
             sidebarContainer.innerHTML = html;
 
-            // Setup functionality
-            setupMobileMenu();
-            highlightActiveLink(); // Highlight the active nav link
-            setupAdminProfile();
+            // Ensure elements exist before setting up functionality
+            if (document.querySelector(".hamburger-menu")) {
+                setupMobileMenu();
+            }
+            if (document.querySelector(".nav-links a")) {
+                highlightActiveLink(); // Highlight the active nav link
+            }
+            if (document.querySelector(".contact-btn")) {
+                setupAdminProfile(); // Set up admin profile actions
+            }
         })
         .catch((error) => {
             console.error("Error loading admin sidebar:", error);
@@ -32,6 +38,12 @@ function setupMobileMenu() {
     const sidebar = document.querySelector(".sidebar");
     const overlay = document.querySelector(".overlay");
 
+    if (!hamburger || !sidebar || !overlay) {
+        console.error("Missing required elements for mobile menu setup.");
+        return;
+    }
+
+    // Toggle sidebar and overlay visibility
     hamburger.addEventListener("click", () => {
         sidebar.classList.toggle("active");
         overlay.classList.toggle("active");
@@ -62,6 +74,11 @@ function toggleHamburgerAnimation(hamburger) {
     const bars = hamburger.querySelectorAll(".bar");
     hamburger.classList.toggle("active");
 
+    if (!bars || bars.length < 3) {
+        console.error("Missing bars for hamburger animation.");
+        return;
+    }
+
     if (hamburger.classList.contains("active")) {
         bars[0].style.transform = "rotate(45deg) translate(6px, 6px)";
         bars[1].style.opacity = "0";
@@ -73,6 +90,12 @@ function toggleHamburgerAnimation(hamburger) {
 
 function resetHamburgerAnimation(hamburger) {
     const bars = hamburger.querySelectorAll(".bar");
+
+    if (!bars || bars.length < 3) {
+        console.error("Missing bars for resetting hamburger animation.");
+        return;
+    }
+
     bars.forEach((bar) => {
         bar.style.transform = "none";
         bar.style.opacity = "1";
@@ -83,6 +106,11 @@ function resetHamburgerAnimation(hamburger) {
 function highlightActiveLink() {
     const currentPage = window.location.pathname.split("/").pop(); // Get current page name
     const navLinks = document.querySelectorAll(".nav-links a");
+
+    if (!navLinks || navLinks.length === 0) {
+        console.warn("No navigation links found to highlight.");
+        return;
+    }
 
     navLinks.forEach((link) => {
         const linkHref = link.getAttribute("href");
@@ -98,11 +126,15 @@ function highlightActiveLink() {
 }
 
 function setupAdminProfile() {
-    // Contact button functionality
     const contactBtn = document.querySelector(".contact-btn");
-    if (contactBtn) {
-        contactBtn.addEventListener("click", () => {
-            alert("Contact support functionality will be implemented here");
-        });
+
+    if (!contactBtn) {
+        console.warn("Contact button not found for admin profile setup.");
+        return;
     }
+
+    // Add event listener for contact button
+    contactBtn.addEventListener("click", () => {
+        alert("Contact support functionality will be implemented here.");
+    });
 }

@@ -7,7 +7,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow: hidden; /* Prevent body scrolling */
 }
 
 /* Dashboard Container */
@@ -17,110 +17,116 @@ body {
     height: 100%;
 }
 
+/* Sidebar Section */
+#sidebar-container {
+    width: 250px;
+    height: 100vh;
+    background-color: #01182a;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
 /* Main Content */
 .main-content {
-    margin-left: 280px;
-    margin-top: 54px;
+    margin-left: 250px; /* Space for the sidebar */
+    margin-top: 70px; /* Space for the header */
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 15px;
+    align-items: center; /* Center the content */
+    gap: 30px;
+    padding: 20px;
+    height: calc(100vh - 70px);
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* Row Layout */
 .row {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    flex: 1;
+    justify-content: center;
+    gap: 40px; /* Add spacing between elements */
+    flex-wrap: wrap; /* Allow responsive adjustments */
+    width: 100%;
+    max-width: 1100px;
 }
 
+/* Weather Section */
 .weather {
     background-color: #8584E2;
     color: white;
-    padding: 12px;
-    border-radius: 18px;
+    padding: 20px;
+    border-radius: 15px;
     border: 3px solid #ff5722;
-    flex: 1;
-    min-width: 260px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow: hidden;
-}
-
-.weather-icon {
-    width: 90px;
-    height: 90px;
-    align-self: center;
-}
-
-.weather-header {
+    flex: 1 1 450px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    text-align: center;
+    max-width: 450px;
+}
+
+.weather-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
 }
 
 .temperature {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .weather-description {
-    font-size: 13px;
-    margin: 5px 0;
-    text-align: center;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
-.divider {
-    border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    margin: 8px 0;
+.temperature-line {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    margin: 15px 0;
 }
 
+/* Bookings List */
 .bookings-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
     overflow-y: auto;
     flex: 2;
+    text-align: left;
 }
 
 .booking-item {
     background-color: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
 }
 
-.booking-item p {
-    margin: 0;
-    font-size: 11px;
-    font-weight: bold;
+.booking-item strong {
+    font-size: 16px;
 }
 
 .booking-item span {
-    font-size: 10px;
+    display: block;
     color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
 }
 
 .cancel-btn {
     background-color: #0f1e3d;
     color: white;
     border: none;
-    border-radius: 18px;
-    padding: 5px 8px;
+    border-radius: 15px;
+    padding: 6px 12px;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 11px;
-    align-self: flex-start;
-    transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
 .cancel-btn:hover {
@@ -131,49 +137,36 @@ body {
 .calendar {
     background-color: #ffffff;
     color: #333;
-    padding: 18px;
-    border-radius: 18px;
-    flex: 1;
-    min-width: 260px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    overflow: hidden;
+    padding: 40px;
+    border-radius: 15px;
+    flex: 1 1 450px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 450px;
 }
 
 .calendar h2 {
-    margin: 0;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
-    text-align: center;
-}
-
-#calendar {
-    flex: 1;
-    background: white;
-    border-radius: 8px;
-    padding: 8px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    margin-bottom: 10px;
 }
 
 /* Note Section */
 .note-section {
     background-color: white;
-    padding: 18px;
-    border-radius: 18px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    flex: 1;
-    overflow: hidden;
+    max-width: 800px;
+    margin-top: 20px;
 }
 
 .note-section p {
-    color: black;
-    font-size: 15px;
-    margin: 0 0 18px 0;
+    font-size: 16px;
     line-height: 1.5;
+    color: #000;
 }
 
 .note-section button {
@@ -182,39 +175,37 @@ body {
     color: white;
     border: none;
     border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
 .note-section button:hover {
     background-color: #3642b2;
 }
 
-/* Scrollable Content */
-.scrollable-content {
-    flex: 1;
-    overflow-y: auto;
-    padding-right: 8px;
-    box-sizing: border-box;
+/* Notification Popup */
+.notification {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #8584E2;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Custom Scrollbar */
-.scrollable-content::-webkit-scrollbar {
-    width: 5px;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb {
-    background: #6a6afa;
-    border-radius: 3px;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb:hover {
-    background: #4a4ed6;
-}
-
-.scrollable-content::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+.notification button {
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 /* Updated Responsive Design */
@@ -236,105 +227,90 @@ body {
 
     .row {
         flex-direction: column;
-        gap: 12px;
+        gap: 20px;
     }
 
     .weather,
     .calendar,
     .note-section {
         width: 100%;
-        flex: none;
-    }
-
-    .weather {
-        min-height: 270px;
-    }
-
-    .calendar {
-        min-height: 300px;
-    }
-
-    .note-section {
-        min-height: 180px;
-    }
-}
-
-@media (max-width: 576px) {
-    .main-content {
-        padding: 10px;
-    }
-
-    .weather {
-        padding: 10px;
-        min-height: 250px;
-    }
-
-    .calendar {
-        padding: 10px;
-        min-height: 280px;
-    }
-
-    .note-section {
-        padding: 10px;
-        min-height: 160px;
-    }
-
-    .weather-icon {
-        width: 70px;
-        height: 70px;
-    }
-
-    .temperature {
-        font-size: 16px;
-    }
-
-    .weather-description {
-        font-size: 11px;
-    }
-
-    .booking-item {
-        padding: 6px;
-    }
-}
-
-@media (max-width: 400px) {
-    .main-content {
-        padding: 8px;
-    }
-
-    .weather,
-    .calendar,
-    .note-section {
-        padding: 8px;
-        min-height: auto;
-    }
-
-    .weather-icon {
-        width: 60px;
-        height: 60px;
-    }
-
-    .note-section {
-        min-height: 140px;
-    }
-}
-
-/* Print Styles */
-@media print {
-    body {
-        background: white;
-        color: black;
     }
 
     .main-content {
-        margin: 0;
-        padding: 18px;
+        padding: 10px;
     }
 
-    .weather,
-    .calendar,
     .note-section {
-        break-inside: avoid;
-        page-break-inside: avoid;
+        max-width: 100%;
     }
 }
+
+/* Two-column layout for Weather and Calendar sections */
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 20px; /* Space between columns */
+    width: 100%; /* Full width of the parent container */
+    max-width: 1100px; /* Optional: max width for better alignment */
+    margin: 0 auto; /* Center the content horizontally */
+}
+
+/* Ensure Weather and Calendar take equal space */
+.weather, .calendar {
+    flex: none; /* Override flex behavior */
+    max-width: none; /* Prevent overriding max-width from the previous styles */
+}
+
+@media (max-width: 768px) {
+    .row {
+        grid-template-columns: 1fr; /* Single-column layout */
+        gap: 20px; /* Adjust spacing for smaller screens */
+    }
+}
+
+/* My Bookings Section */
+.my-bookings-section {
+    margin-top: 20px;
+    background-color: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.my-bookings-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.my-bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.my-bookings-table th, .my-bookings-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.my-bookings-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.my-bookings-table td .cancel-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.my-bookings-table td .cancel-btn:hover {
+    background-color: #cc0000;
+}
+

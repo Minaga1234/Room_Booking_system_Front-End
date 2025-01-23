@@ -22,25 +22,31 @@ window.addEventListener("load", () => {
 
 // Toggle Chatbot visibility
 chatToggleButton.addEventListener("click", () => {
-  const isHidden = chatWrapper.classList.contains("hidden");
-  chatWrapper.classList.toggle("hidden", !isHidden);
-  chatWrapper.style.display = isHidden ? "flex" : "none"; // Show or hide wrapper
-  chatStartContainer.style.display = isHidden ? "block" : "none"; // Show welcome section
-  chatInterface.style.display = isHidden ? "none" : "none"; // Reset chat interface visibility
+  if (chatWrapper.classList.contains("hidden")) {
+    chatWrapper.classList.remove("hidden");
+    chatWrapper.style.display = "flex"; // Ensure wrapper is visible
+    chatStartContainer.style.display = "block"; // Show welcome section
+    chatInterface.style.display = "none"; // Ensure chat interface is hidden
+  } else {
+    chatWrapper.classList.add("hidden");
+    chatWrapper.style.display = "none"; // Hide the wrapper
+    chatStartContainer.style.display = "none"; // Hide the welcome section
+    chatInterface.style.display = "none"; // Ensure chat interface is hidden
+  }
 });
 
 // Transition from Welcome Section to Chat Interface
 chatStartButton.addEventListener("click", () => {
-  chatStartContainer.style.display = "none"; // Hide welcome section
-  chatInterface.style.display = "flex"; // Show chat interface
+  chatStartContainer.style.display = "none"; // Hide the welcome section
+  chatInterface.style.display = "flex"; // Show the chat interface
 });
 
 // Close Chatbot
 chatCloseButton.addEventListener("click", () => {
   chatWrapper.classList.add("hidden");
-  chatWrapper.style.display = "none"; // Hide wrapper
-  chatStartContainer.style.display = "none"; // Hide welcome section
-  chatInterface.style.display = "none"; // Hide chat interface
+  chatWrapper.style.display = "none"; // Hide the wrapper
+  chatStartContainer.style.display = "none"; // Hide the welcome section
+  chatInterface.style.display = "none"; // Hide the chat interface
 });
 
 // Append message to chat body
@@ -73,6 +79,16 @@ function removeTypingIndicator(element) {
   }
 }
 
+// Simulate a bot response
+async function simulateBotResponse() {
+  const typingIndicator = showTypingIndicator();
+
+  setTimeout(() => {
+    removeTypingIndicator(typingIndicator);
+    appendMessage("bot", "Here’s a response from the bot!");
+  }, 2000); // Simulate typing delay
+}
+
 // Send message and handle user input
 sendButton.addEventListener("click", async () => {
   const message = userInput.value.trim();
@@ -80,7 +96,7 @@ sendButton.addEventListener("click", async () => {
     appendMessage("user", message);
     userInput.value = ""; // Clear input field
 
-    // Show typing indicator
+    // Show typing indicator and simulate bot response
     const typingIndicator = showTypingIndicator();
 
     try {
@@ -89,10 +105,7 @@ sendButton.addEventListener("click", async () => {
       appendMessage("bot", response.response);
     } catch (error) {
       removeTypingIndicator(typingIndicator);
-      appendMessage(
-        "bot",
-        "Oops! Something went wrong. Please check your connection and try again."
-      );
+      appendMessage("bot", "Oops! Something went wrong. Please try again later.");
     }
   }
 });
@@ -109,23 +122,16 @@ async function sendToBackend(message) {
   const BACKEND_URL = "http://127.0.0.1:8000/chatbot/";
 
   try {
-    // Debug the CSRF token
-    const csrfToken = getCookie("csrftoken");
-    console.log(`Using CSRF token: ${csrfToken}`);
-
-    const response = await fetch("http://127.0.0.1:8000/chatbot/", {
+    const response = await fetch(BACKEND_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"), // Include CSRF token
       },
       body: JSON.stringify({ message }),
-      credentials: "include", // Ensure cookies are included
     });
-    
+
     if (!response.ok) {
-      console.error("Backend response error:", await response.text());
-      throw new Error(`HTTP error: ${response.status}`);
+      throw new Error("Failed to fetch response from backend");
     }
 
     return await response.json();
@@ -133,22 +139,4 @@ async function sendToBackend(message) {
     console.error("Error communicating with the backend:", error);
     throw error;
   }
-}
-
-// Function to get CSRF token from cookies
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== "") {
-    const cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.startsWith(name + "=")) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        console.log(`CSRF token fetched: ${cookieValue}`); // Debugging log
-        return cookieValue;
-      }
-    }
-  }
-  console.warn("CSRF token not found."); // Debugging log
-  return cookieValue;
 }
