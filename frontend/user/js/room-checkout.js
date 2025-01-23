@@ -12,57 +12,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let userRole = ""; // The user's role (e.g., "student" or "staff")
 
-  if (
-    !bookingForm ||
-    !purposeInput ||
-    !participantsInput ||
-    !participantsDisplay ||
-    !degreeSelect ||
-    !fromTimeSelect ||
-    !toTimeSelect ||
-    !bookingDateInput ||
-    !termsCheckbox ||
-    !errorMessage
-  ) {
-    console.error("One or more form elements are missing.");
-    return;
-  }
+  // Fetch token from localStorage
+  const getAuthHeaders = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      alert("Your session has expired. Please log in again.");
+      window.location.href = "/frontend/user/login.html";
+      return null;
+    }
+    return {
+      "Authorization": `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    };
+  };
 
   // Load Header and Sidebar
   const loadHeaderAndSidebar = async () => {
     try {
       const headerResponse = await fetch("../shared/header.html");
-      if (!headerResponse.ok) {
-        throw new Error(`Failed to load header: ${headerResponse.statusText}`);
-      }
+      if (!headerResponse.ok) throw new Error("Failed to load header.");
       document.getElementById("header-container").innerHTML = await headerResponse.text();
 
       const sidebarResponse = await fetch("../shared/sidebar.html");
-      if (!sidebarResponse.ok) {
-        throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
-      }
+      if (!sidebarResponse.ok) throw new Error("Failed to load sidebar.");
       document.getElementById("sidebar-container").innerHTML = await sidebarResponse.text();
-
-      console.log("Header and Sidebar loaded successfully.");
     } catch (error) {
       console.error("Error loading header or sidebar:", error);
     }
   };
 
-  // Get User Role
+  // Fetch User Role
   const fetchUserRole = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/auth/user/"); // Replace with your API endpoint
-      if (!response.ok) {
-        throw new Error("Failed to fetch user role.");
-      }
+      const headers = await getAuthHeaders();
+      if (!headers) return;
+      const response = await fetch("http://127.0.0.1:8000/api/users/profile/", { headers });
+      if (!response.ok) throw new Error("Failed to fetch user role.");
       const userData = await response.json();
-      userRole = userData.role; // Assume the role is returned as 'student' or 'staff'
-      console.log(`User Role: ${userRole}`);
+      userRole = userData.role;
       configureBookingDate(userRole);
     } catch (error) {
       console.error("Error fetching user role:", error);
-      userRole = "student"; // Default to 'student' if the role cannot be determined
+      userRole = "student"; // Default to 'student' if role cannot be determined
       configureBookingDate(userRole);
     }
   };
@@ -73,53 +64,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
 
-    const formatDate = (date) => date.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+    const formatDate = (date) => date.toISOString().split("T")[0];
 
     if (role === "student") {
       bookingDateInput.value = formatDate(today);
       bookingDateInput.min = formatDate(today);
       bookingDateInput.max = formatDate(today);
-      bookingDateInput.disabled = true; // Students can only book for today
+      bookingDateInput.disabled = true;
     } else if (role === "staff") {
       bookingDateInput.value = formatDate(today);
       bookingDateInput.min = formatDate(today);
       bookingDateInput.max = formatDate(tomorrow);
-      bookingDateInput.disabled = false; // Staff can select today or tomorrow
+      bookingDateInput.disabled = false;
     } else {
-      console.error("Invalid user role. Defaulting to student configuration.");
+      console.error("Invalid user role.");
       configureBookingDate("student");
     }
-  };
-
-  // Validate Booking Date
-  const validateBookingDate = (bookingDate) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize to midnight
-
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    const selectedDate = new Date(bookingDate);
-
-    if (userRole === "student") {
-      if (selectedDate.getTime() !== today.getTime()) {
-        errorMessage.textContent = "Students can only book for today.";
-        return false;
-      }
-    } else if (userRole === "staff") {
-      if (
-        selectedDate.getTime() !== today.getTime() &&
-        selectedDate.getTime() !== tomorrow.getTime()
-      ) {
-        errorMessage.textContent = "Staff can only book for today or tomorrow.";
-        return false;
-      }
-    } else {
-      errorMessage.textContent = "Invalid user role. Please contact support.";
-      return false;
-    }
-
-    return true;
   };
 
   // Generate Time Slots
@@ -144,24 +104,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // Event Listener for Participants Range
-  participantsInput.addEventListener("input", (event) => {
-    participantsDisplay.textContent = event.target.value;
-  });
-
   // Fetch Room Details
   const fetchRoomDetails = async (roomId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/rooms/${roomId}/`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch room details: ${response.statusText}`);
-      }
+      const headers = await getAuthHeaders();
+      if (!headers) return;
+      const response = await fetch(`http://127.0.0.1:8000/api/rooms/${roomId}/`, { headers });
+      if (!response.ok) throw new Error("Failed to fetch room details.");
       const roomDetails = await response.json();
-      console.log("Room Details:", roomDetails); // Log room details for debugging
       renderRoomDetails(roomDetails);
     } catch (error) {
       console.error("Error fetching room details:", error);
-      alert("Failed to load room details!");
+      alert("Failed to load room details.");
       window.location.href = "room-availability.html";
     }
   };
@@ -173,8 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const roomImageElement = document.querySelector(".room-image");
 
     if (roomNameElement) roomNameElement.textContent = room.name || "Room Name Not Available";
-    if (roomDescriptionElement)
-      roomDescriptionElement.textContent = room.description || "No description available.";
+    if (roomDescriptionElement) roomDescriptionElement.textContent = room.description || "No description available.";
     if (roomImageElement) roomImageElement.src = room.image || "../assets/default-room.jpg";
     populateBookings(room.bookings || []);
   };
@@ -196,7 +149,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // Form Submission
+  // Format date and time into ISO string
+  const formatDateTime = (date, time) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    date.setHours(hours, minutes, 0, 0);
+    return date.toISOString();
+  };
+
+  // Form submission handler
   bookingForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -208,55 +168,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const degreeMajor = degreeSelect.value;
     const termsAgreed = termsCheckbox.checked;
 
-    // Validate Fields
-    if (!bookingDate) {
-      errorMessage.textContent = "Please select a booking date.";
-      return;
-    }
-    if (!validateBookingDate(bookingDate)) return;
-    if (!fromTime || !toTime) {
-      errorMessage.textContent = "Please select both start and end times.";
-      return;
-    }
-    if (!purpose) {
-      errorMessage.textContent = "Please provide a purpose for the booking.";
-      return;
-    }
-    if (isNaN(participants) || participants < 0 || participants > 6) {
-      errorMessage.textContent = "Please select a valid number of participants (0-6).";
-      return;
-    }
-    if (!degreeMajor) {
-      errorMessage.textContent = "Please select a degree major.";
-      return;
-    }
     if (!termsAgreed) {
       errorMessage.textContent = "You must agree to the terms and conditions.";
       return;
     }
 
+    // Validate start_time and end_time
+    if (!fromTime || !toTime) {
+      errorMessage.textContent = "Please select both start and end times.";
+      return;
+    }
+
+    const startTimeISO = formatDateTime(new Date(bookingDate), fromTime);
+    const endTimeISO = formatDateTime(new Date(bookingDate), toTime);
+
     const bookingData = {
+      room_id: new URLSearchParams(window.location.search).get("room_id"),
       date: bookingDate,
-      start_time: fromTime,
-      end_time: toTime,
+      start_time: startTimeISO,
+      end_time: endTimeISO,
       purpose,
       participants,
       degree_major: degreeMajor,
     };
 
+    console.log("Booking Payload:", bookingData);
+
     try {
+      const headers = await getAuthHeaders();
+      if (!headers) return;
+
       const response = await fetch("http://127.0.0.1:8000/api/bookings/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+        headers,
         body: JSON.stringify(bookingData),
       });
 
       if (!response.ok) {
         const errorDetails = await response.json();
-        throw new Error(errorDetails.message || "Failed to book room. Check time slot availability.");
+        console.error("API Error Details:", errorDetails);
+        throw new Error(errorDetails.message || "Failed to book room.");
       }
 
       alert("Room booked successfully!");
@@ -267,19 +218,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initialize the Page
+  // Initialize page
   const initialize = async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const roomId = urlParams.get("room_id");
-
+    const roomId = new URLSearchParams(window.location.search).get("room_id");
     if (!roomId) {
       alert("Room ID not provided!");
       window.location.href = "room-availability.html";
       return;
     }
 
-    await fetchUserRole(); // Fetch the user's role
     await loadHeaderAndSidebar();
+    await fetchUserRole();
     generateTimeSlots();
     await fetchRoomDetails(roomId);
   };

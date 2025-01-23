@@ -1,9 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Define the base URL and headers
     const BASE_URL = "http://127.0.0.1:8000/api";
-    const AUTH_HEADERS = {
-        Authorization: `Token 321497117be1c51df2e1f377037cf54b3774f0ad`,
-        "Content-Type": "application/json",
+    const BOOKINGS_URL = `${BASE_URL}/bookings/my_bookings/`;
+    const CANCEL_BOOKING_URL = (bookingId) => `${BASE_URL}/bookings/${bookingId}/cancel/`;
+
+    // Dynamically get token from localStorage
+    const getAuthHeaders = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            alert("Your session has expired. Please log in again.");
+            window.location.href = "/frontend/user/login.html";
+            return null;
+        }
+        return {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        };
     };
 
     // === Load Sidebar ===
@@ -11,11 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const sidebarContainer = document.getElementById("sidebar-container");
             const response = await fetch("../shared/navbar.html");
-            if (!response.ok) {
-                throw new Error(`Failed to load sidebar: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Failed to load sidebar: ${response.status}`);
             const sidebarHTML = await response.text();
             sidebarContainer.innerHTML = sidebarHTML;
+            
             // Highlight Active Sidebar Link
             const currentPage = window.location.pathname.split("/").pop();
             const navLinks = document.querySelectorAll(".nav-links a");
@@ -38,9 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const headerContainer = document.getElementById("header-container");
             const response = await fetch("../shared/header.html");
-            if (!response.ok) {
-                throw new Error(`Failed to load header: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Failed to load header: ${response.status}`);
             const headerHTML = await response.text();
             headerContainer.innerHTML = headerHTML;
         } catch (error) {
@@ -51,9 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // === Fetch User Bookings ===
     const fetchUserBookings = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/bookings/my_bookings/`, {
-                headers: AUTH_HEADERS,
-            });
+            const headers = await getAuthHeaders();
+            if (!headers) return [];
+
+            const response = await fetch(BOOKINGS_URL, { headers });
             if (!response.ok) throw new Error(`Failed to fetch bookings: ${response.status}`);
             return await response.json();
         } catch (error) {
@@ -91,14 +100,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // === Cancel Booking ===
     const cancelBooking = async (bookingId, rowElement) => {
         if (!confirm("Are you sure you want to cancel this booking?")) return;
+
         try {
-            const response = await fetch(`${BASE_URL}/bookings/${bookingId}/cancel/`, {
+            const headers = await getAuthHeaders();
+            if (!headers) return;
+
+            const response = await fetch(CANCEL_BOOKING_URL(bookingId), {
                 method: "POST",
-                headers: AUTH_HEADERS,
+                headers,
             });
+
             if (!response.ok) throw new Error("Failed to cancel booking.");
+
             alert("Booking canceled successfully.");
-            rowElement.remove();
+            if (rowElement) rowElement.remove();
             loadCalendarEvents();
         } catch (error) {
             console.error("Error cancelling booking:", error);
@@ -128,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
             events: events,
             eventClick: function (info) {
                 if (info.event.extendedProps.description === "pending") {
-                    if (confirm(`Do you want to cancel the booking for "${info.event.title}"?`)) {
+                    if (confirm(`Do you want to cancel the booking for \"${info.event.title}\"?`)) {
                         cancelBooking(info.event.id, null);
                         info.event.remove();
                     }
