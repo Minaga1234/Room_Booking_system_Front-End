@@ -113,30 +113,25 @@
                 <div class="modal-content">
                     <h2>Add User</h2>
                     <form id="add-user-form">
-                        <label for="new-username">Username</label>
-                        <input type="text" id="new-username" name="username">
-
                         <label for="new-email">Email</label>
-                        <input type="email" id="new-email" name="email">
-
+                        <input type="email" id="new-email" name="email" required>
+            
                         <label for="new-role">Role</label>
-                        <select id="new-role" name="role">
+                        <select id="new-role" name="role" required>
                             <option value="admin">Admin</option>
                             <option value="staff">Staff</option>
                             <option value="student">Student</option>
                         </select>
-
+            
                         <label for="new-phone">Phone</label>
-                        <input type="text" id="new-phone" name="phone">
-
-                        <label for="new-password">Password</label>
-                        <input type="password" id="new-password" name="password">
-
+                        <input type="text" id="new-phone" name="phone" required>
+            
                         <button type="submit" class="add-btn">Add User</button>
                         <button type="button" class="close-modal">Cancel</button>
                     </form>
                 </div>
             </div>
+            
         </main>
     </div>
 

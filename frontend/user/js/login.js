@@ -1,23 +1,20 @@
 document.getElementById("login-form").addEventListener("submit", async function (e) {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    // Fetch input values
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    // Custom validation
     if (!email || !password) {
         showAlert("Both fields are required!", false);
         return;
     }
 
     if (!validateEmail(email)) {
-        showAlert("Email must follow the format 'user@our.ecu.edu.au'!", false);
+        showAlert("Invalid email format! Must be in '@our.ecu.edu.au' domain.", false);
         return;
     }
 
     try {
-        // Send login request
         const response = await fetch("http://127.0.0.1:8000/api/users/login/", {
             method: "POST",
             headers: {
@@ -26,28 +23,33 @@ document.getElementById("login-form").addEventListener("submit", async function 
             body: JSON.stringify({ email, password }),
         });
 
-        // Handle non-OK response
         if (!response.ok) {
             const errorData = await response.json();
             showAlert(`Login failed: ${errorData.error || "Invalid credentials"}`, false);
             return;
         }
 
-        // Parse successful response
         const data = await response.json();
-        localStorage.setItem("accessToken", data.access); // Store access token
-        localStorage.setItem("refreshToken", data.refresh); // Store refresh token
-        localStorage.setItem("userRole", data.role); // Store user role based on backend response
+        localStorage.setItem("accessToken", data.access);
+        localStorage.setItem("refreshToken", data.refresh);
+        localStorage.setItem("userRole", data.role);
+        localStorage.setItem("userEmail", email); // Store email for fetching the username
 
         showAlert("Login successful!", true);
 
-        // Redirect based on user role
-        if (data.role === "admin") {
-            window.location.href = "../admin/admin-dashboard.html";
-        } else if (data.role === "student") {
-            window.location.href = "../user/dashboard.html";
-        } else {
-            showAlert("Unknown user role. Please contact support.", false);
+        // Redirect based on role
+        switch (data.role) {
+            case "admin":
+                window.location.href = "../admin/admin-dashboard.html";
+                break;
+            case "student":
+                window.location.href = "../user/dashboard.html";
+                break;
+            case "staff":
+                window.location.href = "../user/dashboard.html";
+                break;
+            default:
+                showAlert("Unknown user role. Please contact support.", false);
         }
     } catch (error) {
         console.error("Login error:", error);

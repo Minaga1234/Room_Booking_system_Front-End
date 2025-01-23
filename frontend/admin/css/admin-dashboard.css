@@ -345,3 +345,36 @@ body {
     grid-row: auto;
   }
 }
+
+/* Note Section */
+.note-section {
+  background-color: white;
+  color: #333;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.note-section p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.note-section button {
+  padding: 10px 20px;
+  background-color: #0f1e3d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.note-section button:hover {
+  background-color: #3642b2;
+}
