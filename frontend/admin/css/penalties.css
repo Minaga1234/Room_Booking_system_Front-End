@@ -2,70 +2,17 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  background-color: #F8F8FC; /* Light background */
+  background-color: #01182a; /* Light background */
 }
 
-.sidebar {
-  width: 15%;
-  height: 100vh;
-  background-color: #6B6CCF; /* Purple sidebar */
-  padding: 20px;
-  color: white;
-  position: fixed;
-}
-
-.sidebar h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.sidebar nav ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar nav ul li {
-  margin: 15px 0;
-}
-
-.sidebar nav ul li.active a {
-  color: orange; /* Highlight active */
-}
-
+/* Main Content Layout */
 .main-content {
-  margin-left: 20%;
-  padding: 20px;
+  margin-left: 17%; /* Increased space for the dynamic sidebar */
+  padding-top: 120px; /* Increased space for the dynamic header */
+  padding: 80px;
+  box-sizing: border-box;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  margin-bottom: 20px;
-}
-
-.branding h1 {
-  font-size: 1.5rem;
-  color: #3F3D56; /* Dark gray */
-}
-
-.search-bar {
-  padding: 5px 10px;
-  border: 1px solid #DDD;
-  border-radius: 5px;
-}
-
-.header-controls {
-  display: flex;
-  align-items: center;
-}
-
-.header-controls .header-icons span {
-  margin-left: 15px;
-  font-size: 1.2rem;
-}
 
 /* Penalties Overview Section */
 .penalties-overview {
@@ -89,10 +36,18 @@ header {
   width: 20%;
 }
 
-.card.red { border-top: 5px solid #FF4D4D; }
-.card.purple { border-top: 5px solid #A78BFA; }
-.card.green { border-top: 5px solid #34D399; }
-.card.blue { border-top: 5px solid #60A5FA; }
+.card.red {
+  border-top: 5px solid #FF4D4D;
+}
+.card.purple {
+  border-top: 5px solid #A78BFA;
+}
+.card.green {
+  border-top: 5px solid #34D399;
+}
+.card.blue {
+  border-top: 5px solid #60A5FA;
+}
 
 .card p {
   font-size: 1rem;
@@ -118,10 +73,16 @@ header {
   border-collapse: collapse;
 }
 
-.details-table th, .details-table td {
+.details-table th,
+.details-table td {
   text-align: center;
   padding: 10px;
   border-bottom: 1px solid #E5E7EB;
+}
+
+.details-table th {
+  background-color: #F3F3F3;
+  font-weight: bold;
 }
 
 .resolve-btn {
@@ -139,7 +100,7 @@ header {
 
 /* Download Report Button */
 .download-btn {
-  background-color: #F9E4E4; /* Exact light pink color */
+  background-color: #F9E4E4; /* Light pink color */
   color: #3F3D56; /* Dark text */
   border: none;
   padding: 10px 20px;
@@ -164,6 +125,7 @@ header {
   color: #FF4D4D; /* Bright red for icon */
 }
 
+/* Filter Controls */
 .filter-controls {
   display: flex;
   align-items: center;
@@ -196,6 +158,7 @@ header {
   background-color: #45A049;
 }
 
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
