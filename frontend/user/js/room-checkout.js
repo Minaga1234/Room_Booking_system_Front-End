@@ -132,20 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     populateBookings(room.bookings || []);
   };
 
-  // Generate Time Slots
-  const generateTimeSlots = () => {
-    const timeSlots = [
-      "08:30", "09:00", "09:30", "10:00", "10:30", "11:00",
-      "11:30", "12:00", "12:30", "13:00", "13:30", "14:00",
-      "14:30", "15:00", "15:30", "16:00", "16:30", "17:00",
-      "17:30", "18:00",
-    ];
 
-    timeSlots.forEach((time) => {
-      fromTimeSelect.innerHTML += `<option value="${time}">${time}</option>`;
-      toTimeSelect.innerHTML += `<option value="${time}">${time}</option>`;
-    });
-  };
 
   // Format date and time into ISO string
   const formatDateTime = (date, time) => {
