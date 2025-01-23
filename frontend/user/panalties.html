@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Panalties</title>
+    <link rel="stylesheet" href="./css/panalties.css">
+    <link rel="stylesheet" href="../shared/css/header.css">
+    <link rel="stylesheet" href="../shared/css/sidebar.css">
+    <script src="../shared/js/sidebar.js" defer></script>
+    <script src="../shared/js/header.js" defer></script>
+</head>
+
+<body>
+
+    <header>
+        <div id="header-container"></div> <!-- Placeholder for the dynamic header -->
+    </header>
+
+    <!-- Sidebar Section -->
+    <aside>
+        <div id="sidebar-container"></div> <!-- Placeholder for the dynamic sidebar -->
+    </aside>
+
+    <main>
+        <!-- Penalties Section -->
+        <section class="penalties-section">
+            <h2>My Penalties</h2>
+            <div id="loading-indicator" style="display:none;">Loading penalties...</div>
+            <div id="error-message" style="color: red; display: none;"></div>
+            <div class="penalty-card">
+                <p>Active Penalties</p>
+                <h2 id="active-penalties-count">0</h2>
+                <div class="penalty-info">
+                    <p><strong>Booking Restrictions:</strong> None</p>
+                    <p><strong>Penalty Expiration:</strong> N/A</p>
+                    <button class="request-review-btn">Request Review for Active Penalty</button>
+                </div>
+            </div>
+            <h3 id="penalty-history-heading">Penalty History</h3>
+            <div role="region" aria-labelledby="penalty-history-heading" class="details-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-penalty-history">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-controls"></div>
+        </section>
+    </main>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="review-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="close-review-modal" class="close-btn">&times;</span>
+            <h2>Request Review</h2>
+            <div id="review-modal-content">
+                <!-- Dynamically populated penalty items will go here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/penalties.js"></script>
+    <script>
+        fetch("../shared/header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading header:", error));
+    </script>
+</body>
+
+</html>
