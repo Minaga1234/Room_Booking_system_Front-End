@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const termsCheckbox = document.getElementById("terms");
   const errorMessage = document.getElementById("error-message");
 
-  let userRole = "student"; // Default to 'student'; dynamically set after fetching role
+  let userRole = "student"; // Default role
   let roomId = null;
 
   if (
@@ -32,8 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load Header and Sidebar
   const loadHeaderAndSidebar = async () => {
     try {
-      const headerResponse = await fetch("../shared/header.html");
-      const sidebarResponse = await fetch("../shared/sidebar.html");
+      const [headerResponse, sidebarResponse] = await Promise.all([
+        fetch("../shared/header.html"),
+        fetch("../shared/sidebar.html"),
+      ]);
 
       if (!headerResponse.ok || !sidebarResponse.ok) {
         throw new Error("Failed to load header or sidebar.");
@@ -56,14 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const email = localStorage.getItem("userEmail");
-      if (!email) {
-        throw new Error("User email not found in localStorage.");
-      }
+      if (!email) throw new Error("User email not found in localStorage.");
 
       const response = await fetch(`http://127.0.0.1:8000/api/users/profile/?email=${encodeURIComponent(email)}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch user profile.");
-      }
+      if (!response.ok) throw new Error("Failed to fetch user profile.");
 
       const user = await response.json();
       userRole = user.role;
@@ -87,37 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Validate Booking Date
-  const validateBookingDate = (selectedDate) => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    const selected = new Date(selectedDate);
-
-    if (userRole === "student" && selected.toDateString() !== today.toDateString()) {
-      return "Students can only book for today.";
-    }
-
-    if (userRole === "staff" && selected > tomorrow) {
-      return "Staff can only book for today or tomorrow.";
-    }
-
-    return null; // Date is valid
-  };
-
   // Fetch Degree Options
   const fetchDegreeOptions = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/branding/degrees/", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch degree options: ${response.statusText}`);
-      }
+      const response = await fetch("http://127.0.0.1:8000/api/branding/degrees/");
+      if (!response.ok) throw new Error("Failed to fetch degree options.");
 
       const degrees = await response.json();
       degreeSelect.innerHTML = degrees
@@ -126,22 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("Error fetching degree options:", error);
       degreeSelect.innerHTML = `<option value="" disabled>Error loading degrees</option>`;
-      errorMessage.textContent = "Failed to load degree options.";
     }
   };
 
   // Fetch Room Details
   const fetchRoomDetails = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/rooms/${id}/`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch room details: ${response.statusText}`);
-      }
+      const response = await fetch(`http://127.0.0.1:8000/api/rooms/${id}/`);
+      if (!response.ok) throw new Error("Failed to fetch room details.");
 
       const room = await response.json();
       renderRoomDetails(room);
@@ -154,33 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Render Room Details
   const renderRoomDetails = (room) => {
-    const roomNameElement = document.querySelector(".room-name");
-    const roomDescriptionElement = document.querySelector(".room-description-text");
-    const roomImageElement = document.querySelector(".room-image");
-
-    roomNameElement.textContent = room.name || "Room Name Not Available";
-    roomDescriptionElement.textContent = room.description || "No description available.";
-    roomImageElement.src = room.image || "../assets/default-room.jpg";
-  };
-
-  // Check Room Availability
-  const checkRoomAvailability = async (roomId, startTime, endTime) => {
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/rooms/${roomId}/availability/?start_time=${startTime}&end_time=${endTime}`
-      );
-      const data = await response.json();
-
-      if (!data.available) {
-        showAlert("Selected time slot is unavailable. Please choose a different time.", false);
-        return false;
-      }
-      return true;
-    } catch (error) {
-      console.error("Error checking room availability:", error);
-      showAlert("Failed to verify room availability. Please try again.", false);
-      return false;
-    }
+    document.querySelector(".room-name").textContent = room.name || "Room Name Not Available";
+    document.querySelector(".room-description-text").textContent = room.description || "No description available.";
+    document.querySelector(".room-image").src = room.image || "../assets/default-room.jpg";
   };
 
   // Generate Time Slots
@@ -193,22 +133,34 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     timeSlots.forEach((time) => {
-      const fromOption = document.createElement("option");
-      fromOption.value = time;
-      fromOption.textContent = time;
-      fromTimeSelect.appendChild(fromOption);
-
-      const toOption = document.createElement("option");
-      toOption.value = time;
-      toOption.textContent = time;
-      toTimeSelect.appendChild(toOption);
+      fromTimeSelect.innerHTML += `<option value="${time}">${time}</option>`;
+      toTimeSelect.innerHTML += `<option value="${time}">${time}</option>`;
     });
+  };
+
+  // Check Room Availability
+  const checkRoomAvailability = async (roomId, startTime, endTime) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/rooms/${roomId}/availability/?start_time=${startTime}&end_time=${endTime}`
+      );
+      const data = await response.json();
+      if (!data.available) {
+        alert("Selected time slot is unavailable. Please choose a different time.");
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error("Error checking room availability:", error);
+      alert("Failed to verify room availability. Please try again.");
+      return false;
+    }
   };
 
   // Form Submission
   bookingForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    errorMessage.textContent = ""; // Clear previous error messages
+    errorMessage.textContent = ""; // Clear previous errors
 
     const purpose = purposeInput.value.trim();
     const participants = parseInt(participantsInput.value, 10);
@@ -220,13 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = localStorage.getItem("userEmail");
 
     if (!email) {
-      showAlert("User email not found. Please log in again.", false);
-      return;
-    }
-
-    const dateError = validateBookingDate(bookingDate);
-    if (dateError) {
-      errorMessage.textContent = dateError;
+      alert("User email not found. Please log in again.");
       return;
     }
 
@@ -236,17 +182,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const bookingData = {
-      room: roomId,
+      room: parseInt(roomId, 10),
       purpose,
       participants,
       degree_major: degree,
       start_time: `${bookingDate}T${fromTime}:00`,
       end_time: `${bookingDate}T${toTime}:00`,
-      email: email,
+      email,
     };
 
     try {
-      // Check room availability before submitting
       const isAvailable = await checkRoomAvailability(
         roomId,
         bookingData.start_time,
@@ -264,8 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
         const errorDetails = await response.json();
-        console.error("Booking Error Details:", errorDetails);
-        throw new Error(errorDetails.detail || "Failed to book room.");
+        throw new Error(errorDetails.error || "Failed to book room.");
       }
 
       alert("Room booked successfully!");
@@ -276,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initialize the Page
+  // Initialize
   const initialize = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     roomId = urlParams.get("room_id");
