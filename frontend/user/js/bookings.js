@@ -97,6 +97,130 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    const fetchOngoingBookings = async () => {
+        try {
+            const headers = await getAuthHeaders();
+            if (!headers) return [];
+    
+            const [approvedResponse, checkedInResponse] = await Promise.all([
+                fetch(`${BASE_URL}/bookings/?status=approved`, { headers }),
+                fetch(`${BASE_URL}/bookings/?status=checked_in`, { headers }),
+            ]);
+    
+            if (!approvedResponse.ok || !checkedInResponse.ok) {
+                throw new Error("Failed to fetch ongoing bookings.");
+            }
+    
+            const approvedBookings = await approvedResponse.json();
+            const checkedInBookings = await checkedInResponse.json();
+    
+            return [...approvedBookings.results, ...checkedInBookings.results];
+        } catch (error) {
+            console.error("Error fetching ongoing bookings:", error);
+            return [];
+        }
+    };
+    
+    
+    const renderOngoingBookings = (bookings) => {
+        const ongoingBookingsList = document.getElementById("ongoing-bookings-list");
+        ongoingBookingsList.innerHTML = ""; // Clear previous content
+    
+        const now = new Date(); // Current timestamp
+        const filteredBookings = bookings.filter((booking) => {
+            const startTime = new Date(booking.start_time);
+            const endTime = new Date(booking.end_time);
+            return now >= startTime && now <= endTime; // Only include bookings in the current timeslot
+        });
+    
+        if (filteredBookings.length === 0) {
+            ongoingBookingsList.innerHTML = "<p>No ongoing bookings available.</p>";
+            return;
+        }
+    
+        filteredBookings.forEach((booking) => {
+            const startTime = new Date(booking.start_time);
+            const endTime = new Date(booking.end_time);
+    
+            const bookingItem = document.createElement("div");
+            bookingItem.classList.add("booking-item");
+            bookingItem.innerHTML = `
+                <strong>${booking.room || "Unknown Room"}</strong>
+                <p><strong>Start:</strong> ${startTime.toLocaleString()}</p>
+                <p><strong>End:</strong> ${endTime.toLocaleString()}</p>
+                <div class="action-buttons">
+                    <button class="check-in-btn" data-id="${booking.id}" ${
+                        booking.status === "checked_in" ? "disabled" : ""
+                    }>Check In</button>
+                    <button class="check-out-btn ${booking.status === "checked_in" ? "" : "hidden"}" data-id="${booking.id}">Check Out</button>
+                </div>
+                <div class="timer ${booking.status === "checked_in" ? "" : "hidden"}" id="timer-${booking.id}"></div>
+            `;
+    
+            ongoingBookingsList.appendChild(bookingItem);
+    
+            const checkInButton = bookingItem.querySelector(".check-in-btn");
+            const checkOutButton = bookingItem.querySelector(".check-out-btn");
+            const timerDiv = bookingItem.querySelector(`#timer-${booking.id}`);
+    
+            checkInButton.addEventListener("click", () =>
+                handleCheckIn(booking.id, checkInButton, checkOutButton, timerDiv, endTime)
+            );
+            checkOutButton.addEventListener("click", () => handleCheckOut(booking.id, timerDiv));
+    
+            if (booking.status === "checked_in") {
+                startTimer(timerDiv, endTime);
+            }
+        });
+    };
+
+    const handleCheckIn = async (bookingId, checkInButton, checkOutButton, timerDiv, endTime) => {
+        try {
+            const headers = await getAuthHeaders();
+            if (!headers) return;
+    
+            const response = await fetch(`${BASE_URL}/bookings/${bookingId}/check_in/`, {
+                method: "POST",
+                headers,
+            });
+    
+            if (!response.ok) throw new Error("Failed to check in.");
+    
+            alert("Check-in successful!");
+            checkInButton.classList.add("hidden");
+            checkOutButton.classList.remove("hidden");
+            timerDiv.classList.remove("hidden");
+    
+            startTimer(timerDiv, endTime); // Start the countdown timer
+        } catch (error) {
+            console.error("Error during check-in:", error);
+            alert("Failed to check in. Please try again.");
+        }
+    };
+
+    const startTimer = (timerDiv, endTime) => {
+        const endTimeMs = new Date(endTime).getTime();
+    
+        const updateTimer = () => {
+            const now = Date.now();
+            const remainingTime = endTimeMs - now;
+    
+            if (remainingTime <= 0) {
+                clearInterval(timerDiv.dataset.timerId);
+                timerDiv.textContent = "Booking time has ended.";
+                return;
+            }
+    
+            const minutes = Math.floor(remainingTime / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
+            timerDiv.textContent = `Time Remaining: ${minutes}m ${seconds}s`;
+        };
+    
+        updateTimer();
+        const timerId = setInterval(updateTimer, 1000);
+        timerDiv.dataset.timerId = timerId;
+    };
+    
     // === Cancel Booking ===
     const cancelBooking = async (bookingId, rowElement) => {
         if (!confirm("Are you sure you want to cancel this booking?")) return;
@@ -167,13 +291,24 @@ const loadCalendarEvents = async () => {
 };
 
 
-    // === Initialize My Bookings ===
-    const initializeMyBookings = async () => {
-        const bookings = await fetchUserBookings();
-        console.log("Fetched bookings:", bookings); // Debugging API response
-        renderBookingsTable(bookings);
+const initializeMyBookings = async () => {
+    try {
+        // Fetch and render all user bookings
+        const userBookings = await fetchUserBookings();
+        console.log("User Bookings:", userBookings); // Debug API response
+        renderBookingsTable(userBookings);
+
+        // Fetch and render ongoing bookings
+        const ongoingBookings = await fetchOngoingBookings();
+        console.log("Ongoing Bookings:", ongoingBookings); // Debug API response
+        renderOngoingBookings(ongoingBookings);
+
+        // Initialize calendar events
         loadCalendarEvents();
-    };
+    } catch (error) {
+        console.error("Error initializing bookings:", error);
+    }
+};
 
     // === Initialize the Chart ===
     const initializeChart = () => {
