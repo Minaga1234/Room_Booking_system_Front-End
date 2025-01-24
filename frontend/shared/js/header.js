@@ -4,6 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const notificationPopup = notificationWrapper?.querySelector(".notification-popup");
     const profileWrapper = document.querySelector(".profile-wrapper");
     const profilePopup = profileWrapper?.querySelector(".profile-popup");
+    const profilePicture = profileWrapper?.querySelector(".profile-picture");
+
+    // Base URL for API
+    const BASE_URL = "http://127.0.0.1:8000/api/users/";
+    const PROFILE_URL = `${BASE_URL}profile/`;
 
     // Mock function to fetch notifications
     const fetchNotifications = () => [
@@ -54,6 +59,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 profilePopup.style.display = "none";
             }, 300); // Add delay for smoother hover-out
         });
+    }
+
+    // Fetch and Set Profile Picture
+    const fetchProfilePicture = async () => {
+        try {
+            const headers = {
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                "Content-Type": "application/json",
+            };
+
+            const response = await fetch(PROFILE_URL, { headers });
+            if (!response.ok) {
+                console.error("Failed to fetch profile picture.");
+                return;
+            }
+
+            const data = await response.json();
+            if (data.profile_picture && profilePicture) {
+                profilePicture.src = data.profile_picture; // Set the profile picture URL
+            }
+        } catch (error) {
+            console.error("Error fetching profile picture:", error);
+        }
+    };
+
+    if (profilePicture) {
+        fetchProfilePicture();
     }
 
     // Search Functionality

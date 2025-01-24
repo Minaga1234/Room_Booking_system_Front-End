@@ -25,6 +25,17 @@
             <!-- Profile Section -->
             <section class="profile-section" id="personal-info">
                 <h1>Personal Info</h1>
+                <!-- Profile Picture Section -->
+                <div class="profile-picture-section">
+                    
+                    <div class="profile-picture-container">
+                        <img id="profile-picture" src="./images/default-avatar.png" alt="Profile Picture">
+                        <input type="file" id="profile-picture-upload" accept="image/*" class="hidden">
+                        <button id="edit-profile-picture-btn">Edit Picture</button>
+                    </div>
+                </div>
+
+                <!-- Profile Details Section -->
                 <form id="profile-form">
                     <label for="profile-name">Name</label>
                     <input type="text" id="profile-name" name="name" disabled>
