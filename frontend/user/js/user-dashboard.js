@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const API_BASE_URL = "http://127.0.0.1:8000/analytics/";
     const ROOMS_API_URL = "http://127.0.0.1:8000/api/rooms/";
+    const BOOKINGS_URL = "http://127.0.0.1:8000/api/bookings/";
     const sidebarKey = "cachedSidebar"; // Key for caching sidebar content
     const headerKey = "cachedHeader";  // Key for caching header content
 
@@ -35,6 +36,129 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("Error fetching analytics data:", error);
             return [];
         }
+    };
+
+    // Fetch token dynamically from localStorage
+    const getAuthHeaders = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            alert("Your session has expired. Please log in again.");
+            window.location.href = "/frontend/user/login.html";
+            return null;
+        }
+        return {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        };
+    };
+
+    // Fetch Ongoing Bookings
+    const fetchOngoingBookings = async () => {
+        try {
+            const headers = await getAuthHeaders();
+            if (!headers) return [];
+
+            const response = await fetch(`${BOOKINGS_URL}?status=approved`, { headers });
+            if (!response.ok) throw new Error("Failed to fetch bookings.");
+            return await response.json();
+        } catch (error) {
+            console.error("Error fetching bookings:", error);
+            return [];
+        }
+    };
+
+    // Render Ongoing Bookings
+    const renderOngoingBookings = (bookings) => {
+        const bookingsContainer = document.getElementById("ongoing-bookings");
+        bookingsContainer.innerHTML = ""; // Clear existing content
+
+        if (bookings.length === 0) {
+            bookingsContainer.innerHTML = "<p>No ongoing bookings found.</p>";
+            return;
+        }
+
+        bookings.forEach((booking) => {
+            const bookingElement = document.createElement("div");
+            bookingElement.classList.add("ongoing-booking");
+
+            bookingElement.innerHTML = `
+                <strong>${booking.room || "Unknown Room"}</strong>
+                <p>From: ${new Date(booking.start_time).toLocaleString()}</p>
+                <p>To: ${new Date(booking.end_time).toLocaleString()}</p>
+                <button class="check-in-btn" data-id="${booking.id}">Check In</button>
+                <button class="check-out-btn hidden" data-id="${booking.id}">Check Out</button>
+            `;
+
+            bookingsContainer.appendChild(bookingElement);
+
+            // Add event listeners for Check-In and Check-Out
+            const checkInButton = bookingElement.querySelector(".check-in-btn");
+            const checkOutButton = bookingElement.querySelector(".check-out-btn");
+
+            checkInButton.addEventListener("click", () => handleCheckIn(booking.id, checkInButton, checkOutButton));
+            checkOutButton.addEventListener("click", () => handleCheckOut(booking.id));
+        });
+    };
+
+    // Handle Check-In
+    const handleCheckIn = async (bookingId, checkInButton, checkOutButton) => {
+        try {
+            const headers = await getAuthHeaders();
+            if (!headers) return;
+
+            const response = await fetch(`${BOOKINGS_URL}${bookingId}/check_in/`, {
+                method: "POST",
+                headers,
+            });
+
+            if (!response.ok) throw new Error("Failed to check in.");
+            alert("Check-in successful!");
+            checkInButton.classList.add("hidden");
+            checkOutButton.classList.remove("hidden");
+
+            startTimer(bookingId, checkOutButton); // Start reminder timer
+        } catch (error) {
+            console.error("Error during check-in:", error);
+            alert("Failed to check in. Please try again.");
+        }
+    };
+
+    // Handle Check-Out
+    const handleCheckOut = async (bookingId) => {
+        try {
+            const headers = await getAuthHeaders();
+            if (!headers) return;
+
+            const response = await fetch(`${BOOKINGS_URL}${bookingId}/check_out/`, {
+                method: "POST",
+                headers,
+            });
+
+            if (!response.ok) throw new Error("Failed to check out.");
+            alert("Check-out successful!");
+
+            // Remove the booking from the ongoing section
+            document.querySelector(`[data-id="${bookingId}"]`).parentElement.remove();
+        } catch (error) {
+            console.error("Error during check-out:", error);
+            alert("Failed to check out. Please try again.");
+        }
+    };
+
+    // Start Reminder Timer
+    const startTimer = (bookingId, checkOutButton) => {
+        const bookingEndTime = new Date(checkOutButton.dataset.endTime).getTime();
+        const timerInterval = setInterval(() => {
+            const now = Date.now();
+            const remainingTime = bookingEndTime - now;
+
+            if (remainingTime <= 5 * 60 * 1000 && remainingTime > 0) {
+                alert(`Your booking ends in ${Math.ceil(remainingTime / 60000)} minutes.`);
+            } else if (remainingTime <= 0) {
+                clearInterval(timerInterval);
+                alert("Your booking time has ended. Please check out.");
+            }
+        }, 60 * 1000); // Check every minute
     };
 
     // Update Most Popular Rooms
