@@ -81,8 +81,8 @@
                                         
                                         <label for="participants">Participants</label>
                                         <div class="participants-range">
-                                            <input type="range" id="participants" name="participants" min="1" max="6" />
-                                            <span id="participant-count">1</span> <!-- Display participant count dynamically -->
+                                            <input type="range" id="participants" name="participants" min="0" max="6" />
+                                            <span>0-6</span>
                                         </div>
                                     </div>
 
@@ -90,7 +90,8 @@
                                     <div class="form-column">
                                         <label for="degree">Degree Major</label>
                                         <select id="degree" name="degree">
-                                            <option value="" disabled selected>Loading options...</option>
+                                            <option value="Software Engineering">Software Engineering</option>
+                                            <option value="Data Science">Data Science</option>
                                         </select>
                                         
                                         <label for="booking-date">Booking Date</label>
@@ -128,8 +129,6 @@
             </div>
         </main>
     </div>
-
-    <!-- Dynamic Scripts -->
     <script src="./js/room-checkout.js" defer></script>
 </body>
 </html>

@@ -1,6 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const BASE_URL = 'http://127.0.0.1:8000/api/users/';
 
+    // Utility function to safely add event listeners
+    const addEventListenerIfExists = (element, event, handler) => {
+        if (element) {
+            element.addEventListener(event, handler);
+        } else {
+            console.warn(`Element not found for event listener: ${event}`);
+        }
+    };
+
+    // Token Refresh Function
     const refreshAccessToken = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
@@ -24,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Get Auth Headers
     const getAuthHeaders = async () => {
         let accessToken = localStorage.getItem('accessToken');
         if (!accessToken) {
@@ -36,67 +47,43 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-    const searchBar = document.querySelector('.search-bar');
-    const addUserButton = document.getElementById('add-user');
-    const applyFiltersButton = document.getElementById('apply-filters');
+    // Fetch Users
+    const fetchUsers = async (filters = {}) => {
+        try {
+            const queryString = new URLSearchParams(filters).toString();
+            const headers = await getAuthHeaders();
+            const response = await fetch(`${BASE_URL}?${queryString}`, { headers });
 
-    const editModal = document.getElementById('edit-modal');
-    const addUserModal = document.getElementById('add-user-modal');
-    const closeModalButtons = document.querySelectorAll('.close-modal');
-
-    const usernameField = document.getElementById('username');
-    const emailField = document.getElementById('email');
-    const roleField = document.getElementById('role');
-    const phoneField = document.getElementById('phone');
-    const statusField = document.getElementById('status');
-
-    const newUserForm = document.getElementById('add-user-form');
-    const editUserForm = document.getElementById('edit-user-form');
-
-    searchBar.addEventListener('input', async (event) => {
-        const query = event.target.value.trim();
-        await renderUserTable({ search: query });
-    });
-
-    async function fetchUsers(filters = {}) {
-        const queryString = new URLSearchParams(filters).toString();
-        const headers = await getAuthHeaders();
-
-        const response = await fetch(`${BASE_URL}?${queryString}`, { headers });
-        if (!response.ok) {
-            console.error(`Error fetching users: ${response.status} ${response.statusText}`);
+            if (!response.ok) throw new Error(`Error fetching users: ${response.status} ${response.statusText}`);
+            return response.json();
+        } catch (error) {
+            console.error('Failed to fetch users:', error);
             return [];
         }
+    };
 
-        return response.json();
-    }
-
-    async function renderUserTable(filters = {}) {
-        const roleFilter = filters.role || document.getElementById('role-filter').value || '';
-        const statusFilter = filters.status || document.getElementById('status-filter').value || '';
+    // Render User Table
+    const renderUserTable = async (filters = {}) => {
+        const roleFilter = filters.role || document.getElementById('role-filter')?.value || '';
+        const statusFilter = filters.status || document.getElementById('status-filter')?.value || '';
         const searchQuery = filters.search || '';
-    
-        const queryParams = {
-            role: roleFilter,
-            status: statusFilter,
-            search: searchQuery,
-            timestamp: new Date().getTime(), // Cache-busting parameter
-        };
-    
-        console.log('Fetching updated users with filters:', queryParams);
-    
+
+        const queryParams = { role: roleFilter, status: statusFilter, search: searchQuery };
         const users = await fetchUsers(queryParams);
-    
-        console.log('Fetched users:', users);
-    
+
         const tbody = document.querySelector('.user-table tbody');
+        if (!tbody) {
+            console.warn('User table tbody not found.');
+            return;
+        }
+
         tbody.innerHTML = '';
-    
+
         if (users.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6">No users found.</td></tr>';
             return;
         }
-    
+
         users.forEach(user => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -111,159 +98,161 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             `;
             tbody.appendChild(row);
-    
-            row.querySelector('.edit-btn').addEventListener('click', () => handleEditButtonClick(user));
-            row.querySelector('.deactivate-btn').addEventListener('click', () => handleDeactivateButtonClick(user.id));
+
+            row.querySelector('.edit-btn').addEventListener('click', () => openEditModal(user));
+            row.querySelector('.deactivate-btn').addEventListener('click', () => handleDeactivateUser(user.id));
         });
-    }
-    
-        
-    
+    };
 
-    applyFiltersButton.addEventListener('click', async () => {
-        const roleFilter = document.getElementById('role-filter').value || '';
-        const statusFilter = document.getElementById('status-filter').value || '';
-        console.log('Sending filters:', { role: roleFilter, status: statusFilter });
-    
-        await renderUserTable({ role: roleFilter, status: statusFilter });
-    });
-    
+    // Add User
+    const addUser = async (user) => {
+        try {
+            const headers = await getAuthHeaders();
+            const response = await fetch(BASE_URL, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify(user),
+            });
 
-    async function addUser(user) {
-        const payload = {
-            email: user.email,
-            role: user.role,
-            phone_number: user.phone,
-            password: user.password,
-        };
+            if (!response.ok) throw new Error('Failed to add user.');
+            return response.json();
+        } catch (error) {
+            console.error('Failed to add user:', error);
+            return { error: error.message };
+        }
+    };
 
-        const headers = await getAuthHeaders();
-        const response = await fetch(`${BASE_URL}`, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify(payload),
-        });
+    // Edit User
+    const editUser = async (userId, updatedUser) => {
+        try {
+            const headers = await getAuthHeaders();
+            const response = await fetch(`${BASE_URL}${userId}/`, {
+                method: 'PATCH',
+                headers,
+                body: JSON.stringify(updatedUser),
+            });
 
-        if (!response.ok) {
-            const data = await response.json();
-            console.error('Failed to add user:', data);
-            return { error: data };
+            if (!response.ok) throw new Error('Failed to update user.');
+            return response.json();
+        } catch (error) {
+            console.error('Failed to update user:', error);
+            return { error: error.message };
+        }
+    };
+
+    // Deactivate User
+    const deactivateUser = async (userId) => {
+        try {
+            const headers = await getAuthHeaders();
+            const response = await fetch(`${BASE_URL}${userId}/deactivate/`, {
+                method: 'PATCH',
+                headers,
+            });
+
+            if (!response.ok) throw new Error('Failed to deactivate user.');
+            return response.json();
+        } catch (error) {
+            console.error('Failed to deactivate user:', error);
+        }
+    };
+
+    // Handle Edit Modal
+    const openEditModal = (user) => {
+        const usernameField = document.getElementById('username');
+        const emailField = document.getElementById('email');
+        const roleField = document.getElementById('role');
+        const phoneField = document.getElementById('phone');
+        const statusField = document.getElementById('status');
+
+        if (usernameField && emailField && roleField && phoneField && statusField) {
+            usernameField.value = user.username;
+            emailField.value = user.email;
+            roleField.value = user.role;
+            phoneField.value = user.phone_number || '';
+            statusField.value = user.is_active ? 'active' : 'inactive';
+            usernameField.dataset.id = user.id;
         }
 
-        return response.json();
-    }
+        openModal(document.getElementById('edit-modal'));
+    };
 
-    async function editUser(userId, updatedUser) {
-        const payload = {
-            role: updatedUser.role,
-            phone_number: updatedUser.phone || null,
-            is_active: updatedUser.is_active,
-        };
-
-        const headers = await getAuthHeaders();
-        const response = await fetch(`${BASE_URL}${userId}/`, {
-            method: 'PATCH', // Adjusted to allow partial updates
-            headers,
-            body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-            const data = await response.json();
-            console.error('Failed to update user:', data);
-            return { error: data };
-        }
-
-        return response.json();
-    }
-
-    async function deactivateUser(userId) {
-        const headers = await getAuthHeaders();
-        const response = await fetch(`${BASE_URL}${userId}/deactivate/`, {
-            method: 'PATCH',
-            headers,
-        });
-
-        return response.json();
-    }
-
-    
-    function handleEditButtonClick(user) {
-        usernameField.value = user.username;
-        usernameField.dataset.id = user.id;
-        emailField.value = user.email;
-        roleField.value = user.role;
-        phoneField.value = user.phone_number || '';
-        statusField.value = user.is_active ? 'active' : 'inactive';
-        openModal(editModal);
-    }
-
-    async function handleDeactivateButtonClick(userId) {
+    // Handle Deactivate User
+    const handleDeactivateUser = async (userId) => {
         if (confirm('Are you sure you want to deactivate this user?')) {
             const result = await deactivateUser(userId);
-            if (result.message) {
+            if (result && result.message) {
                 alert(result.message);
                 renderUserTable();
             } else {
                 alert('Failed to deactivate user.');
             }
         }
-    }
+    };
 
-    newUserForm.addEventListener('submit', async (event) => {
+    // Add User Modal Submission
+    const newUserForm = document.getElementById('add-user-form');
+    addEventListenerIfExists(newUserForm, 'submit', async (event) => {
         event.preventDefault();
-    
-        const email = document.getElementById('new-email').value;
-        const phone = document.getElementById('new-phone').value;
-        const role = document.getElementById('new-role').value;
-        const username = email.split('@')[0];
+
+        const email = document.getElementById('new-email')?.value;
+        const phone = document.getElementById('new-phone')?.value;
+        const role = document.getElementById('new-role')?.value;
         const password = Math.random().toString(36).slice(-8);
-    
-        const newUser = { username, email, role, phone, password };
+
+        const newUser = { email, phone_number: phone, role, password };
         const result = await addUser(newUser);
-    
-        if (result.id) {
-            alert(`User added successfully! Username: ${newUser.username}, Password: ${newUser.password}`);
-            closeModal(addUserModal);
-            await renderUserTable({}); // Fetch all users without filters
+
+        if (result && result.id) {
+            alert(`User added successfully! Password: ${password}`);
+            closeModal(document.getElementById('add-user-modal'));
+            renderUserTable();
         } else {
-            alert('Failed to add user: ' + JSON.stringify(result));
+            alert('Failed to add user.');
         }
     });
-    
-    editUserForm.addEventListener('submit', async (event) => {
+
+    // Edit User Modal Submission
+    const editUserForm = document.getElementById('edit-user-form');
+    addEventListenerIfExists(editUserForm, 'submit', async (event) => {
         event.preventDefault();
-    
-        const userId = usernameField.dataset.id;
+
+        const userId = document.getElementById('username')?.dataset.id;
         const updatedUser = {
-            role: roleField.value,
-            phone: phoneField.value,
-            is_active: statusField.value === 'active',
+            role: document.getElementById('role')?.value,
+            phone_number: document.getElementById('phone')?.value,
+            is_active: document.getElementById('status')?.value === 'active',
         };
-    
+
         const result = await editUser(userId, updatedUser);
-    
+
         if (result && !result.error) {
             alert('User updated successfully!');
-            closeModal(editModal);
-            await renderUserTable({}); // Fetch all users without filters
+            closeModal(document.getElementById('edit-modal'));
+            renderUserTable();
         } else {
-            alert('Failed to update user: ' + JSON.stringify(result));
+            alert('Failed to update user.');
         }
     });
-    
 
-    addUserButton.addEventListener('click', () => openModal(addUserModal));
-    closeModalButtons.forEach(button => {
+    // Open and Close Modals
+    const openModal = (modal) => modal?.classList.remove('hidden');
+    const closeModal = (modal) => modal?.classList.add('hidden');
+
+    document.querySelectorAll('.close-modal').forEach(button => {
         button.addEventListener('click', () => closeModal(button.closest('.modal')));
     });
 
+    // Initialize
     renderUserTable();
-
-    function openModal(modal) {
-        modal.classList.remove('hidden');
-    }
-
-    function closeModal(modal) {
-        modal.classList.add('hidden');
-    }
+    addEventListenerIfExists(document.getElementById('apply-filters'), 'click', async () => {
+        const roleFilter = document.getElementById('role-filter')?.value;
+        const statusFilter = document.getElementById('status-filter')?.value;
+        renderUserTable({ role: roleFilter, status: statusFilter });
+    });
+    addEventListenerIfExists(document.querySelector('.search-bar'), 'input', (event) => {
+        renderUserTable({ search: event.target.value.trim() });
+    });
+    addEventListenerIfExists(document.getElementById('add-user'), 'click', () => {
+        openModal(document.getElementById('add-user-modal'));
+    });
 });

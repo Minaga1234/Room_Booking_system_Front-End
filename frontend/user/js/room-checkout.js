@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const termsCheckbox = document.getElementById("terms");
   const errorMessage = document.getElementById("error-message");
 
+  let userId = null; // Store the user's ID
   let userRole = ""; // The user's role (e.g., "student" or "staff")
 
   // Fetch token from localStorage
@@ -50,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) throw new Error("Failed to fetch user role.");
       const userData = await response.json();
       userRole = userData.role;
+      userId = userData.id; // Store user_id
       configureBookingDate(userRole);
     } catch (error) {
       console.error("Error fetching user role:", error);
@@ -61,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Configure Booking Date Based on Role
   const configureBookingDate = (role) => {
     const today = new Date();
-    const tomorrow = new Date(today);
+    const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
 
     const formatDate = (date) => date.toISOString().split("T")[0];
@@ -105,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Fetch Room Details
-  const fetchRoomDetails = async (id) => {
+  const fetchRoomDetails = async (roomId) => {
     try {
       const headers = await getAuthHeaders();
       if (!headers) return;
@@ -125,66 +127,108 @@ document.addEventListener("DOMContentLoaded", () => {
     const roomNameElement = document.querySelector(".room-name");
     const roomDescriptionElement = document.querySelector(".room-description-text");
     const roomImageElement = document.querySelector(".room-image");
+    const featuresList = document.getElementById("features-list");
 
     if (roomNameElement) roomNameElement.textContent = room.name || "Room Name Not Available";
     if (roomDescriptionElement) roomDescriptionElement.textContent = room.description || "No description available.";
     if (roomImageElement) roomImageElement.src = room.image || "../assets/default-room.jpg";
+
+    if (featuresList) {
+      featuresList.innerHTML = "";
+      (room.features || []).forEach((feature) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = feature;
+        featuresList.appendChild(listItem);
+      });
+    }
+
     populateBookings(room.bookings || []);
   };
 
 
+  // Populate Bookings
+  const populateBookings = (bookings) => {
+    const bookingsList = document.getElementById("bookings-list");
+    if (!bookingsList) return;
+    bookingsList.innerHTML = "";
+    bookings.forEach((booking) => {
+      const bookingItem = document.createElement("div");
+      bookingItem.className = "booking-item";
+      bookingItem.innerHTML = `
+        <strong>${booking.bookedBy || "Unknown"} - ${booking.purpose || "No purpose provided"}</strong>
+        <br />
+        From ${booking.startTime || "N/A"} to ${booking.endTime || "N/A"}
+      `;
+      bookingsList.appendChild(bookingItem);
+    });
+  };
+
+  // Convert time format to HH:mm
+  const convertTimeTo24HourFormat = (time) => {
+    const [timePart, meridian] = time.split(" ");
+    let [hours, minutes] = timePart.split(":").map(Number);
+
+    if (meridian === "PM" && hours < 12) {
+      hours += 12;
+    }
+    if (meridian === "AM" && hours === 12) {
+      hours = 0;
+    }
+
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  };
 
   // Format date and time into ISO string
   const formatDateTime = (date, time) => {
-    const [hours, minutes] = time.split(":").map(Number);
+    const [hours, minutes] = convertTimeTo24HourFormat(time).split(":").map(Number);
     date.setHours(hours, minutes, 0, 0);
     return date.toISOString();
   };
 
-  // Form submission handler
   bookingForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    errorMessage.textContent = ""; // Clear previous errors
 
-    const purpose = purposeInput.value.trim();
-    const participants = parseInt(participantsInput.value, 10);
-    const degree = degreeSelect.value || null;
     const bookingDate = bookingDateInput.value;
     const fromTime = fromTimeSelect.value;
     const toTime = toTimeSelect.value;
+    const purpose = purposeInput.value.trim();
+    const participants = parseInt(participantsInput.value, 10);
+    const degreeMajor = degreeSelect.value;
     const termsAgreed = termsCheckbox.checked;
-    const email = localStorage.getItem("userEmail");
 
     if (!termsAgreed) {
       errorMessage.textContent = "You must agree to the terms and conditions.";
       return;
     }
 
-    // Validate start_time and end_time
-    if (!fromTime || !toTime) {
-      errorMessage.textContent = "Please select both start and end times.";
+    // Validate bookingDate, fromTime, and toTime
+    if (!bookingDate) {
+      errorMessage.textContent = "Booking date is required.";
       return;
     }
 
-    const startTimeISO = formatDateTime(new Date(bookingDate), fromTime);
-    const endTimeISO = formatDateTime(new Date(bookingDate), toTime);
-
-    const bookingData = {
-      room_id: new URLSearchParams(window.location.search).get("room_id"),
-      date: bookingDate,
-      start_time: startTimeISO,
-      end_time: endTimeISO,
-      purpose,
-      participants,
-      degree_major: degree,
-      start_time: `${bookingDate}T${fromTime}:00`,
-      end_time: `${bookingDate}T${toTime}:00`,
-      email,
-    };
-
-    console.log("Booking Payload:", bookingData);
+    if (!fromTime || !toTime) {
+      errorMessage.textContent = "Both start time and end time are required.";
+      return;
+    }
 
     try {
+      const startTimeISO = formatDateTime(new Date(bookingDate), fromTime);
+      const endTimeISO = formatDateTime(new Date(bookingDate), toTime);
+
+      const bookingData = {
+        user_id: userId, // Include user_id in the payload
+        room_id: new URLSearchParams(window.location.search).get("room_id"),
+        date: bookingDate,
+        start_time: startTimeISO,
+        end_time: endTimeISO,
+        purpose,
+        participants,
+        degree_major: degreeMajor,
+      };
+
+      console.log("Booking Payload:", bookingData);
+
       const headers = await getAuthHeaders();
       if (!headers) return;
 
@@ -197,8 +241,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) {
         const errorDetails = await response.json();
         console.error("API Error Details:", errorDetails);
-        throw new Error(errorDetails.message || "Failed to book room.");
-      }
+        alert(errorDetails.non_field_errors?.join(", ") || "Failed to book room.");
+        return;
+    }
+    
 
       alert("Room booked successfully!");
       window.location.reload();
@@ -221,8 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
     await fetchUserRole();
     generateTimeSlots();
     await fetchRoomDetails(roomId);
-    generateTimeSlots();
-    await configureBookingDate();
   };
 
   initialize();

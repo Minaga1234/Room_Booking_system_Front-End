@@ -1,10 +1,8 @@
-/* manage-users.css */
-
 /* General Reset */
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #01182a;
 }
 
 /* Admin Dashboard Layout */
@@ -12,72 +10,18 @@ body {
     display: flex;
 }
 
-.sidebar {
-    width: 250px;
-    background-color: #1b3a57;
-    color: #ffffff;
-    height: 100vh;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.sidebar .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.sidebar .nav {
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar .nav-item {
-    padding: 10px 15px;
-    color: #ffffff;
-    text-decoration: none;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.sidebar .nav-item.active,
-.sidebar .nav-item:hover {
-    background-color: #34699a;
-}
-
 /* Content Area */
 .content {
     flex-grow: 1;
-    padding: 20px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.search-bar {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 300px;
-}
-
-.profile-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+    margin-left: 15%; /* Space for dynamic sidebar */
+    padding-top: 90px; /* Space for dynamic header */
+    padding: 90px;
+    box-sizing: border-box;
 }
 
 /* Manage Users Section */
 .manage-users h1 {
-    color: #1b3a57;
+    color: #ffffff;
     margin-bottom: 20px;
 }
 
@@ -91,7 +35,8 @@ body {
     margin-bottom: 20px;
 }
 
-.user-table th, .user-table td {
+.user-table th,
+.user-table td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -106,7 +51,8 @@ body {
     background-color: #f1f1f1;
 }
 
-.edit-btn, .deactivate-btn {
+.edit-btn,
+.deactivate-btn {
     padding: 8px 15px;
     border: none;
     border-radius: 5px;
