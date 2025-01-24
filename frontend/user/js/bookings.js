@@ -56,27 +56,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // === Fetch User Bookings ===
+    // Fetch User Bookings
     const fetchUserBookings = async () => {
         try {
             const headers = await getAuthHeaders();
-            if (!headers) return [];
-
             const response = await fetch(BOOKINGS_URL, { headers });
             if (!response.ok) throw new Error(`Failed to fetch bookings: ${response.status}`);
-            return await response.json();
+            const data = await response.json();
+            console.log("User Bookings:", data);
+            return data;
         } catch (error) {
             console.error("Error fetching bookings:", error);
             return [];
         }
     };
 
-    // === Render My Bookings Table ===
+    // Render Bookings Table
     const renderBookingsTable = (bookings) => {
         const bookingsTableBody = document.querySelector(".my-bookings-table tbody");
         bookingsTableBody.innerHTML = "";
 
-        if (bookings.length === 0) {
+        if (!bookings || bookings.length === 0) {
             bookingsTableBody.innerHTML = "<tr><td colspan='5'>No bookings found.</td></tr>";
             return;
         }
@@ -88,32 +88,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${new Date(booking.start_time).toLocaleString()}</td>
                 <td>${new Date(booking.end_time).toLocaleString()}</td>
                 <td>${booking.status}</td>
-                <td>
-                    <button class="cancel-btn" ${booking.status !== "pending" ? "disabled" : ""}>Cancel</button>
-                </td>
+                <td><button class="cancel-btn" ${booking.status !== "pending" ? "disabled" : ""}>Cancel</button></td>
             `;
             row.querySelector(".cancel-btn").addEventListener("click", () => cancelBooking(booking.id, row));
             bookingsTableBody.appendChild(row);
         });
     };
 
+    // Fetch Ongoing Bookings
     const fetchOngoingBookings = async () => {
         try {
             const headers = await getAuthHeaders();
-            if (!headers) return [];
-    
             const [approvedResponse, checkedInResponse] = await Promise.all([
                 fetch(`${BASE_URL}/bookings/?status=approved`, { headers }),
                 fetch(`${BASE_URL}/bookings/?status=checked_in`, { headers }),
             ]);
-    
-            if (!approvedResponse.ok || !checkedInResponse.ok) {
-                throw new Error("Failed to fetch ongoing bookings.");
-            }
-    
+            if (!approvedResponse.ok || !checkedInResponse.ok) throw new Error("Failed to fetch ongoing bookings.");
             const approvedBookings = await approvedResponse.json();
             const checkedInBookings = await checkedInResponse.json();
-    
             return [...approvedBookings.results, ...checkedInBookings.results];
         } catch (error) {
             console.error("Error fetching ongoing bookings:", error);
@@ -173,53 +165,121 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     };
+    
 
+    // Handle Check-In
     const handleCheckIn = async (bookingId, checkInButton, checkOutButton, timerDiv, endTime) => {
         try {
             const headers = await getAuthHeaders();
-            if (!headers) return;
-    
             const response = await fetch(`${BASE_URL}/bookings/${bookingId}/check_in/`, {
                 method: "POST",
                 headers,
             });
-    
             if (!response.ok) throw new Error("Failed to check in.");
-    
+
             alert("Check-in successful!");
             checkInButton.classList.add("hidden");
             checkOutButton.classList.remove("hidden");
             timerDiv.classList.remove("hidden");
-    
-            startTimer(timerDiv, endTime); // Start the countdown timer
+            startTimer(timerDiv, endTime);
         } catch (error) {
             console.error("Error during check-in:", error);
             alert("Failed to check in. Please try again.");
         }
     };
 
+    const handleCheckOut = async (bookingId, checkOutButton, timerDiv, endTime) => {
+        try {
+            const headers = await getAuthHeaders();
+            const now = new Date();
+    
+            // API Call for Check-Out
+            const response = await fetch(`${BASE_URL}/bookings/${bookingId}/check_out/`, {
+                method: "POST",
+                headers,
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                if (errorData.penalty_imposed) {
+                    alert(`Check-out successful, but a penalty of $${errorData.penalty_amount} has been imposed.`);
+                } else {
+                    throw new Error("Failed to check out.");
+                }
+            } else if (now > new Date(endTime)) {
+                alert("Check-out successful! Penalty imposed for overstaying.");
+            } else {
+                alert("Check-out successful!");
+            }
+    
+            // Safely handle the timerDiv if it exists
+            if (timerDiv) {
+                clearInterval(timerDiv.dataset.timerId);
+                timerDiv.textContent = "Booking completed.";
+            } else {
+                console.warn("TimerDiv is undefined. Skipping timer operations.");
+            }
+    
+            // Remove the booking item from the DOM
+            checkOutButton.parentElement.parentElement.remove();
+        } catch (error) {
+            console.error("Error during check-out:", error);
+            alert("Failed to check out. Please try again.");
+        }
+    };
+    
+
+    const applyPenaltyForOverstay = async (bookings) => {
+        const now = new Date();
+    
+        bookings.forEach(async (booking) => {
+            const endTime = new Date(booking.end_time);
+            if (now > endTime && booking.status === "checked_in") {
+                try {
+                    const headers = await getAuthHeaders();
+                    const response = await fetch(`${BASE_URL}/bookings/${booking.id}/apply_penalty/`, {
+                        method: "POST",
+                        headers,
+                    });
+    
+                    if (response.ok) {
+                        alert(`Penalty applied for overdue booking in ${booking.room}`);
+                    } else {
+                        console.error(`Penalty application failed for booking ${booking.id}`);
+                    }
+                } catch (error) {
+                    console.error(`Error applying penalty for booking ${booking.id}:`, error);
+                }
+            }
+        });
+    };
+    
+    
+
+    // Start Timer
     const startTimer = (timerDiv, endTime) => {
         const endTimeMs = new Date(endTime).getTime();
-    
+
         const updateTimer = () => {
             const now = Date.now();
             const remainingTime = endTimeMs - now;
-    
+
             if (remainingTime <= 0) {
                 clearInterval(timerDiv.dataset.timerId);
                 timerDiv.textContent = "Booking time has ended.";
                 return;
             }
-    
+
             const minutes = Math.floor(remainingTime / 60000);
             const seconds = Math.floor((remainingTime % 60000) / 1000);
             timerDiv.textContent = `Time Remaining: ${minutes}m ${seconds}s`;
         };
-    
+
         updateTimer();
         const timerId = setInterval(updateTimer, 1000);
         timerDiv.dataset.timerId = timerId;
     };
+
     
     // === Cancel Booking ===
     const cancelBooking = async (bookingId, rowElement) => {
@@ -295,13 +355,16 @@ const initializeMyBookings = async () => {
     try {
         // Fetch and render all user bookings
         const userBookings = await fetchUserBookings();
-        console.log("User Bookings:", userBookings); // Debug API response
+        console.log("User Bookings:", userBookings);
         renderBookingsTable(userBookings);
 
         // Fetch and render ongoing bookings
         const ongoingBookings = await fetchOngoingBookings();
-        console.log("Ongoing Bookings:", ongoingBookings); // Debug API response
+        console.log("Ongoing Bookings:", ongoingBookings);
         renderOngoingBookings(ongoingBookings);
+
+        // Apply penalties for overdue check-outs
+        applyPenaltyForOverstay(ongoingBookings);
 
         // Initialize calendar events
         loadCalendarEvents();
@@ -309,6 +372,7 @@ const initializeMyBookings = async () => {
         console.error("Error initializing bookings:", error);
     }
 };
+
 
     // === Initialize the Chart ===
     const initializeChart = () => {
