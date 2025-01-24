@@ -356,4 +356,39 @@ body {
     }
 }
 
+#ongoing-bookings-container {
+    margin-top: 20px;
+}
+
+#ongoing-bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.booking-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.booking-item strong {
+    font-size: 16px;
+}
+
+.check-in-btn, .check-out-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.check-in-btn:hover, .check-out-btn:hover {
+    background-color: #cc0000;
+}
+
 
