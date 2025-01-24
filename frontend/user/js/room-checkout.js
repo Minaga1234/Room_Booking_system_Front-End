@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const termsCheckbox = document.getElementById("terms");
   const errorMessage = document.getElementById("error-message");
 
+  let userId = null; // Store the user's ID
   let userRole = ""; // The user's role (e.g., "student" or "staff")
 
   // Fetch token from localStorage
@@ -50,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) throw new Error("Failed to fetch user role.");
       const userData = await response.json();
       userRole = userData.role;
+      userId = userData.id; // Store user_id
       configureBookingDate(userRole);
     } catch (error) {
       console.error("Error fetching user role:", error);
@@ -149,14 +151,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // Convert time format to HH:mm
+  const convertTimeTo24HourFormat = (time) => {
+    const [timePart, meridian] = time.split(" ");
+    let [hours, minutes] = timePart.split(":").map(Number);
+
+    if (meridian === "PM" && hours < 12) {
+      hours += 12;
+    }
+    if (meridian === "AM" && hours === 12) {
+      hours = 0;
+    }
+
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  };
+
   // Format date and time into ISO string
   const formatDateTime = (date, time) => {
-    const [hours, minutes] = time.split(":").map(Number);
+    const [hours, minutes] = convertTimeTo24HourFormat(time).split(":").map(Number);
     date.setHours(hours, minutes, 0, 0);
     return date.toISOString();
   };
 
-  // Form submission handler
   bookingForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -173,28 +189,34 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Validate start_time and end_time
-    if (!fromTime || !toTime) {
-      errorMessage.textContent = "Please select both start and end times.";
+    // Validate bookingDate, fromTime, and toTime
+    if (!bookingDate) {
+      errorMessage.textContent = "Booking date is required.";
       return;
     }
 
-    const startTimeISO = formatDateTime(new Date(bookingDate), fromTime);
-    const endTimeISO = formatDateTime(new Date(bookingDate), toTime);
-
-    const bookingData = {
-      room_id: new URLSearchParams(window.location.search).get("room_id"),
-      date: bookingDate,
-      start_time: startTimeISO,
-      end_time: endTimeISO,
-      purpose,
-      participants,
-      degree_major: degreeMajor,
-    };
-
-    console.log("Booking Payload:", bookingData);
+    if (!fromTime || !toTime) {
+      errorMessage.textContent = "Both start time and end time are required.";
+      return;
+    }
 
     try {
+      const startTimeISO = formatDateTime(new Date(bookingDate), fromTime);
+      const endTimeISO = formatDateTime(new Date(bookingDate), toTime);
+
+      const bookingData = {
+        user_id: userId, // Include user_id in the payload
+        room_id: new URLSearchParams(window.location.search).get("room_id"),
+        date: bookingDate,
+        start_time: startTimeISO,
+        end_time: endTimeISO,
+        purpose,
+        participants,
+        degree_major: degreeMajor,
+      };
+
+      console.log("Booking Payload:", bookingData);
+
       const headers = await getAuthHeaders();
       if (!headers) return;
 
@@ -207,8 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) {
         const errorDetails = await response.json();
         console.error("API Error Details:", errorDetails);
-        throw new Error(errorDetails.message || "Failed to book room.");
-      }
+        alert(errorDetails.non_field_errors?.join(", ") || "Failed to book room.");
+        return;
+    }
+    
 
       alert("Room booked successfully!");
       window.location.reload();

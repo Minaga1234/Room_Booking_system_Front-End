@@ -121,38 +121,51 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // === Load Calendar Events ===
-    const loadCalendarEvents = async () => {
-        const bookings = await fetchUserBookings();
-        const events = bookings.map((booking) => ({
-            id: booking.id,
-            title: booking.room || "N/A",
-            start: booking.start_time,
-            end: booking.end_time,
-            description: booking.status,
-        }));
+    // === Load Calendar Events with Popups ===
+const loadCalendarEvents = async () => {
+    const bookings = await fetchUserBookings();
+    const events = bookings.map((booking) => ({
+        id: booking.id,
+        title: booking.room || "N/A",
+        start: booking.start_time,
+        end: booking.end_time,
+        description: `Status: ${booking.status}`,
+    }));
 
-        const calendarEl = document.getElementById("calendar");
-        const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: "dayGridMonth",
-            headerToolbar: {
-                left: "prev,next today",
-                center: "title",
-                right: "dayGridMonth,timeGridWeek,timeGridDay",
-            },
-            events: events,
-            eventClick: function (info) {
-                if (info.event.extendedProps.description === "pending") {
-                    if (confirm(`Do you want to cancel the booking for \"${info.event.title}\"?`)) {
-                        cancelBooking(info.event.id, null);
-                        info.event.remove();
-                    }
-                }
-            },
-        });
+    const calendarEl = document.getElementById("calendar");
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+        },
+        events: events,
+        eventClick: function (info) {
+            const popup = document.createElement("div");
+            popup.classList.add("custom-popup");
+            popup.innerHTML = `
+                <div class="popup-content">
+                    <h3>You have booked the ${info.event.title}</h3>
+                    <p><strong>Status:</strong> ${info.event.extendedProps.description.split(": ")[1]}</p>
+                    <p><strong>Start Time:</strong> ${new Date(info.event.start).toLocaleString()}</p>
+                    <p><strong>End Time:</strong> ${new Date(info.event.end).toLocaleString()}</p>
+                    <button class="close-popup">Close</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
 
-        calendar.render();
-    };
+            // Add close functionality
+            const closeButton = popup.querySelector(".close-popup");
+            closeButton.addEventListener("click", () => {
+                document.body.removeChild(popup);
+            });
+        },
+    });
+
+    calendar.render();
+};
+
 
     // === Initialize My Bookings ===
     const initializeMyBookings = async () => {

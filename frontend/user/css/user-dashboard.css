@@ -434,3 +434,44 @@ body {
         border: 1px solid #ddd;
     }
 }
+
+/* Ongoing Bookings */
+.ongoing-booking {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ongoing-booking strong {
+    font-size: 16px;
+    color: #01182a;
+  }
+  
+  .ongoing-booking p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #444444;
+  }
+  
+  .ongoing-booking .check-in-btn,
+  .ongoing-booking .check-out-btn {
+    padding: 10px;
+    background-color: #8c8bfc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .ongoing-booking .check-out-btn.hidden {
+    display: none;
+  }
+  
+  .ongoing-booking .check-in-btn:hover,
+  .ongoing-booking .check-out-btn:hover {
+    background-color: #6a6afa;
+  }
+  
