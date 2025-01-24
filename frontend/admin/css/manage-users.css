@@ -227,6 +227,21 @@ body {
     background-color: #5a6268;
 }
 
+/* Filters Panel - Search Users */
+#search-users {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+#search-users::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
 .hidden {
     display: none;
 }

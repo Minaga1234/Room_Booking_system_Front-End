@@ -220,6 +220,64 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
+  const NOTIFICATIONS_API_URL = "http://127.0.0.1:8000/notifications/my_notifications";
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/notifications/my_notifications", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Ensure token is present
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch notifications: ${response.status}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      return [];
+    }
+  };
+  
+
+  const renderHeaderNotifications = async () => {
+    const notificationWrapper = document.querySelector(".notification-wrapper");
+    const notificationPopup = notificationWrapper.querySelector(".notification-popup");
+  
+    try {
+      const notifications = await fetchNotifications();
+  
+      if (notifications.length > 0) {
+        notificationPopup.innerHTML = ""; // Clear previous notifications
+        notifications.forEach((notification) => {
+          const notificationItem = document.createElement("div");
+          notificationItem.classList.add("notification-item");
+          notificationItem.innerHTML = `
+            <h4>${notification.title || "Notification"}</h4>
+            <p>${notification.message || "No details available."}</p>
+            <button onclick="location.href='${notification.link || "#"}'">View</button>
+          `;
+          notificationPopup.appendChild(notificationItem);
+        });
+      } else {
+        notificationPopup.innerHTML = `
+          <div class="notification-content">
+            <i class="fas fa-bell-slash"></i>
+            <p>No new notifications</p>
+          </div>
+        `;
+      }
+    } catch (error) {
+      notificationPopup.innerHTML = `
+        <div class="notification-content">
+          <p>Error loading notifications</p>
+        </div>
+      `;
+    }
+  };
+  
   // Initialize Admin Dashboard
   const initializeDashboard = async () => {
     const roomMapping = await fetchRoomData();
@@ -238,4 +296,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Run Initialization
   await initializeDashboard();
+
+  // Fetch and Render Notifications
+  await renderHeaderNotifications();
 });

@@ -127,24 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const roomNameElement = document.querySelector(".room-name");
     const roomDescriptionElement = document.querySelector(".room-description-text");
     const roomImageElement = document.querySelector(".room-image");
-    const featuresList = document.getElementById("features-list");
 
     if (roomNameElement) roomNameElement.textContent = room.name || "Room Name Not Available";
     if (roomDescriptionElement) roomDescriptionElement.textContent = room.description || "No description available.";
     if (roomImageElement) roomImageElement.src = room.image || "../assets/default-room.jpg";
-
-    if (featuresList) {
-      featuresList.innerHTML = "";
-      (room.features || []).forEach((feature) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = feature;
-        featuresList.appendChild(listItem);
-      });
-    }
-
     populateBookings(room.bookings || []);
   };
-
 
   // Populate Bookings
   const populateBookings = (bookings) => {

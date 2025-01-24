@@ -314,3 +314,97 @@ body {
     background-color: #cc0000;
 }
 
+/* Popup Styles */
+.custom-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    max-width: 90%;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.popup-content h3 {
+    margin: 0 0 10px;
+    color: #01182a;
+}
+
+.popup-content p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.popup-content .close-popup {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.popup-content .close-popup:hover {
+    background-color: #c82333;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+#ongoing-bookings-container {
+    margin-top: 20px;
+}
+
+#ongoing-bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.booking-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.booking-item strong {
+    font-size: 16px;
+}
+
+.check-in-btn, .check-out-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.check-in-btn:hover, .check-out-btn:hover {
+    background-color: #cc0000;
+}
+
+

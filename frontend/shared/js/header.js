@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("Header script loaded");
+
     // Notification and Profile Wrappers
     const notificationWrapper = document.querySelector(".notification-wrapper");
     const notificationPopup = notificationWrapper?.querySelector(".notification-popup");
@@ -7,20 +9,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fetch notifications from the backend
     const fetchNotificationsFromBackend = async () => {
+        console.log("Fetching notifications...");
         try {
+            const authToken = localStorage.getItem("authToken");
+            if (!authToken) {
+                console.error("Authentication token not found");
+                return [];
+            }
+
             const response = await fetch("http://127.0.0.1:8000/notifications/", {
                 method: "GET",
                 headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`, // Include authentication token
+                    "Authorization": `Bearer ${authToken}`,
                     "Content-Type": "application/json",
                 },
             });
 
+            console.log("Fetch response status:", response.status);
+
             if (!response.ok) {
-                throw new Error("Failed to fetch notifications");
+                throw new Error(`Failed to fetch notifications: ${response.statusText}`);
             }
 
             const data = await response.json();
+            console.log("Fetched notifications:", data);
             return data;
         } catch (error) {
             console.error("Error fetching notifications:", error);
@@ -30,20 +42,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render notifications
     const renderNotifications = async () => {
-        if (!notificationPopup) return;
+        if (!notificationPopup) {
+            console.warn("Notification popup element not found");
+            return;
+        }
+
         const notifications = await fetchNotificationsFromBackend();
+        console.log("Rendering notifications:", notifications);
 
         notificationPopup.innerHTML = notifications.length
             ? notifications.map(notif => `
                 <div class="notification-item">
-                    <h4>${notif.title}</h4>
-                    <p>${notif.message}</p>
+                    <h4>${notif.title || "Notification"}</h4>
+                    <p>${notif.message || "No details available."}</p>
                     <button onclick="location.href='${notif.link || '#'}'">View</button>
                 </div>`).join("")
             : `<div class="notification-content">
                 <i class="fas fa-bell-slash"></i>
                 <p>No new notifications</p>
             </div>`;
+    };
+
+    // Initialize notifications when the header loads
+    const initializeNotifications = async () => {
+        console.log("Initializing notifications...");
+        await renderNotifications();
+
+        // Simulate periodic notification updates
+        setInterval(() => {
+            console.log("Refreshing notifications...");
+            renderNotifications();
+        }, 30000); // Update every 30 seconds
     };
 
     // Notification Popup Events
@@ -85,12 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Simulate periodic notification updates
-    if (notificationPopup) {
-        setInterval(() => {
-            renderNotifications();
-        }, 30000); // Update every 30 seconds
-    }
+    // Initialize Notifications
+    initializeNotifications();
 
     console.log("User header initialized successfully.");
 });

@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("Header script loaded");
+
     // Notification Wrapper
     const notificationWrapper = document.querySelector(".notification-wrapper");
     const notificationPopup = notificationWrapper?.querySelector(".notification-popup");
@@ -10,29 +12,55 @@ document.addEventListener("DOMContentLoaded", () => {
     // Search Box
     const searchBox = document.querySelector(".search-box");
 
-    // Mock function to simulate fetching notifications
-    function fetchNotifications() {
-        return [
-            { title: "Booking Alert", message: "Room G1 has been successfully reserved.", link: "./admin-bookings.html" },
-            { title: "System Maintenance", message: "Scheduled maintenance on Sunday at 10:00 PM.", link: "./admin-updates.html" },
-            { title: "New Feedback", message: "You have received new feedback from users.", link: "./admin-feedback.html" },
-        ];
-    }
+    // Fetch notifications from the backend
+    const fetchNotificationsFromBackend = async () => {
+        console.log("Fetching notifications...");
+        try {
+            const authToken = localStorage.getItem("authToken");
+            if (!authToken) {
+                console.error("Authentication token not found");
+                return [];
+            }
 
-    // Function to render notifications dynamically
-    function renderNotifications() {
+            const response = await fetch("http://127.0.0.1:8000/notifications/", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${authToken}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            console.log("Fetch response status:", response.status);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch notifications: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("Fetched notifications:", data);
+            return data;
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+            return [];
+        }
+    };
+
+    // Render notifications dynamically
+    const renderNotifications = async () => {
         if (!notificationPopup) return;
 
-        const notifications = fetchNotifications();
+        const notifications = await fetchNotificationsFromBackend();
+        console.log("Rendering notifications:", notifications);
+
         if (notifications.length > 0) {
             notificationPopup.innerHTML = ""; // Clear previous notifications
             notifications.forEach((notification) => {
                 const notificationItem = document.createElement("div");
                 notificationItem.classList.add("notification-item");
                 notificationItem.innerHTML = `
-                    <h4>${notification.title}</h4>
-                    <p>${notification.message}</p>
-                    <button onclick="location.href='${notification.link}'">View</button>
+                    <h4>${notification.title || "Notification"}</h4>
+                    <p>${notification.message || "No details available."}</p>
+                    <button onclick="location.href='${notification.link || "#"}'">View</button>
                 `;
                 notificationPopup.appendChild(notificationItem);
             });
@@ -44,13 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
         }
-    }
+    };
 
     // Handle Notification Popup Visibility
     if (notificationWrapper && notificationPopup) {
         notificationWrapper.addEventListener("mouseenter", () => {
             notificationPopup.style.display = "block";
-            renderNotifications(); // Render notifications when popup is opened
+            renderNotifications(); // Fetch and render notifications when popup is opened
         });
 
         notificationWrapper.addEventListener("mouseleave", () => {
@@ -76,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (searchBox) {
         searchBox.addEventListener("input", (event) => {
             const query = event.target.value.trim();
-            console.log(`Admin searching for: ${query}`);
+            console.log(`User searching for: ${query}`);
             // Add search functionality as needed
         });
     }
@@ -85,11 +113,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (notificationPopup) {
         setInterval(renderNotifications, 30000); // Update every 30 seconds
     }
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-    const profileWrapper = document.querySelector(".profile-wrapper");
-    const profilePopup = profileWrapper?.querySelector(".profile-popup");
+    // Profile Popup Hover Logic
     let hideTimeout; // Timeout reference to delay hiding
 
     if (profileWrapper && profilePopup) {
@@ -103,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
         profileWrapper.addEventListener("mouseleave", () => {
             hideTimeout = setTimeout(() => {
                 profilePopup.style.display = "none"; // Hide the popup
-            }, 1000); // 1 second delay
+            }, 500); // 0.5 second delay
         });
 
         // Keep the popup visible when hovering over the popup itself
@@ -116,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         profilePopup.addEventListener("mouseleave", () => {
             hideTimeout = setTimeout(() => {
                 profilePopup.style.display = "none"; // Hide the popup
-            }, 500); // 1 second delay
+            }, 500); // 0.5 second delay
         });
     }
 });

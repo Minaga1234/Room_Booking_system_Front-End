@@ -104,6 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Add event listener for the search input
+document.getElementById('search-users').addEventListener('input', (event) => {
+    const searchQuery = event.target.value.trim();
+    renderUserTable({ search: searchQuery });
+});
+
+
     // Add User
     const addUser = async (user) => {
         try {
