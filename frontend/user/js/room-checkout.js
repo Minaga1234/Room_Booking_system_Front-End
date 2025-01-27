@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return null;
     }
     return {
-      "Authorization": `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     };
   };
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM",
       "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM",
       "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM",
-      "5:30 PM", "6:00 PM","6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM",
+      "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM",
     ];
 
     timeSlots.forEach((time) => {
@@ -127,27 +127,66 @@ document.addEventListener("DOMContentLoaded", () => {
     const roomNameElement = document.querySelector(".room-name");
     const roomDescriptionElement = document.querySelector(".room-description-text");
     const roomImageElement = document.querySelector(".room-image");
+    const featuresList = document.getElementById("features-list"); // List for features
 
     if (roomNameElement) roomNameElement.textContent = room.name || "Room Name Not Available";
     if (roomDescriptionElement) roomDescriptionElement.textContent = room.description || "No description available.";
     if (roomImageElement) roomImageElement.src = room.image || "../assets/default-room.jpg";
+
+    // Render features dynamically
+    if (featuresList) {
+      featuresList.innerHTML = ""; // Clear existing features
+      (room.features || []).forEach((feature) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = feature;
+        featuresList.appendChild(listItem);
+      });
+    }
+
     populateBookings(room.bookings || []);
   };
 
-  // Populate Bookings
   const populateBookings = (bookings) => {
     const bookingsList = document.getElementById("bookings-list");
     if (!bookingsList) return;
-    bookingsList.innerHTML = "";
-    bookings.forEach((booking) => {
-      const bookingItem = document.createElement("div");
-      bookingItem.className = "booking-item";
-      bookingItem.innerHTML = `
-        <strong>${booking.bookedBy || "Unknown"} - ${booking.purpose || "No purpose provided"}</strong>
-        <br />
-        From ${booking.startTime || "N/A"} to ${booking.endTime || "N/A"}
-      `;
-      bookingsList.appendChild(bookingItem);
+    bookingsList.innerHTML = ""; // Clear the list before appending new data
+
+    // Calculate the start and end of today in UTC
+    const now = new Date();
+    const utcStartOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const utcEndOfToday = new Date(utcStartOfToday.getTime() + 24 * 60 * 60 * 1000);
+
+    console.log("Today's Start (UTC):", utcStartOfToday.toISOString());
+    console.log("Today's End (UTC):", utcEndOfToday.toISOString());
+
+    // Filter bookings for today
+    const todayBookings = bookings.filter((booking) => {
+        const bookingStart = new Date(booking.start_time); // Parse booking start time
+        console.log("Booking Start Time (UTC):", bookingStart.toISOString()); // Debugging log
+        return bookingStart >= utcStartOfToday && bookingStart < utcEndOfToday;
+    });
+
+    if (todayBookings.length === 0) {
+        bookingsList.innerHTML = "<p>No bookings for today.</p>";
+        return;
+    }
+
+    let slotCounter = 1; // Slot counter
+    todayBookings.forEach((booking) => {
+        const bookingItem = document.createElement("div");
+        bookingItem.className = "booking-item";
+
+        const duration = (new Date(booking.end_time) - new Date(booking.start_time)) / (1000 * 60); // in minutes
+
+        bookingItem.innerHTML = `
+            <p>Slot ${slotCounter}: ${new Date(booking.start_time).toLocaleTimeString()} - ${new Date(booking.end_time).toLocaleTimeString()}</p>
+            <p>Room: ${booking.room_name || "N/A"}</p>
+            <p>Status: ${booking.status || "Unknown"}</p>
+            <p>Duration: ${duration} minutes</p>
+        `;
+
+        bookingsList.appendChild(bookingItem);
+        slotCounter++;
     });
   };
 
@@ -205,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const endTimeISO = formatDateTime(new Date(bookingDate), toTime);
 
       const bookingData = {
-        user_id: userId, // Include user_id in the payload
+        user_id: userId,
         room_id: new URLSearchParams(window.location.search).get("room_id"),
         date: bookingDate,
         start_time: startTimeISO,
@@ -214,8 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
         participants,
         degree_major: degreeMajor,
       };
-
-      console.log("Booking Payload:", bookingData);
 
       const headers = await getAuthHeaders();
       if (!headers) return;
@@ -231,8 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("API Error Details:", errorDetails);
         alert(errorDetails.non_field_errors?.join(", ") || "Failed to book room.");
         return;
-    }
-    
+      }
 
       alert("Room booked successfully!");
       window.location.reload();
@@ -242,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initialize page
+  // Initialize the page
   const initialize = async () => {
     const roomId = new URLSearchParams(window.location.search).get("room_id");
     if (!roomId) {

@@ -378,3 +378,24 @@ body {
 .note-section button:hover {
   background-color: #3642b2;
 }
+
+.view-all-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.view-all-btn {
+  display: inline-block;
+  background-color: #4caf50; /* Green background */
+  color: #fff; /* White text */
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.view-all-btn:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+}

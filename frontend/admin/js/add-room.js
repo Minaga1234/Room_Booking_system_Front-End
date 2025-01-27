@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Load Header and Sidebar
   const loadHeaderAndSidebar = async () => {
     try {
-      // Load header dynamically
       const headerResponse = await fetch("../admin/header.html");
       if (!headerResponse.ok) {
         throw new Error(`Failed to load header: ${headerResponse.statusText}`);
@@ -20,7 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const headerHTML = await headerResponse.text();
       document.getElementById("header-container").innerHTML = headerHTML;
 
-      // Load sidebar dynamically
       const sidebarResponse = await fetch("../admin/navbar.html");
       if (!sidebarResponse.ok) {
         throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
@@ -28,7 +26,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const sidebarHTML = await sidebarResponse.text();
       document.getElementById("sidebar-container").innerHTML = sidebarHTML;
 
-      // Highlight the active sidebar link
       highlightActiveSidebarLink();
     } catch (error) {
       console.error("Error loading header or sidebar:", error);
@@ -37,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Highlight Active Sidebar Link
   const highlightActiveSidebarLink = () => {
-    const currentPage = window.location.pathname.split("/").pop(); // Get current page name
+    const currentPage = window.location.pathname.split("/").pop();
     const navLinks = document.querySelectorAll(".nav-links a");
 
     navLinks.forEach((link) => {
@@ -45,9 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const parentLi = link.parentElement;
 
       if (currentPage === linkHref) {
-        parentLi.classList.add("active"); // Highlight the active link
+        parentLi.classList.add("active");
       } else {
-        parentLi.classList.remove("active"); // Remove highlight from other links
+        parentLi.classList.remove("active");
       }
     });
   };
@@ -55,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Check for authentication token
   if (!token) {
     alert("Unauthorized! Please log in.");
-    window.location.href = "/login.html"; // Redirect to login page
+    window.location.href = "/login.html";
     return;
   }
 
@@ -82,13 +79,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const featuresInput = document.getElementById("room-features").value.trim();
+    const featuresArray = featuresInput.split(",").map((feature) => feature.trim());
+
     const formData = new FormData();
     formData.append("name", document.getElementById("room-name").value.trim());
     formData.append("location", document.getElementById("location").value.trim());
     formData.append("capacity", document.getElementById("capacity").value.trim());
     formData.append("requires_approval", document.getElementById("is-active").checked);
-    formData.append("room_introduction", document.getElementById("room-introduction").value.trim());
-    formData.append("room_image", roomImageInput.files[0]);
+    formData.append("description", document.getElementById("room-description").value.trim());
+    formData.append("features", JSON.stringify(featuresArray)); // Send features as a JSON string
+    formData.append("image", roomImageInput.files[0]);
 
     try {
       const response = await fetch(ROOM_API_URL, {

@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const API_BASE_URL = "http://127.0.0.1:8000/analytics/";
   const ROOMS_API_URL = "http://127.0.0.1:8000/api/rooms/";
-  const ADMIN_BOOKINGS_URL = "/api/admin/bookings/";
-  const ADMIN_PENALTIES_URL = "/api/admin/penalties/";
+  const ADMIN_BOOKINGS_URL = "http://127.0.0.1:8000/api/bookings/admin/bookings/";// Update with the correct full URL
+const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Update with the correct full URL
+
   const NEW_ROOMS_LIMIT = 5; // Limit for newly added rooms to display
 
-  
   // Fetch Room Data
   const fetchRoomData = async () => {
     try {
@@ -43,71 +43,65 @@ document.addEventListener("DOMContentLoaded", async () => {
   const initializeChart = () => {
     const ctx = document.getElementById("usage-trend-chart").getContext("2d");
     return new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: [], // Dynamic labels
-            datasets: [
-                {
-                    label: "Bookings",
-                    data: [], // Dynamic data
-                    backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
-                    borderColor: "#FF6600", // Orange line
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.4,
-                },
-                {
-                    label: "Check-ins",
-                    data: [], // Dynamic data
-                    backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
-                    borderColor: "#5DA4DC", // Blue line
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.4,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    labels: {
-                        color: "#FFFFFF", // White font for the legend
-                    },
-                },
+      type: "line",
+      data: {
+        labels: [], // Dynamic labels
+        datasets: [
+          {
+            label: "Bookings",
+            data: [], // Dynamic data
+            backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
+            borderColor: "#FF6600", // Orange line
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+          },
+          {
+            label: "Check-ins",
+            data: [], // Dynamic data
+            backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
+            borderColor: "#5DA4DC", // Blue line
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              color: "#000",
             },
-            scales: {
-                y: {
-                    title: {
-                        display: true,
-                        text: "Values",
-                        color: "#FFFFFF", // White font for Y-axis title
-                    },
-                    ticks: {
-                        color: "#FFFFFF", // White font for Y-axis ticks
-                    },
-                    grid: {
-                        color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
-                    },
-                    beginAtZero: true,
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: "Rooms",
-                        color: "#FFFFFF", // White font for X-axis title
-                    },
-                    ticks: {
-                        color: "#FFFFFF", // White font for X-axis ticks
-                    },
-                    grid: {
-                        color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
-                    },
-                },
-            },
+          },
         },
+        scales: {
+          y: {
+            title: {
+              display: true,
+              text: "Values",
+              color: "#000",
+            },
+            ticks: {
+              color: "#000",
+            },
+            beginAtZero: true,
+          },
+          x: {
+            title: {
+              display: true,
+              text: "Rooms",
+              color: "#000",
+            },
+            ticks: {
+              color: "#000",
+            },
+          },
+        },
+      },
     });
   };
 
@@ -129,38 +123,68 @@ document.addEventListener("DOMContentLoaded", async () => {
     chart.update();
   };
 
-  // Update Booking Schedule
   const updateBookingSchedule = async () => {
     const bookingListContainer = document.querySelector(".booking-list");
     try {
-      const bookings = await fetch(ADMIN_BOOKINGS_URL).then((res) => res.json());
-      const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
-
-      const todayBookings = bookings.filter((booking) => booking.startTime.startsWith(today));
-
-      if (todayBookings.length === 0) {
-        bookingListContainer.innerHTML = "<p>No bookings scheduled for today.</p>";
+      const response = await fetch(ADMIN_BOOKINGS_URL);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch bookings: ${response.status}`);
+      }
+      const bookings = await response.json();
+  
+      if (bookings.length === 0) {
+        bookingListContainer.innerHTML = "<p>No bookings available.</p>";
         return;
       }
-
-      bookingListContainer.innerHTML = todayBookings
-        .map(
-          (booking) => `
+  
+      // Display recent bookings (limit to 5)
+      const recentBookings = bookings.slice(0, 5);
+  
+      bookingListContainer.innerHTML = recentBookings
+        .map((booking) => {
+          const roomName = booking.room_name || "Room N/A";
+          const status = booking.status || "Unknown";
+  
+          // Safely parse dates
+          const startTime = booking.start_time ? new Date(booking.start_time) : null;
+          const endTime = booking.end_time ? new Date(booking.end_time) : null;
+  
+          const startTimeStr = startTime
+            ? startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+            : "Invalid Date";
+          const endTimeStr = endTime
+            ? endTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+            : "Invalid Date";
+  
+          return `
             <div class="booking-item">
-              <p><strong>${booking.roomName}</strong> - ${booking.status}</p>
-              <p>From ${new Date(booking.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 
-              to ${new Date(booking.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-              <p>By ${booking.bookedBy} (${booking.userRole})</p>
-              <button class="view-booking-btn" onclick="location.href='/admin/bookings/${booking.id}'">View Booking Info</button>
+              <p><strong>${roomName}</strong> - ${status}</p>
+              <p>${startTimeStr} - ${endTimeStr}</p>
             </div>
-          `
-        )
+          `;
+        })
         .join("");
+  
+      // Add a "View All Bookings" link
+      bookingListContainer.innerHTML += `
+        <div class="view-all-link">
+          <a href="http://127.0.0.1:5500/frontend/admin/admin-bookings.html" class="view-all-btn">View All Bookings</a>
+        </div>
+      `;
     } catch (error) {
       console.error("Error updating booking schedule:", error);
-      bookingListContainer.innerHTML = "<p>Failed to load booking schedule.</p>";
+      bookingListContainer.innerHTML = `
+        <p>Failed to load booking schedule.</p>
+        <div class="view-all-link">
+          <a href="http://127.0.0.1:5500/frontend/admin/admin-bookings.html" class="view-all-btn">View All Bookings</a>
+        </div>
+      `;
     }
   };
+  
+// Run this function in the dashboard initialization
+await updateBookingSchedule();
+
 
   // Update Number of Penalties Today
   const updatePenaltiesToday = async () => {
@@ -220,64 +244,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
-  const NOTIFICATIONS_API_URL = "http://127.0.0.1:8000/notifications/my_notifications";
-
-  const fetchNotifications = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/notifications/my_notifications", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Ensure token is present
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to fetch notifications: ${response.status}`);
-      }
-  
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-      return [];
-    }
-  };
-  
-
-  const renderHeaderNotifications = async () => {
-    const notificationWrapper = document.querySelector(".notification-wrapper");
-    const notificationPopup = notificationWrapper.querySelector(".notification-popup");
-  
-    try {
-      const notifications = await fetchNotifications();
-  
-      if (notifications.length > 0) {
-        notificationPopup.innerHTML = ""; // Clear previous notifications
-        notifications.forEach((notification) => {
-          const notificationItem = document.createElement("div");
-          notificationItem.classList.add("notification-item");
-          notificationItem.innerHTML = `
-            <h4>${notification.title || "Notification"}</h4>
-            <p>${notification.message || "No details available."}</p>
-            <button onclick="location.href='${notification.link || "#"}'">View</button>
-          `;
-          notificationPopup.appendChild(notificationItem);
-        });
-      } else {
-        notificationPopup.innerHTML = `
-          <div class="notification-content">
-            <i class="fas fa-bell-slash"></i>
-            <p>No new notifications</p>
-          </div>
-        `;
-      }
-    } catch (error) {
-      notificationPopup.innerHTML = `
-        <div class="notification-content">
-          <p>Error loading notifications</p>
-        </div>
-      `;
-    }
-  };
-  
   // Initialize Admin Dashboard
   const initializeDashboard = async () => {
     const roomMapping = await fetchRoomData();
@@ -296,7 +262,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Run Initialization
   await initializeDashboard();
-
-  // Fetch and Render Notifications
-  await renderHeaderNotifications();
 });

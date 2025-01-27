@@ -96,6 +96,48 @@ body {
   transform: translateY(-2px);
 }
 
+/* Profile Photo Upload Styles */
+.profile-photo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  object-fit: cover;
+  margin-bottom: 10px;
+  background-color: #f0f0f0; /* Light gray for empty space */
+}
+
+.upload-btn {
+  background-color: #3498db;
+  color: white; /* Set text color to white */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px; /* Adjust spacing */
+}
+
+.upload-btn:hover {
+  background-color: #0056b3;
+  color: white; /* Ensure white text remains on hover */
+  transform: translateY(-2px);
+}
+
+.upload-input {
+  display: none;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .dashboard-container {
@@ -113,6 +155,11 @@ body {
 
   .profile-section input {
     width: 100%; /* Full width on smaller screens */
+  }
+
+  .profile-photo {
+    width: 120px;
+    height: 120px; /* Adjust size for smaller screens */
   }
 }
 
@@ -171,5 +218,3 @@ body {
 .hidden {
   display: none;
 }
-
-

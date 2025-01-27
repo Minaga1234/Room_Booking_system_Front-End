@@ -90,28 +90,28 @@
     </main>
   </div>
 
-  <!-- Inline Scripts to Load Navbar and Header -->
-  <script>
+   <!-- Inline Scripts to Load Navbar and Header -->
+   <script>
     // Load the Navbar
     document.addEventListener("DOMContentLoaded", () => {
-      fetch('../admin/navbar.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('admin-navbar').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading navbar:', error));
+        fetch('../admin/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('admin-navbar').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navbar:', error));
     });
 
     // Load the Header
     document.addEventListener("DOMContentLoaded", () => {
-      fetch('../admin/header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('admin-header').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading header:', error));
+        fetch('../admin/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('admin-header').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
     });
-  </script>
+</script>
 
   <script src="js/penalties.js"></script>
 </body>
