@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const editImageButton = document.getElementById("edit-image-button");
   const updateRoomButton = document.getElementById("update-room-button");
 
-  const ROOM_API_URL = "http://127.0.0.1:8000/api/rooms/";
+  const ROOM_API_URL = "http://ibs.lunox.dev/api/rooms/";
   const token = localStorage.getItem("accessToken");
 
   // Load Header and Sidebar

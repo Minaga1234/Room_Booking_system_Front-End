@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return [];
             }
 
-            const response = await fetch("http://127.0.0.1:8000/notifications/", {
+            const response = await fetch("http://ibs.lunox.dev/notifications/", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${authToken}`,

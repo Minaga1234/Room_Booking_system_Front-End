@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const API_BASE_URL = "http://127.0.0.1:8000/analytics/";
-    const ROOMS_API_URL = "http://127.0.0.1:8000/api/rooms/";
-    const BOOKINGS_URL = "http://127.0.0.1:8000/api/bookings/";
+    const API_BASE_URL = "http://ibs.lunox.dev/analytics/";
+    const ROOMS_API_URL = "http://ibs.lunox.dev/api/rooms/";
+    const BOOKINGS_URL = "http://ibs.lunox.dev/api/bookings/";
     const sidebarKey = "cachedSidebar"; // Key for caching sidebar content
     const headerKey = "cachedHeader";  // Key for caching header content
 

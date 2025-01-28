@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch Room Data
   const fetchRoomData = async () => {
       try {
-          const response = await fetch("http://127.0.0.1:8000/api/rooms/");
+          const response = await fetch("http://ibs.lunox.dev/api/rooms/");
           if (!response.ok) {
               throw new Error(`Failed to fetch room data: ${response.status}`);
           }
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch Analytics Data
   const fetchAnalyticsData = async () => {
       try {
-          const response = await fetch("http://127.0.0.1:8000/analytics/");
+          const response = await fetch("http://ibs.lunox.dev/analytics/");
           if (!response.ok) {
               throw new Error(`Failed to fetch analytics data: ${response.status}`);
           }
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handle Export CSV
   const exportCsvButton = document.querySelector(".export-button");
   exportCsvButton.addEventListener("click", () => {
-      window.location.href = "http://127.0.0.1:8000/analytics/export_csv/";
+      window.location.href = "http://ibs.lunox.dev/analytics/export_csv/";
   });
 
   // Initialize and Update

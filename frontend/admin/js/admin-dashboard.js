@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const API_BASE_URL = "http://127.0.0.1:8000/analytics/";
-  const ROOMS_API_URL = "http://127.0.0.1:8000/api/rooms/";
-  const ADMIN_BOOKINGS_URL = "http://127.0.0.1:8000/api/bookings/admin/bookings/";// Update with the correct full URL
-const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Update with the correct full URL
+  const API_BASE_URL = "http://ibs.lunox.dev/analytics/";
+  const ROOMS_API_URL = "http://ibs.lunox.dev/api/rooms/";
+  const ADMIN_BOOKINGS_URL = "http://ibs.lunox.dev/api/bookings/admin/bookings/";// Update with the correct full URL
+const ADMIN_PENALTIES_URL = "http://ibs.lunox.dev/api/admin/penalties/"; // Update with the correct full URL
 
   const NEW_ROOMS_LIMIT = 5; // Limit for newly added rooms to display
 
