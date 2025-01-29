@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   const roomLocationInput = document.getElementById("room-location");
   const seatingCapacityInput = document.getElementById("seating-capacity");
   const adminApprovalInput = document.getElementById("admin-approval");
-  const roomIntroductionTextarea = document.getElementById("room-introduction");
+  const roomDescriptionInput = document.getElementById("room-description"); // Updated
+  const roomFeaturesInput = document.getElementById("room-features"); // Updated
   const roomImage = document.getElementById("room-image");
   const roomImageInput = document.getElementById("room-image-input");
   const editImageButton = document.getElementById("edit-image-button");
@@ -104,19 +105,31 @@ document.addEventListener("DOMContentLoaded", async function () {
     roomLocationInput.value = room.location;
     seatingCapacityInput.value = room.capacity;
     adminApprovalInput.checked = room.requires_approval;
-    roomIntroductionTextarea.value = room.room_introduction;
+    roomDescriptionInput.value = room.description || ""; // Updated
+    roomFeaturesInput.value = (room.features || []).join(", "); // Updated
     roomImage.src = room.image || ""; // Set image or leave empty
     currentImageFile = null; // Reset current image file
   }
 
   // Update room details
   async function updateRoom() {
+    const roomData = {
+      name: roomNameInput.value.trim(),
+      location: roomLocationInput.value.trim(),
+      capacity: parseInt(seatingCapacityInput.value.trim(), 10),
+      is_available: !adminApprovalInput.checked,
+      description: roomDescriptionInput.value.trim(), // Updated
+      features: roomFeaturesInput.value.split(",").map((f) => f.trim()), // Updated
+    };
+
     const formData = new FormData();
-    formData.append("name", roomNameInput.value.trim());
-    formData.append("location", roomLocationInput.value.trim());
-    formData.append("capacity", parseInt(seatingCapacityInput.value.trim(), 10));
-    formData.append("requires_approval", adminApprovalInput.checked);
-    formData.append("room_introduction", roomIntroductionTextarea.value.trim());
+    Object.keys(roomData).forEach((key) => {
+      if (key === "features") {
+        formData.append(key, JSON.stringify(roomData[key])); // Add features as a JSON string
+      } else {
+        formData.append(key, roomData[key]);
+      }
+    });
 
     if (currentImageFile) {
       formData.append("image", currentImageFile); // Add image only if a new one is uploaded

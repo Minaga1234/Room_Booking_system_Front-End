@@ -17,31 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentPage = 1;
 
-  // Dummy data for penalties
-  const dummyPenalties = [
-    {
-      id: 1,
-      reason: 'Late return',
-      status: 'Active',
-      booking: 'Booking #123',
-      created_at: '2023-06-01T10:00:00Z',
-    },
-    {
-      id: 2,
-      reason: 'No-show',
-      status: 'Paid',
-      booking: 'Booking #456',
-      created_at: '2023-05-15T14:30:00Z',
-    },
-    {
-      id: 3,
-      reason: 'Cancellation',
-      status: 'Unpaid',
-      booking: 'Booking #789',
-      created_at: '2023-04-20T09:15:00Z',
-    },
-  ];
-
   const loadPenalties = async (page = 1) => {
     try {
       const headers = await getAuthHeaders();
@@ -204,3 +179,4 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial load
   loadPenalties();
 });
+

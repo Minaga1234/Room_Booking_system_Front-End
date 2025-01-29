@@ -2,88 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedbackEndpoint = 'http://127.0.0.1:8000/feedback/feedback/';
     const statsEndpoint = 'http://127.0.0.1:8000/feedback/feedback/stats/';
 
-    // Comprehensive dummy data
-    const dummyFeedbackData = [
-        {
-            id: 1,
-            content: "Great study room! The lighting is perfect for long study sessions and the chairs are very comfortable. The temperature control works well too.",
-            full_name: "John Doe",
-            room: "Study Room A",
-            rating: 5,
-            sentiment: "positive",
-            admin_response: "Thank you for your detailed feedback! We're glad you enjoyed the study space."
-        },
-        {
-            id: 2,
-            content: "The air conditioning was not working properly today. Made it difficult to concentrate on studying.",
-            full_name: "Jane Smith",
-            room: "Conference Room B",
-            rating: 2,
-            sentiment: "negative",
-            admin_response: null
-        },
-        {
-            id: 3,
-            content: "Average experience. The room was clean but the WiFi connection was a bit spotty.",
-            full_name: "Mike Johnson",
-            room: "Group Study Room C",
-            rating: 3,
-            sentiment: "neutral",
-            admin_response: null
-        },
-        {
-            id: 4,
-            content: "Excellent facilities! The whiteboard and markers were all working perfectly. Would definitely book again.",
-            full_name: "Sarah Williams",
-            room: "Collaboration Space 1",
-            rating: 5,
-            sentiment: "positive",
-            admin_response: "We're happy to hear you had a great experience!"
-        },
-        {
-            id: 5,
-            content: "The room was double booked. Had to wait 30 minutes to get this sorted out.",
-            full_name: "Robert Brown",
-            room: "Meeting Room 2",
-            rating: 1,
-            sentiment: "negative",
-            admin_response: null
-        },
-        {
-            id: 6,
-            content: "The space was okay. Nothing special but served its purpose for our quick team meeting.",
-            full_name: "Emily Davis",
-            room: "Quick Meet Room",
-            rating: 3,
-            sentiment: "neutral",
-            admin_response: null
-        },
-        {
-            id: 7,
-            content: "Love the new monitors! The screen sharing feature made our presentation super smooth.",
-            full_name: "",
-            room: "Presentation Room A",
-            rating: 5,
-            sentiment: "positive",
-            admin_response: "Thanks for noticing our new equipment!"
-        },
-        {
-            id: 8,
-            content: "Tables were a bit wobbly and some chairs need maintenance.",
-            full_name: "Daniel Wilson",
-            room: "Study Room D",
-            rating: 2,
-            sentiment: "negative",
-            admin_response: null
-        }
-    ];
-
-    const dummyStats = {
-        total_feedback: 8,
-        pending_review: 5,
-        reviewed: 3
-    };
-
     // State management
     let currentFilters = {};
     let isLoading = false;
@@ -107,27 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
         showNoResults(false);
 
         try {
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const params = new URLSearchParams(filters).toString();
+            const url = params ? `${feedbackEndpoint}?${params}` : feedbackEndpoint;
 
-            // Filter dummy data based on filters
-            let filteredData = [...dummyFeedbackData];
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            if (filters.room) {
-                filteredData = filteredData.filter(item =>
-                    item.room.toLowerCase().includes(filters.room.toLowerCase())
-                );
-            }
-            if (filters.sentiment) {
-                filteredData = filteredData.filter(item =>
-                    item.sentiment === filters.sentiment
-                );
-            }
-
-            if (filteredData.length === 0) {
+            const data = await response.json();
+            if (data.length === 0) {
                 showNoResults(true);
             } else {
-                renderFeedbackCards(filteredData);
+                renderFeedbackCards(data);
             }
         } catch (error) {
             console.error('Error fetching feedback data:', error);
@@ -139,15 +47,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchStats = async () => {
         try {
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 800));
-            updateStats(dummyStats);
+            const response = await fetch(statsEndpoint);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+            const stats = await response.json();
+            updateStats(stats);
         } catch (error) {
             console.error('Error updating stats:', error);
         }
     };
 
-    // Toggle loading state
     const setLoading = (loading) => {
         isLoading = loading;
         loadingSpinner.classList.toggle('hidden', !loading);
@@ -162,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Error handling
     const showError = (show) => {
         errorMessage.classList.toggle('hidden', !show);
         if (show) {
@@ -171,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // No results handling
     const showNoResults = (show) => {
         noResultsMessage.classList.toggle('hidden', !show);
         if (show) {
@@ -188,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.classList.add('feedback-card');
 
-            // Create sentiment class based on feedback sentiment
             const sentimentClass = `sentiment-${feedback.sentiment}`;
 
             card.innerHTML = `
@@ -222,25 +128,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const markFeedbackAsReviewed = async (id) => {
         try {
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 500));
+            const response = await fetch(`${feedbackEndpoint}${id}/mark_reviewed/`, { method: 'POST' });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            // Update dummy data
-            const feedbackIndex = dummyFeedbackData.findIndex(f => f.id === parseInt(id));
-            if (feedbackIndex !== -1) {
-                dummyFeedbackData[feedbackIndex].admin_response = "Thank you for your feedback!";
-                dummyStats.pending_review--;
-                dummyStats.reviewed++;
-            }
-
-            await fetchFeedbackData(currentFilters);
-            await fetchStats();
+            fetchFeedbackData(currentFilters);
+            fetchStats();
         } catch (error) {
             console.error('Error marking feedback as reviewed:', error);
         }
     };
 
-    // Event Listeners
     filterToggleBtn.addEventListener('click', () => {
         filterContainer.classList.toggle('show');
         filterToggleBtn.classList.toggle('active');
@@ -252,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(filterForm);
         currentFilters = Object.fromEntries(formData.entries());
 
-        // Remove empty filters
         Object.keys(currentFilters).forEach(key => {
             if (!currentFilters[key]) delete currentFilters[key];
         });
@@ -271,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
     clearFiltersBtn.addEventListener('click', () => filterForm.reset());
     refreshBtn.addEventListener('click', () => fetchFeedbackData(currentFilters));
 
-    // Initialize
     fetchFeedbackData();
     fetchStats();
 });

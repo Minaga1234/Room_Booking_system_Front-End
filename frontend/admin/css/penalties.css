@@ -2,16 +2,13 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  background-color: #01182a;
-  /* Light background */
+  background-color: #01182a; /* Light background */
 }
 
 /* Main Content Layout */
 .main-content {
-  margin-left: 17%;
-  /* Increased space for the dynamic sidebar */
-  padding-top: 120px;
-  /* Increased space for the dynamic header */
+  margin-left: 17%; /* Increased space for the dynamic sidebar */
+  padding-top: 120px; /* Increased space for the dynamic header */
   padding: 80px;
   box-sizing: border-box;
 }
@@ -49,15 +46,12 @@ body {
 .card.red {
   border-top: 5px solid #FF4D4D;
 }
-
 .card.purple {
   border-top: 5px solid #A78BFA;
 }
-
 .card.green {
   border-top: 5px solid #34D399;
 }
-
 .card.blue {
   border-top: 5px solid #60A5FA;
 }
@@ -120,10 +114,8 @@ body {
 
 /* Download Report Button */
 .download-btn {
-  background-color: #F9E4E4;
-  /* Light pink color */
-  color: #3F3D56;
-  /* Dark text */
+  background-color: #F9E4E4; /* Light pink color */
+  color: #3F3D56; /* Dark text */
   border: none;
   padding: 12px 25px;
   margin-top: 25px;

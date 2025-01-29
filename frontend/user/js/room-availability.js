@@ -82,11 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        noRoomsMessage.style.display = 'none'; // Hide "No rooms to show" message
-        roomContainer.innerHTML = ''; // Clear existing room cards
+        noRoomsMessage.style.display = 'none';
+        roomContainer.innerHTML = '';
 
         rooms.forEach((room) => {
-            const roomImage = room.image || './images/default-room.jpg'; // Fallback image
+            const roomImage = room.image || './images/default-room.jpg';
             const roomDescription = room.description || 'No description available.';
             const roomCapacity = room.capacity ? `Capacity: ${room.capacity}` : 'Capacity not specified';
 
@@ -96,10 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <img src="${roomImage}" alt="${room.name}" class="room-image">
                 <div class="room-details">
-                    <h3 class="room-title">${room.name}</h3>
-                    <p class="room-subtitle">${room.location || 'Location not specified'}</p>
-                    <p class="room-description">${roomDescription}</p>
-                    <p class="room-capacity">${roomCapacity}</p>
+                    <div class="room-content">
+                        <h3 class="room-title">${room.name}</h3>
+                        <p class="room-subtitle">${room.location || 'Location not specified'}</p>
+                        <p class="room-description">${roomDescription}</p>
+                        <p class="room-capacity">${roomCapacity}</p>
+                    </div>
                     <button class="check-btn" data-room-id="${room.id}">Check Availability</button>
                 </div>
             `;

@@ -15,12 +15,19 @@ document.getElementById("login-form").addEventListener("submit", async function 
     }
 
     try {
+        // Fetch the CSRF token from cookies
+        const csrfToken = getCookie("csrftoken");
+        console.log(`CSRF Token: ${csrfToken}`); // Debugging log
+
+        // Send login request
         const response = await fetch("http://127.0.0.1:8000/api/users/login/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken, // Include CSRF token
             },
             body: JSON.stringify({ email, password }),
+            credentials: "include", // Include cookies for session handling
         });
 
         if (!response.ok) {
@@ -37,19 +44,15 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
         showAlert("Login successful!", true);
 
-        // Redirect based on role
-        switch (data.role) {
-            case "admin":
-                window.location.href = "../admin/admin-dashboard.html";
-                break;
-            case "student":
-                window.location.href = "../user/dashboard.html";
-                break;
-            case "staff":
-                window.location.href = "../user/dashboard.html";
-                break;
-            default:
-                showAlert("Unknown user role. Please contact support.", false);
+        // Redirect based on user role
+        if (data.role === "admin") {
+            window.location.href = "../admin/admin-dashboard.html";
+        } else if (data.role === "student") {
+            window.location.href = "../user/dashboard.html";
+        } else if (data.role === "staff") {
+            window.location.href = "../staff/staff-dashboard.html";
+        } else {
+            showAlert("Unknown user role. Please contact support.", false);
         }
     } catch (error) {
         console.error("Login error:", error);
@@ -57,14 +60,29 @@ document.getElementById("login-form").addEventListener("submit", async function 
     }
 });
 
-
 // Function to validate email with specific format
 function validateEmail(email) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@our\.ecu\.edu\.au$/;
     return emailRegex.test(email);
 }
 
-// Function to Display Alert Messages
+// Function to fetch the CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Function to display alert messages
 function showAlert(message, success = false) {
     const alert = document.createElement("div");
     alert.className = "alert-popup";

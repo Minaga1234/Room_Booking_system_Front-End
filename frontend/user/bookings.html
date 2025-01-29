@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     <script src="../shared/js/header.js" defer></script>
     <script src="../shared/js/sidebar.js" defer></script>
 </head>
+
 <body>
     <!-- Dynamic Header Placeholder -->
     <div id="header-container"></div>
@@ -31,17 +33,24 @@
                                     <div class="row">
                                         <div class="weather">
                                             <div class="weather-header">
-                                                <img src="../assets/images/weather.png" alt="Weather Icon" class="weather-icon" style="width: 120px; height: 120px;">
+                                                <img src="../assets/images/weather.png" alt="Weather Icon"
+                                                    class="weather-icon" style="width: 120px; height: 120px;">
                                                 <h3 class="temperature">Loading...</h3>
                                             </div>
-                                            <p class="weather-description" style="margin: 10px 0; font-size: 14px; text-align: center;">Loading...</p>
-                                            <div class="temperature-line"></div> <!-- Black line under the temperature -->
-                                            <div class="bookings-list">
-                                                <p>Loading bookings...</p>
+                                            <p class="weather-description"
+                                                style="margin: 10px 0; font-size: 14px; text-align: center;">Loading...
+                                            </p>
+                                            <div class="temperature-line"></div>
+                                            <!-- Black line under the temperature -->
+                                            <div id="ongoing-bookings-container">
+                                                <h3>Ongoing Bookings</h3>
+                                                <div id="ongoing-bookings-list">
+                                                    <p>Loading ongoing bookings...</p>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="calendar">
-                                            <h2>January 2025</h2>
+                                            <!-- <h2>January 2025</h2> -->
                                             <div id="calendar"></div>
                                         </div>
                                     </div>
@@ -62,15 +71,17 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                <div class="note-section">
-                                    <p>To avoid penalties, ensure that you do not spend excessive time in the room beyond your designated booking period...</p>
-                                    <button onclick="location.href='../user/penalties.html';">Penalties</button> <!-- Redirect to profile.html -->
+                                    <div class="note-section">
+                                        <p>To avoid penalties, ensure that you do not spend excessive time in the room
+                                            beyond your designated booking period...</p>
+                                        <button onclick="location.href='../user/penalties.html';">Penalties</button>
+                                        <!-- Redirect to profile.html -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </main>
     </div>
 
@@ -125,6 +136,7 @@
 
     <!-- Bookings and Calendar Functionality -->
     <script>
+
         document.addEventListener('DOMContentLoaded', () => {
             const calendarEl = document.getElementById('calendar');
 
@@ -141,6 +153,17 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 events: [], // Events will be dynamically added
+                eventClassNames: 'custom-event', // Add a custom class to events
+                eventContent: (arg) => {
+                    // Customize event content
+                    return {
+                        html: `<div class="event-title">${arg.event.title}</div>`
+                    };
+                },
+                dayCellContent: (arg) => {
+                    // Customize day cell content
+                    return { html: `<div class="day-number">${arg.dayNumberText}</div>` };
+                },
                 eventClick: function (info) {
                     if (confirm(`Do you want to cancel the booking for "${info.event.title}"?`)) {
                         fetch(`/api/bookings/${info.event.id}/`, {
@@ -150,17 +173,17 @@
                                 Authorization: `Bearer ${localStorage.getItem('access_token')}`
                             }
                         })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Failed to cancel booking.');
-                            }
-                            info.event.remove();
-                            alert('Booking cancelled.');
-                        })
-                        .catch(error => {
-                            console.error('Error cancelling booking:', error);
-                            alert('Failed to cancel booking. Please try again.');
-                        });
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to cancel booking.');
+                                }
+                                info.event.remove();
+                                alert('Booking cancelled.');
+                            })
+                            .catch(error => {
+                                console.error('Error cancelling booking:', error);
+                                alert('Failed to cancel booking. Please try again.');
+                            });
                     }
                 }
             });
@@ -194,4 +217,5 @@
     </script>
     <script src="./js/bookings.js"></script>
 </body>
+
 </html>

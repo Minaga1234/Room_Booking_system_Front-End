@@ -2,70 +2,94 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Profile</title>
-  <link rel="stylesheet" href="../shared/css/sidebar.css"> <!-- Shared Sidebar CSS -->
-  <link rel="stylesheet" href="../shared/css/header.css"> <!-- Shared Header CSS -->
-  <link rel="stylesheet" href="./css/profile.css"> <!-- Page-specific CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../shared/css/sidebar.css">
+    <link rel="stylesheet" href="../shared/css/header.css">
+    <link rel="stylesheet" href="./css/profile.css">
+
 </head>
 
 <body>
-  <div class="dashboard-container">
-    <!-- Header Section -->
-    <header class="header">
-      <div id="header-container"></div>
-    </header>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div id="header-container"></div>
+        </header>
 
-    <!-- Sidebar Section -->
-    <aside class="sidebar">
-      <div id="sidebar-container"></div>
-    </aside>
+        <!-- Sidebar Section -->
+        <aside class="sidebar">
+            <div id="sidebar-container"></div>
+        </aside>
 
-    <!-- Main Content -->
-    <main class="content">
-      <!-- Profile Section -->
-      <section class="profile-section" id="personal-info">
-        <h1>Personal Info</h1>
-        <form id="profile-form">
-          <label for="profile-name">Name</label>
-          <input type="text" id="profile-name" name="name" disabled>
+        <!-- Main Content -->
+        <main class="content">
+            <section class="profile-section" id="personal-info">
+                <h1>Personal Info</h1>
 
-          <label for="profile-email">Student Email</label>
-          <input type="email" id="profile-email" name="email" disabled>
+                <!-- Profile Photo Upload -->
+                <div class="profile-photo-container">
+                    <img id="profile-photo" src="../shared/images/default-avatar.jpg" alt="Profile Photo"
+                        class="profile-photo">
+                    <label for="upload-photo" class="upload-btn">Upload Photo</label>
+                    <input type="file" id="upload-photo" class="upload-input" accept="image/*">
+                </div>
 
-          <label for="profile-phone">Contact Number</label>
-          <input type="text" id="profile-phone" name="phone">
+                <!-- Profile Details Form -->
+                <form id="profile-form">
+                    <label for="profile-name">Name</label>
+                    <input type="text" id="profile-name" name="name" disabled placeholder="John Doe">
 
-          <button type="submit" id="update-profile-btn">Save Changes</button>
-        </form>
-      </section>
-    </main>
-  </div>
+                    <label for="profile-email">Student Email</label>
+                    <input type="email" id="profile-email" name="email" disabled placeholder="student@example.com">
 
-  <!-- Shared JavaScript -->
-  <script src="../shared/js/sidebar.js"></script>
-  <script src="../shared/js/header.js"></script>
-  <!-- Page-specific JavaScript -->
-  <script src="./js/profile.js"></script>
+                    <label for="profile-phone">Contact Number</label>
+                    <input type="text" id="profile-phone" name="phone" placeholder="Enter your phone number">
 
-  <script>
-    // Dynamically load the shared header
-    fetch("../shared/header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header-container").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading header:", error));
+                    <button type="submit" id="update-profile-btn">Save Changes</button>
+                </form>
+            </section>
+        </main>
+    </div>
 
-    // Dynamically load the shared sidebar
-    fetch("../shared/navbar.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("sidebar-container").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading sidebar:", error));
-  </script>
+    <!-- Shared JavaScript -->
+    <script src="../shared/js/sidebar.js"></script>
+    <script src="../shared/js/header.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script>
+        // Dynamically load the shared header
+        fetch("../shared/header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading header:", error));
+
+        // Dynamically load the shared sidebar
+        fetch("../shared/navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("sidebar-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading sidebar:", error));
+
+        // Handle Profile Photo Upload
+        const uploadInput = document.getElementById("upload-photo");
+        const profilePhoto = document.getElementById("profile-photo");
+
+        uploadInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    profilePhoto.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </body>
 
 </html>

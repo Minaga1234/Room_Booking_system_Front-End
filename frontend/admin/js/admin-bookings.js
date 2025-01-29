@@ -159,8 +159,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     
-    
-    
 
     // Fetch Bookings
     const fetchBookings = async (page = 1) => {
