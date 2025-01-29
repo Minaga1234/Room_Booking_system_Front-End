@@ -5,45 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="../shared/css/sidebar.css"> <!-- Shared Sidebar CSS -->
-    <link rel="stylesheet" href="../shared/css/header.css">  <!-- Shared Header CSS -->
-    <link rel="stylesheet" href="./css/profile.css">         <!-- Page-specific CSS -->
-    <style>
-        /* Additional styles for profile photo upload */
-        .profile-photo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    <link rel="stylesheet" href="../shared/css/sidebar.css">
+    <link rel="stylesheet" href="../shared/css/header.css">
+    <link rel="stylesheet" href="./css/profile.css">
 
-        .profile-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-
-        .upload-btn {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .upload-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .upload-input {
-            display: none;
-        }
-    </style>
 </head>
 
 <body>
@@ -60,13 +25,13 @@
 
         <!-- Main Content -->
         <main class="content">
-            <!-- Profile Section -->
             <section class="profile-section" id="personal-info">
                 <h1>Personal Info</h1>
 
                 <!-- Profile Photo Upload -->
                 <div class="profile-photo-container">
-                    <img id="profile-photo" src="../shared/images/default-avatar.jpg" alt="Profile Photo" class="profile-photo">
+                    <img id="profile-photo" src="../shared/images/default-avatar.jpg" alt="Profile Photo"
+                        class="profile-photo">
                     <label for="upload-photo" class="upload-btn">Upload Photo</label>
                     <input type="file" id="upload-photo" class="upload-input" accept="image/*">
                 </div>
@@ -74,13 +39,13 @@
                 <!-- Profile Details Form -->
                 <form id="profile-form">
                     <label for="profile-name">Name</label>
-                    <input type="text" id="profile-name" name="name" disabled>
+                    <input type="text" id="profile-name" name="name" disabled placeholder="John Doe">
 
                     <label for="profile-email">Student Email</label>
-                    <input type="email" id="profile-email" name="email" disabled>
+                    <input type="email" id="profile-email" name="email" disabled placeholder="student@example.com">
 
                     <label for="profile-phone">Contact Number</label>
-                    <input type="text" id="profile-phone" name="phone">
+                    <input type="text" id="profile-phone" name="phone" placeholder="Enter your phone number">
 
                     <button type="submit" id="update-profile-btn">Save Changes</button>
                 </form>
@@ -92,8 +57,6 @@
     <script src="../shared/js/sidebar.js"></script>
     <script src="../shared/js/header.js"></script>
     <!-- Page-specific JavaScript -->
-    <script src="./js/profile.js"></script>
-
     <script>
         // Dynamically load the shared header
         fetch("../shared/header.html")
@@ -121,7 +84,7 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    profilePhoto.src = e.target.result; // Set the preview image
+                    profilePhoto.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
             }

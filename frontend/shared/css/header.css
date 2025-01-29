@@ -178,6 +178,7 @@
 .profile-popup a:hover {
     background-color: #6a6afa;
 }
+
 .notification-popup,
 .profile-popup {
     display: none;

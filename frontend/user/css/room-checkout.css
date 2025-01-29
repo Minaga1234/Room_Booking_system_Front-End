@@ -15,21 +15,20 @@ body {
   display: flex;
   flex-direction: column;
   width: calc(100% - 340px);
-  /* Account for sidebar */
   margin-left: 300px;
-  /* Space for sidebar */
   margin-top: 70px;
-  /* Space for header */
   height: calc(100vh - 90px);
-  /* Adjust for header height */
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
   overflow: hidden;
-  /* Prevent content overflow */
   padding: 20px;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
+  /* Add smooth transition */
 }
+
 
 /* Content */
 .content {
@@ -286,6 +285,8 @@ body {
   /* Spacing between input elements */
 }
 
+
+
 .booking-section label {
   font-size: 0.9rem;
   color: #5a3e94;
@@ -359,19 +360,23 @@ body {
 
 /* Submit Button */
 .booking-section button {
-  padding: 10px;
-  background-color: #01182a;
+
   color: #ffffff;
-  font-weight: bold;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
   font-size: 0.8rem;
-  transition: background-color 0.2s ease-in-out;
+  background-color: #8c8bfc;
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 .booking-section button:hover {
-  background-color: #5a3e94;
+
+  background-color: #6a6afa;
 }
 
 /* Terms and Conditions */
@@ -450,20 +455,7 @@ body {
   /* Add spacing between main text and extra info */
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .booking-section .terms {
-    flex-direction: column;
-    /* Stack checkbox and text vertically */
-    align-items: flex-start;
-    /* Align to the start for a natural layout */
-  }
 
-  .booking-section .terms input[type="checkbox"] {
-    margin-bottom: 10px;
-    /* Add spacing below the checkbox */
-  }
-}
 
 /* Participants Range */
 .participants-range {
@@ -507,61 +499,37 @@ body {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
-  .booking-section {
-    grid-template-columns: 1fr;
-    /* Single column layout for smaller screens */
-    row-gap: 10px;
-  }
-
-  .booking-section button {
-    max-width: none;
-  }
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-
-  .booking-section textarea,
-  .booking-section select,
-  .booking-section input,
-  .booking-section button {
-    width: 100%;
-    /* Full width on smaller screens */
-    max-width: none;
-  }
-}
-
-/* Responsive Design */
 @media (max-width: 1024px) {
+  .container {
+    width: 90% !important;
+    /* Adjust width as needed */
+    margin: 70px auto !important;
+    /* Center the container horizontally */
+    max-width: 900px;
+    /* Optional: Set a max-width for better readability */
+    position: relative;
+    left: 0;
+    transform: translateX(0);
+    height: auto;
+    /* Allow height to adjust based on content */
+    padding: 20px;
+    /* Add padding for spacing inside the container */
+  }
+
   .second-row {
     flex-direction: column;
     height: auto;
+    gap: 30px;
   }
 
   .third-row {
     flex-direction: column;
     height: auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    margin-left: 0;
-    width: 100%;
+    gap: 30px;
   }
 
-  .room-description,
-  .room-image-container,
-  .amenities,
-  .booking-section {
-    flex: 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .booking-section button {
-    font-size: 0.8rem;
-    padding: 8px;
+  .room-image-container {
+    height: 300px;
+    /* Fixed height for the image container */
   }
 }

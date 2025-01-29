@@ -25,14 +25,11 @@ body {
     grid-area: main;
     display: grid;
     grid-template-rows: auto auto;
-    gap: 20px;
-    padding: 20px;
-    padding-left: 50px;
-    padding-right: 30px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #8c8bfc transparent;
-    height: calc(100vh - 70px);
+    gap: 10px;
+    /* Reduced from 20px */
+    padding: 20px 30px 20px 50px;
+    overflow: hidden;
+    height: calc(100vh - 130px);
     box-sizing: border-box;
 }
 
@@ -43,6 +40,8 @@ body {
     gap: 40px;
     align-items: stretch;
     margin-top: 0;
+    margin-bottom: 0;
+    /* Remove bottom margin if exists */
 }
 
 /* Adjustments for Row 1 */
@@ -51,8 +50,9 @@ body {
 }
 
 .row-2 .card {
-    margin-top: 20px;
-    height: 350px;
+    margin-top: 10px;
+    /* Reduced from 20px */
+    height: 320px;
 }
 
 /* Full-width Analytics Widget */
@@ -148,6 +148,23 @@ body {
 }
 
 .book-now-btn:hover {
+    background-color: #6a6afa;
+}
+
+/*see-details-btn*/
+.see-details-btn {
+    background-color: #8c8bfc;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.see-details-btn:hover {
     background-color: #6a6afa;
 }
 
@@ -298,14 +315,67 @@ body {
     color: #6a6afa;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+@media screen and (min-width: 1440px) {
+    .dashboard-container {
+        grid-template-columns: 280px 1fr;
+        overflow: hidden;
+    }
+
+    .main-content {
+        padding: 25px 40px;
+        overflow: hidden;
+    }
+
+    .row {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+    }
+}
+
+/* Large Desktops (1200px to 1439px) */
+@media screen and (max-width: 1439px) {
+    .dashboard-container {
+        grid-template-columns: 250px 1fr;
+        overflow: hidden;
+    }
+
+    .main-content {
+        overflow: hidden;
+    }
+
+    .row {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+}
+
+/* Small Desktops (1024px to 1199px) */
+@media screen and (max-width: 1199px) {
+    .dashboard-container {
+        grid-template-columns: 220px 1fr;
+        overflow: hidden;
+    }
+
+    .main-content {
+        padding: 20px 30px;
+        overflow: hidden;
+    }
+
+    .row {
+        gap: 25px;
+    }
+}
+
+/* Tablets Landscape (992px to 1023px) */
+@media screen and (max-width: 1023px) {
     .dashboard-container {
         grid-template-areas:
             "header header"
             "main main"
             "footer footer";
         grid-template-columns: 1fr;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .sidebar {
@@ -315,18 +385,23 @@ body {
     .main-content {
         padding: 20px;
         height: calc(100vh - 120px);
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .row {
+        grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
 
     .full-width-analytics {
-        grid-column: span 1;
+        grid-column: span 2;
+        height: 300px;
     }
 }
 
-@media (max-width: 768px) {
+/* Tablets Portrait (768px to 991px) */
+@media screen and (max-width: 991px) {
     .dashboard-container {
         grid-template-rows: 60px auto auto;
     }
@@ -337,31 +412,32 @@ body {
     }
 
     .row {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
     }
 
     .row-1 .card {
-        height: auto;
-        min-height: 180px;
+        min-height: 160px;
     }
 
     .popular-rooms {
         height: 300px;
+        overflow-x: auto;
     }
 
     .full-width-analytics {
-        height: 280px;
+        height: 250px;
+    }
+
+    .widget {
+        padding: 15px;
     }
 }
 
-@media (max-width: 480px) {
+/* Large Phones (576px to 767px) */
+@media screen and (max-width: 767px) {
     .dashboard-container {
-        grid-template-rows: 50px auto;
-    }
-
-    .main-content {
-        padding: 10px;
+        grid-template-rows: 55px auto;
     }
 
     .row {
@@ -369,16 +445,55 @@ body {
         gap: 15px;
     }
 
+    .full-width-analytics {
+        grid-column: span 1;
+        height: 220px;
+    }
+
+    .row-1 .card {
+        min-height: 140px;
+    }
+
+    .popular-rooms {
+        height: 280px;
+    }
+
+    .room-item img {
+        width: 80px;
+        height: 80px;
+        padding: 15px;
+    }
+
+    .widget {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Medium Phones (375px to 575px) */
+@media screen and (max-width: 575px) {
+    .dashboard-container {
+        grid-template-rows: 50px auto;
+    }
+
+    .main-content {
+        padding: 12px;
+    }
+
     .widget {
         padding: 15px;
     }
 
+    .row-1 .card {
+        min-height: 130px;
+    }
+
     .popular-rooms {
-        height: 250px;
+        height: 260px;
     }
 
     .room-item {
-        padding: 15px;
+        padding: 12px;
     }
 
     .room-item img {
@@ -388,90 +503,102 @@ body {
     }
 
     .book-now-btn,
-    .feedback-btn {
+    .feedback-btn,
+    .see-details-btn {
         padding: 8px 16px;
         font-size: 14px;
+        width: 100%;
+    }
+}
+
+/* Small Phones (320px to 374px) */
+@media screen and (max-width: 374px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .widget {
+        padding: 12px;
+    }
+
+    .row-1 .card {
+        min-height: 120px;
+    }
+
+    .popular-rooms {
+        height: 240px;
+    }
+
+    .room-item {
+        padding: 10px;
+    }
+
+    .room-item img {
+        width: 60px;
+        height: 60px;
+        padding: 8px;
     }
 
     .bookings-card h2,
     .feedback-card h2,
     .popular-rooms h2 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .bookings-card p,
     .feedback-card p {
-        font-size: 14px;
+        font-size: 13px;
     }
 }
 
-/* Print Styles */
-@media print {
-    body {
-        background-color: white;
-    }
-
-    .dashboard-container {
-        grid-template-areas:
-            "header"
-            "main"
-            "footer";
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        display: none;
-    }
-
+/* Very Small Phones (up to 320px) */
+@media screen and (max-width: 320px) {
     .main-content {
-        padding: 20px;
-        height: auto;
+        padding: 8px;
     }
 
     .widget {
-        break-inside: avoid;
-        box-shadow: none;
-        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    .room-item {
+        padding: 8px;
+    }
+
+    .room-item img {
+        width: 50px;
+        height: 50px;
+        padding: 6px;
+    }
+
+    .book-now-btn,
+    .feedback-btn,
+    .see-details-btn {
+        padding: 6px 12px;
+        font-size: 13px;
     }
 }
 
-/* Ongoing Bookings */
-.ongoing-booking {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .ongoing-booking strong {
-    font-size: 16px;
-    color: #01182a;
-  }
-  
-  .ongoing-booking p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #444444;
-  }
-  
-  .ongoing-booking .check-in-btn,
-  .ongoing-booking .check-out-btn {
-    padding: 10px;
-    background-color: #8c8bfc;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  .ongoing-booking .check-out-btn.hidden {
-    display: none;
-  }
-  
-  .ongoing-booking .check-in-btn:hover,
-  .ongoing-booking .check-out-btn:hover {
-    background-color: #6a6afa;
-  }
-  
+/* Landscape Mode */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .dashboard-container {
+        grid-template-rows: 50px auto;
+    }
+
+    .main-content {
+        height: calc(100vh - 50px);
+        overflow-y: auto;
+    }
+
+    .row-1 .card {
+        min-height: 120px;
+    }
+
+    .popular-rooms {
+        height: 200px;
+    }
+
+    .full-width-analytics {
+        height: 180px;
+    }
+}

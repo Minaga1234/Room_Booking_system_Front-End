@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) throw new Error(`Failed to load sidebar: ${response.status}`);
             const sidebarHTML = await response.text();
             sidebarContainer.innerHTML = sidebarHTML;
-            
+
             // Highlight Active Sidebar Link
             const currentPage = window.location.pathname.split("/").pop();
             const navLinks = document.querySelectorAll(".nav-links a");
@@ -112,28 +112,28 @@ document.addEventListener("DOMContentLoaded", () => {
             return [];
         }
     };
-    
-    
+
+
     const renderOngoingBookings = (bookings) => {
         const ongoingBookingsList = document.getElementById("ongoing-bookings-list");
         ongoingBookingsList.innerHTML = ""; // Clear previous content
-    
+
         const now = new Date(); // Current timestamp
         const filteredBookings = bookings.filter((booking) => {
             const startTime = new Date(booking.start_time);
             const endTime = new Date(booking.end_time);
             return now >= startTime && now <= endTime; // Only include bookings in the current timeslot
         });
-    
+
         if (filteredBookings.length === 0) {
             ongoingBookingsList.innerHTML = "<p>No ongoing bookings available.</p>";
             return;
         }
-    
+
         filteredBookings.forEach((booking) => {
             const startTime = new Date(booking.start_time);
             const endTime = new Date(booking.end_time);
-    
+
             const bookingItem = document.createElement("div");
             bookingItem.classList.add("booking-item");
             bookingItem.innerHTML = `
@@ -141,31 +141,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Start:</strong> ${startTime.toLocaleString()}</p>
                 <p><strong>End:</strong> ${endTime.toLocaleString()}</p>
                 <div class="action-buttons">
-                    <button class="check-in-btn" data-id="${booking.id}" ${
-                        booking.status === "checked_in" ? "disabled" : ""
-                    }>Check In</button>
+                    <button class="check-in-btn" data-id="${booking.id}" ${booking.status === "checked_in" ? "disabled" : ""
+                }>Check In</button>
                     <button class="check-out-btn ${booking.status === "checked_in" ? "" : "hidden"}" data-id="${booking.id}">Check Out</button>
                 </div>
                 <div class="timer ${booking.status === "checked_in" ? "" : "hidden"}" id="timer-${booking.id}"></div>
             `;
-    
+
             ongoingBookingsList.appendChild(bookingItem);
-    
+
             const checkInButton = bookingItem.querySelector(".check-in-btn");
             const checkOutButton = bookingItem.querySelector(".check-out-btn");
             const timerDiv = bookingItem.querySelector(`#timer-${booking.id}`);
-    
+
             checkInButton.addEventListener("click", () =>
                 handleCheckIn(booking.id, checkInButton, checkOutButton, timerDiv, endTime)
             );
             checkOutButton.addEventListener("click", () => handleCheckOut(booking.id, timerDiv));
-    
+
             if (booking.status === "checked_in") {
                 startTimer(timerDiv, endTime);
             }
         });
     };
-    
+
 
     // Handle Check-In
     const handleCheckIn = async (bookingId, checkInButton, checkOutButton, timerDiv, endTime) => {
@@ -192,13 +191,13 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const headers = await getAuthHeaders();
             const now = new Date();
-    
+
             // API Call for Check-Out
             const response = await fetch(`${BASE_URL}/bookings/${bookingId}/check_out/`, {
                 method: "POST",
                 headers,
             });
-    
+
             if (!response.ok) {
                 const errorData = await response.json();
                 if (errorData.penalty_imposed) {
@@ -211,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 alert("Check-out successful!");
             }
-    
+
             // Safely handle the timerDiv if it exists
             if (timerDiv) {
                 clearInterval(timerDiv.dataset.timerId);
@@ -219,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 console.warn("TimerDiv is undefined. Skipping timer operations.");
             }
-    
+
             // Remove the booking item from the DOM
             checkOutButton.parentElement.parentElement.remove();
         } catch (error) {
@@ -227,11 +226,11 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Failed to check out. Please try again.");
         }
     };
-    
+
 
     const applyPenaltyForOverstay = async (bookings) => {
         const now = new Date();
-    
+
         bookings.forEach(async (booking) => {
             const endTime = new Date(booking.end_time);
             if (now > endTime && booking.status === "checked_in") {
@@ -241,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         method: "POST",
                         headers,
                     });
-    
+
                     if (response.ok) {
                         alert(`Penalty applied for overdue booking in ${booking.room}`);
                     } else {
@@ -253,8 +252,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     };
-    
-    
+
+
 
     // Start Timer
     const startTimer = (timerDiv, endTime) => {
@@ -280,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timerDiv.dataset.timerId = timerId;
     };
 
-    
+
     // === Cancel Booking ===
     const cancelBooking = async (bookingId, rowElement) => {
         if (!confirm("Are you sure you want to cancel this booking?")) return;
@@ -306,72 +305,98 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // === Load Calendar Events with Popups ===
-const loadCalendarEvents = async () => {
-    const bookings = await fetchUserBookings();
-    const events = bookings.map((booking) => ({
-        id: booking.id,
-        title: booking.room || "N/A",
-        start: booking.start_time,
-        end: booking.end_time,
-        description: `Status: ${booking.status}`,
-    }));
+    const loadCalendarEvents = async () => {
+        const bookings = await fetchUserBookings();
+        const events = bookings.map((booking) => ({
+            id: booking.id,
+            title: booking.room || "N/A",
+            start: booking.start_time,
+            end: booking.end_time,
+            description: `Status: ${booking.status}`,
+        }));
 
-    const calendarEl = document.getElementById("calendar");
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
-        },
-        events: events,
-        eventClick: function (info) {
-            const popup = document.createElement("div");
-            popup.classList.add("custom-popup");
-            popup.innerHTML = `
-                <div class="popup-content">
-                    <h3>You have booked the ${info.event.title}</h3>
-                    <p><strong>Status:</strong> ${info.event.extendedProps.description.split(": ")[1]}</p>
-                    <p><strong>Start Time:</strong> ${new Date(info.event.start).toLocaleString()}</p>
-                    <p><strong>End Time:</strong> ${new Date(info.event.end).toLocaleString()}</p>
-                    <button class="close-popup">Close</button>
-                </div>
-            `;
-            document.body.appendChild(popup);
+        const calendarEl = document.getElementById("calendar");
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: "dayGridMonth",
+            height: 'auto',
+            headerToolbar: {
+                left: 'prev',
+                center: 'title',
+                right: 'next'
+            },
+            footerToolbar: {
+                center: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            buttonText: {
+                month: 'Month',
+                week: 'Week',
+                day: 'Day'
+            },
+            titleFormat: {
+                year: 'numeric',
+                month: 'long'
+            },
+            events: events,
+            eventClick: function (info) {
+                const popup = document.createElement("div");
+                popup.classList.add("custom-popup");
+                popup.innerHTML = `
+                    <div class="popup-content">
+                        <h3>You have booked the ${info.event.title}</h3>
+                        <p><strong>Status:</strong> ${info.event.extendedProps.description.split(": ")[1]}</p>
+                        <p><strong>Start Time:</strong> ${new Date(info.event.start).toLocaleString()}</p>
+                        <p><strong>End Time:</strong> ${new Date(info.event.end).toLocaleString()}</p>
+                        <button class="close-popup">Close</button>
+                    </div>
+                `;
+                document.body.appendChild(popup);
 
-            // Add close functionality
-            const closeButton = popup.querySelector(".close-popup");
-            closeButton.addEventListener("click", () => {
-                document.body.removeChild(popup);
-            });
-        },
-    });
+                const closeButton = popup.querySelector(".close-popup");
+                closeButton.addEventListener("click", () => {
+                    document.body.removeChild(popup);
+                });
+            },
+            viewDidMount: function (view) {
+                // Add custom classes for enhanced styling
+                const headerElement = calendarEl.querySelector('.fc-header-toolbar');
+                const footerElement = calendarEl.querySelector('.fc-footer-toolbar');
 
-    calendar.render();
-};
+                if (headerElement) {
+                    headerElement.classList.add('custom-header-toolbar');
+                }
+
+                if (footerElement) {
+                    footerElement.classList.add('custom-footer-toolbar');
+                }
+            }
+        });
+
+        calendar.render();
+
+    };
 
 
-const initializeMyBookings = async () => {
-    try {
-        // Fetch and render all user bookings
-        const userBookings = await fetchUserBookings();
-        console.log("User Bookings:", userBookings);
-        renderBookingsTable(userBookings);
+    const initializeMyBookings = async () => {
+        try {
+            // Fetch and render all user bookings
+            const userBookings = await fetchUserBookings();
+            console.log("User Bookings:", userBookings);
+            renderBookingsTable(userBookings);
 
-        // Fetch and render ongoing bookings
-        const ongoingBookings = await fetchOngoingBookings();
-        console.log("Ongoing Bookings:", ongoingBookings);
-        renderOngoingBookings(ongoingBookings);
+            // Fetch and render ongoing bookings
+            const ongoingBookings = await fetchOngoingBookings();
+            console.log("Ongoing Bookings:", ongoingBookings);
+            renderOngoingBookings(ongoingBookings);
 
-        // Apply penalties for overdue check-outs
-        applyPenaltyForOverstay(ongoingBookings);
+            // Apply penalties for overdue check-outs
+            applyPenaltyForOverstay(ongoingBookings);
 
-        // Initialize calendar events
-        loadCalendarEvents();
-    } catch (error) {
-        console.error("Error initializing bookings:", error);
-    }
-};
+            // Initialize calendar events
+            loadCalendarEvents();
+        } catch (error) {
+            console.error("Error initializing bookings:", error);
+        }
+    };
 
 
     // === Initialize the Chart ===

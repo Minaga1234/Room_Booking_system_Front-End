@@ -7,7 +7,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Prevent body scrolling */
+    overflow: hidden;
+    /* Prevent body scrolling */
 }
 
 /* Dashboard Container */
@@ -18,36 +19,43 @@ body {
 }
 
 /* Sidebar Section */
-#sidebar-container {
+/* #sidebar-container {
     width: 250px;
     height: 100vh;
     background-color: #01182a;
     position: fixed;
     left: 0;
     top: 0;
-}
+} */
 
 /* Main Content */
 .main-content {
-    margin-left: 250px; /* Space for the sidebar */
-    margin-top: 70px; /* Space for the header */
+    margin-left: 250px;
+    /* Space for the sidebar */
+    margin-top: 70px;
+    /* Space for the header */
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the content */
+    align-items: center;
+    /* Center the content */
     gap: 30px;
     padding: 20px;
     height: calc(100vh - 70px);
     box-sizing: border-box;
     overflow: auto;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /* Row Layout */
 .row {
     display: flex;
     justify-content: center;
-    gap: 40px; /* Add spacing between elements */
-    flex-wrap: wrap; /* Allow responsive adjustments */
+    gap: 40px;
+    /* Add spacing between elements */
+    flex-wrap: wrap;
+    /* Allow responsive adjustments */
     width: 100%;
     max-width: 1100px;
 }
@@ -136,20 +144,175 @@ body {
 /* Calendar Section */
 .calendar {
     background-color: #ffffff;
-    color: #333;
-    padding: 40px;
-    border-radius: 15px;
-    flex: 1 1 450px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 450px;
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid #edf2f7;
+    width: 100%;
 }
 
-.calendar h2 {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 10px;
+/* Calendar Container */
+.fc {
+    height: 400px !important;
+    max-height: 600px !important;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+
 }
+
+/* Scrollable View Container */
+.fc-view-harness {
+    height: 450px !important;
+    overflow-y: auto !important;
+    scrollbar-width: thin;
+    scrollbar-color: #8584E2 #f0f0f0;
+
+}
+
+/* Custom Scrollbar */
+.fc-view-harness::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fc-view-harness::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.fc-view-harness::-webkit-scrollbar-thumb {
+    background: #8584E2;
+    border-radius: 4px;
+}
+
+.fc-view-harness::-webkit-scrollbar-thumb:hover {
+    background: #6c63ff;
+}
+
+/* Enhanced Header Toolbar */
+.fc-header-toolbar {
+    padding: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 1px solid #edf2f7;
+}
+
+/* Enhanced Footer Toolbar */
+.fc-footer-toolbar {
+    padding: 0.5rem !important;
+    margin-top: 0.5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    border-top: 1px solid #edf2f7;
+}
+
+/* Enhanced Title */
+.fc-toolbar-title {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #2d3748 !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+/* Navigation Buttons */
+.fc-prev-button,
+.fc-next-button {
+    background-color: #8584E2 !important;
+    border: none !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
+}
+
+.fc-prev-button:hover,
+.fc-next-button:hover {
+    background-color: #6c63ff !important;
+    transform: translateY(-1px);
+}
+
+/* View Buttons */
+.fc-dayGridMonth-button,
+.fc-timeGridWeek-button,
+.fc-timeGridDay-button {
+    background-color: #01182a !important;
+    border: none !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
+    margin: 0 4px !important;
+}
+
+/* Active Button State */
+.fc-button-active {
+    background-color: #8584E2 !important;
+    box-shadow: none !important;
+}
+
+/* Calendar Grid */
+.fc-daygrid-day {
+    transition: background-color 0.2s ease;
+    height: 35px !important;
+    border: 1px solid #edf2f7 !important;
+}
+
+.fc-daygrid-day:hover {
+    background-color: #f7fafc;
+}
+
+/* Day Numbers */
+.fc-daygrid-day-number {
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+    color: #4a5568 !important;
+}
+
+/* Column Headers */
+.fc .fc-col-header-cell-cushion {
+    color: #2d3748;
+    font-weight: 600;
+    padding: 8px !important;
+}
+
+/* Today's Cell */
+.fc-day-today {
+    background-color: rgba(133, 132, 226, 0.1) !important;
+}
+
+.fc-day-today .fc-daygrid-day-number {
+    color: #3182ce !important;
+    font-weight: bold !important;
+}
+
+/* Events */
+.fc-event {
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    margin: 2px 0 !important;
+    background-color: #8584E2 !important;
+    transition: transform 0.2s ease !important;
+    cursor: pointer;
+}
+
+.fc-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.fc-event-title {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    padding: 2px !important;
+    color: white !important;
+}
+
 
 /* Note Section */
 .note-section {
@@ -208,64 +371,30 @@ body {
     cursor: pointer;
 }
 
-/* Updated Responsive Design */
-@media (max-width: 768px) {
-    body {
-        overflow-y: auto;
-    }
 
-    .dashboard-container {
-        flex-direction: column;
-    }
-
-    .main-content {
-        margin-left: 0;
-        margin-top: 54px;
-        padding: 12px;
-        overflow-y: auto;
-    }
-
-    .row {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .weather,
-    .calendar,
-    .note-section {
-        width: 100%;
-    }
-
-    .main-content {
-        padding: 10px;
-    }
-
-    .note-section {
-        max-width: 100%;
-    }
-}
 
 /* Two-column layout for Weather and Calendar sections */
 .row {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-    gap: 20px; /* Space between columns */
-    width: 100%; /* Full width of the parent container */
-    max-width: 1100px; /* Optional: max width for better alignment */
-    margin: 0 auto; /* Center the content horizontally */
+    grid-template-columns: repeat(2, 1fr);
+    /* Two equal columns */
+    gap: 20px;
+    /* Space between columns */
+    width: 100%;
+    /* Full width of the parent container */
+    max-width: 1100px;
+    /* Optional: max width for better alignment */
+    margin: 0 auto;
+    /* Center the content horizontally */
 }
 
 /* Ensure Weather and Calendar take equal space */
-.weather, .calendar {
-    flex: none; /* Override flex behavior */
-    max-width: none; /* Prevent overriding max-width from the previous styles */
-}
-
-@media (max-width: 768px) {
-    .row {
-        grid-template-columns: 1fr; /* Single-column layout */
-        gap: 20px; /* Adjust spacing for smaller screens */
-    }
+.weather,
+.calendar {
+    flex: none;
+    /* Override flex behavior */
+    max-width: none;
+    /* Prevent overriding max-width from the previous styles */
 }
 
 /* My Bookings Section */
@@ -290,7 +419,8 @@ body {
     border-collapse: collapse;
 }
 
-.my-bookings-table th, .my-bookings-table td {
+.my-bookings-table th,
+.my-bookings-table td {
     padding: 10px;
     text-align: center;
     border: 1px solid #ccc;
@@ -366,6 +496,7 @@ body {
         opacity: 0;
         transform: translate(-50%, -55%);
     }
+
     to {
         opacity: 1;
         transform: translate(-50%, -50%);
@@ -393,7 +524,8 @@ body {
     font-size: 16px;
 }
 
-.check-in-btn, .check-out-btn {
+.check-in-btn,
+.check-out-btn {
     background-color: #ff4d4d;
     color: white;
     border: none;
@@ -403,8 +535,222 @@ body {
     margin-top: 10px;
 }
 
-.check-in-btn:hover, .check-out-btn:hover {
+.check-in-btn:hover,
+.check-out-btn:hover {
     background-color: #cc0000;
 }
 
+/* Keep all existing styles the same and only update/add these media queries at the end of your CSS file */
 
+@media (max-width: 1200px) {
+    .dashboard-container {
+        padding: 0 20px;
+        overflow-x: hidden;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        max-width: 800px;
+        margin: 70px auto 0;
+        padding: 20px;
+    }
+
+    .row {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .weather,
+    .calendar {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .weather {
+        max-width: 700px;
+    }
+
+    .calendar {
+        max-width: 700px;
+    }
+
+    .fc {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .my-bookings-section {
+        max-width: 700px;
+        margin: 30px auto;
+        width: 100%;
+    }
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        max-width: 600px;
+        padding: 15px;
+    }
+
+    .row {
+        max-width: 550px;
+        gap: 25px;
+    }
+
+    .weather,
+    .calendar {
+        max-width: 550px;
+    }
+
+    .my-bookings-section {
+        max-width: 550px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 0 15px;
+    }
+
+    .main-content {
+        margin-top: 60px;
+        max-width: 500px;
+    }
+
+    .row {
+        max-width: 450px;
+        gap: 20px;
+    }
+
+    .weather,
+    .calendar {
+        max-width: 450px;
+    }
+
+    .my-bookings-section {
+        max-width: 450px;
+        overflow-x: auto;
+    }
+
+    .fc {
+        height: 450px !important;
+    }
+
+    .fc-header-toolbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .fc-toolbar-chunk {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-container {
+        padding: 0 10px;
+    }
+
+    .main-content {
+        padding: 10px;
+        max-width: 400px;
+    }
+
+    .row {
+        max-width: 350px;
+        gap: 15px;
+    }
+
+    .weather,
+    .calendar {
+        max-width: 350px;
+    }
+
+    .my-bookings-section {
+        max-width: 350px;
+    }
+
+    .my-bookings-table {
+        min-width: 500px;
+    }
+
+    .fc {
+        padding: 10px;
+    }
+
+    .fc-toolbar-title {
+        font-size: 1.1rem !important;
+    }
+
+    .fc-button {
+        padding: 5px 8px !important;
+        font-size: 12px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .dashboard-container {
+        padding: 0 5px;
+    }
+
+    .main-content {
+        max-width: 320px;
+    }
+
+    .row {
+        max-width: 300px;
+        gap: 15px;
+    }
+
+    .weather,
+    .calendar {
+        max-width: 300px;
+        padding: 15px;
+    }
+
+    .my-bookings-section {
+        max-width: 300px;
+        padding: 15px 10px;
+    }
+
+    .fc {
+        padding: 8px;
+    }
+
+    .fc-toolbar-title {
+        font-size: 1rem !important;
+    }
+
+    .fc-button {
+        padding: 4px 6px !important;
+        font-size: 11px !important;
+    }
+
+    .temperature {
+        font-size: 20px;
+    }
+
+    .weather-description {
+        font-size: 13px;
+    }
+}
+
+.dashboard-container,
+.main-content,
+.row,
+.weather,
+.calendar,
+.my-bookings-section {
+    max-width: 100vw;
+    overflow-x: hidden;
+}

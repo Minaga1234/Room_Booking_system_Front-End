@@ -161,32 +161,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Filter bookings for today
     const todayBookings = bookings.filter((booking) => {
-        const bookingStart = new Date(booking.start_time); // Parse booking start time
-        console.log("Booking Start Time (UTC):", bookingStart.toISOString()); // Debugging log
-        return bookingStart >= utcStartOfToday && bookingStart < utcEndOfToday;
+      const bookingStart = new Date(booking.start_time); // Parse booking start time
+      console.log("Booking Start Time (UTC):", bookingStart.toISOString()); // Debugging log
+      return bookingStart >= utcStartOfToday && bookingStart < utcEndOfToday;
     });
 
     if (todayBookings.length === 0) {
-        bookingsList.innerHTML = "<p>No bookings for today.</p>";
-        return;
+      bookingsList.innerHTML = "<p>No bookings for today.</p>";
+      return;
     }
 
     let slotCounter = 1; // Slot counter
     todayBookings.forEach((booking) => {
-        const bookingItem = document.createElement("div");
-        bookingItem.className = "booking-item";
+      const bookingItem = document.createElement("div");
+      bookingItem.className = "booking-item";
 
-        const duration = (new Date(booking.end_time) - new Date(booking.start_time)) / (1000 * 60); // in minutes
+      const duration = (new Date(booking.end_time) - new Date(booking.start_time)) / (1000 * 60); // in minutes
 
-        bookingItem.innerHTML = `
+      bookingItem.innerHTML = `
             <p>Slot ${slotCounter}: ${new Date(booking.start_time).toLocaleTimeString()} - ${new Date(booking.end_time).toLocaleTimeString()}</p>
             <p>Room: ${booking.room_name || "N/A"}</p>
             <p>Status: ${booking.status || "Unknown"}</p>
             <p>Duration: ${duration} minutes</p>
         `;
 
-        bookingsList.appendChild(bookingItem);
-        slotCounter++;
+      bookingsList.appendChild(bookingItem);
+      slotCounter++;
     });
   };
 
