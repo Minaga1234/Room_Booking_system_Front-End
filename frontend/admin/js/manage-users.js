@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const BASE_URL = 'http://127.0.0.1:8000/api/users/';
+    const BASE_URL = 'http://ibs.lunox.dev/api/users/';
 
     // Utility function to safely add event listeners
     const addEventListenerIfExists = (element, event, handler) => {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const refreshToken = localStorage.getItem('refreshToken');
             if (!refreshToken) throw new Error('No refresh token found. Please log in again.');
 
-            const response = await fetch('http://127.0.0.1:8000/api/auth/token/refresh/', {
+            const response = await fetch('http://ibs.lunox.dev/api/auth/token/refresh/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ refresh: refreshToken }),

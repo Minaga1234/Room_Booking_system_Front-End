@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const BASE_URL = "http://127.0.0.1:8000/api";
+    const BASE_URL = "http://ibs.lunox.dev/api";
     const BOOKINGS_URL = `${BASE_URL}/bookings/my_bookings/`;
     const CANCEL_BOOKING_URL = (bookingId) => `${BASE_URL}/bookings/${bookingId}/cancel/`;
 
