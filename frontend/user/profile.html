@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="../shared/css/sidebar.css">
-    <link rel="stylesheet" href="../shared/css/header.css">
-    <link rel="stylesheet" href="./css/profile.css">
-
+    <link rel="stylesheet" href="../shared/css/sidebar.css"> <!-- Shared Sidebar CSS -->
+    <link rel="stylesheet" href="../shared/css/header.css"> <!-- Shared Header CSS -->
+    <link rel="stylesheet" href="./css/profile.css"> <!-- Page-specific CSS -->
 </head>
 
 <body>
@@ -25,27 +24,18 @@
 
         <!-- Main Content -->
         <main class="content">
+            <!-- Profile Section -->
             <section class="profile-section" id="personal-info">
                 <h1>Personal Info</h1>
-
-                <!-- Profile Photo Upload -->
-                <div class="profile-photo-container">
-                    <img id="profile-photo" src="../shared/images/default-avatar.jpg" alt="Profile Photo"
-                        class="profile-photo">
-                    <label for="upload-photo" class="upload-btn">Upload Photo</label>
-                    <input type="file" id="upload-photo" class="upload-input" accept="image/*">
-                </div>
-
-                <!-- Profile Details Form -->
                 <form id="profile-form">
                     <label for="profile-name">Name</label>
-                    <input type="text" id="profile-name" name="name" disabled placeholder="John Doe">
+                    <input type="text" id="profile-name" name="name" disabled>
 
                     <label for="profile-email">Student Email</label>
-                    <input type="email" id="profile-email" name="email" disabled placeholder="student@example.com">
+                    <input type="email" id="profile-email" name="email" disabled>
 
                     <label for="profile-phone">Contact Number</label>
-                    <input type="text" id="profile-phone" name="phone" placeholder="Enter your phone number">
+                    <input type="text" id="profile-phone" name="phone">
 
                     <button type="submit" id="update-profile-btn">Save Changes</button>
                 </form>
@@ -57,6 +47,8 @@
     <script src="../shared/js/sidebar.js"></script>
     <script src="../shared/js/header.js"></script>
     <!-- Page-specific JavaScript -->
+    <script src="./js/profile.js"></script>
+
     <script>
         // Dynamically load the shared header
         fetch("../shared/header.html")
@@ -73,22 +65,6 @@
                 document.getElementById("sidebar-container").innerHTML = data;
             })
             .catch(error => console.error("Error loading sidebar:", error));
-
-        // Handle Profile Photo Upload
-        const uploadInput = document.getElementById("upload-photo");
-        const profilePhoto = document.getElementById("profile-photo");
-
-        uploadInput.addEventListener("change", (event) => {
-            const file = event.target.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    profilePhoto.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
     </script>
 </body>
 
