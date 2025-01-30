@@ -17,7 +17,7 @@ body {
   margin-left: 250px;
   padding-top: 70px;
   box-sizing: border-box;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 20px);
   background-color: #01182a;
   transition: margin-left 0.3s ease;
   overflow: hidden;

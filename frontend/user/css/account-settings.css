@@ -18,7 +18,7 @@ body {
     margin-left: 250px;
     padding-top: 70px;
     box-sizing: border-box;
-    height: 750px;
+    height: 100vh;
     background-color: #01182a;
     transition: margin-left 0.3s ease;
     overflow: hidden;
@@ -34,7 +34,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 90px);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #3498db #f1f5f9;
@@ -70,6 +70,7 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     max-width: 850px;
     margin: 0 auto;
+    height: auto;
 }
 
 .account-settings-section:hover {
@@ -97,6 +98,7 @@ body {
     padding: 20px;
     background: white;
     border-radius: 20px;
+
 }
 
 #account-settings-form label {

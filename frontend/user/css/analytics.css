@@ -37,6 +37,8 @@ body {
   margin-top: 0;
 }
 
+
+
 /* Header Section */
 .content h1 {
   font-size: 2rem;
@@ -99,25 +101,27 @@ body {
   box-shadow: 0 4px 6px var(--shadow-color);
   text-align: center;
   width: 100%;
-  height: 350px;
+  height: 550px;
+  /* Increased from 450px */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.main-content {
+/* .main-content {
   top: 90px;
   height: calc(100vh - 80px);
   overflow: hidden;
 
-}
+} */
 
 .chart-container {
   background-color: var(--background-color);
   border-radius: 10px;
   width: 100%;
-  height: calc(100% - 40px);
+  height: calc(100% - 20px);
+  /* Adjusted to account for padding */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -136,33 +140,12 @@ canvas {
 /* Extra Large Desktops - Maintain fixed layout */
 @media screen and (min-width: 1441px) {
   body {
-    padding: 110px 20px 20px 300px;
     overflow: hidden;
   }
 
   .main-content {
-    overflow: hidden;
-    height: calc(100vh - 80px);
-  }
 
-  .metrics {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .chart-card {
-    height: 350px;
-  }
-}
-
-/* Large Desktops */
-@media screen and (min-width: 1025px) and (max-width: 1440px) {
-  body {
-    padding: 60px 20px 20px 300px;
-    overflow: hidden;
-  }
-
-  .main-content {
+    padding: 40px 20px 20px 50px;
     overflow: hidden;
     height: calc(100vh - 80px);
   }
@@ -171,227 +154,253 @@ canvas {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-}
-
-/* Small Desktops and Laptops */
-@media screen and (min-width: 1024px) and (max-width: 1024px) {
-  body {
-    padding: 90px 25px 25px 25px;
-  }
-
-  .main-content {
-    overflow-y: auto;
-    height: auto;
-  }
-
-  .metrics {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
 
   .chart-card {
-    height: 350px;
-  }
-}
-
-/* Tablets Landscape */
-@media screen and (max-width: 1023px) {
-  body {
-    padding: 90px 25px 25px 25px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: 400px;
   }
 
-  .main-content {
-    height: auto;
-    overflow-y: visible;
+  /* Large Desktops */
+  @media screen and (min-width: 1025px) and (max-width: 1440px) {
+    body {
+      overflow: hidden;
+    }
+
+    .main-content {
+      padding: 40px 20px 20px 30px;
+      overflow: hidden;
+      height: calc(100vh - 80px);
+    }
+
+    .metrics {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .chart-card {
+      height: 400px;
+      /* Added height specification */
+    }
   }
 
-  .metrics {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+  /* Small Desktops and Laptops */
+  @media screen and (min-width: 1024px) and (max-width: 1024px) {
+    body {
+      padding: 90px 25px 25px 25px;
+    }
+
+    .main-content {
+      overflow-y: auto;
+      height: auto;
+    }
+
+    .metrics {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .chart-card {
+      height: 350px;
+    }
   }
 
-  .content h1 {
-    font-size: clamp(1.5rem, 4vw, 2rem);
+  /* Tablets Landscape */
+  @media screen and (max-width: 1023px) {
+    body {
+      padding: 90px 25px 25px 25px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .main-content {
+      height: auto;
+      overflow-y: visible;
+    }
+
+    .metrics {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .content h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    .card {
+      padding: 15px;
+    }
+
+    .chart-card {
+      height: 320px;
+      margin-bottom: 20px;
+    }
   }
 
-  .card {
-    padding: 15px;
+  /* Tablets Portrait */
+  @media screen and (max-width: 768px) {
+    body {
+      padding: 90px 20px 20px 20px;
+    }
+
+    .main-content {
+      overflow-y: auto;
+    }
+
+    .metrics {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      min-height: 140px;
+    }
+
+    .chart-card {
+      height: 300px;
+    }
   }
 
-  .chart-card {
-    height: 320px;
-    margin-bottom: 20px;
-  }
-}
+  /* Large Mobile Phones */
+  @media screen and (max-width: 767px) {
+    body {
+      padding: 80px 15px 15px 15px;
+    }
 
-/* Tablets Portrait */
-@media screen and (max-width: 768px) {
-  body {
-    padding: 90px 20px 20px 20px;
-  }
+    .metrics {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
 
-  .main-content {
-    overflow-y: auto;
-  }
+    .card {
+      min-height: 130px;
+      padding: 15px;
+    }
 
-  .metrics {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
+    .chart-card {
+      height: 280px;
+    }
 
-  .card {
-    min-height: 140px;
-  }
-
-  .chart-card {
-    height: 300px;
-  }
-}
-
-/* Large Mobile Phones */
-@media screen and (max-width: 767px) {
-  body {
-    padding: 80px 15px 15px 15px;
+    .content h1 {
+      font-size: 1.5rem;
+    }
   }
 
-  .metrics {
-    grid-template-columns: 1fr;
-    gap: 15px;
+  /* Medium Mobile Phones */
+  @media screen and (max-width: 576px) {
+    body {
+      padding: 70px 12px 12px 12px;
+    }
+
+    .card {
+      min-height: 120px;
+      padding: 12px;
+    }
+
+    .chart-card {
+      height: 250px;
+      padding: 15px;
+    }
+
+    .content h1 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
   }
 
-  .card {
-    min-height: 130px;
-    padding: 15px;
+  /* Small Mobile Phones */
+  @media screen and (max-width: 375px) {
+    body {
+      padding: 60px 10px 10px 10px;
+    }
+
+    .card {
+      min-height: 110px;
+      padding: 10px;
+    }
+
+    .chart-card {
+      height: 220px;
+      padding: 12px;
+    }
+
+    .content h1 {
+      font-size: 1.2rem;
+    }
+
+    .card h2 {
+      font-size: 0.9rem;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+    }
   }
 
-  .chart-card {
-    height: 280px;
+  /* Very Small Mobile Phones */
+  @media screen and (max-width: 320px) {
+    body {
+      padding: 60px 8px 8px 8px;
+    }
+
+    .card {
+      min-height: 100px;
+      padding: 8px;
+    }
+
+    .chart-card {
+      height: 200px;
+      padding: 10px;
+    }
   }
 
-  .content h1 {
-    font-size: 1.5rem;
-  }
-}
+  /* Landscape Mode Optimization */
+  @media screen and (max-height: 500px) and (orientation: landscape) {
+    body {
+      padding: 60px 15px 15px 15px;
+      overflow-y: auto;
+    }
 
-/* Medium Mobile Phones */
-@media screen and (max-width: 576px) {
-  body {
-    padding: 70px 12px 12px 12px;
-  }
+    .metrics {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
 
-  .card {
-    min-height: 120px;
-    padding: 12px;
-  }
+    .card {
+      min-height: 100px;
+    }
 
-  .chart-card {
-    height: 250px;
-    padding: 15px;
-  }
-
-  .content h1 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-}
-
-/* Small Mobile Phones */
-@media screen and (max-width: 375px) {
-  body {
-    padding: 60px 10px 10px 10px;
+    .chart-card {
+      height: 200px;
+    }
   }
 
-  .card {
-    min-height: 110px;
-    padding: 10px;
+  /* Touch Device Optimization */
+  @media (hover: none) and (pointer: coarse) {
+    body {
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .main-content {
+      -webkit-overflow-scrolling: touch;
+    }
   }
 
-  .chart-card {
-    height: 220px;
-    padding: 12px;
-  }
+  /* Print Styles */
+  @media print {
+    body {
+      padding: 20px;
+      background-color: white;
+      overflow: visible;
+    }
 
-  .content h1 {
-    font-size: 1.2rem;
-  }
+    .main-content {
+      overflow: visible;
+      height: auto;
+    }
 
-  .card h2 {
-    font-size: 0.9rem;
+    .card,
+    .chart-card {
+      break-inside: avoid;
+      box-shadow: none;
+      border: 1px solid #ddd;
+    }
   }
-
-  .card p {
-    font-size: 1.1rem;
-  }
-}
-
-/* Very Small Mobile Phones */
-@media screen and (max-width: 320px) {
-  body {
-    padding: 60px 8px 8px 8px;
-  }
-
-  .card {
-    min-height: 100px;
-    padding: 8px;
-  }
-
-  .chart-card {
-    height: 200px;
-    padding: 10px;
-  }
-}
-
-/* Landscape Mode Optimization */
-@media screen and (max-height: 500px) and (orientation: landscape) {
-  body {
-    padding: 60px 15px 15px 15px;
-    overflow-y: auto;
-  }
-
-  .metrics {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-
-  .card {
-    min-height: 100px;
-  }
-
-  .chart-card {
-    height: 200px;
-  }
-}
-
-/* Touch Device Optimization */
-@media (hover: none) and (pointer: coarse) {
-  body {
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .main-content {
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Print Styles */
-@media print {
-  body {
-    padding: 20px;
-    background-color: white;
-    overflow: visible;
-  }
-
-  .main-content {
-    overflow: visible;
-    height: auto;
-  }
-
-  .card,
-  .chart-card {
-    break-inside: avoid;
-    box-shadow: none;
-    border: 1px solid #ddd;
-  }
-}

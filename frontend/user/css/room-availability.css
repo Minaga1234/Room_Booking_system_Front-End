@@ -18,7 +18,7 @@ body {
     margin-left: 300px;
     margin-right: 20px;
     margin-top: 90px;
-    height: calc(100vh - 160px);
+    height: calc(100vh - 110px);
     /* Reduced height */
     display: flex;
     flex-direction: column;
@@ -35,7 +35,7 @@ body {
     box-sizing: border-box;
     flex-grow: 1;
     overflow-y: auto;
-    max-height: calc(100vh - 350px);
+    max-height: calc(100vh -250px);
     /* Added max-height to control container size */
 }
 
