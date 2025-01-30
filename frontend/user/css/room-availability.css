@@ -17,8 +17,8 @@ body {
     padding: 20px;
     margin-left: 300px;
     margin-right: 20px;
-    margin-top: 90px;
-    height: calc(100vh - 110px);
+    margin-top: 70px;
+    height: calc(100vh - 90px);
     /* Reduced height */
     display: flex;
     flex-direction: column;
