@@ -1,14 +1,20 @@
-/* Reset and Base Styles */
+/* 🔹 Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0d1b2a;
+    color: #ffffff;
+}
+
+/* 🔹 Header Section */
 .header-section {
     display: flex;
     justify-content: space-between;
-    /* Space between logo and actions */
     align-items: center;
     position: fixed;
     top: 0;
@@ -16,24 +22,21 @@
     width: 100%;
     height: 70px;
     background-color: #01182a;
-    /* Dark background */
     z-index: 1000;
     padding: 0 20px;
     box-sizing: border-box;
 }
 
+/* 🔹 Logo Section */
 .logo-container {
     display: flex;
     align-items: center;
     gap: 10px;
-    /* Adjust spacing between logo and system title */
     flex-shrink: 0;
-    /* Prevent shrinking */
 }
 
 .logo-wrapper img {
     width: 50px;
-    /* Adjust logo size for responsiveness */
     height: auto;
 }
 
@@ -43,36 +46,33 @@
     color: #ffffff;
     text-align: left;
     white-space: nowrap;
-    /* Prevent text wrapping */
 }
 
+/* 🔹 Header Actions */
 .header-actions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 30px;
-    /* Adjust spacing between actions */
 }
 
 .search-box {
-    width: 90%;
-    max-width: 1200px;
-    padding: 12px 18px;
+    width: 70%;
+    max-width: 1000px;
+    padding: 10px 15px;
     border: none;
-    border-radius: 20px;
+    border-radius: 15px;
     background-color: #2c3e50;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 14px;
     outline: none;
-    display: block;
-    margin: 0 auto; /* Center horizontally */
 }
 
 .search-box::placeholder {
     color: #7f8c8d;
-    font-size: 14px;
 }
 
+/* 🔹 Notification and Profile Icons */
 .notification-wrapper,
 .profile-wrapper {
     position: relative;
@@ -91,32 +91,103 @@
 .notification-icon:hover,
 .user-avatar:hover {
     transform: scale(1.1);
-    /* Enlarge on hover */
 }
 
-/* Notification Popup */
+/* 🔹 Notification Popup Enhancements */
 .notification-popup {
     position: absolute;
     top: 50px;
     right: 0;
-    background-color: #6a6afa;
-    color: #000000;
-    border-radius: 20px;
+    background-color: #1c1c1c; /* Dark background for better contrast */
+    color: #ffffff;
+    border-radius: 10px;
     padding: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-    /* Deeper shadow */
-    border: 2px solid black;
-    /* Black outline */
-    width: 250px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    width: 300px;
     display: none;
-    /* Hidden by default */
+    overflow-y: auto;
+    max-height: 350px;
 }
 
+/* Show popup on hover */
 .notification-wrapper:hover .notification-popup {
     display: block;
 }
 
-/* Profile Popup */
+/* 🔹 Individual Notification Styling */
+.notification-item {
+    background-color: #2a2a2a;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border-left: 4px solid #6a6afa;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Hover Effect */
+.notification-item:hover {
+    background-color: #3a3a3a;
+    transform: scale(1.02);
+}
+
+/* Notification Text */
+.notification-item p {
+    font-size: 14px;
+    margin: 0;
+    flex-grow: 1;
+    color: #ffffff;
+}
+
+/* Timestamp */
+.notification-item small {
+    font-size: 12px;
+    color: #b0b0b0;
+}
+
+/* Unread Notification Highlight */
+.notification-item.unread {
+    font-weight: bold;
+    background-color: #4040ff;
+    border-left-color: #ffcc00;
+}
+
+/* Icons for Notification Type */
+.notification-icon-type {
+    font-size: 18px;
+    color: #ffcc00;
+}
+
+/* Different Icon Colors Based on Type */
+.notification-item[data-type="warning"] .notification-icon-type {
+    color: #ff5722;
+}
+
+.notification-item[data-type="success"] .notification-icon-type {
+    color: #4caf50;
+}
+
+.notification-item[data-type="info"] .notification-icon-type {
+    color: #2196f3;
+}
+
+/* Scrollable Notifications */
+.notification-popup::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notification-popup::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 6px;
+}
+
+.notification-popup::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* 🔹 Profile Popup */
 .profile-popup {
     position: absolute;
     top: 50px;
@@ -128,22 +199,12 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     border: 2px solid black;
     width: 200px;
-    opacity: 0; /* Initially hidden */
-    visibility: hidden; /* Avoid interactions when hidden */
-    transition: opacity 0.5s ease, visibility 0.5s ease; /* Smooth transition */
+    display: none;
 }
 
-/* When hovering over the wrapper, display the popup */
 .profile-wrapper:hover .profile-popup {
-    opacity: 1; /* Fully visible */
-    visibility: visible;
+    display: block;
 }
-
-/* Smooth exit effect when leaving the wrapper */
-.profile-wrapper {
-    position: relative;
-}
-
 
 .profile-popup a {
     display: flex;
@@ -154,33 +215,29 @@
     margin: 10px 0;
     padding: 5px 10px;
     border-radius: 5px;
-    transition: background-color 0.7s ease;
+    transition: background-color 0.3s ease;
 }
 
 .profile-popup a i {
     margin-right: 10px;
-    /* Space between the icon and text */
     font-size: 18px;
-    /* Icon size */
 }
 
 .profile-popup a:hover {
     background-color: #6a6afa;
 }
 
-/* Responsive Design */
+/* 🔹 Responsive Design */
 
 /* Tablet Screens */
 @media (max-width: 1024px) {
     .header-section {
         height: 60px;
-        /* Reduce height */
         padding: 0 15px;
     }
 
     .system-title {
         font-size: 13px;
-        /* Adjust font size */
         max-width: 150px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -190,14 +247,12 @@
     .search-box {
         display: block;
         width: 60%;
-        /* Reduce search bar width */
         max-width: 600px;
     }
 
     .notification-icon,
     .user-avatar {
         width: 35px;
-        /* Adjust icon size */
         height: 35px;
     }
 }
@@ -217,22 +272,23 @@
 
     .header-actions {
         width: auto;
-        /* Adjust width */
         justify-content: flex-end;
         gap: 15px;
-        /* Reduce spacing */
     }
 
     .search-box {
         display: none;
-        /* Hide search bar */
     }
 
     .notification-icon,
     .user-avatar {
         width: 30px;
-        /* Adjust icon size */
         height: 30px;
+    }
+
+    .notification-popup {
+        width: 280px;
+        right: -10px;
     }
 }
 
@@ -240,13 +296,11 @@
 @media (max-width: 480px) {
     .logo-wrapper img {
         width: 40px;
-        /* Adjust logo size */
     }
 
     .notification-icon,
     .user-avatar {
         width: 25px;
-        /* Adjust icon size */
         height: 25px;
     }
 
@@ -254,5 +308,10 @@
         flex-direction: row;
         align-items: center;
         gap: 10px;
+    }
+
+    .notification-popup {
+        width: 250px;
+        right: -5px;
     }
 }

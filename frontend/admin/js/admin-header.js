@@ -1,28 +1,54 @@
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Header script loaded");
+window.onload = function () {
+    console.log("✅ Header script loaded");
 
-    // Notification Wrapper
+    // ⏳ Wait until `.notification-wrapper` is found before running script
+    let waitForElement = setInterval(() => {
+        const notificationWrapper = document.querySelector(".notification-wrapper");
+        if (notificationWrapper) {
+            console.log("✅ Found notification-wrapper:", notificationWrapper);
+            clearInterval(waitForElement); // Stop checking once found
+            initializeHeaderScripts(); // Run the main function
+        } else {
+            console.log("⏳ Waiting for notification-wrapper...");
+        }
+    }, 500); // Check every 500ms
+};
+
+function initializeHeaderScripts() {
+    console.log("🚀 Initializing Header Scripts...");
+
+    // Select elements again now that they are guaranteed to exist
     const notificationWrapper = document.querySelector(".notification-wrapper");
-    const notificationPopup = notificationWrapper?.querySelector(".notification-popup");
-
-    // Profile Wrapper
+    const notificationPopup = document.querySelector(".notification-popup");
+    const notificationIcon = document.querySelector(".notification-icon");
     const profileWrapper = document.querySelector(".profile-wrapper");
-    const profilePopup = profileWrapper?.querySelector(".profile-popup");
-
-    // Search Box
+    const profilePopup = document.querySelector(".profile-popup");
     const searchBox = document.querySelector(".search-box");
 
-    // Fetch notifications from the backend 
+    console.log("🔍 Checking Elements:");
+    console.log("notificationWrapper:", notificationWrapper);
+    console.log("notificationPopup:", notificationPopup);
+    console.log("notificationIcon:", notificationIcon);
+    console.log("profileWrapper:", profileWrapper);
+    console.log("profilePopup:", profilePopup);
+
+    if (!notificationPopup) {
+        console.error("❌ Notification popup element not found.");
+        return;
+    }
+
+    // ✅ Function to fetch notifications from Django backend
     const fetchNotificationsFromBackend = async () => {
-        console.log("Fetching notifications...");
+        console.log("🔄 Fetching notifications...");
         try {
-            const authToken = localStorage.getItem("authToken");
+            const authToken = localStorage.getItem("accessToken");
+
             if (!authToken) {
-                console.error("Authentication token not found");
+                console.error("❌ Authentication token not found.");
                 return [];
             }
 
-            const response = await fetch("http://127.0.0.1:8000/notifications/", {
+            const response = await fetch("http://127.0.0.1:8000/api/notifications/notifications/", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${authToken}`,
@@ -30,64 +56,97 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
             });
 
-            console.log("Fetch response status:", response.status);
-
             if (!response.ok) {
-                throw new Error(`Failed to fetch notifications: ${response.statusText}`);
+                throw new Error(`❌ Failed to fetch notifications: ${response.statusText}`);
             }
 
             const data = await response.json();
-            console.log("Fetched notifications:", data);
-            return data;
+            console.log("✅ Full API Response:", data);
+
+            // ✅ Ensure correct data extraction
+            if (data.notifications && Array.isArray(data.notifications)) {
+                console.log("✅ Extracted Notifications:", data.notifications);
+                return data.notifications;
+            } else {
+                console.error("❌ No 'notifications' key in API response. Check Django.");
+                return [];
+            }
         } catch (error) {
-            console.error("Error fetching notifications:", error);
+            console.error("❌ Error fetching notifications:", error);
             return [];
         }
     };
 
-    // Render notifications dynamically
+    // ✅ Function to render last 5 notifications sorted by newest first
     const renderNotifications = async () => {
-        if (!notificationPopup) return;
+        console.log("🔄 Rendering notifications...");
+        notificationPopup.innerHTML = ""; // Clear previous notifications
 
         const notifications = await fetchNotificationsFromBackend();
-        console.log("Rendering notifications:", notifications);
+        console.log("📌 Notifications to display (Before Sorting):", notifications);
 
-        if (notifications.length > 0) {
-            notificationPopup.innerHTML = ""; // Clear previous notifications
-            notifications.forEach((notification) => {
-                const notificationItem = document.createElement("div");
-                notificationItem.classList.add("notification-item");
-                notificationItem.innerHTML = `
-                    <h4>${notification.title || "Notification"}</h4>
-                    <p>${notification.message || "No details available."}</p>
-                    <button onclick="location.href='${notification.link || "#"}'">View</button>
-                `;
-                notificationPopup.appendChild(notificationItem);
-            });
-        } else {
+        if (!Array.isArray(notifications) || notifications.length === 0) {
             notificationPopup.innerHTML = `
                 <div class="notification-content">
                     <i class="fas fa-bell-slash"></i>
                     <p>No new notifications</p>
                 </div>
             `;
+            notificationIcon.classList.remove("has-new-notifications"); // Remove red dot
+            return;
         }
-    };
 
-    // Handle Notification Popup Visibility
-    if (notificationWrapper && notificationPopup) {
-        notificationWrapper.addEventListener("mouseenter", () => {
-            notificationPopup.style.display = "block";
-            renderNotifications(); // Fetch and render notifications when popup is opened
+        // ✅ Sort notifications by created_at (latest first)
+        notifications.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        console.log("📌 Notifications to display (After Sorting):", notifications);
+
+        // ✅ Display only the last 5 notifications
+        const latestNotifications = notifications.slice(0, 5);
+
+        latestNotifications.forEach((notification, index) => {
+            console.log(`🔔 Notification ${index + 1}:`, notification);
+
+            const notificationItem = document.createElement("div");
+            notificationItem.classList.add("notification-item");
+
+            // Ensure correct data extraction
+            const message = notification.message || "No details available.";
+            const timestamp = new Date(notification.created_at).toLocaleString();
+            const isRead = notification.is_read ? "read" : "unread";
+
+            notificationItem.innerHTML = `
+                <div class="notification-item ${isRead}">
+                    <p>${message}</p>
+                    <small>${timestamp}</small>
+                </div>
+            `;
+            notificationPopup.appendChild(notificationItem);
         });
 
-        notificationWrapper.addEventListener("mouseleave", () => {
-            notificationPopup.style.display = "none";
+        notificationIcon.classList.add("has-new-notifications"); // Add red dot to bell icon
+    };
+
+    // ✅ Handle Notification Popup Visibility
+    if (notificationWrapper) {
+        notificationWrapper.addEventListener("click", () => {
+            const isVisible = notificationPopup.style.display === "block";
+            notificationPopup.style.display = isVisible ? "none" : "block";
+
+            // Fetch and render notifications when opened
+            if (!isVisible) renderNotifications();
+        });
+
+        // Close popup when clicking outside
+        document.addEventListener("click", (event) => {
+            if (!notificationWrapper.contains(event.target)) {
+                notificationPopup.style.display = "none";
+            }
         });
     }
 
-    // Handle Profile Popup
-    if (profileWrapper && profilePopup) {
+    // ✅ Handle Profile Popup
+    if (profileWrapper) {
         profileWrapper.addEventListener("click", () => {
             profilePopup.classList.toggle("visible");
         });
@@ -100,48 +159,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Dynamic Search Bar Behavior
+    // ✅ Search Functionality
     if (searchBox) {
         searchBox.addEventListener("input", (event) => {
             const query = event.target.value.trim();
-            console.log(`User searching for: ${query}`);
-            // Add search functionality as needed
+            console.log(`🔍 User searching for: ${query}`);
         });
     }
 
-    // Simulate periodic updates to notifications
-    if (notificationPopup) {
-        setInterval(renderNotifications, 30000); // Update every 30 seconds
-    }
+    // ✅ Periodic Notification Updates (Every 30 seconds)
+    setInterval(renderNotifications, 30000);
 
-    // Profile Popup Hover Logic
-    let hideTimeout; // Timeout reference to delay hiding
-
-    if (profileWrapper && profilePopup) {
-        // Show the popup when hovering over the profile wrapper
-        profileWrapper.addEventListener("mouseenter", () => {
-            clearTimeout(hideTimeout); // Clear any existing timeout
-            profilePopup.style.display = "block"; // Show the popup
-        });
-
-        // Hide the popup with a delay when leaving the profile wrapper
-        profileWrapper.addEventListener("mouseleave", () => {
-            hideTimeout = setTimeout(() => {
-                profilePopup.style.display = "none"; // Hide the popup
-            }, 500); // 0.5 second delay
-        });
-
-        // Keep the popup visible when hovering over the popup itself
-        profilePopup.addEventListener("mouseenter", () => {
-            clearTimeout(hideTimeout); // Clear any existing timeout
-            profilePopup.style.display = "block"; // Keep the popup visible
-        });
-
-        // Hide the popup with a delay when leaving the popup
-        profilePopup.addEventListener("mouseleave", () => {
-            hideTimeout = setTimeout(() => {
-                profilePopup.style.display = "none"; // Hide the popup
-            }, 500); // 0.5 second delay
-        });
-    }
-});
+    // ✅ Initial Notification Fetch on Page Load
+    renderNotifications();
+}
