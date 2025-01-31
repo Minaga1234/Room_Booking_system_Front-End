@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings</title>
+    <link rel="stylesheet" href="../shared/css/sidebar.css"> <!-- Shared Sidebar CSS -->
+    <link rel="stylesheet" href="../shared/css/header.css"> <!-- Shared Header CSS -->
+    <link rel="stylesheet" href="./css/account-settings.css"> <!-- Page-specific CSS -->
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div id="header-container"></div>
+        </header>
+
+        <!-- Sidebar Section -->
+        <aside class="sidebar">
+            <div id="sidebar-container"></div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Account Settings Section -->
+            <section class="account-settings-section" id="account-settings">
+                <h1>Account Settings</h1>
+                <form id="account-settings-form">
+                    <label for="old-password">Old Password</label>
+                    <input type="password" id="old-password" name="old_password" required>
+
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" name="new_password" required>
+
+                    <button type="submit" id="update-account-btn">Update Password</button>
+                    <button type="button" id="deactivate-account-btn" class="danger-btn">Deactivate Account</button>
+                </form>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- Shared JavaScript -->
+    <script src="../shared/js/sidebar.js"></script>
+    <script src="../shared/js/header.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script src="./js/account-settings.js"></script>
+
+    <script>
+        // Dynamically load the shared header
+        fetch("../shared/header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading header:", error));
+
+        // Dynamically load the shared sidebar
+        fetch("../shared/navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("sidebar-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading sidebar:", error));
+    </script>
+</body>
+
+</html>

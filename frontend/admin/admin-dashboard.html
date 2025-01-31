@@ -24,11 +24,12 @@
     <main class="dashboard-main">
       <!-- Booking Schedule -->
       <div class="widget booking-schedule">
-        <h2>Booking Schedule</h2>
+        <h2>Today Booking Schedule</h2>
         <div class="booking-list" id="booking-list">
-          <!-- Dynamic content will be loaded here -->
+          <!-- Recent bookings and "View All Bookings" link will be dynamically injected here -->
         </div>
       </div>
+      
 
       <!-- Newly Added Rooms -->
       <div class="widget newly-added-rooms">
@@ -46,6 +47,12 @@
         </div>
       </div>
 
+      <div class="note-section">
+    <p>Manage and control user accounts, roles, and access permissions to ensure smooth system operations and secure access.</p>
+    <button onclick="location.href='manage-users.html';">Manage Users</button>
+</div>
+
+
       <!-- Number of Penalties -->
       <div class="widget penalties-today">
         <h2>Number of Penalties Today</h2>
@@ -54,26 +61,63 @@
     </main>
   </div>
 
+
   <!-- Scripts -->
   <script src="./js/admin-dashboard.js"></script>
   <script src="./js/admin-header.js" defer></script>
 
   <script>
-    // Dynamically load header
-    fetch("./header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header-container").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading header:", error));
+    /**
+     * Dynamically load the header and sidebar
+     */
+    const loadHeaderAndSidebar = async () => {
+      try {
+        // Load header
+        const headerResponse = await fetch("./header.html");
+        if (!headerResponse.ok) {
+          throw new Error(`Failed to load header: ${headerResponse.statusText}`);
+        }
+        const headerHTML = await headerResponse.text();
+        document.getElementById("header-container").innerHTML = headerHTML;
 
-    // Dynamically load sidebar
-    fetch("./navbar.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("sidebar-container").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading sidebar:", error));
+        // Load sidebar
+        const sidebarResponse = await fetch("./navbar.html");
+        if (!sidebarResponse.ok) {
+          throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
+        }
+        const sidebarHTML = await sidebarResponse.text();
+        document.getElementById("sidebar-container").innerHTML = sidebarHTML;
+
+        // Highlight the active nav link
+        highlightActiveNavLink();
+      } catch (error) {
+        console.error("Error loading header or sidebar:", error);
+      }
+    };
+
+    /**
+     * Highlight the active nav link based on the current URL
+     */
+    const highlightActiveNavLink = () => {
+      const currentPage = window.location.pathname.split("/").pop(); // Get the current page
+      const navLinks = document.querySelectorAll(".nav-links a");
+
+      navLinks.forEach((link) => {
+        const linkHref = link.getAttribute("href");
+        const parentLi = link.parentElement;
+ 
+        if (currentPage === linkHref) {
+          parentLi.classList.add("active"); // Add 'active' class to the matching link
+        } else {
+          parentLi.classList.remove("active"); // Remove 'active' class from non-matching links
+        }
+      });
+    };
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+      loadHeaderAndSidebar();
+    });
   </script>
 </body>
 

@@ -1,155 +1,169 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Initialize the Chart
-  const initializeChart = () => {
-      const ctx = document.getElementById("weekly-trends-chart").getContext("2d");
+document.addEventListener("DOMContentLoaded", async () => {
+    const BASE_URL = "http://127.0.0.1:8000";
+    const ANALYTICS_URL = `${BASE_URL}/analytics/transformed-analytics/`;
+    const ROOMS_URL = `${BASE_URL}/api/rooms/`;
+    const ACTIVE_USERS_URL = `${BASE_URL}/api/bookings/active-users/`;
 
-      return new Chart(ctx, {
-          type: "line",
-          data: {
-              labels: [], // Dynamic labels
-              datasets: [
-                  {
-                      label: "Bookings",
-                      data: [], // Dynamic data
-                      backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
-                      borderColor: "#FF6600", // Orange line
-                      borderWidth: 2,
-                      fill: true,
-                      tension: 0.4,
-                  },
-                  {
-                      label: "Utilization (%)",
-                      data: [], // Dynamic data
-                      backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
-                      borderColor: "#5DA4DC", // Blue line
-                      borderWidth: 2,
-                      fill: true,
-                      tension: 0.4,
-                  },
-              ],
-          },
-          options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                  legend: {
-                      display: true,
-                  },
-              },
-              scales: {
-                  y: {
-                      title: {
-                          display: true,
-                          text: "Values",
-                      },
-                      min: 0,
-                      max: 100,
-                  },
-                  x: {
-                      title: {
-                          display: true,
-                          text: "Rooms",
-                      },
-                  },
-              },
-          },
-      });
-  };
+    // === Fetch Transformed Analytics Data ===
+    const fetchAnalyticsData = async () => {
+        try {
+            const response = await fetch(ANALYTICS_URL);
+            if (!response.ok) throw new Error("Failed to fetch analytics data");
+            return await response.json();
+        } catch (error) {
+            console.error("Error fetching analytics data:", error);
+            return {};
+        }
+    };
 
-  // Fetch Room Data
-  const fetchRoomData = async () => {
-      try {
-          const response = await fetch("http://127.0.0.1:8000/api/rooms/");
-          if (!response.ok) {
-              throw new Error(`Failed to fetch room data: ${response.status}`);
-          }
-          const rooms = await response.json();
-          const roomMapping = {};
-          rooms.forEach((room) => {
-              roomMapping[room.id] = room.name;
-          });
-          return roomMapping;
-      } catch (error) {
-          console.error("Error fetching room data:", error);
-          return {};
-      }
-  };
+    // === Fetch Room Data ===
+    const fetchRoomData = async () => {
+        try {
+            const response = await fetch(ROOMS_URL);
+            if (!response.ok) throw new Error("Failed to fetch room data");
+            const rooms = await response.json();
+            const roomMapping = {};
+            rooms.forEach((room) => {
+                roomMapping[room.id] = room.name;
+            });
+            return roomMapping;
+        } catch (error) {
+            console.error("Error fetching room data:", error);
+            return {};
+        }
+    };
 
-  // Fetch Analytics Data
-  const fetchAnalyticsData = async () => {
-      try {
-          const response = await fetch("http://127.0.0.1:8000/analytics/");
-          if (!response.ok) {
-              throw new Error(`Failed to fetch analytics data: ${response.status}`);
-          }
-          return await response.json();
-      } catch (error) {
-          console.error("Error fetching analytics data:", error);
-          return [];
-      }
-  };
+    // === Fetch Active Users Data ===
+    const fetchActiveUsers = async () => {
+        try {
+            const response = await fetch(ACTIVE_USERS_URL);
+            if (!response.ok) {
+                throw new Error("Failed to fetch active users data");
+            }
+            const data = await response.json();
+            return data.active_users;
+        } catch (error) {
+            console.error("Error fetching active users:", error);
+            return 0;
+        }
+    };
 
-  // Update Chart
-  const updateChart = async (chart) => {
-      const [analyticsData, roomMapping] = await Promise.all([
-          fetchAnalyticsData(),
-          fetchRoomData(),
-      ]);
+    // === Initialize Chart ===
+    const initializeChart = () => {
+        const ctx = document.getElementById("weekly-trends-chart").getContext("2d");
+        return new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: "#FFFFFF",
+                        },
+                    },
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Values",
+                            color: "#FFFFFF",
+                        },
+                        ticks: {
+                            color: "#FFFFFF",
+                        },
+                        grid: {
+                            color: "rgba(255, 255, 255, 0.1)",
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Dates",
+                            color: "#FFFFFF",
+                        },
+                        ticks: {
+                            color: "#FFFFFF",
+                        },
+                        grid: {
+                            color: "rgba(255, 255, 255, 0.1)",
+                        },
+                    },
+                },
+            },
+        });
+    };
 
-      if (!analyticsData || analyticsData.length === 0) {
-          console.warn("No analytics data available.");
-          return;
-      }
+    // === Get Random Color ===
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
 
-      const rooms = [];
-      const bookings = [];
-      const utilizationRates = [];
+    // === Update Chart ===
+    const updateChart = async (chart) => {
+        const data = await fetchAnalyticsData();
+        if (!data || !data.dates || !data.data) {
+            console.warn("No analytics data available.");
+            return;
+        }
 
-      analyticsData.forEach((entry) => {
-          const roomName = roomMapping[entry.room] || `Room ${entry.room}`;
-          rooms.push(roomName); // Use actual room name
-          bookings.push(entry.total_bookings);
-          utilizationRates.push(entry.utilization_rate);
-      });
+        const labels = data.dates;
+        const datasets = Object.keys(data.data).map((room) => ({
+            label: room,
+            data: data.data[room].bookings,
+            borderColor: getRandomColor(),
+            fill: false,
+            tension: 0.4,
+        }));
 
-      chart.data.labels = rooms;
-      chart.data.datasets[0].data = bookings;
-      chart.data.datasets[1].data = utilizationRates;
-      chart.update();
-  };
+        chart.data.labels = labels;
+        chart.data.datasets = datasets;
+        chart.update();
+    };
 
-  // Update Metrics
-  const updateMetrics = async () => {
-      const [analyticsData, roomMapping] = await Promise.all([
-          fetchAnalyticsData(),
-          fetchRoomData(),
-      ]);
+    // === Update Metrics ===
+    const updateMetrics = async () => {
+        const [analyticsData, roomMapping, activeUsers] = await Promise.all([
+            fetchAnalyticsData(),
+            fetchRoomData(),
+            fetchActiveUsers(),
+        ]);
 
-      if (!analyticsData || analyticsData.length === 0) {
-          console.warn("No analytics data available.");
-          return;
-      }
+        if (!analyticsData || !analyticsData.data) {
+            console.warn("No analytics data available.");
+            return;
+        }
 
-      const totalBookings = analyticsData.reduce((sum, entry) => sum + entry.total_bookings, 0);
-      const mostBookedRoom = analyticsData.reduce(
-          (max, entry) => (entry.total_bookings > max.total_bookings ? entry : max),
-          analyticsData[0]
-      );
+        let totalBookings = 0;
+        let mostBookedRoom = { name: "", bookings: 0 };
 
-      const activeUsers = analyticsData.filter(
-          (entry) =>
-              entry.total_checkins > 0 && entry.utilization_rate > 0
-      ).length;
+        Object.entries(analyticsData.data).forEach(([roomName, roomData]) => {
+            const roomBookings = roomData.bookings.reduce((sum, count) => sum + count, 0);
+            totalBookings += roomBookings;
 
-      const mostBookedRoomName = roomMapping[mostBookedRoom.room] || `Room ${mostBookedRoom.room}`;
+            if (roomBookings > mostBookedRoom.bookings) {
+                mostBookedRoom = { name: roomName, bookings: roomBookings };
+            }
+        });
 
-      document.getElementById("total-bookings").textContent = totalBookings;
-      document.getElementById("most-booked-room").textContent = mostBookedRoomName;
-      document.getElementById("active-users").textContent = activeUsers;
-  };
+        document.getElementById("total-bookings").textContent = totalBookings;
+        document.getElementById("most-booked-room").textContent = mostBookedRoom.name || "N/A";
+        document.getElementById("active-users").textContent = activeUsers;
+    };
 
-  // Initialize and Update
-  const chart = initializeChart();
-  updateChart(chart);
-  updateMetrics();
+    // === Initialize and Update Chart ===
+    const chart = initializeChart();
+    await updateChart(chart);
+    await updateMetrics();
 });

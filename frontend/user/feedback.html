@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Feedback</title>
+    <link rel="stylesheet" href="./css/feedback.css">
+    <link rel="stylesheet" href="../shared/css/sidebar.css">
+    <link rel="stylesheet" href="../shared/css/header.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <div id="header-container"></div>
+        </header>
+
+        <aside>
+            <div id="sidebar-container"></div>
+        </aside>
+
+        <main class="main-content">
+            <div class="feedback-container">
+                <h2><i class="fas fa-comment-dots"></i> Submit Your Feedback</h2>
+                <form id="feedback-form">
+                    <div class="form-group">
+                        <label for="field-of-study">
+                            <i class="fas fa-graduation-cap"></i> Field of Study
+                        </label>
+                        <select id="field-of-study" name="fieldOfStudy" required>
+                            <option value="" disabled selected>Choose your field</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Business">Business</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="room">
+                            <i class="fas fa-door-open"></i> Room (if applicable)
+                        </label>
+                        <select id="room" name="room">
+                            <option value="" disabled selected>Loading rooms...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedback">
+                            <i class="fas fa-pencil-alt"></i> Your Feedback
+                        </label>
+                        <textarea id="feedback" name="content" rows="5"
+                            placeholder="Share your thoughts, suggestions, or concerns..." required></textarea>
+                        <div class="char-counter">
+                            <span id="char-count">0</span>/500 characters
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rating">
+                            <i class="fas fa-star"></i> Rating
+                        </label>
+                        <div class="rating-container">
+                            <div class="star-rating">
+                                <i class="far fa-star" data-rating="1"></i>
+                                <i class="far fa-star" data-rating="2"></i>
+                                <i class="far fa-star" data-rating="3"></i>
+                                <i class="far fa-star" data-rating="4"></i>
+                                <i class="far fa-star" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="rating" name="rating" required>
+                        </div>
+                    </div>
+
+                    <button id="submit-feedback" class="styled-button" type="submit">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Submit Feedback</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="note-container">
+                <h3><i class="fas fa-info-circle"></i> Note</h3>
+                <p>
+                    We value your feedback and use it to continuously improve our room booking system.
+                    Your insights help us enhance the experience for everyone. Thank you for taking
+                    the time to share your thoughts!
+                </p>
+            </div>
+
+            <!-- Success Modal -->
+            <div id="success-modal" class="modal">
+                <div class="modal-content">
+                    <i class="fas fa-check-circle success-icon"></i>
+                    <h3>Thank You!</h3>
+                    <p>Your feedback has been submitted successfully.</p>
+                    <button class="styled-button" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+
+            <!-- Error Modal -->
+            <div id="error-modal" class="modal">
+                <div class="modal-content">
+                    <i class="fas fa-exclamation-circle error-icon"></i>
+                    <h3>Oops!</h3>
+                    <p>Something went wrong. Please try again.</p>
+                    <button class="styled-button" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="./js/feedback.js" defer></script>
+    <script src="../shared/js/sidebar.js" defer></script>
+    <script src="../shared/js/header.js" defer></script>
+    <script>
+        // Dynamically load the header
+        fetch("../shared/header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading header:", error));
+
+        // Dynamically load the sidebar
+        fetch("../shared/navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("sidebar-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading sidebar:", error));
+    </script>
+</body>
+
+</html>

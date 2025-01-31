@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const API_BASE_URL = "http://127.0.0.1:8000/analytics/";
   const ROOMS_API_URL = "http://127.0.0.1:8000/api/rooms/";
-  const ADMIN_BOOKINGS_URL = "/api/admin/bookings/";
-  const ADMIN_PENALTIES_URL = "/api/admin/penalties/";
-  const NEW_ROOMS_LIMIT = 5; // Limit for newly added rooms to display
+  const ADMIN_BOOKINGS_URL = "http://127.0.0.1:8000/api/bookings/admin/bookings/";
+  const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/";
+  const NEW_ROOMS_LIMIT = 5;
 
   // Fetch Room Data
   const fetchRoomData = async () => {
@@ -27,14 +27,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Fetch Analytics Data
   const fetchAnalyticsData = async () => {
     try {
-      const response = await fetch(API_BASE_URL);
+      const response = await fetch(API_BASE_URL + "transformed-analytics/");
       if (!response.ok) {
         throw new Error(`Failed to fetch analytics data: ${response.status}`);
       }
       return await response.json();
     } catch (error) {
       console.error("Error fetching analytics data:", error);
-      return [];
+      return {};
     }
   };
 
@@ -44,27 +44,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return new Chart(ctx, {
       type: "line",
       data: {
-        labels: [], // Dynamic labels
-        datasets: [
-          {
-            label: "Bookings",
-            data: [], // Dynamic data
-            backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
-            borderColor: "#FF6600", // Orange line
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-          },
-          {
-            label: "Check-ins",
-            data: [], // Dynamic data
-            backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
-            borderColor: "#5DA4DC", // Blue line
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-          },
-        ],
+        labels: [],
+        datasets: [],
       },
       options: {
         responsive: true,
@@ -92,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           x: {
             title: {
               display: true,
-              text: "Rooms",
+              text: "Dates",
               color: "#000",
             },
             ticks: {
@@ -104,54 +85,92 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   };
 
+  // Generate Random Colors for Datasets
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   // Update the Chart
-  const updateChart = async (chart, roomMapping) => {
+  const updateChart = async (chart) => {
     const analyticsData = await fetchAnalyticsData();
-    if (!analyticsData || analyticsData.length === 0) {
+    if (!analyticsData || !analyticsData.dates || !analyticsData.data) {
       console.warn("No analytics data available.");
       return;
     }
 
-    const rooms = analyticsData.map((entry) => roomMapping[entry.room] || `Room ${entry.room}`);
-    const bookings = analyticsData.map((entry) => entry.total_bookings);
-    const utilizationRates = analyticsData.map((entry) => entry.utilization_rate || 0);
+    const labels = analyticsData.dates;
+    const datasets = Object.keys(analyticsData.data).map((room) => ({
+      label: room,
+      data: analyticsData.data[room].bookings,
+      borderColor: getRandomColor(),
+      fill: false,
+      tension: 0.4,
+    }));
 
-    chart.data.labels = rooms;
-    chart.data.datasets[0].data = bookings;
-    chart.data.datasets[1].data = utilizationRates;
+    chart.data.labels = labels;
+    chart.data.datasets = datasets;
     chart.update();
   };
 
-  // Update Booking Schedule
   const updateBookingSchedule = async () => {
     const bookingListContainer = document.querySelector(".booking-list");
     try {
-      const bookings = await fetch(ADMIN_BOOKINGS_URL).then((res) => res.json());
-      const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+      const response = await fetch(ADMIN_BOOKINGS_URL);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch bookings: ${response.status}`);
+      }
+      const bookings = await response.json();
 
-      const todayBookings = bookings.filter((booking) => booking.startTime.startsWith(today));
-
-      if (todayBookings.length === 0) {
-        bookingListContainer.innerHTML = "<p>No bookings scheduled for today.</p>";
+      if (bookings.length === 0) {
+        bookingListContainer.innerHTML = "<p>No bookings available.</p>";
         return;
       }
 
-      bookingListContainer.innerHTML = todayBookings
-        .map(
-          (booking) => `
+      // Display recent bookings
+      const recentBookings = bookings.slice(0, 5);
+
+      bookingListContainer.innerHTML = recentBookings
+        .map((booking) => {
+          const roomName = booking.room_name || "Room N/A";
+          const status = booking.status || "Unknown";
+
+          const startTime = booking.start_time ? new Date(booking.start_time) : null;
+          const endTime = booking.end_time ? new Date(booking.end_time) : null;
+
+          const startTimeStr = startTime
+            ? startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+            : "Invalid Date";
+          const endTimeStr = endTime
+            ? endTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+            : "Invalid Date";
+
+          return `
             <div class="booking-item">
-              <p><strong>${booking.roomName}</strong> - ${booking.status}</p>
-              <p>From ${new Date(booking.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 
-              to ${new Date(booking.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-              <p>By ${booking.bookedBy} (${booking.userRole})</p>
-              <button class="view-booking-btn" onclick="location.href='/admin/bookings/${booking.id}'">View Booking Info</button>
+              <p><strong>${roomName}</strong> - ${status}</p>
+              <p>${startTimeStr} - ${endTimeStr}</p>
             </div>
-          `
-        )
+          `;
+        })
         .join("");
+
+      bookingListContainer.innerHTML += `
+        <div class="view-all-link">
+          <a href="http://127.0.0.1:5500/frontend/admin/admin-bookings.html" class="view-all-btn">View All Bookings</a>
+        </div>
+      `;
     } catch (error) {
       console.error("Error updating booking schedule:", error);
-      bookingListContainer.innerHTML = "<p>Failed to load booking schedule.</p>";
+      bookingListContainer.innerHTML = `
+        <p>Failed to load booking schedule.</p>
+        <div class="view-all-link">
+          <a href="http://127.0.0.1:5500/frontend/admin/admin-bookings.html" class="view-all-btn">View All Bookings</a>
+        </div>
+      `;
     }
   };
 
@@ -167,25 +186,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
-  // Fetch Newly Added Rooms
-  const fetchNewlyAddedRooms = async () => {
+  // Update Newly Added Rooms Section
+  const updateNewlyAddedRooms = async () => {
+    const newlyAddedRoomsContainer = document.querySelector("#new-rooms-list");
     try {
       const response = await fetch(`${ROOMS_API_URL}?limit=${NEW_ROOMS_LIMIT}`);
       if (!response.ok) {
         throw new Error(`Failed to fetch room data: ${response.status}`);
       }
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching newly added rooms:", error);
-      return [];
-    }
-  };
-
-  // Update Newly Added Rooms Section
-  const updateNewlyAddedRooms = async () => {
-    const newlyAddedRoomsContainer = document.querySelector("#new-rooms-list");
-    try {
-      const rooms = await fetchNewlyAddedRooms();
+      const rooms = await response.json();
 
       if (!rooms.length) {
         newlyAddedRoomsContainer.innerHTML = "<p>No newly added rooms available.</p>";
@@ -223,7 +232,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Initialize and Update the Traffic Chart
     const chart = initializeChart();
-    await updateChart(chart, roomMapping);
+    await updateChart(chart);
 
     // Update Newly Added Rooms Section
     await updateNewlyAddedRooms();

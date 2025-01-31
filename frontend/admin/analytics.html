@@ -1,44 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Dashboard</title>
     <link rel="stylesheet" href="./css/analytics.css">
+    <link rel="stylesheet" href="./css/admin-header.css">
+    <link rel="stylesheet" href="./css/admin-navbar.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <div class="content">
-        <!-- Metrics Section -->
-        <div class="metrics">
-            <div class="card">
-                <h2>Total Bookings</h2>
-                <p id="total-bookings">Loading...</p>
-            </div>
-            <div class="card">
-                <h2>Most Booked Room</h2>
-                <p id="most-booked-room">Loading...</p>
-            </div>
-            <div class="card">
-                <h2>Active Users</h2>
-                <p id="active-users">Loading...</p>
-            </div>
-            <!-- Export Button Styled as a Card -->
-            <div class="export-button">
-                <h2>Export Data</h2>
-            </div>
-        </div>
 
-        <!-- Chart Section -->
-        <div class="chart-card">
-            <h2>Weekly Booking Trends</h2>
-            <div class="chart-container">
-                <canvas id="weekly-trends-chart"></canvas>
+<body>
+    <!-- Admin Header -->
+    <div id="header-container"></div>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <!-- Admin Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Content Section -->
+        <main class="content">
+            
+
+            <!-- Metrics Section -->
+            <div class="metrics">
+                <div class="card">
+                    <h2>Total Bookings</h2>
+                    <p id="total-bookings">Loading...</p>
+                </div>
+                <div class="card">
+                    <h2>Most Booked Room</h2>
+                    <p id="most-booked-room">Loading...</p>
+                </div>
+                <div class="card">
+                    <h2>Active Users</h2>
+                    <p id="active-users">Loading...</p>
+                </div>
+                <!-- Export Button Styled as a Card -->
+                <div class="export-button">
+                    <h2>Export Data</h2>
+                </div>
             </div>
-        </div>
+
+            <!-- Chart Section -->
+            <div class="chart-card">
+                <h2>Weekly Booking Trends</h2>
+                <div class="chart-container">
+                    <canvas id="weekly-trends-chart"></canvas>
+                </div>
+            </div>
+        </main>
     </div>
+    
 
     <!-- Scripts -->
     <script src="./js/analytics.js"></script>
+    <script src="./js/admin-header.js" defer></script>
+    <script src="./js/admin-navbar.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Load the admin header and navbar dynamically
+            const loadHeaderAndSidebar = async () => {
+                try {
+                    // Load the admin header
+                    const headerResponse = await fetch("./header.html");
+                    if (!headerResponse.ok) {
+                        throw new Error(`Failed to load header: ${headerResponse.statusText}`);
+                    }
+                    const headerHTML = await headerResponse.text();
+                    document.getElementById("header-container").innerHTML = headerHTML;
+
+                    // Load the admin navbar
+                    const sidebarResponse = await fetch("./navbar.html");
+                    if (!sidebarResponse.ok) {
+                        throw new Error(`Failed to load navbar: ${sidebarResponse.statusText}`);
+                    }
+                    const sidebarHTML = await sidebarResponse.text();
+                    document.getElementById("sidebar-container").innerHTML = sidebarHTML;
+
+                    // Highlight the active nav link
+                    highlightActiveLink();
+
+                    console.log("Admin header and sidebar loaded successfully.");
+                } catch (error) {
+                    console.error("Error loading header or sidebar:", error);
+                }
+            };
+
+            // Function to highlight the active nav link
+            const highlightActiveLink = () => {
+                const currentPage = window.location.pathname.split("/").pop(); // Get current page name
+                const navLinks = document.querySelectorAll(".nav-links a");
+
+                navLinks.forEach((link) => {
+                    const linkHref = link.getAttribute("href");
+                    const parentLi = link.parentElement;
+
+                    if (currentPage === linkHref) {
+                        parentLi.classList.add("active"); // Add 'active' class to the matching link
+                    } else {
+                        parentLi.classList.remove("active"); // Remove 'active' class from other links
+                    }
+                });
+            };
+
+            // Initialize the page
+            loadHeaderAndSidebar();
+        });
+    </script>
 </body>
+
 </html>

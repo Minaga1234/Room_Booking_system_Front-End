@@ -1,4 +1,4 @@
-const REGISTER_URL = "http://127.0.0.1:8000/api/users/register/";
+const REGISTER_URL = "http://127.0.0.1:8000/api/users/register_user/";
 
 // Function to get CSRF token
 function getCookie(name) {
@@ -27,10 +27,12 @@ function showAlert(message, success) {
     const notification = document.getElementById("error-notification");
     notification.textContent = message;
     notification.style.backgroundColor = success ? "#4CAF50" : "#f44336";
+    notification.classList.remove("hidden");
     notification.style.opacity = "1";
 
     setTimeout(() => {
         notification.style.opacity = "0";
+        setTimeout(() => notification.classList.add("hidden"), 500); // Hide after fade out
     }, 5000);
 }
 
@@ -50,7 +52,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     }
 
     if (!validateEmail(email)) {
-        showAlert("Invalid email format!", false);
+        showAlert("Invalid email format! Must be in '@our.ecu.edu.au' domain.", false);
         return;
     }
 
@@ -76,14 +78,21 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
             }),
         });
 
-        if (response.ok) {
+        let responseData;
+        try {
+            responseData = await response.json();
+        } catch (error) {
+            responseData = null; // Non-JSON response
+        }
+
+        if (response.ok && responseData) {
             showAlert("Registration successful! Redirecting to login page.", true);
             setTimeout(() => {
-                window.location.href = "/login.html";
+                window.location.href = "http://127.0.0.1:5501/frontend/user/login.html";
             }, 2000);
         } else {
-            const errorData = await response.json();
-            showAlert(`Registration failed: ${errorData.email || errorData.non_field_errors || "Unknown error"}`, false);
+            const errorMessage = responseData?.error || "Unknown error occurred.";
+            showAlert(`Registration failed: ${errorMessage}`, false);
         }
     } catch (error) {
         console.error("Error during registration:", error);
@@ -106,8 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
     optionsList.forEach((option) => {
         option.addEventListener("click", () => {
             const value = option.getAttribute("data-value");
+            const mappedValue = value === "lecturer" ? "staff" : value; // Map "lecturer" to "staff"
             selected.querySelector("span").textContent = value;
-            hiddenInput.value = value;
+            hiddenInput.value = mappedValue; // Send the correct backend value
             select.classList.remove("active");
         });
     });

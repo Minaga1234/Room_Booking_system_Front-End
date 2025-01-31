@@ -1,144 +1,178 @@
-// Dynamically set user data (optional)
-document.addEventListener("DOMContentLoaded", function () {
-    const userAvatar = document.querySelector(".user-avatar");
-    const notificationIcon = document.querySelector(".notification-icon");
-  
-    // Example: Update user avatar or notification dynamically
-    userAvatar.src = "../assets/images/user-avatar.png"; // Set user avatar dynamically
-    notificationIcon.src = "../assets/icons/notification-icon.png"; // Set notification icon
-  });
+window.onload = function () {
+    console.log("✅ Header script loaded");
 
-  // Handle search input
-document.querySelector('.search-box').addEventListener('input', function (e) {
-    const query = e.target.value.trim();
-    console.log('Search query:', query);
-    // Add your search functionality here
-    if (query) {
-        // For example, filter results or redirect to a search page
-        console.log(`Performing search for: ${query}`);
-    }
-});
-
-// Handle notifications click
-document.querySelector('.notification-icon').addEventListener('click', function () {
-    // Simulate opening a notifications dropdown or page
-    alert('Opening Notifications...');
-    console.log('Notifications clicked');
-    // Redirect to a notifications page if needed
-    // window.location.href = './notifications.html';
-});
-
-// Handle profile icon click
-document.querySelector('.user-avatar').addEventListener('click', function () {
-    // Simulate opening a profile dropdown or page
-    alert('Opening Profile...');
-    console.log('Profile clicked');
-    // Redirect to a profile page if needed
-    // window.location.href = './profile.html';
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const notificationWrapper = document.querySelector(".notification-wrapper");
-    const profileWrapper = document.querySelector(".profile-wrapper");
-
-    // Ensure notification popup stays open when hovered
-    const notificationPopup = notificationWrapper.querySelector(".notification-popup");
-    notificationWrapper.addEventListener("mouseenter", () => {
-        notificationPopup.style.display = "block";
-    });
-    notificationWrapper.addEventListener("mouseleave", () => {
-        notificationPopup.style.display = "none";
-    });
-
-    notificationPopup.addEventListener("mouseenter", () => {
-        notificationPopup.style.display = "block"; // Keep it visible
-    });
-    notificationPopup.addEventListener("mouseleave", () => {
-        notificationPopup.style.display = "none";
-    });
-
-    // Ensure profile popup stays open when hovered
-    const profilePopup = profileWrapper.querySelector(".profile-popup");
-    profileWrapper.addEventListener("mouseenter", () => {
-        profilePopup.style.display = "block";
-    });
-    profileWrapper.addEventListener("mouseleave", () => {
-        profilePopup.style.display = "none";
-    });
-
-    profilePopup.addEventListener("mouseenter", () => {
-        profilePopup.style.display = "block"; // Keep it visible
-    });
-    profilePopup.addEventListener("mouseleave", () => {
-        profilePopup.style.display = "none";
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const notificationWrapper = document.querySelector(".notification-wrapper");
-    const notificationPopup = notificationWrapper.querySelector(".notification-popup");
-
-    // Mock function to simulate fetching notifications
-    function fetchNotifications() {
-        return [
-            { title: "Room Booking", message: "Green Room Booking has been confirmed", link: "./bookings.html" },
-            { title: "System Update", message: "New features added to the room booking system", link: "./updates.html" },
-            { title: "Reminder", message: "Your Study Room G1 booking starts in 30 minutes", link: "./reminders.html" }
-        ];
-    }
-
-    // Function to render notifications dynamically
-    function renderNotifications() {
-        const notifications = fetchNotifications();
-        if (notifications.length > 0) {
-            notificationPopup.innerHTML = ""; // Clear previous notifications
-            notifications.forEach((notification) => {
-                const notificationItem = document.createElement("div");
-                notificationItem.classList.add("notification-item");
-                notificationItem.innerHTML = `
-                    <h4>${notification.title}</h4>
-                    <p>${notification.message}</p>
-                    <button onclick="location.href='${notification.link}'">View</button>
-                `;
-                notificationPopup.appendChild(notificationItem);
-            });
+    // ⏳ Wait until `.notification-wrapper` is found before running script
+    let waitForElement = setInterval(() => {
+        const notificationWrapper = document.querySelector(".notification-wrapper");
+        if (notificationWrapper) {
+            console.log("✅ Found notification-wrapper:", notificationWrapper);
+            clearInterval(waitForElement); // Stop checking once found
+            initializeHeaderScripts(); // Run the main function
         } else {
-            notificationPopup.innerHTML = "<p>No new notifications</p>";
+            console.log("⏳ Waiting for notification-wrapper...");
         }
+    }, 500); // Check every 500ms
+};
+
+function initializeHeaderScripts() {
+    console.log("🚀 Initializing Header Scripts...");
+
+    // Select elements again now that they are guaranteed to exist
+    const notificationWrapper = document.querySelector(".notification-wrapper");
+    const notificationPopup = document.querySelector(".notification-popup");
+    const notificationIcon = document.querySelector(".notification-icon");
+    const profileWrapper = document.querySelector(".profile-wrapper");
+    const profilePopup = document.querySelector(".profile-popup");
+    const searchBox = document.querySelector(".search-box");
+
+    console.log("🔍 Checking Elements:");
+    console.log("notificationWrapper:", notificationWrapper);
+    console.log("notificationPopup:", notificationPopup);
+    console.log("notificationIcon:", notificationIcon);
+    console.log("profileWrapper:", profileWrapper);
+    console.log("profilePopup:", profilePopup);
+
+    if (!notificationPopup) {
+        console.error("❌ Notification popup element not found.");
+        return;
     }
 
-    // Ensure notification popup stays open when hovered
-    notificationWrapper.addEventListener("mouseenter", () => {
-        notificationPopup.style.display = "block";
-        renderNotifications(); // Render notifications when popup is opened
-    });
+    // ✅ Function to fetch notifications from Django backend
+    const fetchNotificationsFromBackend = async () => {
+        console.log("🔄 Fetching notifications...");
+        try {
+            const authToken = localStorage.getItem("accessToken");
 
-    notificationWrapper.addEventListener("mouseleave", () => {
-        notificationPopup.style.display = "none";
-    });
+            if (!authToken) {
+                console.error("❌ Authentication token not found.");
+                return [];
+            }
 
-    notificationPopup.addEventListener("mouseenter", () => {
-        notificationPopup.style.display = "block"; // Keep it visible
-    });
+            const response = await fetch("http://127.0.0.1:8000/api/user-notifications/", {  // Adjust this endpoint if needed
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${authToken}`,
+                    "Content-Type": "application/json",
+                },
+            });
 
-    notificationPopup.addEventListener("mouseleave", () => {
-        notificationPopup.style.display = "none";
-    });
+            console.log("📡 API Request Sent: /api/user-notifications/");
+            console.log("📡 Response Status:", response.status);
 
-    // Simulate periodic updates to notifications (e.g., polling an API)
-    setInterval(renderNotifications, 30000); // Update every 30 seconds
-});
+            if (!response.ok) {
+                throw new Error(`❌ Failed to fetch notifications: ${response.statusText}`);
+            }
 
-const notifications = []; // Example: Array of notifications
-const notificationContent = document.querySelector('.notification-content');
+            const data = await response.json();
+            console.log("✅ Full API Response:", data);
 
-if (notifications.length > 0) {
-    notificationContent.innerHTML = notifications
-        .map(notification => `<p>${notification}</p>`)
-        .join('');
-} else {
-    notificationContent.innerHTML = `
-        <i class="fas fa-bell-slash"></i>
-        <p>No new notifications</p>
-    `;
+            // ✅ Ensure correct data extraction
+            if (Array.isArray(data)) {
+                console.log("✅ Extracted Notifications:", data);
+                return data;
+            } else {
+                console.error("❌ No valid notification array in API response. Check Django.");
+                return [];
+            }
+        } catch (error) {
+            console.error("❌ Error fetching notifications:", error);
+            return [];
+        }
+    };
+
+    // ✅ Function to render last 5 notifications sorted by newest first
+    const renderNotifications = async () => {
+        console.log("🔄 Rendering notifications...");
+        notificationPopup.innerHTML = ""; // Clear previous notifications
+
+        const notifications = await fetchNotificationsFromBackend();
+        console.log("📌 Notifications to display (Before Sorting):", notifications);
+
+        if (!Array.isArray(notifications) || notifications.length === 0) {
+            notificationPopup.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-bell-slash"></i>
+                    <p>No new notifications</p>
+                </div>
+            `;
+            notificationIcon.classList.remove("has-new-notifications"); // Remove red dot
+            return;
+        }
+
+        // ✅ Sort notifications by created_at (latest first)
+        notifications.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        console.log("📌 Notifications to display (After Sorting):", notifications);
+
+        // ✅ Display only the last 5 notifications
+        const latestNotifications = notifications.slice(0, 5);
+
+        latestNotifications.forEach((notification, index) => {
+            console.log(`🔔 Notification ${index + 1}:`, notification);
+
+            const notificationItem = document.createElement("div");
+            notificationItem.classList.add("notification-item");
+
+            // Ensure correct data extraction
+            const message = notification.message || "No details available.";
+            const timestamp = new Date(notification.created_at).toLocaleString();
+            const isRead = notification.is_read ? "read" : "unread";
+
+            notificationItem.innerHTML = `
+                <div class="notification-item ${isRead}">
+                    <p>${message}</p>
+                    <small>${timestamp}</small>
+                </div>
+            `;
+            notificationPopup.appendChild(notificationItem);
+        });
+
+        notificationIcon.classList.add("has-new-notifications"); // Add red dot to bell icon
+    };
+
+    // ✅ Handle Notification Popup Visibility
+    if (notificationWrapper) {
+        notificationWrapper.addEventListener("click", () => {
+            const isVisible = notificationPopup.style.display === "block";
+            notificationPopup.style.display = isVisible ? "none" : "block";
+
+            // Fetch and render notifications when opened
+            if (!isVisible) renderNotifications();
+        });
+
+        // Close popup when clicking outside
+        document.addEventListener("click", (event) => {
+            if (!notificationWrapper.contains(event.target)) {
+                notificationPopup.style.display = "none";
+            }
+        });
+    }
+
+    // ✅ Handle Profile Popup
+    if (profileWrapper) {
+        profileWrapper.addEventListener("click", () => {
+            profilePopup.classList.toggle("visible");
+        });
+
+        // Close profile popup when clicking outside
+        document.addEventListener("click", (event) => {
+            if (!profileWrapper.contains(event.target)) {
+                profilePopup.classList.remove("visible");
+            }
+        });
+    }
+
+    // ✅ Search Functionality
+    if (searchBox) {
+        searchBox.addEventListener("input", (event) => {
+            const query = event.target.value.trim();
+            console.log(`🔍 User searching for: ${query}`);
+        });
+    }
+
+    // ✅ Periodic Notification Updates (Every 30 seconds)
+    setInterval(renderNotifications, 30000);
+
+    // ✅ Initial Notification Fetch on Page Load
+    renderNotifications();
 }

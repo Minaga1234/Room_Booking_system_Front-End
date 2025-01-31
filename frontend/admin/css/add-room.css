@@ -2,67 +2,127 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #0f1a3d;
+    background-color: #01182a; /* Navy blue background */
     color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; /* Ensure header stays on top */
+    overflow: hidden;
 }
 
+/* Container Styles */
 .container {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 100vh;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    width: calc(100% - 320px); /* Adjust width to leave space for sidebar */
+    height: calc(91% - 70px); /* Adjust height to leave space for header */
+    margin-left: 195px; /* Space for sidebar */
+    margin-top: 75px;
+     /* Space for header */
+    padding: 10;
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent overflow for container itself */
 }
 
 /* Main Content Styles */
 .main-content {
-    width: 65%;
-    background: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 40px;
+    width: 100%;
+    max-width: 800px;
+    background: #ffffff; /* White background */
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    height: 95vh;
+    max-height: 100%; /* Limit height to container */
+    overflow: hidden; /* Hide overflow for the box */
+    box-sizing: border-box;
+    position: relative;
 }
 
-.add-room-container {
-    width: 100%;
+/* Inner Scrollable Section */
+.scrollable-content {
+    overflow-y: auto; /* Enable scrolling inside the box */
+    height: 100%; /* Allow full utilization of content area */
+    padding-right: 10px; /* Add padding for custom scrollbar */
+}
+
+/* Custom Scrollbar */
+.scrollable-content::-webkit-scrollbar {
+    width: 6px; /* Thin scrollbar */
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background: #666666; /* Darker scroll thumb */
+    border-radius: 4px; /* Rounded scrollbar thumb */
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+    background: #444444; /* Hover effect for scroll thumb */
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Lighter background for scrollbar track */
+    border-radius: 4px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-button img {
+    width: 24px;
+    height: 24px;
 }
 
 .title {
-    font-size: 28px;
+    font-size: clamp(20px, 4vw, 24px);
     font-weight: bold;
     color: #0f1a3d;
-    margin-bottom: 20px;
+    margin: 0;
 }
 
 .subtitle {
-    font-size: 16px;
-    font-weight: normal;
+    font-size: clamp(12px, 3vw, 14px);
     color: #666666;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 /* Form Layout */
 .form-layout {
     display: flex;
-    flex-direction: row;
-    gap: 40px;
+    flex-direction: column;
+    gap: 30px;
 }
 
 /* Room Image Section */
 .room-image {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .image-placeholder {
     width: 100%;
-    height: 250px;
+    aspect-ratio: 16/9;
     border: 2px dashed #ccc;
     border-radius: 12px;
     background-color: #f9f9f9;
@@ -77,152 +137,128 @@ body {
 }
 
 .placeholder-text {
-    font-size: 16px;
+    font-size: clamp(12px, 3vw, 14px);
     color: #999999;
+    text-align: center;
+    padding: 10px;
 }
 
+/* Add Picture Button */
 .add-picture-btn {
-    position: relative;
-    overflow: hidden;
-    height: 3rem;
-    padding: 0 2rem;
+    width: 100%;
+    max-width: 200px;
+    height: 2.5rem;
+    padding: 0 1.5rem;
     border-radius: 1.5rem;
     background: #3d3a4e;
     color: #fff;
     border: none;
     cursor: pointer;
     transition: all 0.475s ease;
-}
-
-.add-picture-btn:hover {
-    background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
+    margin: 10px auto;
+    display: block;
 }
 
 /* Form Fields Section */
 .form-fields {
-    width: 60%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .form-group label {
-    font-size: 16px;
+    font-size: clamp(12px, 3vw, 14px);
     color: #0f1a3d;
 }
 
 .input-group input,
 .input-group textarea {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
-    font-size: 16px;
+    font-size: clamp(12px, 3vw, 14px);
     transition: all 0.3s ease;
-}
-
-.input-group input:focus,
-.input-group textarea:focus {
-    border: 1px solid #0f1a3d;
-    box-shadow: 0 0 5px rgba(15, 26, 61, 0.5);
 }
 
 textarea {
     resize: none;
-    height: 100px;
-}
-
-/* Toggle Switch */
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 25px;
-}
-
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 25px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-}
-
-input:checked+.slider {
-    background-color: #f97c2f;
-}
-
-input:checked+.slider:before {
-    transform: translateX(25px);
+    height: clamp(80px, 15vh, 120px);
 }
 
 /* Add Button */
 .add-btn {
-    position: relative;
-    overflow: hidden;
-    height: 3rem;
-    padding: 0 2rem;
+    width: 100%;
+    max-width: 200px;
+    height: 2.5rem;
+    padding: 0 1.5rem;
     border-radius: 1.5rem;
     background: #3d3a4e;
     color: #fff;
     border: none;
     cursor: pointer;
     transition: all 0.475s ease;
+    margin: 10px auto;
+    display: block;
 }
 
-.add-btn:hover {
-    background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
+/* Responsive Design */
+@media (min-width: 768px) {
+    .main-content {
+        padding: 30px;
+    }
+
+    .form-layout {
+        flex-direction: row;
+    }
+
+    .room-image {
+        width: 40%;
+        margin: 0;
+    }
+
+    .form-fields {
+        width: 60%;
+    }
+
+    .add-picture-btn,
+    .add-btn {
+        margin: 10px 0;
+    }
 }
 
-.add-btn .front {
-    position: relative;
-    z-index: 1;
+@media (max-width: 1024px) {
+    .container {
+        margin-left: 220px; /* Adjust for smaller sidebar */
+    }
+
+    .main-content {
+        width: 90%;
+        max-width: 800px;
+        padding: 20px;
+        margin: 15px;
+    }
 }
 
-.add-btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
-    border-radius: inherit;
-    transform: scaleX(0);
-    transform-origin: 0 50%;
-    transition: transform 0.475s ease;
-    z-index: 0;
-}
+@media (max-width: 480px) {
+    body {
+        padding: 0.5rem;
+    }
 
-.add-btn:hover::before {
-    transform: scaleX(1);
+    .main-content {
+        padding: 15px;
+        max-height: 95vh;
+    }
+
+    .header {
+        gap: 10px;
+    }
 }

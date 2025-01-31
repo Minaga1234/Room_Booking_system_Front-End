@@ -1,0 +1,186 @@
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  background-color: #01182a;
+  /* Light background */
+  color: #1F1F1F;
+  /* Neutral dark text */
+}
+
+/* Main Content Styles */
+.main-content {
+  margin-left: 18.5%;
+  margin-top: 4.5%;
+  padding: 20px;
+}
+
+/* Penalties Section */
+.penalties-section {
+  padding: 30px;
+  background-color: #FFF;
+  border-radius: 15px;
+  border: 2px solid #E9D8FD;
+  /* Light purple border */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.penalty-card {
+  background-color: #F8F8FC;
+  color: #1F1F1F;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.penalty-card p {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.penalty-card h2 {
+  font-size: 3rem;
+  margin: 10px 0;
+  color: #FF4D4D;
+  /* Bright red for emphasis */
+}
+
+.request-review-btn {
+  display: block;
+  margin: 20px auto 0;
+  background-color: #1F2937;
+  /* Neutral black/dark gray */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.request-review-btn:hover {
+  background-color: #333333;
+}
+
+/* Penalty Details Section */
+.penalty-details {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #E9D8FD;
+}
+
+.details-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.details-table th,
+.details-table td {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+button {
+  background-color: #007bff;
+  /* Bootstrap-like primary button color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #0056b3;
+  /* Darker shade on hover */
+}
+
+button:active {
+  background-color: #004085;
+  /* Even darker on click */
+}
+
+button.request-review-btn {
+  margin-top: 15px;
+  /* Adjust positioning */
+  display: inline-block;
+  /* Prevent it from expanding as block element */
+}
+
+/* Modal styling */
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black background with opacity */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  /* Center the modal */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  /* Adjust width as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+}
+
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination-controls button {
+  padding: 5px 10px;
+  font-size: 1rem;
+  border: 1px solid #DDD;
+  border-radius: 5px;
+  background-color: #A78BFA;
+  ;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  background-color: #E9E9E9;
+  cursor: not-allowed;
+}
+
+.pagination-controls span {
+  font-size: 1rem;
+  font-weight: bold;
+}

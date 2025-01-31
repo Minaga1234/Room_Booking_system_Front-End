@@ -6,17 +6,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Room</title>
     <link rel="stylesheet" href="./css/add-room.css">
+    <link rel="stylesheet" href="../admin/css/admin-header.css">
+    <link rel="stylesheet" href="../admin/css/admin-navbar.css">
+    <style>
+        /* Make the add-room-container scrollable */
+        .add-room-container {
+            height: calc(100vh - 80px); /* Full height minus header height */
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f9f9f9; /* Optional background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
+        /* Ensure the body and html take full height */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling on the main page */
+        }
+
+        /* Adjust the container styles */
+        .container {
+            display: flex;
+            height: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        .form-fields .input-group textarea,
+        .form-fields .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        /* Optional: Customize scrollbars for better UI */
+        .add-room-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .add-room-container::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 5px;
+        }
+
+        .add-room-container::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Header -->
+    <header>
+        <div id="header-container"></div> <!-- Placeholder for the dynamic header -->
+    </header>
+
+    <!-- Sidebar -->
+    <aside>
+        <div id="sidebar-container"></div> <!-- Placeholder for the dynamic sidebar -->
+    </aside>
+
+    <!-- Main Content -->
     <div class="container">
-
-
-        <!-- Main Content -->
         <div class="main-content">
             <div class="add-room-container">
-                <h2 class="title">Room Management</h2>
+                <div class="header">
+                    <button class="back-button" onclick="history.back()">
+                        <img src="../assets/images/back-button-svgrepo-com.svg" alt="Back" class="back-icon">
+                    </button>
+                    <h2 class="title">Room Management</h2>
+                </div>
                 <p class="subtitle">Fill out the details below to add a new room</p>
                 <form id="add-room-form">
                     <div class="form-layout">
@@ -32,7 +105,6 @@
                             </button>
                             <input type="file" id="room-image" accept="image/*" hidden>
                         </div>
-
 
                         <!-- Form Fields Section -->
                         <div class="form-fields">
@@ -65,10 +137,17 @@
                                 </label>
                             </div>
                             <div class="form-group">
-                                <label for="room-introduction">Room Introduction and Amenities:</label>
+                                <label for="room-description">Room Description:</label>
                                 <div class="input-group">
-                                    <textarea id="room-introduction" name="room_introduction"
-                                        placeholder="Enter Room Details" required></textarea>
+                                    <textarea id="room-description" name="room_description"
+                                        placeholder="Enter Room Description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="room-features">Room Features (Comma-Separated):</label>
+                                <div class="input-group">
+                                    <textarea id="room-features" name="room_features"
+                                        placeholder="E.g., Wi-Fi, Projector, AC"></textarea>
                                 </div>
                             </div>
                             <button type="submit" class="add-btn">
@@ -83,8 +162,9 @@
         </div>
     </div>
 
-    <script src="./js/add-room.js"></script>
-
+    <script src="../admin/js/admin-header.js" defer></script>
+    <script src="../admin/js/admin-navbar.js" defer></script>
+    <script src="./js/add-room.js" defer></script>
 </body>
 
 </html>

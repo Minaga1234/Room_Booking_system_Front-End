@@ -1,30 +1,35 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header Section */
 .header-section {
     display: flex;
-    justify-content: space-between; /* Space between logo and actions */
+    justify-content: space-between;
     align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 70px;
-    background-color: #01182a; /* Dark background */
+    background-color: #01182a;
     z-index: 1000;
     padding: 0 20px;
     box-sizing: border-box;
 }
 
-
-
-
 .logo-container {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex: 1; /* Allow space for the logo */
+    flex: 1;
 }
 
 .logo-wrapper img {
-    width: 63px; /* Adjust logo size */
+    width: 63px;
     height: auto;
 }
 
@@ -33,137 +38,268 @@
     font-weight: bold;
     color: #ffffff;
     text-align: left;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.sub-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #ffffff;
+    display: block;
+    margin-top: 2px;
 }
 
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 60px; /* Add spacing between search, notification, and profile icon */
+    gap: 60px;
+}
+
+/* Search Bar */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .search-box {
-    width: 971px; /* Width of the search box */
-    padding: 10px 15px; /* Padding inside the search box */
+    width: 971px;
+    padding: 10px 15px;
     border: none;
     border-radius: 15px;
-    background-color: #2c3e50; /* Dark background */
-    color: #ffffff; /* White text */
+    background-color: #2c3e50;
+    color: #ffffff;
     font-size: 14px;
     outline: none;
-    box-sizing: border-box;
-    margin-left: -10px; /* Adjust this value to move the search box left */
+    margin-left: -10px;
 }
 
-.search-box {
-    transform: translateX(-10px); /* Moves the search box 10px to the left */
+.search-icon {
+    display: none;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #2c3e50;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
 }
 
-.search-box {
-    margin-left: -10px !important; /* Forces this margin-left to take precedence */
+.search-icon:hover {
+    transform: scale(1.1);
 }
-
 
 .search-box::placeholder {
-    color: #7f8c8d; /* Placeholder text color */
+    color: #7f8c8d;
 }
 
+/* Icons */
 .notification-icon,
 .user-avatar {
-    width: 40px; /* Ensure consistent size for icons */
+    width: 40px;
     height: 40px;
     border-radius: 50%;
     background-color: #ffffff;
     cursor: pointer;
     transition: transform 0.3s ease;
-    object-fit: cover; /* Ensure image fits within the container */
+    object-fit: cover;
 }
 
 .notification-icon:hover,
 .user-avatar:hover {
-    transform: scale(1.1); /* Slightly enlarge on hover */
+    transform: scale(1.1);
 }
 
-.system-title {
-    font-size: 13px; /* Adjust main title font size */
-    font-weight: bold;
-    color: #ffffff; /* White text */
-    margin: 0;
-    line-height: 1.2; /* Adjust spacing between lines */
-    text-align: left;
-}
-
-.sub-title {
-    font-size: 13px; /* Slightly smaller font for subtitle */
-    font-weight: bold; /* Optional: Make subtitle weight normal */
-    color: #ffffff; /* Keep consistent white color */
-    display: block; /* Ensure it's treated as a block element */
-    margin-top: 2px; /* Add some space between the lines */
-}
-
-/* Notification Popup */
-/* Notification Popup */
-.notification-wrapper {
-    position: relative;
-}
-
-.notification-popup {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #8c8bfc;
-    color: #000000;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
-    border: 2px solid black; /* Black outline */
-    width: 250px;
-    display: none; /* Hidden by default */
-}
-
-.notification-wrapper:hover .notification-popup {
-    display: block; /* Show on hover */
-}
-
-/* Profile Popup */
+/* Notification & Profile Wrappers */
+.notification-wrapper,
 .profile-wrapper {
     position: relative;
 }
 
+/* 🔔 Notification Popup */
+.notification-popup {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    display: none;
+    z-index: 1001;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* 🔔 Notification Item */
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #444;
+}
+
+.notification-item small {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.notification-item.unread {
+    background-color: #eef5ff;
+    font-weight: bold;
+}
+
+.notification-item:hover {
+    background-color: #e1eaff;
+    cursor: pointer;
+}
+
+/* No Notifications */
+.notification-content {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+/* Notification Icon Red Dot */
+.has-new-notifications {
+    position: relative;
+}
+
+.has-new-notifications::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+}
+
+/* 🏠 Profile Popup */
 .profile-popup {
     position: absolute;
     top: 50px;
     right: 0;
-    background-color: #8c8bfc;
-    color: #fff;
-    border-radius: 20px;
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 12px;
     padding: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
-    border: 2px solid black; /* Black outline */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     width: 200px;
-    display: none; /* Hidden by default */
-}
-
-.profile-wrapper:hover .profile-popup {
-    display: block; /* Show on hover */
+    display: none;
+    z-index: 1001;
 }
 
 .profile-popup a {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #000000;
+    color: #333;
     font-size: 14px;
-    margin: 10px 0;
-    padding: 5px 10px;
+    padding: 8px 10px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .profile-popup a i {
-    margin-right: 10px; /* Space between the icon and text */
-    font-size: 18px; /* Icon size */
+    margin-right: 10px;
+    font-size: 18px;
 }
 
 .profile-popup a:hover {
-    background-color: #6a6afa;
+    background-color: #eef5ff;
+}
+
+/* 🔔 Hover and Click Effects */
+.notification-popup,
+.profile-popup {
+    display: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.notification-wrapper:hover .notification-popup,
+.profile-wrapper:hover .profile-popup {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+    .search-box {
+        width: 500px;
+    }
+
+    .header-actions {
+        gap: 30px;
+    }
+}
+
+@media screen and (max-width: 958px) {
+    .search-box {
+        display: none;
+    }
+
+    .search-icon {
+        display: block;
+    }
+
+    .header-actions {
+        gap: 20px;
+    }
+
+    .system-title {
+        font-size: 13px;
+    }
+
+    .sub-title {
+        font-size: 12px;
+    }
+
+    .logo-wrapper img {
+        width: 55px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .header-actions {
+        gap: 15px;
+    }
+
+    .system-title {
+        font-size: 12px;
+    }
+
+    .sub-title {
+        font-size: 11px;
+    }
+
+    .logo-wrapper img {
+        width: 45px;
+    }
+
+    .notification-icon,
+    .user-avatar {
+        width: 35px;
+        height: 35px;
+    }
 }

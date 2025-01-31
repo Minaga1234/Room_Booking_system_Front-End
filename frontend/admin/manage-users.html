@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - Admin</title>
+    <link rel="stylesheet" href="css/manage-users.css">
+    <link rel="stylesheet" href="../admin/css/admin-navbar.css">
+    <link rel="stylesheet" href="../admin/css/admin-header.css">
+</head>
+<body>
+    <div class="admin-dashboard">
+        <!-- Include Navbar -->
+        <div id="admin-navbar"></div>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Include Header -->
+            <div id="admin-header"></div>
+
+            <section class="manage-users">
+                <h1>Manage Users</h1>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <h3>Filter Users</h3>
+                    <div class="filter-group">
+                        <label for="role-filter">Role:</label>
+                        <select id="role-filter">
+                            <option value="">All</option>
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="status-filter">Status:</label>
+                        <select id="status-filter">
+                            <option value="">All</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search-users">Search Users:</label>
+                        <input type="text" id="search-users" placeholder="Search by username or email">
+                    </div>
+                    <button id="apply-filters" class="filter-btn">Apply Filters</button>
+                </div>
+
+                <!-- User Table -->
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Placeholder for dynamic user rows -->
+                    </tbody>
+                </table>
+
+                <!-- Add User Button -->
+                <button id="add-user" class="add-btn">Add User</button>
+            </section>
+
+            <!-- Edit Modal -->
+            <div id="edit-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Edit User</h2>
+                    <form id="edit-user-form">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" disabled>
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+
+                        <label for="role">Role</label>
+                        <select id="role" name="role">
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                            <option value="student">Student</option>
+                        </select>
+
+                        <label for="phone">Phone</label>
+                        <input type="text" id="phone" name="phone">
+
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+
+                        <button type="submit" class="save-btn">Save Changes</button>
+                        <button type="button" class="close-modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add User Modal -->
+            <div id="add-user-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Add User</h2>
+                    <form id="add-user-form">
+                        <label for="new-email">Email</label>
+                        <input type="email" id="new-email" name="email" required>
+            
+                        <label for="new-role">Role</label>
+                        <select id="new-role" name="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                            <option value="student">Student</option>
+                        </select>
+            
+                        <label for="new-phone">Phone</label>
+                        <input type="text" id="new-phone" name="phone" required>
+            
+                        <button type="submit" class="add-btn">Add User</button>
+                        <button type="button" class="close-modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <!-- Inline Scripts to Load Navbar and Header -->
+    <script>
+        // Load the Navbar
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('../admin/navbar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('admin-navbar').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading navbar:', error));
+        });
+
+        // Load the Header
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('../admin/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('admin-header').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading header:', error));
+        });
+    </script>
+
+    <script src="js/manage-users.js"></script>
+</body>
+</html>

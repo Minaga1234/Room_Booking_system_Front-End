@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Dashboard</title>
     <link rel="stylesheet" href="./css/analytics.css">
-    <script src="../shared/js/component-caching.js"></script>
+    <link rel="stylesheet" href="../shared/css/header.css">
+    <link rel="stylesheet" href="../shared/css/sidebar.css">
+    <script src="../shared/js/sidebar.js" defer></script>
+    <script src="../shared/js/header.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
         <!-- Header Section -->
-        <header class="header">
-            <div id="header-container"></div>
+        <header>
+            <div id="header-container"></div> <!-- Placeholder for dynamic header -->
         </header>
 
         <!-- Sidebar Section -->
-        <aside class="sidebar">
-            <div id="sidebar-container"></div>
+        <aside>
+            <div id="sidebar-container"></div> <!-- Placeholder for dynamic sidebar -->
         </aside>
 
         <!-- Main Content Section -->
@@ -39,16 +42,18 @@
                     </div>
                 </div>
 
-        <!-- Chart Section -->
-        <div class="chart-card">
-            <h2>Weekly Booking Trends</h2>
-            <div class="chart-container">
-                <canvas id="weekly-trends-chart"></canvas>
+                <!-- Chart Section -->
+                <div class="chart-card">
+                    <h2>Weekly Booking Trends</h2>
+                    <div class="chart-container">
+                        <canvas id="weekly-trends-chart"></canvas>
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Scripts -->
-    <script src="./js/analytics.js"></script>
+    <!-- Analytics Script -->
+    <script src="./js/analytics.js" defer></script>
 </body>
 </html>

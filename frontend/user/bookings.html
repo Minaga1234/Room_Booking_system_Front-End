@@ -1,266 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookings Section</title>
-    <link rel="stylesheet" href="css/bookings.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="../user/css/bookings.css">
+    <link rel="stylesheet" href="../shared/css/sidebar.css">
+    <link rel="stylesheet" href="../shared/css/header.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="../shared/js/header.js" defer></script>
+    <script src="../shared/js/sidebar.js" defer></script>
+</head>
 
+<body>
+    <!-- Dynamic Header Placeholder -->
+    <div id="header-container"></div>
 
-    <div class="header-section">
-        <div class="logo-container">
-            <div class="logo-wrapper">
-                <img src="../assets/images/system-logo.png" alt="System Logo" class="logo">
-            </div>
-            <div class="system-title">
-                <span>Intelligent Spatial</span><br>
-                <span class="sub-title">Management System</span>
-            </div>
-        </div>
-        <div class="header-actions">
-            <input type="text" placeholder="Search" class="search-box">
-            <div class="notification-wrapper">
-                <img src="../assets/images/notification-icon.png" alt="Notifications" class="notification-icon">
-                <div class="notification-popup">
-                    <!-- Notifications will be dynamically added here -->
-                    <div class="notification-content">
-                        <i class="fas fa-bell-slash"></i> <!-- Icon for no new notifications -->
-                        <p>No new notifications</p>
-                    </div>
-                </div>
-            </div>                <!-- Profile Wrapper -->
-            <div class="profile-wrapper">
-                <img src="../assets/images/user-avatar.png" alt="User Profile" class="user-avatar">
-                <div class="profile-popup">
-                    <a href="./personal-info.html">
-                        <i class="fas fa-user"></i> Personal Info
-                    </a>
-                    <a href="./account-settings.html">
-                        <i class="fas fa-cog"></i> Account Settings
-                    </a>
-                    <a href="./help.html">
-                        <i class="fas fa-question-circle"></i> Help
-                    </a>
-                </div>
-            </div>
-    
-        </div>
-    </div>
-    
+    <div class="dashboard-container">
+        <!-- Dynamic Sidebar Placeholder -->
+        <div id="sidebar-container"></div>
 
-    <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <!-- User Profile Section -->
-        <div class="user-profile">
-            <div class="user-profile">
-                <div class="avatar-container">
-                    <img src="path-to-avatar-image.png" alt="User Avatar" class="avatar">
-                </div>
-                <div id="username" class="username">Loading...</div> <!-- Placeholder for the username -->
-            </div>
-            
-        </div>
-    
-        <!-- Navigation Links -->
-        <ul class="nav-links">
-            <li class="active">
-                <a href="./dashboard.html">
-                    <img src="../assets/images/dashboard-icon.png" alt="Dashboard Icon" class="nav-icon">
-                    Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="./bookings.html">
-                    <img src="../assets/images/bookings-icon.png" alt="Bookings Icon" class="nav-icon">
-                    Bookings
-                </a>
-            </li>
-            <li>
-                <a href="./room-availability.html">
-                    <img src="../assets/images/room-availability-icon.png" alt="Room Availability Icon" class="nav-icon">
-                    Room Availability
-                </a>
-            </li>
-            <li>
-                <a href="./analytics.html">
-                    <img src="../assets/images/analytics-icon.png" alt="Analytics Icon" class="nav-icon">
-                    Analytics
-                </a>
-            </li>
-        </ul>
-    
-        <!-- Support Section -->
-        <div class="support">
-            <div class="support-box">
-                <p>Have any problems with managing bookings?</p>
-                <button class="contact-btn">Contact Us</button>
-            </div>
-        </div>
-    
-        <!-- Version Information -->
-        <div class="version">Version 1.1034</div>
-    </div>
-    
-
-    <!-- Main Content -->
-<div class="main-content">
-    <div class="header">
-        <div class="white-background">
-            <div class="content">
-                <div class="booking-section">
-                    <div class="weather">
-                        <div class="weather-header">
-                            <img src="../assets/images/weather.png" alt="Weather Icon" class="weather-icon" style="width: 120px; height: 120px;">
-                            <h3 class="temperature">24°C</h3>
-                        </div>
-                        <p class="weather-description" style="margin: 10px 0; font-size: 14px; text-align: center;">Clear Sky</p>
-                        <div class="temperature-line"></div> <!-- Black line under the temperature -->
-                        <div class="bookings-list">
-                            <p>
-                                Study Room G2 - Booked<br>
-                                From 9:00 AM to 11:30 AM<br>
-                                <button class="cancel-btn">Cancel Booking</button>
-                            </p>
-                            <p>
-                                Study Room G1 - Booked<br>
-                                From 12:30 PM to 2:30 PM<br>
-                                <button class="cancel-btn">Cancel Booking</button>
-                            </p>
-                            <p>
-                                Green Room - Booked<br>
-                                From 3:30 PM to 4:30 PM<br>
-                                <button class="cancel-btn">Cancel Booking</button>
-                            </p>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="header">
+                    <div class="white-background">
+                        <div class="scrollable-content">
+                            <div class="content">
+                                <div class="booking-section">
+                                    <div class="row">
+                                        <div class="weather">
+                                            <div class="weather-header">
+                                                <img src="../assets/images/weather.png" alt="Weather Icon"
+                                                    class="weather-icon" style="width: 120px; height: 120px;">
+                                                <h3 class="temperature">Loading...</h3>
+                                            </div>
+                                            <p class="weather-description"
+                                                style="margin: 10px 0; font-size: 14px; text-align: center;">Loading...
+                                            </p>
+                                            <div class="temperature-line"></div>
+                                            <!-- Black line under the temperature -->
+                                            <div id="ongoing-bookings-container">
+                                                <h3>Ongoing Bookings</h3>
+                                                <div id="ongoing-bookings-list">
+                                                    <p>Loading ongoing bookings...</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="calendar">
+                                            <!-- <h2>January 2025</h2> -->
+                                            <div id="calendar"></div>
+                                        </div>
+                                    </div>
+                                    <div class="my-bookings-section">
+                                        <h2>My Bookings</h2>
+                                        <table class="my-bookings-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Room</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Bookings will be dynamically added here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="note-section">
+                                        <p>To avoid penalties, ensure that you do not spend excessive time in the room
+                                            beyond your designated booking period...</p>
+                                        <button onclick="location.href='../user/penalties.html';">Penalties</button>
+                                        <!-- Redirect to profile.html -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    
-                    
-
-                    <div class="calendar">
-                        <h2>January 2025</h2>
-                        <div id="calendar"></div>
-
-                    </div>
                 </div>
-                <div class="note-section">
-                    <p>To avoid penalties, ensure that you do not spend excessive time in the room beyond your designated booking period...</p>
-                    <button>Penalties</button>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
+    <!-- FullCalendar Library -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            events: [
-                {
-                    title: 'Study Room G2',
-                    start: '2025-01-01T09:00:00',
-                    end: '2025-01-01T11:30:00'
-                },
-                {
-                    title: 'Study Room G1',
-                    start: '2025-01-01T12:30:00',
-                    end: '2025-01-01T14:30:00'
-                },
-                {
-                    title: 'Green Room',
-                    start: '2025-01-01T15:30:00',
-                    end: '2025-01-01T16:30:00'
+    <!-- Dynamic Component Loading -->
+    <script>
+        // Dynamically load the header
+        fetch("../shared/header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading header:", error));
+
+        // Dynamically load the sidebar
+        fetch("../shared/navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("sidebar-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading sidebar:", error));
+    </script>
+
+    <!-- Weather Functionality -->
+    <script>
+        async function fetchWeather() {
+            const apiKey = 'db4aef39c826d3eeb2e0b440ba11cccb'; // Use environment variable in production
+            const city = 'Colombo';
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
                 }
-            ]
-        });
 
-        calendar.render();
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
+                const data = await response.json();
+                document.querySelector('.temperature').textContent = `${data.main.temp}°C`;
+                document.querySelector('.weather-icon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+                document.querySelector('.weather-description').textContent = data.weather[0].description;
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                document.querySelector('.temperature').textContent = 'N/A';
+                document.querySelector('.weather-description').textContent = 'Weather unavailable';
+            }
+        }
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth', // Default calendar view
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            events: [
-                {
-                    title: 'Study Room G2 - Booked',
-                    start: '2025-01-09T09:00:00',
-                    end: '2025-01-09T11:30:00',
-                    color: '#6a6afa'
-                },
-                {
-                    title: 'Study Room G1 - Booked',
-                    start: '2025-01-09T12:30:00',
-                    end: '2025-01-09T14:30:00',
-                    color: '#6a6afa'
-                },
-                {
-                    title: 'Green Room - Booked',
-                    start: '2025-01-09T15:30:00',
-                    end: '2025-01-09T16:30:00',
-                    color: '#6a6afa'
-                }
-            ]
-        });
+        fetchWeather();
+    </script>
 
-        calendar.render();
-    });
-</script>
+    <!-- Bookings and Calendar Functionality -->
+    <script>
 
-<!-- Weather API Script -->
-<script>
-    // Function to fetch and display weather data
-    async function fetchWeather() {
-        const apiKey = "db4aef39c826d3eeb2e0b440ba11cccb"; // Replace with your OpenWeatherMap API key
-        const city = "Colombo"; // Replace with your desired city
-        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendarEl = document.getElementById('calendar');
 
-        try {
-            const response = await fetch(apiUrl);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+            if (!calendarEl) {
+                console.error('Calendar element not found.');
+                return;
             }
 
-            const weatherData = await response.json();
-            const temperature = weatherData.main.temp; // Temperature in Celsius
-            const weatherIcon = weatherData.weather[0].icon; // Weather icon code
-            const weatherDescription = weatherData.weather[0].description; // Weather description
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: [], // Events will be dynamically added
+                eventClassNames: 'custom-event', // Add a custom class to events
+                eventContent: (arg) => {
+                    // Customize event content
+                    return {
+                        html: `<div class="event-title">${arg.event.title}</div>`
+                    };
+                },
+                dayCellContent: (arg) => {
+                    // Customize day cell content
+                    return { html: `<div class="day-number">${arg.dayNumberText}</div>` };
+                },
+                eventClick: function (info) {
+                    if (confirm(`Do you want to cancel the booking for "${info.event.title}"?`)) {
+                        fetch(`/api/bookings/${info.event.id}/`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${localStorage.getItem('access_token')}`
+                            }
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to cancel booking.');
+                                }
+                                info.event.remove();
+                                alert('Booking cancelled.');
+                            })
+                            .catch(error => {
+                                console.error('Error cancelling booking:', error);
+                                alert('Failed to cancel booking. Please try again.');
+                            });
+                    }
+                }
+            });
 
-            // Update the weather section in the DOM
-            document.querySelector(".temperature").textContent = `${temperature}°C`;
-            document.querySelector(".weather-icon").src = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
-            document.querySelector(".weather-description").textContent = weatherDescription;
-        } catch (error) {
-            console.error("Error fetching weather data:", error);
-            document.querySelector(".temperature").textContent = "N/A";
-            document.querySelector(".weather-description").textContent = "Weather unavailable";
-        }
-    }
+            // Fetch bookings from the API
+            fetch('/api/bookings/', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load bookings.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        calendar.addEventSource(data);
+                    } else {
+                        console.warn('Unexpected data format received from API.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching bookings:', error);
+                });
 
-    // Call the fetchWeather function on page load
-    document.addEventListener("DOMContentLoaded", fetchWeather);
-</script>
+            calendar.render();
+        });
+    </script>
+    <script src="./js/bookings.js"></script>
+</body>
 
-
+</html>

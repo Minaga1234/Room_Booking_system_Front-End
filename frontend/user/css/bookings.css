@@ -2,494 +2,756 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #0f1e3d;
+    background-color: #01182a;
     color: white;
-}
-
-.header-section {
-    display: flex;
-    justify-content: space-between; /* Ensure space between logo and actions */
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70px; /* Adjust the height if needed */
-    background-color: #01182a; /* Dark background for the header */
-    z-index: 1000;
-    padding: 0 20px;
-    padding-right: 30px; /* Add padding to prevent cutting off content */
-    box-sizing: border-box; /* Include padding in width calculations */
-}
-
-
-
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex: 1; /* Allow space for the logo */
-}
-
-.logo-wrapper img {
-    width: 63px; /* Adjust logo size */
-    height: auto;
-}
-
-.system-title {
-    font-size: 15px;
-    font-weight: bold;
-    color: #ffffff;
-    text-align: left;
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 60px; /* Add spacing between search, notification, and profile icon */
-}
-
-.search-box {
-    width: 971px; /* Width of the search box */
-    padding: 10px 15px; /* Padding inside the search box */
-    border: none;
-    border-radius: 15px;
-    background-color: #2c3e50; /* Dark background */
-    color: #ffffff; /* White text */
-    font-size: 14px;
-    outline: none;
-    box-sizing: border-box;
-    margin-left: -10px; /* Adjust this value to move the search box left */
-}
-
-.search-box {
-    transform: translateX(-10px); /* Moves the search box 10px to the left */
-}
-
-.search-box {
-    margin-left: -10px !important; /* Forces this margin-left to take precedence */
-}
-
-
-.search-box::placeholder {
-    color: #7f8c8d; /* Placeholder text color */
-}
-
-.notification-icon,
-.user-avatar {
-    width: 40px; /* Ensure consistent size for icons */
-    height: 40px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    object-fit: cover; /* Ensure image fits within the container */
-}
-
-.notification-icon:hover,
-.user-avatar:hover {
-    transform: scale(1.1); /* Slightly enlarge on hover */
-}
-
-.system-title {
-    font-size: 13px; /* Adjust main title font size */
-    font-weight: bold;
-    color: #ffffff; /* White text */
-    margin: 0;
-    line-height: 1.2; /* Adjust spacing between lines */
-    text-align: left;
-}
-
-.sub-title {
-    font-size: 13px; /* Slightly smaller font for subtitle */
-    font-weight: bold; /* Optional: Make subtitle weight normal */
-    color: #ffffff; /* Keep consistent white color */
-    display: block; /* Ensure it's treated as a block element */
-    margin-top: 2px; /* Add some space between the lines */
-}
-
-/* Notification Popup */
-/* Notification Popup */
-.notification-wrapper {
-    position: relative;
-}
-
-.notification-popup {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #8c8bfc;
-    color: #000000;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
-    border: 2px solid black; /* Black outline */
-    width: 250px;
-    display: none; /* Hidden by default */
-}
-
-.notification-wrapper:hover .notification-popup {
-    display: block; /* Show on hover */
-}
-
-/* Profile Popup */
-.profile-wrapper {
-    position: relative;
-}
-
-.profile-popup {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #8c8bfc;
-    color: #fff;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow */
-    border: 2px solid black; /* Black outline */
-    width: 200px;
-    display: none; /* Hidden by default */
-}
-
-.profile-wrapper:hover .profile-popup {
-    display: block; /* Show on hover */
-}
-
-.profile-popup a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #000000;
-    font-size: 14px;
-    margin: 10px 0;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.profile-popup a i {
-    margin-right: 10px; /* Space between the icon and text */
-    font-size: 18px; /* Icon size */
-}
-
-.profile-popup a:hover {
-    background-color: #6a6afa;
-}
-
-
-
-/* Main Container */
-.container {
-    display: flex;
-    height: 100vh;
-}
-
-.sidebar {
-    background-color: #8c8bfc; /* Sidebar background */
-    width: 220px; /* Reduced sidebar width */
-    height: calc(100vh - 130px); /* Full height minus header and footer space */
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    justify-content: center; /* Center content vertically */
-    position: fixed; /* Fixed position */
-    top: 70px; /* Leave space for the header */
-    left: 0; /* Align to the left */
-    border-top-right-radius: 15px; /* Round top-right corner */
-    border-bottom-right-radius: 15px; /* Round bottom-right corner */
-    border-top-left-radius: 0; /* No rounding for top-left */
-    border-bottom-left-radius: 0; /* No rounding for bottom-left */
-    margin-bottom: 80px; /* Leave space for the footer */
+    overflow: hidden;
+    /* Prevent body scrolling */
 }
 
-.user-profile {
-    text-align: center;
-    margin-bottom: 30px;
-    margin-top: 1px;
-    margin-bottom: 10px; /* Add top margin to move it down */
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
 }
 
-.avatar-container {
+/* Sidebar Section */
+/* #sidebar-container {
+    width: 250px;
+    height: 100vh;
+    background-color: #01182a;
+    position: fixed;
+    left: 0;
+    top: 0;
+} */
+
+/* Main Content */
+.main-content {
+    margin-left: 250px;
+    /* Space for the sidebar */
+    margin-top: 55px;
+    /* Space for the header */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the content */
+    gap: 30px;
+    padding: 20px;
+    height: calc(100vh - 70px);
+    box-sizing: border-box;
+    overflow: auto;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 20px 30px 20px 50px;
+}
+
+/* Row Layout */
+.row {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-}
-
-.username {
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    margin-top: 10px;
-    margin-bottom: 30px;
-    word-wrap: break-word; /* Prevent overflow for long names */
-    text-align: center;
-}
-
-
-.nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%; /* Full width of the sidebar */
-}
-
-
-.nav-links li {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    color: #000000;
-    font-weight: bold;
-    background-color: #ffffff;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.nav-links li.active {
-    background-color: white;
-    color: #000000;
-    font-weight: bold;
-    border: 3px solid #ff5722; /* Outline for the active page */
-}
-
-.nav-links li:hover {
-    background-color: #fbfbfb;
-    transform: scale(1.1);
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    gap: 40px;
+    /* Add spacing between elements */
+    flex-wrap: wrap;
+    /* Allow responsive adjustments */
     width: 100%;
+    max-width: 1100px;
 }
 
-.nav-icon {
-    width: 20px;
-    height: 20px;
-}
-
-.support {
-    text-align: center;
-    margin-top: 20px; /* Add spacing above the support section */
-}
-
-.support-box {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.support-box p {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.contact-btn {
-    background-color: #0f1a3d; /* Button background color */
-    color: rgb(254, 254, 254); /* Text color */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold; /* Make the text bold */
-    font-size: 14px; /* Adjust font size */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-.contact-btn:hover {
-    background-color: #1f2c5a;
-}
-
-.version {
-    font-size: 12px;
-    color: white;
-    text-align: center;
-    margin-top: auto; /* Push to the bottom */
-    padding-top: 10px; /* Add spacing above the text */
-    opacity: 0.8; /* Subtle text visibility */
-}
-
-
-
-/* White Background Content */
-.white-background {
-    flex: 1;
-    background-color: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px; /* Increase padding for more content space */
-    margin: 50px 200px; /* Increase top and bottom margins */
-    overflow-y: auto;
-}
-
-
-/* Content Sections */
-.content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.top-section .search {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.booking-section {
-    display: flex;
-    gap: 20px;
-}
-
+/* Weather Section */
 .weather {
     background-color: #8584E2;
     color: white;
     padding: 20px;
-    border-radius: 10px;
-    flex: 1;
-}
-
-/* Calendar Container */
-#calendar {
-    max-width: 100%;
-    margin: 0 auto;
-    background: white; /* Calendar background */
-    border-radius: 10px; /* Rounded corners */
-    padding: 20px; /* Add space inside the calendar */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    font-family: Arial, sans-serif; /* Ensure consistent font */
-    font-size: 14px; /* Adjust font size for readability */
-    color: #333; /* Font color for calendar text */
-}
-
-/* FullCalendar Styles Override */
-.fc {
-    font-family: Arial, sans-serif !important; /* Use the same font as the app */
-    color: black !important; /* Ensure the text color is visible */
-}
-
-.fc-toolbar h2 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #000000; /* Toolbar title color */
-}
-
-.fc-button {
-    background-color: #6a6afa; /* Button background color */
-    border: none; /* Remove border */
-    color: white; /* Button text color */
-    padding: 8px 15px; /* Button padding */
-    border-radius: 5px; /* Rounded buttons */
-    transition: background-color 0.3s ease; /* Smooth hover effect */
-}
-
-.fc-button:hover {
-    background-color: #4a4ed6; /* Darker background on hover */
-}
-
-.fc-button-primary {
-    background-color: #6a6afa !important; /* Primary button background */
-}
-
-.fc-daygrid-day {
-    font-size: 14px;
-    color: #333; /* Ensure day text color is visible */
-}
-
-.fc-daygrid-day-number {
-    font-weight: bold; /* Highlight day numbers */
-}
-
-/* Tooltip/Event Hover Effect */
-.fc-event {
-    background-color: #6a6afa !important; /* Event background */
-    color: white !important; /* Event text color */
-    font-size: 14px; /* Adjust event font size */
-    border-radius: 5px; /* Rounded event styles */
-    padding: 2px 5px; /* Add some padding to the event text */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Event shadow */
-}
-
-.fc-event:hover {
-    background-color: #4a4ed6 !important; /* Darker color on hover */
-}
-
-/* Calendar Header */
-.fc-toolbar {
+    border-radius: 15px;
+    border: 3px solid #ff5722;
+    flex: 1 1 450px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
+    max-width: 450px;
+}
+
+.weather-icon {
+    width: 100px;
+    height: 100px;
     margin-bottom: 10px;
 }
 
-/* Calendar Today Button */
-.fc-button-primary.fc-today-button {
-    background-color: #ff5722 !important; /* Distinct color for the "Today" button */
-    color: white !important; /* Text color */
+.temperature {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.weather-description {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.temperature-line {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    margin: 15px 0;
+}
+
+/* Bookings List */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    flex: 2;
+    text-align: left;
+}
+
+.booking-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.booking-item strong {
+    font-size: 16px;
+}
+
+.booking-item span {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+}
+
+.cancel-btn {
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.cancel-btn:hover {
+    background-color: #3642b2;
+}
+
+/* Calendar Section */
+.calendar {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid #edf2f7;
+    width: 100%;
+}
+
+/* Calendar Container */
+.fc {
+    height: 400px !important;
+    max-height: 600px !important;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+
+}
+
+/* Scrollable View Container */
+.fc-view-harness {
+    height: 450px !important;
+    overflow-y: auto !important;
+    scrollbar-width: thin;
+    scrollbar-color: #8584E2 #f0f0f0;
+
+}
+
+/* Custom Scrollbar */
+.fc-view-harness::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fc-view-harness::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.fc-view-harness::-webkit-scrollbar-thumb {
+    background: #8584E2;
+    border-radius: 4px;
+}
+
+.fc-view-harness::-webkit-scrollbar-thumb:hover {
+    background: #6c63ff;
+}
+
+/* Enhanced Header Toolbar */
+.fc-header-toolbar {
+    padding: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 1px solid #edf2f7;
+}
+
+/* Enhanced Footer Toolbar */
+.fc-footer-toolbar {
+    padding: 0.5rem !important;
+    margin-top: 0.5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    border-top: 1px solid #edf2f7;
+}
+
+/* Enhanced Title */
+.fc-toolbar-title {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #2d3748 !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+/* Navigation Buttons */
+.fc-prev-button,
+.fc-next-button {
+    background-color: #8584E2 !important;
+    border: none !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
+}
+
+.fc-prev-button:hover,
+.fc-next-button:hover {
+    background-color: #6c63ff !important;
+    transform: translateY(-1px);
+}
+
+/* View Buttons */
+.fc-dayGridMonth-button,
+.fc-timeGridWeek-button,
+.fc-timeGridDay-button {
+    background-color: #01182a !important;
+    border: none !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
+    margin: 0 4px !important;
+}
+
+/* Active Button State */
+.fc-button-active {
+    background-color: #8584E2 !important;
+    box-shadow: none !important;
+}
+
+/* Calendar Grid */
+.fc-daygrid-day {
+    transition: background-color 0.2s ease;
+    height: 35px !important;
+    border: 1px solid #edf2f7 !important;
+}
+
+.fc-daygrid-day:hover {
+    background-color: #f7fafc;
+}
+
+/* Day Numbers */
+.fc-daygrid-day-number {
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+    color: #4a5568 !important;
+}
+
+/* Column Headers */
+.fc .fc-col-header-cell-cushion {
+    color: #2d3748;
+    font-weight: 600;
+    padding: 8px !important;
+}
+
+/* Today's Cell */
+.fc-day-today {
+    background-color: rgba(133, 132, 226, 0.1) !important;
+}
+
+.fc-day-today .fc-daygrid-day-number {
+    color: #3182ce !important;
+    font-weight: bold !important;
+}
+
+/* Events */
+.fc-event {
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    margin: 2px 0 !important;
+    background-color: #8584E2 !important;
+    transition: transform 0.2s ease !important;
+    cursor: pointer;
+}
+
+.fc-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.fc-event-title {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    padding: 2px !important;
+    color: white !important;
 }
 
 
-
+/* Note Section */
 .note-section {
     background-color: white;
+    color: #333;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     text-align: center;
+    max-width: 1250px;
+    margin-top: 20px;
 }
 
 .note-section p {
-    color: black; /* Set the font color to black */
-    font-size: 16px; /* Adjust the font size if needed */
-    text-align: center; /* Center-align the text */
+    font-size: 16px;
+    line-height: 1.5;
+    color: #000;
 }
 
 .note-section button {
-    padding: 10px 20px;
+    padding: 8px 18px;
     background-color: #0f1e3d;
     color: white;
     border: none;
     border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .note-section button:hover {
     background-color: #3642b2;
 }
 
-/* Main Content */
-.main-content {
-    margin-left: 130px; /* Aligns with sidebar width */
-    flex: 1;
-    padding: 50px;
+/* Notification Popup */
+.notification {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #8584E2;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.notification button {
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 
+
+/* Two-column layout for Weather and Calendar sections */
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two equal columns */
+    gap: 20px;
+    /* Space between columns */
+    width: 100%;
+    /* Full width of the parent container */
+    max-width: 1100px;
+    /* Optional: max width for better alignment */
+    margin: 0 auto;
+    /* Center the content horizontally */
+}
+
+/* Ensure Weather and Calendar take equal space */
+.weather,
+.calendar {
+    flex: none;
+    /* Override flex behavior */
+    max-width: none;
+    /* Prevent overriding max-width from the previous styles */
+}
+
+/* My Bookings Section */
+.my-bookings-section {
+    margin-top: 20px;
+    background-color: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.my-bookings-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.my-bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.my-bookings-table th,
+.my-bookings-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.my-bookings-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.my-bookings-table td .cancel-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.my-bookings-table td .cancel-btn:hover {
+    background-color: #cc0000;
+}
+
+/* Popup Styles */
+.custom-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    max-width: 90%;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.popup-content h3 {
+    margin: 0 0 10px;
+    color: #01182a;
+}
+
+.popup-content p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.popup-content .close-popup {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.popup-content .close-popup:hover {
+    background-color: #c82333;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+#ongoing-bookings-container {
+    margin-top: 20px;
+}
+
+#ongoing-bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.booking-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.booking-item strong {
+    font-size: 16px;
+}
+
+.check-in-btn,
+.check-out-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.check-in-btn:hover,
+.check-out-btn:hover {
+    background-color: #cc0000;
+}
+
+/* Keep all existing styles the same and only update/add these media queries at the end of your CSS file */
+
+@media (max-width: 1200px) {
+    .dashboard-container {
+        padding: 0 20px;
+        overflow-x: hidden;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        max-width: 800px;
+        margin: 70px auto 0;
+        padding: 20px;
+    }
+
+    .row {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .weather,
+    .calendar {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .weather {
+        max-width: 700px;
+    }
+
+    .calendar {
+        max-width: 700px;
+    }
+
+    .fc {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .my-bookings-section {
+        max-width: 700px;
+        margin: 30px auto;
+        width: 100%;
+    }
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        max-width: 600px;
+        padding: 15px;
+    }
+
+    .row {
+        max-width: 550px;
+        gap: 25px;
+    }
+
+    .weather,
+    .calendar {
+        max-width: 550px;
+    }
+
+    .my-bookings-section {
+        max-width: 550px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 0 15px;
+    }
+
+    .main-content {
+        margin-top: 60px;
+        max-width: 500px;
+    }
+
+    .row {
+        max-width: 450px;
+        gap: 20px;
+    }
+
+    .weather,
+    .calendar {
+        max-width: 450px;
+    }
+
+    .my-bookings-section {
+        max-width: 450px;
+        overflow-x: auto;
+    }
+
+    .fc {
+        height: 450px !important;
+    }
+
+    .fc-header-toolbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .fc-toolbar-chunk {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-container {
+        padding: 0 10px;
+    }
+
+    .main-content {
+        padding: 10px;
+        max-width: 400px;
+    }
+
+    .row {
+        max-width: 350px;
+        gap: 15px;
+    }
+
+    .weather,
+    .calendar {
+        max-width: 350px;
+    }
+
+    .my-bookings-section {
+        max-width: 350px;
+    }
+
+    .my-bookings-table {
+        min-width: 500px;
+    }
+
+    .fc {
+        padding: 10px;
+    }
+
+    .fc-toolbar-title {
+        font-size: 1.1rem !important;
+    }
+
+    .fc-button {
+        padding: 5px 8px !important;
+        font-size: 12px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .dashboard-container {
+        padding: 0 5px;
+    }
+
+    .main-content {
+        max-width: 320px;
+    }
+
+    .row {
+        max-width: 300px;
+        gap: 15px;
+    }
+
+    .weather,
+    .calendar {
+        max-width: 300px;
+        padding: 15px;
+    }
+
+    .my-bookings-section {
+        max-width: 300px;
+        padding: 15px 10px;
+    }
+
+    .fc {
+        padding: 8px;
+    }
+
+    .fc-toolbar-title {
+        font-size: 1rem !important;
+    }
+
+    .fc-button {
+        padding: 4px 6px !important;
+        font-size: 11px !important;
+    }
+
+    .temperature {
+        font-size: 20px;
+    }
+
+    .weather-description {
+        font-size: 13px;
+    }
+}
+
+.dashboard-container,
+.main-content,
+.row,
+.weather,
+.calendar,
+.my-bookings-section {
+    max-width: 100vw;
+    overflow-x: hidden;
+}

@@ -1,88 +1,69 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const sidebarContainer = document.getElementById("sidebar-container");
-  
-    fetch("../shared/navbar.html")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to load sidebar: ${response.statusText}`);
-        }
-        return response.text();
-      })
-      .then((html) => {
-        sidebarContainer.innerHTML = html;
-      })
-      .catch((error) => {
-        console.error("Error loading sidebar:", error);
-      });
-  });
-
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const sidebarContainer = document.getElementById("sidebar-container");
 
     // Dynamically load the sidebar
-    fetch("../shared/navbar.html")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`Failed to load sidebar: ${response.statusText}`);
+    try {
+        const sidebarResponse = await fetch("../shared/navbar.html");
+        if (!sidebarResponse.ok) {
+            throw new Error(`Failed to load sidebar: ${sidebarResponse.statusText}`);
+        }
+        const sidebarHTML = await sidebarResponse.text();
+        sidebarContainer.innerHTML = sidebarHTML;
+
+        // Highlight the active link based on the current URL
+        const currentPage = window.location.pathname.split("/").pop(); // Get current page name
+        const navLinks = document.querySelectorAll(".nav-links a");
+
+        navLinks.forEach((link) => {
+            const linkHref = link.getAttribute("href");
+            const parentLi = link.parentElement;
+
+            // Add 'active' class to the matching link
+            if (currentPage === linkHref) {
+                parentLi.classList.add("active");
+            } else {
+                parentLi.classList.remove("active");
             }
-            return response.text();
-        })
-        .then((html) => {
-            sidebarContainer.innerHTML = html;
-
-            // Highlight the active link based on the current URL
-            const currentPage = window.location.pathname.split("/").pop(); // Get current page name
-            const navLinks = document.querySelectorAll(".nav-links a");
-
-            navLinks.forEach((link) => {
-                const linkHref = link.getAttribute("href");
-                const parentLi = link.parentElement;
-
-                // Add 'active' class to the matching link
-                if (currentPage === linkHref) {
-                    parentLi.classList.add("active");
-                } else {
-                    parentLi.classList.remove("active");
-                }
-            });
-        })
-        .catch((error) => {
-            console.error("Error loading sidebar:", error);
         });
-});
-
-// Fetch username dynamically
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        // Fetch user data from an API (example endpoint)
-        const response = await fetch("https://api.example.com/user/profile");
-        const data = await response.json();
-
-        // Set the username dynamically
-        const usernameElement = document.getElementById("username");
-        usernameElement.textContent = data.username || "Guest User";
     } catch (error) {
-        console.error("Error fetching username:", error);
-
-        // Fallback username
-        document.getElementById("username").textContent = "Guest User";
+        console.error("Error loading sidebar:", error);
     }
-});
 
-  
-  document.addEventListener("DOMContentLoaded", async () => {
+    // Dynamically fetch and set the username
     try {
-        // Fetch user data from an API (example endpoint)
-        const response = await fetch("https://api.example.com/user/profile");
-        const data = await response.json();
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            console.warn("No access token found. Redirecting to login.");
+            window.location.href = "/frontend/user/login.html";
+            return;
+        }
 
-        // Set the username dynamically
+        const profileResponse = await fetch("http://127.0.0.1:8000/api/users/profile/", {
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!profileResponse.ok) {
+            throw new Error(`Failed to fetch user profile: ${profileResponse.statusText}`);
+        }
+
+        const profileData = await profileResponse.json();
         const usernameElement = document.getElementById("username");
-        usernameElement.textContent = data.username || "Guest User";
+
+        if (usernameElement) {
+            usernameElement.textContent = profileData.username || "Guest User";
+        } else {
+            console.warn("Username element not found in the DOM.");
+        }
     } catch (error) {
         console.error("Error fetching username:", error);
 
         // Fallback username
-        document.getElementById("username").textContent = "Guest User";
+        const fallbackElement = document.getElementById("username");
+        if (fallbackElement) {
+            fallbackElement.textContent = "Guest User";
+        }
     }
 });

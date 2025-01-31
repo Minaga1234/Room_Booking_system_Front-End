@@ -1,82 +1,76 @@
-/* General Styles */
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: 'Arial', sans-serif;
-    background-color: #0f1a3d;
-    /* Dark blue background */
+    background-color: #01182a;
+    min-height: 100vh;
     display: flex;
-    justify-content: flex-end;
-    /* Align the section to the right side */
-    align-items: center;
-    /* Center the container vertically */
-    height: 100vh;
+    justify-content: center;
+    align-items: flex-start;
 }
 
+/* Container Styles */
 .container {
+    width: calc(100% - 120px); /* Account for sidebar width */
+    margin-left: 50px; /* Leave space for sidebar */
+    margin-top: 70px; /* Leave space for the header */
+
     display: flex;
-    justify-content: flex-end;
-    /* Align the section to the right */
-    align-items: center;
-    /* Center the section vertically */
-    width: 100%;
-    height: 100%;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 0px;
+    min-height: calc(100vh - 80px); /* Full height minus header */
+    box-sizing: border-box;
 }
 
+
+
+
+/* Room Management Section */
 .room-management-section {
-    width: 65%;
-    /* Slightly increased width */
-    height: 85%;
-    /* Reduced height */
+    width: 70%;
     background: #ffffff;
-    /* White background */
-    border-radius: 15px;
-    /* Softer corners */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    /* Enhanced shadow for depth */
+    border-radius: 20px;
     padding: 40px;
-    /* Increased padding for spacing */
     display: flex;
     flex-direction: column;
-    /* Stack content vertically */
-    justify-content: center;
-    /* Center content vertically */
+    gap: 20px;
+    height: auto;
+    min-height: 80vh;
 }
 
+/* Header Styles */
 .room-management-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    /* Added spacing below the header */
-    border-bottom: 2px solid #eeeeee;
-    /* Subtle underline */
-    padding-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eeeeee;
 }
 
 .room-management-header h1 {
-    font-size: 28px;
-    /* Increased font size */
+    font-size: 24px;
     font-weight: bold;
     color: #0f1a3d;
-    /* Dark blue header font */
 }
 
 .room-navigation {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
 }
 
 .room-nav-button {
     background: none;
     border: 2px solid #0f1a3d;
-    /* Dark blue border */
     border-radius: 50%;
-    width: 40px;
-    /* Larger circular button */
-    height: 40px;
-    font-size: 18px;
-    /* Increased font size */
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
     font-weight: bold;
     color: #0f1a3d;
     cursor: pointer;
@@ -84,167 +78,102 @@ body {
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
-    /* Smooth hover effect */
 }
 
 .room-nav-button:hover {
     background-color: #0f1a3d;
     color: #ffffff;
-    /* White text on hover */
 }
 
+/* Room Details Styles */
 .room-details {
     display: flex;
-    flex-direction: row;
-    gap: 40px;
-    /* Increased gap between sections */
-    margin-bottom: 30px;
-    /* Increased spacing below details */
-    align-items: center;
-    /* Center the image and content vertically */
+    gap: 30px;
+    align-items: flex-start;
 }
 
 .room-image-section {
-    width: 40%;
-    /* Adjusted image section width */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 35%;
+    flex-shrink: 0;
 }
 
 .image-box {
     width: 100%;
-    height: 250px;
-    /* Fixed height for the image box */
-    border-radius: 12px;
-    /* Softer corners */
-    overflow: hidden;
+    height: 200px;
+    border-radius: 10px;
     background-color: #f9f9f9;
     border: 2px dashed #ccc;
-    /* Dashed border for unselected state */
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     transition: all 0.3s ease;
-    /* Smooth hover effect */
+    overflow: hidden;
 }
 
-.image-box:hover {
-    border: 2px dashed #0f1a3d;
-    /* Blue border on hover */
-}
-
-/* New Style for the Edit Button */
 .edit-button {
     position: absolute;
-    bottom: 10px;
-    height: 2.5rem;
-    /* Adjust height for consistency */
-    padding: 0 1.5rem;
-    /* Adjust padding */
-    border-radius: 1.5rem;
+    bottom: 8px;
+    height: 2.2rem;
+    padding: 0 1.2rem;
+    border-radius: 1.2rem;
     background: #3d3a4e;
-    background-size: 400%;
     color: #fff;
     border: none;
     cursor: pointer;
-    transition: all 0.475s ease;
+    transition: all 0.4s ease;
 }
 
 .edit-button:hover {
     background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
 }
 
-.edit-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
-    border-radius: inherit;
-    transform: scaleX(0);
-    transform-origin: 0 50%;
-    transition: transform 0.475s ease;
-    z-index: 0;
-}
-
-.edit-button:hover::before {
-    transform: scaleX(1);
-}
-
-.edit-button-content {
-    position: relative;
-    z-index: 1;
-    /* Keeps the button text visible above the background effect */
-}
-
 .room-info-section {
-    width: 60%;
-    /* Adjusted width for input section */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    /* Increased gap between form fields */
+    gap: 15px;
 }
 
 .field-row {
     display: flex;
-    gap: 40px;
-    /* Increased gap between "Location" and "Room Name" */
+    gap: 30px;
 }
 
 .field-group {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    /* Increased gap between label and input */
-    width: 100%;
+    gap: 8px;
 }
 
 .field-group label {
-    font-size: 16px;
-    /* Increased font size for labels */
+    font-size: 14px;
     color: #0f1a3d;
-    /* Label color */
 }
 
 .styled-input,
 .styled-textarea {
+    width: 100%;
     border: 1px solid #ccc;
-    /* Light gray border */
     border-radius: 8px;
-    /* Rounded corners */
-    padding: 12px;
-    /* Increased padding for inputs */
-    font-size: 16px;
-    /* Increased font size */
+    padding: 10px;
+    font-size: 14px;
     background-color: #f9f9f9;
-    /* Light background for inputs */
     transition: all 0.3s ease;
 }
 
-.styled-input:focus,
-.styled-textarea:focus {
-    border: 1px solid #0f1a3d;
-    /* Blue border on focus */
-    box-shadow: 0 0 5px rgba(15, 26, 61, 0.5);
-    /* Glow effect on focus */
-}
-
 .styled-textarea {
-    height: 100px;
-    /* Fixed height for text area */
+    height: 80px;
+    resize: vertical;
 }
 
+/* Switch Styles */
 .switch {
     position: relative;
     display: inline-block;
-    width: 50px;
-    /* Slightly larger toggle switch */
-    height: 25px;
+    width: 45px;
+    height: 20px;
 }
 
 .switch input {
@@ -268,10 +197,10 @@ body {
 .slider:before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 1px;
     background-color: white;
     transition: 0.4s;
     border-radius: 50%;
@@ -279,61 +208,119 @@ body {
 
 input:checked+.slider {
     background-color: #f97c2f;
-    /* Orange toggle when checked */
 }
 
 input:checked+.slider:before {
-    transform: translateX(25px);
+    transform: translateX(22px);
 }
 
+/* Footer Styles */
 .room-management-footer {
     display: flex;
     justify-content: flex-end;
-    /* Align buttons to the right */
-    gap: 15px;
-    /* Increased gap between buttons */
+    gap: 10px;
+    margin-top: auto;
 }
 
-/* Styled Button with Same Design */
 .styled-button {
-    position: relative;
-    overflow: hidden;
-    height: 3rem;
-    padding: 0 2rem;
-    border-radius: 1.5rem;
+    height: 2.5rem;
+    padding: 0 1.5rem;
+    border-radius: 1.2rem;
     background: #3d3a4e;
-    background-size: 400%;
     color: #fff;
     border: none;
     cursor: pointer;
-    transition: all 0.475s ease;
+    transition: all 0.4s ease;
+    white-space: nowrap;
 }
 
 .styled-button:hover {
     background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
 }
 
-.styled-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
-    border-radius: inherit;
-    transform: scaleX(0);
-    transform-origin: 0 50%;
-    transition: transform 0.475s ease;
-    z-index: 0;
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+    .room-management-section {
+        width: 80%;
+    }
 }
 
-.styled-button:hover::before {
-    transform: scaleX(1);
+@media screen and (max-width: 992px) {
+    .room-management-section {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .room-details {
+        flex-direction: column;
+    }
+
+    .room-image-section {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .room-info-section {
+        width: 100%;
+    }
 }
 
-.styled-button-content {
-    position: relative;
-    z-index: 1;
-    /* Keeps the button text visible above the background effect */
+@media screen and (max-width: 768px) {
+    .room-management-section {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .room-management-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .room-navigation {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .field-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding: 0.5rem;
+    }
+
+    .room-management-section {
+        padding: 15px;
+        min-height: 95vh;
+    }
+
+    .room-management-header h1 {
+        font-size: 20px;
+    }
+
+    .room-management-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .styled-button {
+        width: 100%;
+    }
+
+    .image-box {
+        height: 180px;
+    }
+}
+
+/* Utility Classes for Focus States */
+.styled-input:focus,
+.styled-textarea:focus {
+    outline: none;
+    border-color: #0f1a3d;
+    box-shadow: 0 0 5px rgba(15, 26, 61, 0.5);
 }

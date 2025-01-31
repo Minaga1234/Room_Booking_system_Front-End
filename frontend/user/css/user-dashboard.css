@@ -1,11 +1,11 @@
-/* General Styles */
 body {
     margin: 0;
     font-family: "Open Sans", sans-serif;
-    background-color: #01182a;
+    background-color: #01182a !important;
     color: #ffffff;
-    overflow: hidden; /* Remove scrollbars completely */
+    overflow: hidden;
 }
+
 
 /* Dashboard Container */
 .dashboard-container {
@@ -14,356 +14,83 @@ body {
         "header header"
         "sidebar main"
         "footer footer";
-    grid-template-columns: 250px 1fr; /* Sidebar width and main content */
-    grid-template-rows: 70px auto 50px; /* Header, main content, footer */
-    height: 100vh; /* Full viewport height */
-    overflow: hidden; /* Prevent overflow in the container */
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 70px auto 50px;
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* Main Content Section */
 .main-content {
     grid-area: main;
     display: grid;
-    grid-template-rows: auto auto; /* Two rows for main content */
-    gap: 20px; /* Spacing between rows */
-    padding: 20px;
-    padding-left: 50px;
-    padding-right: 30px;
-    overflow: hidden; /* Prevent overflow within the main content */
-    height: calc(100vh - 70px); /* Adjusted height to match the sidebar/header */
+    grid-template-rows: auto auto;
+    gap: 10px;
+    /* Reduced from 20px */
+    padding: 20px 30px 20px 50px;
+    overflow: hidden;
+    height: calc(100vh - 70px);
     box-sizing: border-box;
+    margin-top: -20px;
 }
 
 /* Row Layouts */
 .row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Flexible columns */
-    gap: 40px; /* Reduced spacing between widgets */
-    align-items: stretch; /* Ensure widgets stretch to fill available height */
-    margin-top: 0; /* Remove any margin at the top */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    align-items: stretch;
+    margin-top: 0;
+    margin-bottom: 0;
+    /* Remove bottom margin if exists */
 }
 
 /* Adjustments for Row 1 */
 .row-1 .card {
-    height: 200px; /* Increased height for the first-row cards */
+    height: 150px;
 }
 
-/* Full-width Widget (Move to Bottom) */
-.row-2 .full-width {
-    grid-column: span 3;
-    background-color: #ffffff;
-    color: #01182a;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    height: 300px; /* Maintain height for the full-width widget */
-    align-self: end; /* Move the widget to the bottom */
+.row-2 .card {
+    margin-top: 20px;
+    /* Reduced from 20px */
+    height: 380px;
 }
 
-/* Widgets */
-.widget {
-    background-color: #ffffff;
-    color: #01182a;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-    height: 100%; /* Ensure the widget stretches fully */
-    overflow: hidden; /* Prevent overflow for dynamic content */
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .dashboard-container {
-        grid-template-areas:
-            "header"
-            "main";
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        display: none;
-    }
-
-    .main-content {
-        grid-template-rows: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust rows dynamically */
-        padding: 10px;
-    }
-
-    .widget {
-        padding: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .widget {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    .row {
-        grid-template-columns: 1fr; /* Single column layout */
-    }
-}
-
-/* Bookings Card Styles */
-.bookings-card {
-    background-color: #ffffff;
-    color: #01182a;
-    border-radius: 20px; /* Smooth rounded corners */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Space between text and button */
-    justify-content: center;
-    align-items: flex-start; /* Align content to the left */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-}
-
-/* Headline Styling */
-.bookings-card h2 {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0;
-    color: #01182a;
-}
-
-/* Description Text Styling */
-.bookings-card p {
-    font-size: 16px;
-    margin: 0;
-    color: #444444;
-}
-
-/* Button Styling */
-.book-now-btn {
-    background-color: #8c8bfc; /* Purple button background */
-    color: #ffffff; /* White text */
-    border: none;
-    border-radius: 15px; /* Rounded button */
-    padding: 10px 20px; /* Button padding */
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.book-now-btn:hover {
-    background-color: #6a6afa; /* Slightly darker shade on hover */
-}
-
-/* Feedback Card Styles */
-.feedback-card {
-    background-color: #ffffff;
-    color: #01182a;
-    border-radius: 20px; /* Smooth rounded corners */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Space between text and button */
-    justify-content: center;
-    align-items: flex-start; /* Align content to the left */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    text-align: left; /* Align text to the left */
-}
-
-/* Headline Styling */
-.feedback-card h2 {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0;
-    color: #01182a;
-}
-
-/* Description Text Styling */
-.feedback-card p {
-    font-size: 16px;
-    margin: 0;
-    color: #444444;
-    line-height: 1.5; /* Improve readability with line height */
-}
-
-/* Button Styling */
-.feedback-btn {
-    background-color: #8c8bfc; /* Purple button background */
-    color: #ffffff; /* White text */
-    border: none;
-    border-radius: 15px; /* Rounded button */
-    padding: 10px 20px; /* Button padding */
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.feedback-btn:hover {
-    background-color: #6a6afa; /* Slightly darker shade on hover */
-}
-
-/* Most Popular Rooms Widget */
-.popular-rooms {
-    background-color: #ffffff;
-    color: #01182a;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    text-align: left;
-    height: 400px; /* Adjusted height for better layout */
-    overflow: hidden; /* Prevent content overflow */
-}
-
-.popular-rooms h2 {
-    font-size: 22px; /* Slightly larger font size for better emphasis */
-    font-weight: bold;
-    margin: 0;
-    text-align: center; /* Center the title */
-}
-
-/* Rooms List Styling */
-.rooms-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    overflow-y: auto; /* Enable vertical scrolling */
-    height: calc(100% - 40px); /* Adjust height to fit within the card, excluding padding */
-    padding-right: 10px; /* Space for the scrollbar */
-    scrollbar-width: thin; /* For Firefox: thin scrollbar */
-    scrollbar-color: #8d8bfc91 transparent; /* For Firefox: styled scrollbar */
-    margin-right: -10px; /* Prevent scrollbar from overlapping content */
-}
-
-/* Scrollbar for Webkit (e.g., Chrome, Edge, Safari) */
-.rooms-list::-webkit-scrollbar {
-    width: 8px;
-}
-
-.rooms-list::-webkit-scrollbar-thumb {
-    background-color: #8d8bfc91;
-    border-radius: 3px;
-}
-
-.rooms-list::-webkit-scrollbar-thumb:hover {
-    background-color: #6a6afa;
-}
-
-/* Individual Room Item Styling */
-.room-item {
-    display: flex;
-    flex-direction: column; /* Changed to column layout */
-    justify-content: space-between;
-    align-items: flex-start;
-    background-color: #f9f9f9; /* Subtle background color for contrast */
-    padding: 20px; /* Adjusted padding for better readability */
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin: 0 auto; /* Center the card horizontally */
-}
-
-/* Hover Effects */
-.room-item:hover {
-    transform: translateY(-3px); /* Slight elevation effect */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* Room and Booking Details (First Row) */
-.room-item .details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    font-size: 16px; /* Adjusted font size for readability */
-    font-weight: 500;
-    color: #01182a;
-}
-
-/* Room Name and Booking Count (Second Row) */
-.room-item .values {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    font-size: 18px; /* Slightly larger font size for visibility */
-    font-weight: bold;
-    color: #6a6afa; /* Purple color for emphasis */
-}
-
-/* Room Item Text Styling */
-.room-item p {
-    margin: 0;
-    font-size: 16px; /* Adjusted font size for readability */
-    font-weight: 500;
-    color: #01182a;
-}
-
-/* Make Room and Booking Details Stand Out */
-.room-item p strong {
-    font-weight: 700; /* Bold labels for emphasis */
-    color: #6a6afa; /* Highlight color */
-}
-
-.room-item img {
-    width: 90px;
-    height: 90px;
-    border-radius: 30px;
-    padding: 20px;
-    object-fit: cover;
-}
-
-.availability-btn {
-    background-color: #8c8bfc;
-    color: #ffffff;
-    border: none;
-    border-radius: 15px;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.availability-btn:hover {
-    background-color: #6a6afa;
-}
-
-/* Full-Width Analytics Widget */
+/* Full-width Analytics Widget */
 .full-width-analytics {
     grid-column: span 3;
     background-color: #ffffff;
-    color: #FFFFFF;
+    color: #01182a;
     border-radius: 20px;
     padding: 20px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
+    padding-top: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 350px; /* Adjust height as needed */
-    overflow: hidden; /* Ensure the chart fits within the container */
-    text-align: left;
+    height: 150px;
+    overflow: hidden;
 }
 
 .full-width-analytics h2 {
     font-size: 18px;
     font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 1px;
     color: #000000;
-    margin-bottom: 15px;
 }
 
+/* Chart Container */
 .chart-container {
     width: 100%;
-    height: 280px;
-    background-color: #1B2735;
+    height: 90%;
+    background-color: #1b2735;
     border-radius: 12px;
-    padding: 0px;
+    padding: 5px;
+    padding-bottom: 0;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -372,66 +99,30 @@ body {
 .chart-container canvas {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
-/*new code
-
-/* General Styles */
-body {
-    margin: 0;
-    font-family: "Open Sans", sans-serif;
-    background-color: #01182a;
-    color: #ffffff;
-    overflow: hidden; /* Remove scrollbars completely */
-}
-
-/* Dashboard Container */
-.dashboard-container {
-    display: grid;
-    grid-template-areas:
-        "header header"
-        "sidebar main";
-    grid-template-columns: 250px 1fr; /* Sidebar width and main content */
-    grid-template-rows: 70px auto; /* Header and main content */
-    height: 100vh; /* Full viewport height */
-}
-
-/* Main Content Section */
-.main-content {
-    grid-area: main;
-    display: grid;
-    grid-template-rows: auto auto; /* Two rows for main content */
-    gap: 20px; /* Spacing between rows */
-    padding: 20px 30px;
-    padding-left: 4%;
-    overflow: hidden; /* Prevent overflow within the main content */
-    box-sizing: border-box;
-}
-
-/* Row Layouts */
-.row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Flexible columns */
-    gap: 20px; /* Spacing between widgets */
-    align-items: stretch; /* Ensure widgets stretch to fill available height */
-}
-
-/* Bookings Card Styles */
-.bookings-card {
+/* Card Styles */
+.widget {
     background-color: #ffffff;
     color: #01182a;
-    border-radius: 20px; /* Smooth rounded corners */
+    border-radius: 20px;
     padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between text and button */
     justify-content: center;
-    align-items: flex-start; /* Align content to the left */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    align-items: flex-start;
+    text-align: left;
+    height: 100%;
+    overflow: hidden;
 }
 
-/* Headline Styling */
+/* Bookings Card */
+.bookings-card {
+    gap: 15px;
+}
+
 .bookings-card h2 {
     font-size: 20px;
     font-weight: bold;
@@ -439,20 +130,18 @@ body {
     color: #01182a;
 }
 
-/* Description Text Styling */
 .bookings-card p {
     font-size: 16px;
     margin: 0;
     color: #444444;
 }
 
-/* Button Styling */
 .book-now-btn {
-    background-color: #8c8bfc; /* Purple button background */
-    color: #ffffff; /* White text */
+    background-color: #8c8bfc;
+    color: #ffffff;
     border: none;
-    border-radius: 15px; /* Rounded button */
-    padding: 10px 20px; /* Button padding */
+    border-radius: 15px;
+    padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
@@ -460,21 +149,29 @@ body {
 }
 
 .book-now-btn:hover {
-    background-color: #6a6afa; /* Slightly darker shade on hover */
+    background-color: #6a6afa;
 }
 
-/* Feedback Card Styles */
+/*see-details-btn*/
+.see-details-btn {
+    background-color: #8c8bfc;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.see-details-btn:hover {
+    background-color: #6a6afa;
+}
+
+/* Feedback Card */
 .feedback-card {
-    background-color: #ffffff;
-    color: #01182a;
-    border-radius: 20px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
     gap: 15px;
-    justify-content: center;
-    align-items: flex-start;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .feedback-card h2 {
@@ -506,33 +203,29 @@ body {
     background-color: #6a6afa;
 }
 
-/* Most Popular Rooms Widget */
+/* Popular Rooms */
 .popular-rooms {
-    background-color: #ffffff;
-    color: #01182a;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
+    height: 350px;
     gap: 15px;
-    height: 350px; /* Fixed height for the card */
-    overflow: hidden; /* Prevent content overflow */
 }
 
 .popular-rooms h2 {
     font-size: 20px;
     font-weight: bold;
     margin: 0;
+    text-align: center;
 }
 
+/* Rooms List */
 .rooms-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    overflow-y: auto; /* Enable vertical scrolling */
-    height: 100%; /* Occupy remaining space inside the card */
-    padding-right: 10px; /* Space for the scrollbar */
+    overflow-y: auto;
+    height: calc(100% - 40px);
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #8c8bfc transparent;
 }
 
 .rooms-list::-webkit-scrollbar {
@@ -548,20 +241,29 @@ body {
     background-color: #6a6afa;
 }
 
+/* Room Items */
 .room-item {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 10px;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.room-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .room-item img {
     width: 90px;
     height: 90px;
-    border-radius: 10px;
+    border-radius: 30px;
+    padding: 20px;
     object-fit: cover;
 }
 
@@ -581,48 +283,337 @@ body {
     background-color: #6a6afa;
 }
 
-/* Full-Width Analytics Widget */
-.full-width-analytics {
-    background-color: #ffffff;
-    color: #01182a;
-    border-radius: 20px;
-    padding: 20px;
-    padding-bottom: 0px;
-    padding-top: 0px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* Room Details */
+.room-item .details,
+.room-item .values {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    height: 320px; /* Adjust height as needed */
-    overflow: hidden;
+    width: 100%;
 }
 
-.full-width-analytics h2 {
+.room-item .details {
+    font-size: 16px;
+    font-weight: 500;
+    color: #01182a;
+}
+
+.room-item .values {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
-    margin-top: 1px;
+    color: #6a6afa;
 }
 
-.chart-container {
-    width: 100%;
-    height: 75%; /* Adjust height for the chart */
-    background-color: #1b2735;
-    border-radius: 12px;
-    padding: 10px;
-    padding-bottom: 0px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.room-item p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #01182a;
 }
 
-.chart-container canvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
+.room-item p strong {
+    font-weight: 700;
+    color: #6a6afa;
 }
 
+@media screen and (min-width: 1440px) {
+    .dashboard-container {
+        grid-template-columns: 280px 1fr;
+        overflow: hidden;
+    }
+
+    .main-content {
+        padding: 25px 40px;
+        overflow: hidden;
+    }
+
+    .row {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+    }
+
+    .row-2 .card {
+        height: 380px;
+    }
 
 
+}
+
+/* Large Desktops (1200px to 1439px) */
+@media screen and (max-width: 1439px) {
+    .dashboard-container {
+        grid-template-columns: 250px 1fr;
+        overflow: hidden;
+    }
+
+    .main-content {
+        overflow: hidden;
+    }
+
+    .row {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    .row-2 .card {
+        height: 350px;
+    }
+}
+
+/* Small Desktops (1024px to 1199px) */
+@media screen and (max-width: 1299px) {
+    .dashboard-container {
+        grid-template-columns: 220px 1fr;
+        overflow: hidden;
+    }
+
+    .main-content {
+        padding: 20px 30px;
+        overflow: hidden;
+    }
+
+    .row {
+        gap: 25px;
+    }
+
+    .row-2 .card {
+        height: 350px;
+    }
+}
+
+/* Tablets Landscape (992px to 1023px) */
+@media screen and (max-width: 1023px) {
+    .dashboard-container {
+        grid-template-areas:
+            "header header"
+            "main main"
+            "footer footer";
+        grid-template-columns: 1fr;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        padding: 20px;
+        height: calc(100vh - 120px);
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .full-width-analytics {
+        grid-column: span 2;
+        height: 300px;
+    }
+}
+
+/* Tablets Portrait (768px to 991px) */
+@media screen and (max-width: 991px) {
+    .dashboard-container {
+        grid-template-rows: 60px auto auto;
+    }
+
+    .main-content {
+        padding: 15px;
+        height: auto;
+    }
+
+    .row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .row-1 .card {
+        min-height: 160px;
+    }
+
+    .popular-rooms {
+        height: 300px;
+        overflow-x: auto;
+    }
+
+    .full-width-analytics {
+        height: 250px;
+    }
+
+    .widget {
+        padding: 15px;
+    }
+}
+
+/* Large Phones (576px to 767px) */
+@media screen and (max-width: 767px) {
+    .dashboard-container {
+        grid-template-rows: 55px auto;
+    }
+
+    .row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .full-width-analytics {
+        grid-column: span 1;
+        height: 220px;
+    }
+
+    .row-1 .card {
+        min-height: 140px;
+    }
+
+    .popular-rooms {
+        height: 280px;
+    }
+
+    .room-item img {
+        width: 80px;
+        height: 80px;
+        padding: 15px;
+    }
+
+    .widget {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Medium Phones (375px to 575px) */
+@media screen and (max-width: 575px) {
+    .dashboard-container {
+        grid-template-rows: 50px auto;
+    }
+
+    .main-content {
+        padding: 12px;
+    }
+
+    .widget {
+        padding: 15px;
+    }
+
+    .row-1 .card {
+        min-height: 130px;
+    }
+
+    .popular-rooms {
+        height: 260px;
+    }
+
+    .room-item {
+        padding: 12px;
+    }
+
+    .room-item img {
+        width: 70px;
+        height: 70px;
+        padding: 10px;
+    }
+
+    .book-now-btn,
+    .feedback-btn,
+    .see-details-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+        width: 100%;
+    }
+}
+
+/* Small Phones (320px to 374px) */
+@media screen and (max-width: 374px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .widget {
+        padding: 12px;
+    }
+
+    .row-1 .card {
+        min-height: 120px;
+    }
+
+    .popular-rooms {
+        height: 240px;
+    }
+
+    .room-item {
+        padding: 10px;
+    }
+
+    .room-item img {
+        width: 60px;
+        height: 60px;
+        padding: 8px;
+    }
+
+    .bookings-card h2,
+    .feedback-card h2,
+    .popular-rooms h2 {
+        font-size: 16px;
+    }
+
+    .bookings-card p,
+    .feedback-card p {
+        font-size: 13px;
+    }
+}
+
+/* Very Small Phones (up to 320px) */
+@media screen and (max-width: 320px) {
+    .main-content {
+        padding: 8px;
+    }
+
+    .widget {
+        padding: 10px;
+    }
+
+    .room-item {
+        padding: 8px;
+    }
+
+    .room-item img {
+        width: 50px;
+        height: 50px;
+        padding: 6px;
+    }
+
+    .book-now-btn,
+    .feedback-btn,
+    .see-details-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
+
+/* Landscape Mode */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .dashboard-container {
+        grid-template-rows: 50px auto;
+    }
+
+    .main-content {
+        height: calc(100vh - 50px);
+        overflow-y: auto;
+    }
+
+    .row-1 .card {
+        min-height: 120px;
+    }
+
+    .popular-rooms {
+        height: 200px;
+    }
+
+    .full-width-analytics {
+        height: 180px;
+    }
+}
