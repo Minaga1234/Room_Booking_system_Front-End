@@ -332,6 +332,10 @@ body {
         gap: 40px;
     }
 
+    .row-2 .card {
+        height: 380px;
+    }
+
 
 }
 
@@ -350,10 +354,14 @@ body {
         grid-template-columns: repeat(3, 1fr);
         gap: 30px;
     }
+
+    .row-2 .card {
+        height: 350px;
+    }
 }
 
 /* Small Desktops (1024px to 1199px) */
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 1299px) {
     .dashboard-container {
         grid-template-columns: 220px 1fr;
         overflow: hidden;
@@ -366,6 +374,10 @@ body {
 
     .row {
         gap: 25px;
+    }
+
+    .row-2 .card {
+        height: 350px;
     }
 }
 
