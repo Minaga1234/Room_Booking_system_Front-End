@@ -148,16 +148,29 @@ body {
 
 /* Penalties Today */
 .penalties-today {
+  background-color: white;
+  color: #333;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  text-align: center;
-  height: 300px;
+  align-items: center;
+  min-height: 150px;
+}
+
+.penalty-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .penalty-count {
-  font-size: 50px;
+  font-size: 36px;
   font-weight: bold;
   color: #ff5722;
 }
@@ -351,17 +364,26 @@ body {
   background-color: white;
   color: #333;
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   text-align: center;
   max-width: 800px;
-  margin-top: 20px;
+  margin-top: 3px;
+
+  /* Centering the content vertically */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
 }
+
 
 .note-section p {
   font-size: 16px;
   line-height: 1.5;
   color: #000;
+  margin-bottom: 15px;
 }
 
 .note-section button {
@@ -369,14 +391,14 @@ body {
   background-color: #0f1e3d;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
   margin-top: 10px;
 }
 
 .note-section button:hover {
-  background-color: #3642b2;
+  background-color: #8c8bfc;
 }
 
 .view-all-link {
@@ -390,7 +412,7 @@ body {
   color: #fff; /* White text */
   padding: 10px 20px;
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: 20px;
   font-size: 0.9rem;
   font-weight: bold;
   transition: background-color 0.3s ease;

@@ -3,6 +3,7 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
+    margin-left: -200px;
     background-color: #01182a;
     color: #2d3748;
     display: flex;
@@ -13,12 +14,13 @@ body {
 
 /* Main Content Section */
 .main-content {
-    padding: 30px;
+    padding: 40px;
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 8px 30px rgba(103, 58, 183, 0.1);
     width: 70%;
     max-width: 1000px;
+    
     height: calc(100vh - 140px);
     overflow-y: auto;
     margin: 90px 30px 30px auto;

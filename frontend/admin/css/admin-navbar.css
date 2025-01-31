@@ -1,22 +1,41 @@
+/* Glowing effect */
 .sidebar {
-  background-color: #8c8bfc; /* Sidebar background */
-  width: 260px; /* Reduced sidebar width */
-  height: calc(106vh - 130px); /* Full height minus header and footer space */
+  background-color: #8c8bfc;
+  width: 260px;
+  height: calc(106vh - 130px);
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2), 0 0 8px 5px #7b5df7; /* Purplish-blue glow */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center content horizontally */
-  justify-content: center; /* Center content vertically */
-  position: fixed; /* Fixed position */
-  top: 70px; /* Leave space for the header */
-  left: 0; /* Align to the left */
-  border-top-right-radius: 15px; /* Round top-right corner */
-  border-bottom-right-radius: 15px; /* Round bottom-right corner */
-  border-top-left-radius: 0; /* No rounding for top-left */
-  border-bottom-left-radius: 0; /* No rounding for bottom-left */
-  margin-bottom: 80px; /* Leave space for the footer */
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  margin-bottom: 80px;
 }
+
+/* Glow animation for smooth effect */
+@keyframes glowEffect {
+  0% {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2), 0 0 5px 2px #7b5df7;
+  }
+  50% {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2), 0 0 5px 8px #837ff0;
+  }
+  100% {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2), 0 0 5px 2px #7b5df7;
+  }
+}
+
+/* Apply the animation to the sidebar */
+.sidebar:hover {
+  animation: glowEffect 2s infinite;
+}
+
+
 
 .user-profile {
   text-align: center;
@@ -106,35 +125,36 @@
 }
 
 .support-box {
-  background-color: white;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 220px;
 }
 
-.support-box p {
-  font-size: 14px;
-  margin-bottom: 10px;
-  color: #333;
+.support-text {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
 .contact-btn {
-  background-color: #0f1a3d; /* Button background color */
-  color: rgb(254, 254, 254); /* Text color */
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-weight: bold; /* Make the text bold */
-  font-size: 14px; /* Adjust font size */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #0f1e3d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .contact-btn:hover {
-  background-color: #1f2c5a;
+    background-color: #8c8bfc;
 }
+
 
 .version {
   font-size: 12px;
