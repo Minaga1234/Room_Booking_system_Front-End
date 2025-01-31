@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const API_BASE_URL = "http://127.0.0.1:8000/analytics/";
   const ROOMS_API_URL = "http://127.0.0.1:8000/api/rooms/";
-  const ADMIN_BOOKINGS_URL = "http://127.0.0.1:8000/api/bookings/admin/bookings/";// Update with the correct full URL
-const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Update with the correct full URL
-
-  const NEW_ROOMS_LIMIT = 5; // Limit for newly added rooms to display
+  const ADMIN_BOOKINGS_URL = "http://127.0.0.1:8000/api/bookings/admin/bookings/";
+  const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/";
+  const NEW_ROOMS_LIMIT = 5;
 
   // Fetch Room Data
   const fetchRoomData = async () => {
@@ -28,14 +27,14 @@ const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Upd
   // Fetch Analytics Data
   const fetchAnalyticsData = async () => {
     try {
-      const response = await fetch(API_BASE_URL);
+      const response = await fetch(API_BASE_URL + "transformed-analytics/");
       if (!response.ok) {
         throw new Error(`Failed to fetch analytics data: ${response.status}`);
       }
       return await response.json();
     } catch (error) {
       console.error("Error fetching analytics data:", error);
-      return [];
+      return {};
     }
   };
 
@@ -45,27 +44,8 @@ const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Upd
     return new Chart(ctx, {
       type: "line",
       data: {
-        labels: [], // Dynamic labels
-        datasets: [
-          {
-            label: "Bookings",
-            data: [], // Dynamic data
-            backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
-            borderColor: "#FF6600", // Orange line
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-          },
-          {
-            label: "Check-ins",
-            data: [], // Dynamic data
-            backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
-            borderColor: "#5DA4DC", // Blue line
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-          },
-        ],
+        labels: [],
+        datasets: [],
       },
       options: {
         responsive: true,
@@ -93,7 +73,7 @@ const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Upd
           x: {
             title: {
               display: true,
-              text: "Rooms",
+              text: "Dates",
               color: "#000",
             },
             ticks: {
@@ -105,21 +85,35 @@ const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Upd
     });
   };
 
+  // Generate Random Colors for Datasets
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   // Update the Chart
-  const updateChart = async (chart, roomMapping) => {
+  const updateChart = async (chart) => {
     const analyticsData = await fetchAnalyticsData();
-    if (!analyticsData || analyticsData.length === 0) {
+    if (!analyticsData || !analyticsData.dates || !analyticsData.data) {
       console.warn("No analytics data available.");
       return;
     }
 
-    const rooms = analyticsData.map((entry) => roomMapping[entry.room] || `Room ${entry.room}`);
-    const bookings = analyticsData.map((entry) => entry.total_bookings);
-    const utilizationRates = analyticsData.map((entry) => entry.utilization_rate || 0);
+    const labels = analyticsData.dates;
+    const datasets = Object.keys(analyticsData.data).map((room) => ({
+      label: room,
+      data: analyticsData.data[room].bookings,
+      borderColor: getRandomColor(),
+      fill: false,
+      tension: 0.4,
+    }));
 
-    chart.data.labels = rooms;
-    chart.data.datasets[0].data = bookings;
-    chart.data.datasets[1].data = utilizationRates;
+    chart.data.labels = labels;
+    chart.data.datasets = datasets;
     chart.update();
   };
 
@@ -131,31 +125,30 @@ const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Upd
         throw new Error(`Failed to fetch bookings: ${response.status}`);
       }
       const bookings = await response.json();
-  
+
       if (bookings.length === 0) {
         bookingListContainer.innerHTML = "<p>No bookings available.</p>";
         return;
       }
-  
-      // Display recent bookings (limit to 5)
+
+      // Display recent bookings
       const recentBookings = bookings.slice(0, 5);
-  
+
       bookingListContainer.innerHTML = recentBookings
         .map((booking) => {
           const roomName = booking.room_name || "Room N/A";
           const status = booking.status || "Unknown";
-  
-          // Safely parse dates
+
           const startTime = booking.start_time ? new Date(booking.start_time) : null;
           const endTime = booking.end_time ? new Date(booking.end_time) : null;
-  
+
           const startTimeStr = startTime
             ? startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
             : "Invalid Date";
           const endTimeStr = endTime
             ? endTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
             : "Invalid Date";
-  
+
           return `
             <div class="booking-item">
               <p><strong>${roomName}</strong> - ${status}</p>
@@ -164,8 +157,7 @@ const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Upd
           `;
         })
         .join("");
-  
-      // Add a "View All Bookings" link
+
       bookingListContainer.innerHTML += `
         <div class="view-all-link">
           <a href="http://127.0.0.1:5500/frontend/admin/admin-bookings.html" class="view-all-btn">View All Bookings</a>
@@ -181,10 +173,6 @@ const ADMIN_PENALTIES_URL = "http://127.0.0.1:8000/api/admin/penalties/"; // Upd
       `;
     }
   };
-  
-// Run this function in the dashboard initialization
-await updateBookingSchedule();
-
 
   // Update Number of Penalties Today
   const updatePenaltiesToday = async () => {
@@ -198,25 +186,15 @@ await updateBookingSchedule();
     }
   };
 
-  // Fetch Newly Added Rooms
-  const fetchNewlyAddedRooms = async () => {
+  // Update Newly Added Rooms Section
+  const updateNewlyAddedRooms = async () => {
+    const newlyAddedRoomsContainer = document.querySelector("#new-rooms-list");
     try {
       const response = await fetch(`${ROOMS_API_URL}?limit=${NEW_ROOMS_LIMIT}`);
       if (!response.ok) {
         throw new Error(`Failed to fetch room data: ${response.status}`);
       }
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching newly added rooms:", error);
-      return [];
-    }
-  };
-
-  // Update Newly Added Rooms Section
-  const updateNewlyAddedRooms = async () => {
-    const newlyAddedRoomsContainer = document.querySelector("#new-rooms-list");
-    try {
-      const rooms = await fetchNewlyAddedRooms();
+      const rooms = await response.json();
 
       if (!rooms.length) {
         newlyAddedRoomsContainer.innerHTML = "<p>No newly added rooms available.</p>";
@@ -254,7 +232,7 @@ await updateBookingSchedule();
 
     // Initialize and Update the Traffic Chart
     const chart = initializeChart();
-    await updateChart(chart, roomMapping);
+    await updateChart(chart);
 
     // Update Newly Added Rooms Section
     await updateNewlyAddedRooms();

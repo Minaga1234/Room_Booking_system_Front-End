@@ -1,32 +1,44 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Initialize the Chart
+document.addEventListener("DOMContentLoaded", async () => {
+    const BASE_URL = "http://127.0.0.1:8000";
+    const ANALYTICS_URL = `${BASE_URL}/analytics/transformed-analytics/`;
+    const ROOMS_URL = `${BASE_URL}/api/rooms/`;
+    const ACTIVE_USERS_URL = `${BASE_URL}/api/bookings/active-users/`;
+
+    // === Fetch Transformed Analytics Data ===
+    const fetchAnalyticsData = async () => {
+        try {
+            const response = await fetch(ANALYTICS_URL);
+            if (!response.ok) throw new Error("Failed to fetch analytics data");
+            return await response.json();
+        } catch (error) {
+            console.error("Error fetching analytics data:", error);
+            return {};
+        }
+    };
+
+    // === Fetch Active Users Data ===
+    const fetchActiveUsers = async () => {
+        try {
+            const response = await fetch(ACTIVE_USERS_URL);
+            if (!response.ok) {
+                throw new Error("Failed to fetch active users data");
+            }
+            const data = await response.json();
+            return data.active_users;
+        } catch (error) {
+            console.error("Error fetching active users:", error);
+            return 0;
+        }
+    };
+
+    // === Initialize Chart ===
     const initializeChart = () => {
         const ctx = document.getElementById("weekly-trends-chart").getContext("2d");
-
         return new Chart(ctx, {
             type: "line",
             data: {
-                labels: [], // Dynamic labels
-                datasets: [
-                    {
-                        label: "Bookings",
-                        data: [], // Dynamic data
-                        backgroundColor: "rgba(255, 102, 0, 0.2)", // Light orange fill
-                        borderColor: "#FF6600", // Orange line
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4,
-                    },
-                    {
-                        label: "Utilization (%)",
-                        data: [], // Dynamic data
-                        backgroundColor: "rgba(93, 164, 220, 0.2)", // Light blue fill
-                        borderColor: "#5DA4DC", // Blue line
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4,
-                    },
-                ],
+                labels: [],
+                datasets: [],
             },
             options: {
                 responsive: true,
@@ -35,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     legend: {
                         display: true,
                         labels: {
-                            color: "#FFFFFF", // White font for the legend
+                            color: "#FFFFFF",
                         },
                     },
                 },
@@ -44,28 +56,26 @@ document.addEventListener("DOMContentLoaded", () => {
                         title: {
                             display: true,
                             text: "Values",
-                            color: "#FFFFFF", // White font for Y-axis title
+                            color: "#FFFFFF",
                         },
                         ticks: {
-                            color: "#FFFFFF", // White font for Y-axis ticks
+                            color: "#FFFFFF",
                         },
                         grid: {
-                            color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
+                            color: "rgba(255, 255, 255, 0.1)",
                         },
-                        min: 0,
-                        max: 100,
                     },
                     x: {
                         title: {
                             display: true,
-                            text: "Rooms",
-                            color: "#FFFFFF", // White font for X-axis title
+                            text: "Dates",
+                            color: "#FFFFFF",
                         },
                         ticks: {
-                            color: "#FFFFFF", // White font for X-axis ticks
+                            color: "#FFFFFF",
                         },
                         grid: {
-                            color: "rgba(255, 255, 255, 0.1)", // Light white gridlines
+                            color: "rgba(255, 255, 255, 0.1)",
                         },
                     },
                 },
@@ -73,107 +83,80 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    // === Get Random Color ===
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
 
-  // Fetch Room Data
-  const fetchRoomData = async () => {
-      try {
-          const response = await fetch("http://127.0.0.1:8000/api/rooms/");
-          if (!response.ok) {
-              throw new Error(`Failed to fetch room data: ${response.status}`);
-          }
-          const rooms = await response.json();
-          const roomMapping = {};
-          rooms.forEach((room) => {
-              roomMapping[room.id] = room.name;
-          });
-          return roomMapping;
-      } catch (error) {
-          console.error("Error fetching room data:", error);
-          return {};
-      }
-  };
+    // === Update Chart ===
+    const updateChart = async (chart) => {
+        const data = await fetchAnalyticsData();
+        if (!data || !data.dates || !data.data) {
+            console.warn("No analytics data available.");
+            return;
+        }
 
-  // Fetch Analytics Data
-  const fetchAnalyticsData = async () => {
-      try {
-          const response = await fetch("http://127.0.0.1:8000/analytics/");
-          if (!response.ok) {
-              throw new Error(`Failed to fetch analytics data: ${response.status}`);
-          }
-          return await response.json();
-      } catch (error) {
-          console.error("Error fetching analytics data:", error);
-          return [];
-      }
-  };
+        const labels = data.dates;
+        const datasets = Object.keys(data.data).map((room) => ({
+            label: room,
+            data: data.data[room].bookings,
+            borderColor: getRandomColor(),
+            fill: false,
+            tension: 0.4,
+        }));
 
-  // Update Chart
-  const updateChart = async (chart) => {
-      const [analyticsData, roomMapping] = await Promise.all([
-          fetchAnalyticsData(),
-          fetchRoomData(),
-      ]);
+        chart.data.labels = labels;
+        chart.data.datasets = datasets;
+        chart.update();
+    };
 
-      if (!analyticsData || analyticsData.length === 0) {
-          console.warn("No analytics data available.");
-          return;
-      }
+    // === Update Metrics ===
+    const updateMetrics = async () => {
+        const [analyticsData, activeUsers] = await Promise.all([
+            fetchAnalyticsData(),
+            fetchActiveUsers(),
+        ]);
 
-      const rooms = [];
-      const bookings = [];
-      const utilizationRates = [];
+        if (!analyticsData || !analyticsData.data) {
+            console.warn("No analytics data available.");
+            return;
+        }
 
-      analyticsData.forEach((entry) => {
-          const roomName = roomMapping[entry.room] || `Room ${entry.room}`;
-          rooms.push(roomName); // Use actual room name
-          bookings.push(entry.total_bookings);
-          utilizationRates.push(entry.utilization_rate);
-      });
+        let totalBookings = 0;
+        let mostBookedRoom = { name: "", bookings: 0 };
 
-      chart.data.labels = rooms;
-      chart.data.datasets[0].data = bookings;
-      chart.data.datasets[1].data = utilizationRates;
-      chart.update();
-  };
+        Object.entries(analyticsData.data).forEach(([roomName, roomData]) => {
+            const roomBookings = roomData.bookings.reduce((sum, count) => sum + count, 0);
+            totalBookings += roomBookings;
 
-  // Update Metrics
-  const updateMetrics = async () => {
-      const [analyticsData, roomMapping] = await Promise.all([
-          fetchAnalyticsData(),
-          fetchRoomData(),
-      ]);
+            if (roomBookings > mostBookedRoom.bookings) {
+                mostBookedRoom = { name: roomName, bookings: roomBookings };
+            }
+        });
 
-      if (!analyticsData || analyticsData.length === 0) {
-          console.warn("No analytics data available.");
-          return;
-      }
+        document.getElementById("total-bookings").textContent = totalBookings;
+        document.getElementById("most-booked-room").textContent = mostBookedRoom.name || "N/A";
+        document.getElementById("active-users").textContent = activeUsers;
+    };
 
-      const totalBookings = analyticsData.reduce((sum, entry) => sum + entry.total_bookings, 0);
-      const mostBookedRoom = analyticsData.reduce(
-          (max, entry) => (entry.total_bookings > max.total_bookings ? entry : max),
-          analyticsData[0]
-      );
+    // === Handle Export CSV ===
+    const handleExportCsv = () => {
+        window.location.href = `${BASE_URL}/analytics/export_csv/`;
+    };
 
-      const activeUsers = analyticsData.filter(
-          (entry) =>
-              entry.total_checkins > 0 && entry.utilization_rate > 0
-      ).length;
+    // === Attach Export Button Event ===
+    const exportButton = document.querySelector(".export-button");
+    if (exportButton) {
+        exportButton.addEventListener("click", handleExportCsv);
+    }
 
-      const mostBookedRoomName = roomMapping[mostBookedRoom.room] || `Room ${mostBookedRoom.room}`;
-
-      document.getElementById("total-bookings").textContent = totalBookings;
-      document.getElementById("most-booked-room").textContent = mostBookedRoomName;
-      document.getElementById("active-users").textContent = activeUsers;
-  };
-
-  // Handle Export CSV
-  const exportCsvButton = document.querySelector(".export-button");
-  exportCsvButton.addEventListener("click", () => {
-      window.location.href = "http://127.0.0.1:8000/analytics/export_csv/";
-  });
-
-  // Initialize and Update
-  const chart = initializeChart();
-  updateChart(chart);
-  updateMetrics();
+    // === Initialize and Update Chart ===
+    const chart = initializeChart();
+    await updateChart(chart);
+    await updateMetrics();
 });
