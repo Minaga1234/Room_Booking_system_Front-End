@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +12,7 @@
     <script src="../shared/js/header.js" defer></script>
     <script src="../shared/js/sidebar.js" defer></script>
 </head>
+
 <body>
     <div class="dashboard-container">
         <!-- Header Section -->
@@ -44,11 +46,7 @@
                     <!-- Second Row -->
                     <div class="second-row">
                         <div class="room-image-container">
-                            <img
-                                src="../assets/default-room.jpg"
-                                alt="Room Image"
-                                class="room-image"
-                            />
+                            <img src="../assets/default-room.jpg" alt="Room Image" class="room-image" />
                         </div>
                         <div class="room-description">
                             <h2>About This Room</h2>
@@ -77,8 +75,9 @@
                                     <!-- Left Column -->
                                     <div class="form-column">
                                         <label for="purpose">Purpose (Detailed Explanation)</label>
-                                        <textarea id="purpose" name="purpose" placeholder="Enter your purpose"></textarea>
-                                        
+                                        <textarea id="purpose" name="purpose"
+                                            placeholder="Enter your purpose"></textarea>
+
                                         <label for="participants">Participants</label>
                                         <div class="participants-range">
                                             <input type="range" id="participants" name="participants" min="0" max="6" />
@@ -93,14 +92,9 @@
                                             <option value="Software Engineering">Software Engineering</option>
                                             <option value="Data Science">Data Science</option>
                                         </select>
-                                        
+
                                         <label for="booking-date">Booking Date</label>
-                                        <input
-                                            type="date"
-                                            id="booking-date"
-                                            name="booking-date"
-                                            disabled
-                                        />
+                                        <input type="date" id="booking-date" name="booking-date" disabled />
 
                                         <label for="time-slot">Start Time & End Time</label>
                                         <select id="from-time" name="from-time">
@@ -116,7 +110,8 @@
                                 <div class="terms">
                                     <input type="checkbox" id="terms" name="terms" required />
                                     <label for="terms">
-                                        Agree to the <a href="terms-and-conditions.html" target="_blank">terms and conditions</a>
+                                        Agree to the <a href="./terms&Conditions.html" target="_blank">terms and
+                                            conditions</a>
                                     </label>
                                 </div>
 
@@ -131,4 +126,5 @@
     </div>
     <script src="./js/room-checkout.js" defer></script>
 </body>
+
 </html>
