@@ -22,7 +22,7 @@ body {
   font-family: var(--body-font);
   background-color: var(--background-color);
   color: #01182a;
-  padding: 40px 20px 20px 350px;
+  padding: 40px 20px 20px 250px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -53,7 +53,7 @@ body {
 .metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 40px;
   margin-top: 0px;
   width: 100%;
 }
@@ -117,7 +117,7 @@ body {
 } */
 
 .main-content {
-  padding: 40px 20px 20px 70px;
+  padding: 40px 0 5px 70px;
   /* Increased left padding from 50px to 70px */
   overflow: hidden;
   height: calc(100vh - 80px);

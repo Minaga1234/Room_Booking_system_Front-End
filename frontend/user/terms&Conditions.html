@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms & Conditions</title>
+    <link rel="stylesheet" href="./css/terms&Conditions.css" />
+    <link rel="stylesheet" href="../shared/css/header.css" />
+    <link rel="stylesheet" href="../shared/css/sidebar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="../shared/js/header.js" defer></script>
+    <script src="../shared/js/sidebar.js" defer></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div id="header-container"></div>
+        </header>
+
+        <!-- Sidebar Section -->
+        <aside class="sidebar">
+            <div id="sidebar-container"></div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="main-container">
+                <!-- Header -->
+                <div class="header-container">
+                    <div class="header-left">
+                        <a href="javascript:history.back()" class="back-link">
+                            <i class="fas fa-arrow-left back-icon"></i>
+                        </a>
+                        <h1>Terms & Conditions</h1>
+                    </div>
+                </div>
+
+                <!-- Terms Content -->
+                <div class="terms-content">
+                    <section class="terms-section">
+                        <h2>1. General Terms</h2>
+                        <p>By accessing and using the room booking system, you agree to be bound by these terms and
+                            conditions. Please read them carefully before proceeding with any booking.</p>
+                    </section>
+
+                    <section class="terms-section">
+                        <h2>2. Booking Rules</h2>
+                        <ul>
+                            <li>Bookings must be made at least 24 hours in advance</li>
+                            <li>Maximum booking duration is 2 hours per session</li>
+                            <li>Users can book up to 3 sessions per week</li>
+                            <li>Cancellations must be made at least 6 hours before the booking time</li>
+                        </ul>
+                    </section>
+
+                    <section class="terms-section">
+                        <h2>3. User Responsibilities</h2>
+                        <ul>
+                            <li>Keep the room clean and tidy</li>
+                            <li>Report any damages or issues immediately</li>
+                            <li>Respect the booking time limits</li>
+                            <li>Follow all posted room usage guidelines</li>
+                        </ul>
+                    </section>
+
+                    <section class="terms-section">
+                        <h2>4. Prohibited Activities</h2>
+                        <ul>
+                            <li>No food or drinks in the rooms</li>
+                            <li>No unauthorized software installation</li>
+                            <li>No misuse of equipment</li>
+                            <li>No sharing of access credentials</li>
+                        </ul>
+                    </section>
+
+                    <section class="terms-section">
+                        <h2>5. Penalties</h2>
+                        <p>Violation of these terms may result in:</p>
+                        <ul>
+                            <li>Temporary suspension of booking privileges</li>
+                            <li>Permanent ban from the booking system</li>
+                            <li>Financial charges for damages</li>
+                            <li>Academic disciplinary action</li>
+                        </ul>
+                    </section>
+
+                    <section class="terms-section">
+                        <h2>6. Privacy & Data Protection</h2>
+                        <p>We collect and process your data in accordance with our privacy policy. Your booking
+                            information will be used solely for administrative purposes.</p>
+                    </section>
+
+                    <div class="terms-footer">
+                        <p>Last updated: January 31, 2025</p>
+                        <p>For any questions regarding these terms, please contact the system administrator.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dynamically load the header
+        fetch("../shared/header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading header:", error));
+
+        // Dynamically load the sidebar
+        fetch("../shared/navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("sidebar-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading sidebar:", error));
+    </script>
+</body>
+
+</html>
