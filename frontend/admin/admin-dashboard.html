@@ -48,9 +48,10 @@
       </div>
 
       <div class="note-section">
-        <button onclick="location.href='manage-users.html';">Manage Users</button>
-    </div>
-    </div>
+    <p>Manage and control user accounts, roles, and access permissions to ensure smooth system operations and secure access.</p>
+    <button onclick="location.href='manage-users.html';">Manage Users</button>
+</div>
+
 
       <!-- Number of Penalties -->
       <div class="widget penalties-today">
@@ -104,7 +105,7 @@
       navLinks.forEach((link) => {
         const linkHref = link.getAttribute("href");
         const parentLi = link.parentElement;
-
+ 
         if (currentPage === linkHref) {
           parentLi.classList.add("active"); // Add 'active' class to the matching link
         } else {

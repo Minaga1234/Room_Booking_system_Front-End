@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const AUTH_HEADERS = {
         'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Retrieve token from storage
         'Content-Type': 'application/json',
-    };
+    }; 
 
     const refreshAccessToken = async () => {
         try {

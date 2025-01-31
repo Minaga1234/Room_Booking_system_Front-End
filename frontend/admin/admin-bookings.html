@@ -44,30 +44,32 @@
     </section>
 
     <!-- Booking Table Section -->
-    <section class="white-box booking-table-section">
-      <h2 class="section-title">Bookings</h2>
-      <div>
-        <span id="approve-count">Remaining bookings to Approve: 0</span>
-      </div>
-      <table class="bookings-table">
-        <thead>
-          <tr>
-            <th>Room</th>
-            <th>User</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div id="pagination-controls">
-        <button id="prev-page">Previous</button>
-        <span id="page-info">Page 1</span>
-        <button id="next-page">Next</button>
-      </div>
-    </section>
+<section class="white-box booking-table-section">
+  <h2 class="section-title">Bookings</h2>
+  <div>
+    <span id="approve-count">Remaining bookings to Approve: 0</span>
+  </div>
+  <table class="bookings-table">
+    <thead>
+      <tr>
+        <th>Room</th>
+        <th>User</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody> 
+  </table>
+  
+  <!-- Updated Pagination Section -->
+  <div id="pagination-controls">
+    <button id="prev-page">Previous</button>
+    <button id="next-page">Next</button>
+  </div>
+</section>
+
 
     <!-- Calendar Section -->
     <section class="white-box calendar-section">
@@ -76,10 +78,10 @@
         <div id="calendar"></div>
       </div>
     </section>
-
+ 
     <!-- Note Section -->
     <section class="note-section">
-      <p>To avoid penalties, ensure that you do not spend excessive time in the room beyond your designated booking period...</p>
+      <p>Avoid exceeding your booked time to prevent penalties and ensure fair access for others.</p>
       <button onclick="location.href='../admin/penalties.html';">Penalties</button>
     </section>
   </div>
@@ -134,15 +136,40 @@
           document.getElementById("header-container").innerHTML = data;
         })
         .catch(error => console.error("Error loading header:", error));
-
-      // Dynamically load sidebar
+  
+      // Dynamically load sidebar and highlight active nav link
       fetch("../admin/navbar.html")
         .then(response => response.text())
         .then(data => {
           document.getElementById("sidebar-container").innerHTML = data;
+  
+          // Call the function to highlight the active nav link after loading
+          highlightActiveNavLink();
         })
         .catch(error => console.error("Error loading sidebar:", error));
     });
+
+    /**
+   * Highlight the active nav link based on the current URL
+   */
+  const highlightActiveNavLink = () => {
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page name
+    const navLinks = document.querySelectorAll(".nav-links a");
+
+    navLinks.forEach((link) => {
+      const linkHref = link.getAttribute("href").split("/").pop(); // Extract page name from href
+      const parentLi = link.parentElement;
+
+      if (currentPage === linkHref) {
+        parentLi.classList.add("active"); // Highlight current page link
+      } else {
+        parentLi.classList.remove("active");
+      }
+    });
+  };
+</script>
+
+
   </script>
 </body>
 </html>

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Search Box
     const searchBox = document.querySelector(".search-box");
 
-    // Fetch notifications from the backend
+    // Fetch notifications from the backend 
     const fetchNotificationsFromBackend = async () => {
         console.log("Fetching notifications...");
         try {

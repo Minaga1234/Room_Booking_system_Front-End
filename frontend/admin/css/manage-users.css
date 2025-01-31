@@ -17,12 +17,14 @@ body {
     padding-top: 90px; /* Space for dynamic header */
     padding: 90px;
     box-sizing: border-box;
+    
 }
 
 /* Manage Users Section */
 .manage-users h1 {
     color: #ffffff;
     margin-bottom: 20px;
+    
 }
 
 .user-table {
@@ -30,20 +32,20 @@ body {
     border-collapse: collapse;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 20px;
     overflow: hidden;
     margin-bottom: 20px;
 }
 
 .user-table th,
 .user-table td {
-    padding: 15px;
+    padding: 25px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
 .user-table th {
-    background-color: #34699a;
+    background-color: #8c8bfc;
     color: #ffffff;
 }
 
@@ -80,7 +82,7 @@ body {
 }
 
 .add-btn {
-    background-color: #007bff;
+    background-color: #7c7afa;
     color: #ffffff;
     padding: 10px 20px;
     border: none;
@@ -91,16 +93,16 @@ body {
 }
 
 .add-btn:hover {
-    background-color: #0056b3;
+    background-color: #8c8bfc;
 }
 
 /* Filters Panel */
 .filters {
     margin-bottom: 20px;
-    padding: 15px;
+    padding: 30px;
     background-color: #ffffff;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -131,7 +133,7 @@ body {
     color: #ffffff;
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
     margin-top: 10px;
     transition: background-color 0.3s;
