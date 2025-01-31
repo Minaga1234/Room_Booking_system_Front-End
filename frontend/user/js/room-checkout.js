@@ -106,21 +106,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // Fetch Room Details
   const fetchRoomDetails = async (roomId) => {
     try {
-      const headers = await getAuthHeaders();
-      if (!headers) return;
-      const response = await fetch(`http://127.0.0.1:8000/api/rooms/${roomId}/`, { headers });
-      if (!response.ok) throw new Error("Failed to fetch room details.");
-      const roomDetails = await response.json();
-      renderRoomDetails(roomDetails);
+        const headers = await getAuthHeaders();
+        if (!headers) return;
+        const response = await fetch(`http://127.0.0.1:8000/api/rooms/${roomId}/`, { headers });
+        if (!response.ok) throw new Error("Failed to fetch room details.");
+        const roomDetails = await response.json();
+        console.log("Room Details with Bookings:", roomDetails); // Verify the API response
+        renderRoomDetails(roomDetails);
     } catch (error) {
-      console.error("Error fetching room details:", error);
-      alert("Failed to load room details.");
-      window.location.href = "room-availability.html";
+        console.error("Error fetching room details:", error);
+        showNotification("Failed to load room details.", "error");
+        window.location.href = "room-availability.html";
     }
-  };
+};
+
+
 
   // Render Room Details
   const renderRoomDetails = (room) => {
@@ -134,22 +136,49 @@ document.addEventListener("DOMContentLoaded", () => {
     populateBookings(room.bookings || []);
   };
 
-  // Populate Bookings
   const populateBookings = (bookings) => {
     const bookingsList = document.getElementById("bookings-list");
     if (!bookingsList) return;
-    bookingsList.innerHTML = "";
-    bookings.forEach((booking) => {
-      const bookingItem = document.createElement("div");
-      bookingItem.className = "booking-item";
-      bookingItem.innerHTML = `
-        <strong>${booking.bookedBy || "Unknown"} - ${booking.purpose || "No purpose provided"}</strong>
-        <br />
-        From ${booking.startTime || "N/A"} to ${booking.endTime || "N/A"}
-      `;
-      bookingsList.appendChild(bookingItem);
+    bookingsList.innerHTML = ""; // Clear the list before appending new data
+
+    // Calculate the start and end of today in UTC
+    const now = new Date();
+    const utcStartOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const utcEndOfToday = new Date(utcStartOfToday.getTime() + 24 * 60 * 60 * 1000);
+
+    console.log("Today's Start (UTC):", utcStartOfToday.toISOString());
+    console.log("Today's End (UTC):", utcEndOfToday.toISOString());
+
+    // Filter bookings for today
+    const todayBookings = bookings.filter((booking) => {
+        const bookingStart = new Date(booking.start_time); // Parse booking start time
+        console.log("Booking Start Time (UTC):", bookingStart.toISOString()); // Debugging log
+        return bookingStart >= utcStartOfToday && bookingStart < utcEndOfToday;
     });
-  };
+
+    if (todayBookings.length === 0) {
+        bookingsList.innerHTML = "<p>No bookings for today.</p>";
+        return;
+    }
+
+    let slotCounter = 1; // Slot counter
+    todayBookings.forEach((booking) => {
+        const bookingItem = document.createElement("div");
+        bookingItem.className = "booking-item";
+
+        const duration = (new Date(booking.end_time) - new Date(booking.start_time)) / (1000 * 60); // in minutes
+
+        bookingItem.innerHTML = `
+            <p>Slot ${slotCounter}: ${new Date(booking.start_time).toLocaleTimeString()} - ${new Date(booking.end_time).toLocaleTimeString()}</p>
+            <p>Room: ${booking.room_name || "N/A"}</p>
+            <p>Status: ${booking.status || "Unknown"}</p>
+            <p>Duration: ${duration} minutes</p>
+        `;
+
+        bookingsList.appendChild(bookingItem);
+        slotCounter++;
+    });
+};
 
   // Convert time format to HH:mm
   const convertTimeTo24HourFormat = (time) => {
@@ -234,13 +263,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
 
-      alert("Room booked successfully!");
+    showNotification("Room booked successfully!", "success");
       window.location.reload();
     } catch (error) {
       console.error("Error booking room:", error);
       errorMessage.textContent = error.message;
     }
   });
+
+  function showNotification(message, type = 'error') {
+    const notification = document.createElement('div');
+    notification.classList.add(type === 'error' ? 'alert-popup' : 'alert-popup', 'show');
+    notification.textContent = message;
+  
+    document.body.appendChild(notification);
+  
+    // Automatically remove the notification after 3 seconds
+    setTimeout(() => {
+      notification.classList.remove('show');
+      notification.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 500); // Match the transition duration
+    }, 3000); // 3 seconds before fade-out
+  }
+  
+  // Example usage:
+  document.addEventListener("DOMContentLoaded", () => {
+    // Simulating a success notification
+    showNotification("Room booked successfully!", "success");
+  
+    // Simulating an error notification
+    showNotification("Failed to fetch room details.", "error");
+  });
+  
 
   // Initialize page
   const initialize = async () => {
