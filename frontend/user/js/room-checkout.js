@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const headers = await getAuthHeaders();
       if (!headers) return;
-      const response = await fetch("http://ibs.lunox.dev/api/users/profile/", { headers });
+      const response = await fetch("http://127.0.0.1:8000/api/users/profile/", { headers });
       if (!response.ok) throw new Error("Failed to fetch user role.");
       const userData = await response.json();
       userRole = userData.role;
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const headers = await getAuthHeaders();
       if (!headers) return;
-      const response = await fetch(`http://ibs.lunox.dev/api/rooms/${roomId}/`, { headers });
+      const response = await fetch(`http://127.0.0.1:8000/api/rooms/${roomId}/`, { headers });
       if (!response.ok) throw new Error("Failed to fetch room details.");
       const roomDetails = await response.json();
       renderRoomDetails(roomDetails);
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const headers = await getAuthHeaders();
       if (!headers) return;
 
-      const response = await fetch("http://ibs.lunox.dev/api/bookings/", {
+      const response = await fetch("http://127.0.0.1:8000/api/bookings/", {
         method: "POST",
         headers,
         body: JSON.stringify(bookingData),

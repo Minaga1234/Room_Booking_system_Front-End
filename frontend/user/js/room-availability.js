@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // API Endpoint for Rooms
-    const apiEndpoint = 'http://ibs.lunox.dev/api/rooms/';
+    const apiEndpoint = 'http://127.0.0.1:8000/api/rooms/';
 
     // Fetch room data from the backend
     const fetchRooms = async () => {

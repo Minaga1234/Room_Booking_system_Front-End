@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const BASE_URL = "http://ibs.lunox.dev/api/users/";
+    const BASE_URL = "http://127.0.0.1:8000/api/users/";
     const CHANGE_PASSWORD_URL = `${BASE_URL}change_password/`;
     const DEACTIVATE_URL = `${BASE_URL}deactivate_self/`; // Updated URL
 

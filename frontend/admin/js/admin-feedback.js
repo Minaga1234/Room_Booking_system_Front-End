@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const feedbackEndpoint = 'http://ibs.lunox.dev/feedback/feedback/';
-    const statsEndpoint = 'http://ibs.lunox.dev/feedback/feedback/stats/';
+    const feedbackEndpoint = 'http://127.0.0.1:8000/feedback/feedback/';
+    const statsEndpoint = 'http://127.0.0.1:8000/feedback/feedback/stats/';
 
     // State management
     let currentFilters = {};

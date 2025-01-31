@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const populateRoomDropdown = async () => {
         const roomDropdown = document.getElementById('room');
         try {
-            const response = await fetch('http://ibs.lunox.dev/api/rooms/');
+            const response = await fetch('http://127.0.0.1:8000/api/rooms/');
             if (!response.ok) throw new Error(`Error: ${response.statusText}`);
 
             const rooms = await response.json();
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch('http://ibs.lunox.dev/feedback/feedback/', {
+            const response = await fetch('http://127.0.0.1:8000/feedback/feedback/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        const profileResponse = await fetch("http://ibs.lunox.dev/api/users/profile/", {
+        const profileResponse = await fetch("http://127.0.0.1:8000/api/users/profile/", {
             headers: {
                 "Authorization": `Bearer ${accessToken}`,
                 "Content-Type": "application/json",

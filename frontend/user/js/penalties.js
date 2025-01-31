@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const BASE_URL = 'http://ibs.lunox.dev/penalties/penalties/user/';
+  const BASE_URL = 'http://127.0.0.1:8000/penalties/penalties/user/';
 
   // Get token dynamically from localStorage
   const getAuthHeaders = async () => {

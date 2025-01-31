@@ -1,4 +1,4 @@
-const REGISTER_URL = "http://ibs.lunox.dev/api/users/register_user/";
+const REGISTER_URL = "http://127.0.0.1:8000/api/users/register_user/";
 
 // Function to get CSRF token
 function getCookie(name) {

@@ -106,14 +106,14 @@ userInput.addEventListener("keypress", (event) => {
 
 // Send a message to the backend and fetch the response
 async function sendToBackend(message) {
-  const BACKEND_URL = "http://ibs.lunox.dev/chatbot/";
+  const BACKEND_URL = "http://127.0.0.1:8000/chatbot/";
 
   try {
     // Debug the CSRF token
     const csrfToken = getCookie("csrftoken");
     console.log(`Using CSRF token: ${csrfToken}`);
 
-    const response = await fetch("http://ibs.lunox.dev/chatbot/", {
+    const response = await fetch("http://127.0.0.1:8000/chatbot/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

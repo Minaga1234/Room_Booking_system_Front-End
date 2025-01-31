@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const roomImageInput = document.getElementById("room-image");
   const imagePreview = document.getElementById("image-preview");
 
-  const ROOM_API_URL = "http://ibs.lunox.dev/api/rooms/";
+  const ROOM_API_URL = "http://127.0.0.1:8000//api/rooms/";
   const token = localStorage.getItem("accessToken");
 
   // Load Header and Sidebar

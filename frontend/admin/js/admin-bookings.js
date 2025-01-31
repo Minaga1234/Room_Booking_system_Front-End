@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const BASE_URL = 'http://ibs.lunox.dev/api';
+    const BASE_URL = 'http://127.0.0.1:8000/api';
     const AUTH_HEADERS = {
         'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Retrieve token from storage
         'Content-Type': 'application/json',

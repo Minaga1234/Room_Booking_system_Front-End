@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const THEME_API_URL = "http://ibs.lunox.dev/api/branding/themes/";
-  const BRANDING_ASSETS_API_URL = "http://ibs.lunox.dev/api/branding/assets/";
-  const DEGREES_API_URL = "http://ibs.lunox.dev/api/branding/degrees/";
+  const THEME_API_URL = "http://127.0.0.1:8000/api/branding/themes/";
+  const BRANDING_ASSETS_API_URL = "http://127.0.0.1:8000/api/branding/assets/";
+  const DEGREES_API_URL = "http://127.0.0.1:8000/api/branding/degrees/";
   // const token = localStorage.getItem("accessToken");
 
   // Temporarily disable authentication for UI editing

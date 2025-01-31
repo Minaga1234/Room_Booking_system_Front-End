@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE = 'http://ibs.lunox.dev/penalties/';
+    const API_BASE = 'http://127.0.0.1:8000/penalties/';
     let currentPage = 1;
     const PAGE_SIZE = 4;
 
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const refreshToken = localStorage.getItem('refreshToken');
             if (!refreshToken) throw new Error('No refresh token found. Please log in again.');
 
-            const response = await fetch('http://ibs.lunox.dev/api/token/refresh/', {
+            const response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ refresh: refreshToken }),
